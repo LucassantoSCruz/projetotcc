@@ -1,6 +1,9 @@
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TelaSecundaria from './TelaSecundaria';
 
-const TelaInicial = ({}) => {
+const TelaInicial = ({ navigation }) => {
     return (
     <View
         style={style.view}>
@@ -32,8 +35,7 @@ const TelaInicial = ({}) => {
     </Text>
 
     <TouchableOpacity
-    onPress={() => {
-        alert('Você apertou em "CRIAR UMA CONTA"');}}
+    onPress={() => navigation.navigate('TelaSecundaria')}
         style={style.button}
         >
             <Text

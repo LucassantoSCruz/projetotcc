@@ -11,9 +11,9 @@ const Stack = createNativeStackNavigator();
 function Navegacao (){
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Tela Inicial">
-        <Stack.Screen name="Tela Inicial" component={TelaInicial}/>
-        <Stack.Screen name="Tela Secundaria" component={TelaSecundaria}/>
+      <Stack.Navigator initialRouteName="TelaInicial">
+        <Stack.Screen name="TelaInicial" component={TelaInicial}/>
+        <Stack.Screen name="TelaSecundaria" component={TelaSecundaria}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
+import BelezuraCard from './Components';
 
 const TelaSecundaria = ({}) => {
   return (
@@ -14,6 +15,9 @@ const TelaSecundaria = ({}) => {
         Corte Simples
     </Text>
     
+    <BelezuraCard>
+    </BelezuraCard>
+
     </View>
   );
 }

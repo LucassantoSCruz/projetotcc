@@ -3,10 +3,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import TelaSecundaria from './TelaSecundaria';
 import TelaInicial from './TelaInicial';
-import { Button } from 'react-native';
-import { styleProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator(
+);
 
 function Navegacao (){
   return (

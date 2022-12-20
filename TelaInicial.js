@@ -35,21 +35,24 @@ const TelaInicial = ({ navigation }) => {
     </Text>
 
     <TouchableOpacity
-    onPress={() => navigation.navigate('TelaSecundaria')}
-        style={style.button}
-        >
+        onPress={() => navigation.navigate('TelaSecundaria')}
+        style={style.button}>
+            
             <Text
                 style={style.textbutton}>
                 CRIAR UMA CONTA
             </Text>
+
     </TouchableOpacity>
 
     <TouchableOpacity 
         style={style.button2}>
+
             <Text
                 style={style.textbutton}>
                 FAZER LOGIN
             </Text>
+
     </TouchableOpacity>
 
     <Image
@@ -62,7 +65,7 @@ const TelaInicial = ({ navigation }) => {
     );
   }
   
-  const style = StyleSheet.create({
+const style = StyleSheet.create({
     view: {
         flex: 1,
         backgroundColor: '#ffffff',

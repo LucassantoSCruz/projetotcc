@@ -1,16 +1,13 @@
-import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TelaSecundaria from './TelaSecundaria';
+import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
+import MyTabs from './Tab';
 
 const TelaInicial = ({ navigation }) => {
     return (
-    <View
-        style={style.view}>
+    <View style={style.view}>
 
     <Image
         style={style.decoracao2}
-        source={require('./assets/decoracao1.png')}
+        source={require('./assets/decoracao2.png')}
         resizeMode='cover'>
     </Image>
 
@@ -30,7 +27,8 @@ const TelaInicial = ({ navigation }) => {
         resizeMode='contain'/>
 
     <Text
-        adjustsFontSizeToFit style={style.text3}>
+        adjustsFontSizeToFit
+        style={style.text3}>
             O aplicativo que acaba com a sua feiura
     </Text>
 
@@ -49,7 +47,8 @@ const TelaInicial = ({ navigation }) => {
         style={style.button2}>
 
             <Text
-                style={style.textbutton}>
+                style={style.textbutton}
+                onPress={() => navigation.navigate('NavBarInf')}>
                 FAZER LOGIN
             </Text>
 
@@ -57,8 +56,7 @@ const TelaInicial = ({ navigation }) => {
 
     <Image
         style={style.decoracao}
-        source={require('./assets/decoracao1.png')}
-        resizeMode='cover'>
+        source={require('./assets/decoracao2.png')}>
     </Image>
 
     </View>
@@ -115,12 +113,12 @@ const style = StyleSheet.create({
         flex: 2,
         width: 420,
         height: 50,
+        transform: [{rotate: '180deg'}]
     },
     decoracao2: {
         flex: 2,
         width: 420,
         height: 50,
-        transform: [{rotate: '180deg'}]
     }
   });
 

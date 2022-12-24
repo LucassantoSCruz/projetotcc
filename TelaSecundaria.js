@@ -1,44 +1,21 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import BelezuraCard from './Components';
+import MyTabs from './Tab';
 
 const TelaSecundaria = ({}) => {
   return (
     <View
       style={style.view}>
-      
-    <TouchableOpacity>
-      <Image
-      style={style.image2}
-      source={require('./assets/lupa1.png')}
-      />
-    </TouchableOpacity>
 
-    <Image
-      style={style.image}
-      source={require('./assets/img1.png')}/>
-
-    <Text
-      style={style.text2}>
-        Cabeleireiro 
-    </Text>
-
-    <Text
-      style={style.text2}>
-        Manicure 
-    </Text>
-
-    <Text
-      style={style.text2}>
-        Maquiador 
-    </Text>
+<ScrollView>
 
     <BelezuraCard/>
 
     <BelezuraCard/>
 
-    <BelezuraCard/>
+    <MyTabs style={style.tab}/>
 
-    <BelezuraCard/>
+    </ScrollView>
 
     </View>
   );
@@ -46,9 +23,11 @@ const TelaSecundaria = ({}) => {
 
 const style = StyleSheet.create({
   view: {
+    flex:1,
     backgroundColor: '#25292e',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
   text: {
     color: '#ffffff',
@@ -68,7 +47,10 @@ const style = StyleSheet.create({
     color: '#ffffff',
     flexDirection: "row",
     padding: 5
-    }
+    },
+  tab : {
+    flex:1
+  }
 });
 
 export default TelaSecundaria;

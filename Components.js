@@ -40,9 +40,9 @@ const style = StyleSheet.create({
         fontSize: 25
     },
     image: {
-        widht: telaWidht - 30,
         height: 150,
-        borderRadius: 10
+        borderRadius: 10,
+        width: telaWidht - 70
     },
 })
 

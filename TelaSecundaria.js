@@ -13,6 +13,8 @@ const TelaSecundaria = ({}) => {
 
     <BelezuraCard/>
 
+    <BelezuraCard/>
+
     <MyTabs style={style.tab}/>
 
     </ScrollView>

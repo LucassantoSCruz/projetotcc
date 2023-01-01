@@ -7,7 +7,7 @@ const TelaPerfil = () => {
         <View style={{ flex: 1}}>
             <BarCategoria/>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Text>Tela Perfil</Text>
+                <Text>Tela Perfil</Text>
             </View>
         </View>
     )

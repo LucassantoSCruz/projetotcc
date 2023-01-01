@@ -7,7 +7,7 @@ const TelaComunidade = () => {
         <View style={{ flex: 1}}>
             <BarCategoria/>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Text>Tela Comunidade</Text>
+                <Text>Tela Comunidade</Text>
             </View>
         </View>
     )

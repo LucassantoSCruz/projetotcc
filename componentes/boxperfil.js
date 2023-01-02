@@ -1,38 +1,43 @@
-import * as React from 'react';
-import { TouchableOpacity, Image, StyleSheet, View, Text } from 'react-native';
+import React from "react";
+import { View ,Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 
 const BoxPerfil = () => {
     return (
-    <TouchableOpacity style={styles.touchable}> 
-        <Image source={require("../assets/imagemexp.png")} style={styles.image}></Image>
-            <View style={styles.view}>
-                <Text style={styles.text}>Exemplo de Perfil</Text>
+        <TouchableOpacity style={style.touchable}>
+            <Image source={require('../assets/imagemexp.png')} style={style.imagem}/>
+            <View style={style.view}>
+                <Text style={style.text}>
+                    Exemplo de Perfil
+                </Text>
             </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
     )
 }
 
-styles = StyleSheet.create({
-    image: {
-        width: 300,
-        height: 200
-    },
+const deviceWidth = Math.round(Dimensions.get('window').width);
+
+const style = StyleSheet.create({
     view: {
         height: 100,
         borderRadius: 20,
         backgroundColor: "#8a8f96",
-    },
-    touchable: {
-        borderColor: "black",
-        borderWidth: 1,
-        borderRadius: 20,
-        margin: 30
     },
     text: {
         margin: 10,
         fontWeight: 'bold',
         fontSize: 20,
         color: 'white'
+    },
+    touchable: {
+        borderColor: "black",
+        borderWidth: 1,
+        borderRadius: 20,
+        margin: 10,
+        width: deviceWidth - 100
+    },
+    imagem: {
+        height: 200,
+        width: deviceWidth - 100,
     }
 })
 

@@ -18,8 +18,8 @@ const TabNavegacao = () => {
               })}>
                 <Tab.Screen name="Profissionais" component={TelaProfissionais} />
                 <Tab.Screen name="Comunidade" component={TelaComunidade} />
-                <Tab.Screen name="Perfi" component={TelaPerfil} />
                 <Tab.Screen name="Agenda" component={TelaAgenda} />
+                <Tab.Screen name="Perfil" component={TelaPerfil} />
             </Tab.Navigator>
         </NavigationContainer>
     )

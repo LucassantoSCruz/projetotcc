@@ -12,8 +12,6 @@ const TelaProfissionais = () => {
                     <BoxPerfil/>
                     <BoxPerfil/>
                     <BoxPerfil/>
-                    <BoxPerfil/>
-                    <BoxPerfil/>
                 </ScrollView>
             </SafeAreaView>
         </View>

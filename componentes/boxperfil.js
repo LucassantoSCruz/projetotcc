@@ -32,8 +32,9 @@ const style = StyleSheet.create({
         borderColor: "black",
         borderWidth: 1,
         borderRadius: 20,
-        margin: 10,
-        width: deviceWidth - 100
+        width: deviceWidth - 100,
+        marginEnd: 10,
+        marginTop: 10,
     },
     imagem: {
         height: 200,

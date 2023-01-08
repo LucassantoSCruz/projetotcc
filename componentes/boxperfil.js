@@ -1,14 +1,13 @@
 import React from "react";
 import { View ,Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
+import Data from "./data";
 
 const BoxPerfil = () => {
     return (
         <TouchableOpacity style={style.touchable}>
             <Image source={require('../assets/imagemexp.png')} style={style.imagem}/>
             <View style={style.view}>
-                <Text style={style.text}>
-                    Exemplo de Perfil
-                </Text>
+                <Data/>
             </View>
         </TouchableOpacity>
     )
@@ -18,15 +17,9 @@ const deviceWidth = Math.round(Dimensions.get('window').width);
 
 const style = StyleSheet.create({
     view: {
-        height: 100,
+        height: 75,
         borderRadius: 20,
         backgroundColor: "#8a8f96",
-    },
-    text: {
-        margin: 10,
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: 'white'
     },
     touchable: {
         borderColor: "black",

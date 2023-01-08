@@ -11,10 +11,6 @@ const TelaProfissionais = () => {
                     <ScrollView style={styles.tela2}>
                     <View style={{alignItems: 'center'}}>
                         <BoxPerfil/>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
                     </View>
                 </ScrollView>
             </SafeAreaView>

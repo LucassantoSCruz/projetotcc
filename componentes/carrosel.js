@@ -1,15 +1,17 @@
 import React from "react";
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Data from "./data";
 
 const Carrosel = () => {
     return (
+        <TouchableOpacity>
         <View style={style.carrosel}>
             <Image source={require('../assets/imagem2.png')} style={style.imagem}/>
             <View style={style.view}>
                 <Data/>
             </View>
         </View>
+        </TouchableOpacity>
     )
 }
 
@@ -24,12 +26,13 @@ const style = StyleSheet.create({
     imagem: {
         maxWidth: 370,
         height: 200,
-        resizeMode: 'stretch'
+        resizeMode: 'center'
     },
     view: {
         height: 75,
         borderRadius: 20,
         backgroundColor: '#9a6b99',
+        width: 350
     }
 })
 

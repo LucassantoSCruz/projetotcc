@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Image ,StyleSheet } from 'react-native';
+
+import { View, Image ,StyleSheet, TouchableOpacity } from 'react-native';
 
 const PerfisFav = () => {
     return (
+        <TouchableOpacity>
         <View style={{flexDirection: 'row'}}>
             <Perfil/>
         </View>
+        </TouchableOpacity>
     )
 }
 

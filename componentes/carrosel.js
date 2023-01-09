@@ -24,7 +24,7 @@ const style = StyleSheet.create({
         borderRadius: 20
     },
     imagem: {
-        maxWidth: 370,
+        maxWidth: 350,
         height: 200,
         resizeMode: 'center'
     },

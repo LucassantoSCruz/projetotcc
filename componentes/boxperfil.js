@@ -1,11 +1,11 @@
 import React from "react";
-import { View ,Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
+import { View, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import Data from "./data";
 
 const BoxPerfil = () => {
     return (
         <TouchableOpacity style={style.touchable}>
-            <Image source={require('../assets/imagemexp.png')} style={style.imagem}/>
+            <Image source={require('../assets/imagem1.png')} style={style.imagem}/>
             <View style={style.view}>
                 <Data/>
             </View>
@@ -13,25 +13,23 @@ const BoxPerfil = () => {
     )
 }
 
-const deviceWidth = Math.round(Dimensions.get('window').width);
-
 const style = StyleSheet.create({
     view: {
         height: 75,
         borderRadius: 20,
-        backgroundColor: "#8a8f96",
+        backgroundColor: '#9a6b99',
     },
     touchable: {
         borderColor: "black",
         borderWidth: 1,
         borderRadius: 20,
-        width: deviceWidth - 100,
-        marginEnd: 10,
-        marginTop: 10,
+        flex: 1,
+        margin: 15,
     },
     imagem: {
-        height: 200,
-        width: deviceWidth - 100,
+        resizeMode: 'center',
+        width: 150,
+        height: 115
     }
 })
 

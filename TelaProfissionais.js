@@ -2,8 +2,9 @@ import * as React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text } from 'react-native';
 import BarCategoria from './componentes/barcategorais';
 import BoxPerfil from './componentes/boxperfil';
+import PerfisFav from './componentes/perfisfav';
 import Carrosel from './componentes/carrosel';
-import PerfisFav from './componentes/perfisfav'
+//import ImagemSlider from './componentes/imagemslider';
 
 const TelaProfissionais = () => {
     return (
@@ -11,21 +12,11 @@ const TelaProfissionais = () => {
             <BarCategoria/>
                 <SafeAreaView style={styles.tela1}>
                     <ScrollView style={styles.tela2}>
-                        <Text style={{fontWeight: 'bold', fontSize: 20, marginStart: 15, marginTop: 15}}>Perfis em Destaque</Text>
-                        <View style={{flexDirection: 'row'}}>
-                            <ScrollView horizontal>
-                            <Carrosel/>
-                            <Carrosel/>
-                            <Carrosel/>
-                            <Carrosel/>
-                            <Carrosel/>
-                            <Carrosel/>
-                            <Carrosel/>
-                            <Carrosel/>
-                            <Carrosel/>
-                            </ScrollView>
-                        </View>
-                        <Text style={styles.text}>Perfis Favoritos</Text>
+
+                        <Text style={styles.textodestaque}>Perfis em Destaque</Text>
+                        
+
+                        <Text style={styles.texto}>Perfis Favoritos</Text>
                         <View style={{flexDirection: 'row'}}>
                             <ScrollView horizontal>
                             <PerfisFav/>
@@ -45,7 +36,8 @@ const TelaProfissionais = () => {
                             <PerfisFav/>
                             </ScrollView>
                         </View>
-                    <Text style={styles.text}>Recomendações</Text>
+
+                    <Text style={styles.textorecomendacoes}>Recomendações</Text>
                     <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
                         <BoxPerfil/>
                         <BoxPerfil/>
@@ -62,6 +54,7 @@ const TelaProfissionais = () => {
                         <BoxPerfil/>
                         <BoxPerfil/>
                     </View>
+
                 </ScrollView>
             </SafeAreaView>
         </View>
@@ -76,10 +69,20 @@ const styles = StyleSheet.create({
     tela2: {
         flex: 1,
     },
-    text: {
+    texto: {
         fontWeight: 'bold',
         fontSize: 20,
-        marginLeft: 15
+        margin: 15
+    },
+    textodestaque: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        margin: 15,
+    },
+    textorecomendacoes: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        margin: 15,
     }
 })
 

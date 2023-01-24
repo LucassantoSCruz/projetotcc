@@ -1975,6 +1975,13 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
+"@types/react-native-swiper@^1.5.12":
+  "integrity" "sha512-xFNvc/tAnrBTC1lTDh/upedd9GtEsmIR/RNAAprQGk5AU0CngifI1nlEqnMdKagbBoCmXErcySG7bVXwPXEFnA=="
+  "resolved" "https://registry.npmjs.org/@types/react-native-swiper/-/react-native-swiper-1.5.12.tgz"
+  "version" "1.5.12"
+  dependencies:
+    "react-native-swiper" "*"
+
 "@types/react-native@*":
   "integrity" "sha512-4MAoseGM8zv5PKQyc2SvKldvOmCJX4mNqj+mDqh0J9yJMzWQnGenk2vQCi+jxMXa3xWYIgx+ewaCSw0XiiGGSw=="
   "resolved" "https://registry.npmjs.org/@types/react-native/-/react-native-0.71.0.tgz"
@@ -8813,10 +8820,10 @@
     "prop-types" "^15.6.1"
     "react-addons-shallow-compare" "15.6.2"
 
-"react-native-swiper@^1.6.0":
-  "integrity" "sha512-OnkTTZi+9uZUgy0uz1I9oYDhCU3z36lZn+LFsk9FXPRelxb/KeABzvPs3r3SrHWy1aA67KGtSFj0xNK2QD0NJQ=="
-  "resolved" "https://registry.npmjs.org/react-native-swiper/-/react-native-swiper-1.6.0.tgz"
-  "version" "1.6.0"
+"react-native-swiper@*", "react-native-swiper@^1.6.0-rc.3":
+  "integrity" "sha512-aZk6M7WsFdxlfHfS6OKb7gsaS3q7Z4Oqm8iTyJO7duE28EUK9kzfA2Cp5S6FdZkGXoWCXoUFGlzaO0lnhW/jtw=="
+  "resolved" "https://registry.npmjs.org/react-native-swiper/-/react-native-swiper-1.6.0-rc.3.tgz"
+  "version" "1.6.0-rc.3"
   dependencies:
     "prop-types" "^15.5.10"
 

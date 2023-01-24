@@ -8,16 +8,16 @@ import Carrosel from './componentes/carrosel';
 
 const TelaProfissionais = () => {
     return (
-        <View style={{flex: 1,}}>
+        <View style={{flex: 1}}>
             <BarCategoria/>
                 <SafeAreaView style={styles.tela1}>
                     <ScrollView style={styles.tela2}>
 
-                        <Text style={styles.textodestaque}>Perfis em Destaque</Text>
-                        
+                    <Text style={styles.textodestaque}>Perfis em Destaque</Text>
 
-                        <Text style={styles.texto}>Perfis Favoritos</Text>
-                        <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.texto}>Perfis Favoritos</Text>
+
+                    <View style={{flexDirection: 'row'}}>
                             <ScrollView horizontal>
                             <PerfisFav/>
                             <PerfisFav/>
@@ -35,9 +35,10 @@ const TelaProfissionais = () => {
                             <PerfisFav/>
                             <PerfisFav/>
                             </ScrollView>
-                        </View>
+                    </View>
 
                     <Text style={styles.textorecomendacoes}>Recomendações</Text>
+
                     <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
                         <BoxPerfil/>
                         <BoxPerfil/>

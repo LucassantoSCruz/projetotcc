@@ -4,14 +4,14 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 
-import Swiper from 'react-native-swiper'
+import Swiper from 'react-native-swiper/src'
 
 const ImagemSlider = () => {
     return (
             <Swiper style={styles.wrapper} 
-            showsButtons={false}
+            showsButtons={true}
             autoplay={false}
-            activeDotColor='#9a6b99' >
+            activeDotColor='#9a6b99'>
                 <View style={styles.slide1}>
                     <Image source={require('../assets/logo.png')} style={styles.logo}/>
                     <Text style={styles.text}>Bem Vindo ao Belezura</Text>

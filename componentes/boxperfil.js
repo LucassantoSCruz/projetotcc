@@ -4,16 +4,16 @@ import Data from "./data";
 
 const BoxPerfil = () => {
     return (
-        <TouchableOpacity style={style.touchable}>
-            <Image source={require('../assets/imagem1.png')} style={style.imagem}/>
-            <View style={style.view}>
+        <TouchableOpacity style={styles.touchable}>
+            <Image source={require('../assets/imagem1.png')} style={styles.imagem}/>
+            <View style={styles.view}>
                 <Data/>
             </View>
         </TouchableOpacity>
     )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     view: {
         height: 75,
         borderRadius: 20,

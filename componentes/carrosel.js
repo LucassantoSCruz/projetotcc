@@ -5,9 +5,9 @@ import Data from "./data";
 const Carrosel = () => {
     return (
         <TouchableOpacity>
-        <View style={style.carrosel}>
-            <Image source={require('../assets/imagem2.png')} style={style.imagem}/>
-            <View style={style.view}>
+        <View style={styles.carrosel}>
+            <Image source={require('../assets/imagem2.png')} style={styles.imagem}/>
+            <View style={styles.view}>
                 <Data/>
             </View>
         </View>
@@ -15,7 +15,7 @@ const Carrosel = () => {
     )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     carrosel: {
         flex: 1,
         borderColor: 'black',

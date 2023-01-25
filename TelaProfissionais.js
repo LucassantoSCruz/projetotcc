@@ -4,57 +4,67 @@ import BarCategoria from './componentes/barcategorais';
 import BoxPerfil from './componentes/boxperfil';
 import PerfisFav from './componentes/perfisfav';
 import Carrosel from './componentes/carrosel';
-//import ImagemSlider from './componentes/imagemslider';
+import ImagemSlider from './componentes/imagemslider';
+import Gaveta from './componentes/gaveta';
+//Esse é um componente de gaveta, vou dar uma olhada nele futuramente
 
 const TelaProfissionais = () => {
     return (
         <View style={{flex: 1}}>
+
             <BarCategoria/>
                 <SafeAreaView style={styles.tela1}>
                     <ScrollView style={styles.tela2}>
 
-                    <Text style={styles.textodestaque}>Perfis em Destaque</Text>
+
+                    <ImagemSlider/>
+
+
 
                     <Text style={styles.texto}>Perfis Favoritos</Text>
 
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={styles.view2}>
                             <ScrollView horizontal>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
-                            <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
+                                <PerfisFav/>
                             </ScrollView>
                     </View>
 
+
+
                     <Text style={styles.textorecomendacoes}>Recomendações</Text>
 
-                    <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
+                    <View style={styles.view}>
                         <BoxPerfil/>
                         <BoxPerfil/>
                     </View>
-                    <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
+                    <View style={styles.view}>
                         <BoxPerfil/>
                         <BoxPerfil/>
                     </View>
-                    <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
+                    <View style={styles.view}>
                         <BoxPerfil/>
                         <BoxPerfil/>
                     </View>
-                    <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
+                    <View style={styles.view}>
                         <BoxPerfil/>
                         <BoxPerfil/>
                     </View>
+
+
 
                 </ScrollView>
             </SafeAreaView>
@@ -68,7 +78,7 @@ const styles = StyleSheet.create({
         alignContent: 'center'
     },
     tela2: {
-        flex: 1,
+        flex: 1
     },
     texto: {
         fontWeight: 'bold',
@@ -78,12 +88,19 @@ const styles = StyleSheet.create({
     textodestaque: {
         fontWeight: 'bold',
         fontSize: 20,
-        margin: 15,
+        margin: 15
     },
     textorecomendacoes: {
         fontWeight: 'bold',
         fontSize: 20,
-        margin: 15,
+        margin: 15
+    },
+    view: {
+        flexDirection: "row",
+        justifyContent: "space-evenly"
+    },
+    view2: {
+        flexDirection: 'row'
     }
 })
 

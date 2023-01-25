@@ -4,14 +4,14 @@ import { View, Text, StyleSheet } from 'react-native';
 const Data = () => {
   return (
     <View>
-      <Text style={style.text}>
+      <Text style={styles.text}>
         Exemplo de Perfil
       </Text>
     </View>
   );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   text: {
     margin: 10,
     fontWeight: 'bold',

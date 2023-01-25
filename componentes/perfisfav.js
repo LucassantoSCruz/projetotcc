@@ -5,7 +5,7 @@ import { View, Image ,StyleSheet, TouchableOpacity } from 'react-native';
 const PerfisFav = () => {
     return (
         <TouchableOpacity>
-        <View style={{flexDirection: 'row'}}>
+        <View style={styles.rolamento}>
             <Perfil/>
         </View>
         </TouchableOpacity>
@@ -14,13 +14,13 @@ const PerfisFav = () => {
 
 const Perfil = () => {
     return (
-        <View style={style.perfil}>
-            <Image source={require('../assets/imagem5.png')} style={style.imagem}/>
+        <View style={styles.perfil}>
+            <Image source={require('../assets/imagem5.png')} style={styles.imagem}/>
         </View>
     )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     perfil: {
         flexDirection: 'row',
         borderRadius: 50,
@@ -36,6 +36,9 @@ const style = StyleSheet.create({
         borderRadius: 50,
         width: 75,
         height: 75,
+    },
+    rolamento: {
+        flexDirection: 'row'
     }
 })
 

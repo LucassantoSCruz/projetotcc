@@ -16,9 +16,10 @@ const TabNavegacao = () => {
         <NavigationContainer>
             <Tab.Navigator
               screenOptions={() => ({
-                tabBarActiveTintColor: '#9a6b99',
-                tabBarInactiveTintColor: 'gray',
+              tabBarActiveTintColor: '#9a6b99',
+              tabBarInactiveTintColor: 'gray',
               })}>
+
                 <Tab.Screen name="Profissionais" component={TelaProfissionais} 
                 options={{
                   tabBarIcon: () => {
@@ -47,6 +48,7 @@ const TabNavegacao = () => {
                   }
                 }}
                 />
+                
             </Tab.Navigator>
         </NavigationContainer>
     )

@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text } from 'react-native';
-import BarCategoria from './componentes/barcategorais';
-import BoxPerfil from './componentes/boxperfil';
-import PerfisFav from './componentes/perfisfav';
-import Carrosel from './componentes/carrosel';
-import ImagemSlider from './componentes/imagemslider';
-import Gaveta from './componentes/gaveta';
-//Esse é um componente de gaveta, vou dar uma olhada nele futuramente
+import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import BarCategoria from './componentes/BarCategoria';
+import BoxPerfil from './componentes/BoxPerfil';
+import PerfisFav from './componentes/PerfisFav';
+import Carrosel from './componentes/Carrosel';
+import ImagemSlider from './componentes/ImagemSlider';
+import Gaveta from './componentes/Gaveta';
+//s
 
 const TelaProfissionais = () => {
     return (
@@ -16,12 +16,14 @@ const TelaProfissionais = () => {
                 <SafeAreaView style={styles.tela1}>
                     <ScrollView style={styles.tela2}>
 
-
                     <ImagemSlider/>
 
-
-
-                    <Text style={styles.texto}>Perfis Favoritos</Text>
+                    <View style={styles.view3}>
+                        <Text style={styles.texto}>Perfis Favoritos</Text>
+                        <TouchableOpacity>
+                            <Text style={styles.texto2}>Ver Todos</Text>
+                        </TouchableOpacity>
+                    </View>
 
                     <View style={styles.view2}>
                             <ScrollView horizontal>
@@ -43,9 +45,12 @@ const TelaProfissionais = () => {
                             </ScrollView>
                     </View>
 
-
-
-                    <Text style={styles.textorecomendacoes}>Recomendações</Text>
+                    <View style={styles.view3}>
+                        <Text style={styles.texto}>Recomendações</Text>
+                        <TouchableOpacity>
+                            <Text style={styles.texto2}>Ver Todos</Text>
+                        </TouchableOpacity>
+                    </View>
 
                     <View style={styles.view}>
                         <BoxPerfil/>
@@ -63,8 +68,6 @@ const TelaProfissionais = () => {
                         <BoxPerfil/>
                         <BoxPerfil/>
                     </View>
-
-
 
                 </ScrollView>
             </SafeAreaView>
@@ -85,22 +88,26 @@ const styles = StyleSheet.create({
         fontSize: 20,
         margin: 15
     },
+    texto2: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        margin: 15,
+        textDecorationLine: 'underline',
+    },
     textodestaque: {
         fontWeight: 'bold',
         fontSize: 20,
-        margin: 15
-    },
-    textorecomendacoes: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        margin: 15
     },
     view: {
         flexDirection: "row",
-        justifyContent: "space-evenly"
+        justifyContent: 'space-evenly'
     },
     view2: {
         flexDirection: 'row'
+    },
+    view3: {
+        flexDirection: 'row',
+        justifyContent: "space-between"
     }
 })
 

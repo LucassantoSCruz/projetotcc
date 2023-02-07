@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Data from "./data";
+import Data from "./Data";
 
 const Carrosel = () => {
     return (

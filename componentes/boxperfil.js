@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
-import Data from "./data";
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import Data from "./Data";
 
 const BoxPerfil = () => {
     return (
@@ -16,15 +16,17 @@ const BoxPerfil = () => {
 const styles = StyleSheet.create({
     view: {
         height: 75,
-        borderRadius: 20,
+        borderRadius: 14,
         backgroundColor: '#9a6b99',
     },
     touchable: {
         borderColor: "black",
         borderWidth: 1,
-        borderRadius: 20,
+        borderRadius: 15,
         flex: 1,
-        margin: 15,
+        marginLeft: 15,
+        marginRight: 15,
+        marginBottom: 15
     },
     imagem: {
         resizeMode: 'center',

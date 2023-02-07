@@ -9,7 +9,7 @@ import Swiper from 'react-native-swiper/src'
 const ImagemSlider = () => {
     return (
             <Swiper style={styles.wrapper} 
-            showsButtons={true}
+            showsButtons={false}
             autoplay={false}
             activeDotColor='#9a6b99'>
                 <View style={styles.slide1}>

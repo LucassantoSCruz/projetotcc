@@ -4,35 +4,41 @@ import Data from "./Data";
 
 const Carrosel = () => {
     return (
-        <TouchableOpacity>
-        <View style={styles.carrosel}>
-            <Image source={require('../assets/imagem2.png')} style={styles.imagem}/>
-            <View style={styles.view}>
-                <Data/>
-            </View>
-        </View>
+        <TouchableOpacity style={styles.touchable}>
+                <View>
+                    <Image
+                    source={require('../assets/imagem2.png')}
+                    style={styles.imagem}/>
+                </View>
+                <View style={styles.view}>
+                    <Data/>
+                </View>
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
-    carrosel: {
-        flex: 1,
-        borderColor: 'black',
-        borderWidth: 1,
-        margin: 15,
-        borderRadius: 20
-    },
-    imagem: {
-        maxWidth: 350,
-        height: 200,
-        resizeMode: 'center'
-    },
     view: {
         height: 75,
-        borderRadius: 20,
+        borderRadius: 14,
         backgroundColor: '#9a6b99',
-        width: 350
+    },
+    touchable: {
+        borderColor: "black",
+        borderWidth: 1,
+        borderRadius: 15,
+        flex: 1,
+        marginLeft: 15,
+        marginRight: 15,
+        marginTop: 15
+    },
+    imagem: {
+        height: 200,
+        maxWidth: 330,
+        resizeMode: 'contain'
+    },
+    view2: {
+        alignItems: 'center'
     }
 })
 

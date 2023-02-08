@@ -5,7 +5,11 @@ import Data from "./Data";
 const BoxPerfil = () => {
     return (
         <TouchableOpacity style={styles.touchable}>
-            <Image source={require('../assets/imagem1.png')} style={styles.imagem}/>
+            <View style={styles.view2}>
+                <Image
+                source={require('../assets/imagem1.png')}
+                style={styles.imagem}/>
+            </View>
             <View style={styles.view}>
                 <Data/>
             </View>
@@ -29,9 +33,12 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     imagem: {
-        resizeMode: 'center',
         width: 150,
-        height: 115
+        height: 150,
+        resizeMode: 'contain',
+    },
+    view2: {
+        alignItems: 'center'
     }
 })
 

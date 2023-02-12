@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 15,
         flex: 1,
-        marginLeft: 15,
-        marginRight: 15,
+        marginLeft: 7.5,
+        marginRight: 7.5,
         marginBottom: 15
     },
     imagem: {

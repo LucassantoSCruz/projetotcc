@@ -5,10 +5,10 @@ import TelaProfissionais from './TelaProfissionais';
 import TelaComunidade from './TelaComunidade'
 import TelaAgenda from './TelaAgenda';
 import TelaPerfil from './TelaPerfil';
+import TelaLogin from './TelaLogin'
+import TelaCadastro from './TelaCadastro';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import {Text} from 'react-native';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -18,7 +18,18 @@ const TabNavegacao = () => {
       <Tab.Navigator
         screenOptions={() => ({
         tabBarActiveTintColor: '#9a6b99',
-        tabBarInactiveTintColor: 'gray', })}>
+        tabBarInactiveTintColor: 'gray', 
+        })}>
+
+          <Tab.Screen
+            name="Cadastro"
+            component={TelaCadastro} 
+            options={{
+              headerTitleAlign: 'center',
+              tabBarIcon: () => {
+                return <AntDesign name='login' size={24} color="#9a6b99" />
+              }
+            }}/>
 
           <Tab.Screen
             name="Profissionais"
@@ -65,4 +76,4 @@ const TabNavegacao = () => {
     )
 }
 
-export default TabNavegacao
+export default TabNavegacao;

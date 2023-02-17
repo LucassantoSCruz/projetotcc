@@ -5,8 +5,8 @@ import TelaProfissionais from './TelaProfissionais';
 import TelaComunidade from './TelaComunidade'
 import TelaAgenda from './TelaAgenda';
 import TelaPerfil from './TelaPerfil';
-import TelaLogin from './TelaLogin'
-import TelaCadastro from './TelaCadastro';
+import TelaInicial from './TelaInicial';
+import TelaLogin from './TelaLogin';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -22,8 +22,18 @@ const TabNavegacao = () => {
         })}>
 
           <Tab.Screen
-            name="Cadastro"
-            component={TelaCadastro} 
+            name="Inicio"
+            component={TelaInicial} 
+            options={{
+              headerTitleAlign: 'center',
+              tabBarIcon: () => {
+                return <AntDesign name='home' size={24} color="#9a6b99" />
+              }
+            }}/>
+
+          <Tab.Screen
+            name="Login"
+            component={TelaLogin} 
             options={{
               headerTitleAlign: 'center',
               tabBarIcon: () => {

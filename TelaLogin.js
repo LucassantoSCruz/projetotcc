@@ -1,36 +1,31 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-
+import * as React from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 
 const TelaLogin = ({navigation}) => {
-  return (
-    <View style={styles.view}>
-        <Text style={styles.titulo}>
-            Login
-        </Text>
-
-        <TextInput
-            style={styles.caixadetexto}
-            placeholder="Usuário"/>
-
-        <TextInput
-            style={styles.caixadetexto}
-            placeholder="Senha"/>
-
-        <TextInput
-            style={styles.caixadetexto}
-            placeholder="Escolha seu tipo de conta"/>
-
-        <TouchableOpacity style={styles.botao} onPress={()=>navigation.navigate('Profissionais')}>
-            <Text style={styles.textobotao}>
-                Entrar
+    return (
+        <View style={styles2.view}>
+            <Text style={styles2.titulo}>
+                Login
             </Text>
-        </TouchableOpacity>
-    </View>
-  );
-};
+            <TextInput
+                style={styles2.caixadetexto}
+                placeholder="Usuário"/>
+            <TextInput
+                style={styles2.caixadetexto}
+                placeholder="Senha"/>
+            <TextInput
+                style={styles2.caixadetexto}
+                placeholder="Escolha seu tipo de conta"/>
+            <TouchableOpacity style={styles2.botao} onPress={()=>navigation.navigate('Profissionais')}>
+                <Text style={styles2.textobotao}>
+                    Entrar
+                </Text>
+            </TouchableOpacity>
+        </View>
+    )
+}
 
-const styles = StyleSheet.create({
+const styles2 = StyleSheet.create({
   view: {
     flex: 1,
     justifyContent: 'center',
@@ -74,4 +69,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TelaLogin;
+export default TelaLogin 

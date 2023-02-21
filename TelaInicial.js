@@ -72,6 +72,13 @@ const styles = StyleSheet.create({
       color: '#9A6B99',
       textDecorationLine: 'line-through'
   },
+/*  decoracao: {
+    backgroundColor: '#9A6B99',
+    width: '50%',
+    height: 40,
+    position: 'absolute'
+  }
+*/
 })
 
 export default TelaInicial

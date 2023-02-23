@@ -4,9 +4,6 @@ import BarCategoria from './componentes/BarCategoria';
 import BoxPerfil from './componentes/BoxPerfil';
 import PerfisFav from './componentes/PerfisFav';
 import Carrosel from './componentes/Carrosel';
-import ImagemSlider from './componentes/ImagemSlider';
-import Gaveta from './componentes/Gaveta';
-//s
 
 const TelaProfissionais = () => {
     return (

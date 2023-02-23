@@ -15,7 +15,7 @@ const TelaInicial = ({navigation}) => {
             <Text style={styles.legenda}>
                 O aplicativo que acaba com a sua feiura
             </Text>
-            <TouchableOpacity style={styles.botao1}>
+            <TouchableOpacity style={styles.botao1} onPress={()=>navigation.navigate('Cadastro')}>
                 <Text style={styles.textobotao}>Cadastrar-se</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.botao2} onPress={()=>navigation.navigate('Login')}>

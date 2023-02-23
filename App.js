@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TelaInicial from './TelaInicial';
 import TelaLogin from './TelaLogin';
 import TabNavegacao from './TabNavegacao';
+import TelaCadastro from './TelaCadastro';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +15,7 @@ const App = () => {
       <Stack.Navigator initialRouteName="Inicio">
         <Stack.Screen name="Inicio" component={TelaInicial} options={{headerTitleAlign: 'center', title: 'Início'}}/>
         <Stack.Screen name="Login" component={TelaLogin} options={{headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="Cadastro" component={TelaCadastro} options={{headerTitleAlign: 'center'}}/>
         <Stack.Screen name="Profissionais" component={TabNavegacao} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>

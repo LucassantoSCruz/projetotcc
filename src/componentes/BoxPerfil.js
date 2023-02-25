@@ -4,16 +4,16 @@ import Data from "./Data";
 
 const BoxPerfil = () => {
     return (
-        <TouchableOpacity style={styles.touchable}>
+        <View style={styles.touchable}>
             <View style={styles.view2}>
                 <Image
                 source={require('../../assets/imagem1.png')}
                 style={styles.imagem}/>
             </View>
             <View style={styles.view}>
-                <Data/>
+            <Data/>
             </View>
-        </TouchableOpacity>
+        </View>
     )
 }
 
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     },
     view2: {
         alignItems: 'center'
-    }
+    },
 })
 
 export default BoxPerfil

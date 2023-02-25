@@ -13,16 +13,12 @@ const TelaProfissionais = () => {
                 <SafeAreaView style={styles.tela1}>
                     <ScrollView style={styles.tela2}>
 
-
-
                     <ScrollView horizontal>
                         <Carrosel/>
                         <Carrosel/>
                         <Carrosel/>
                         <Carrosel/>
                     </ScrollView>
-
-
 
                     <View style={styles.view3}>
                         <Text style={styles.texto}>Perfis Favoritos</Text>
@@ -57,24 +53,38 @@ const TelaProfissionais = () => {
                             <Text style={styles.texto2}>Ver Todos</Text>
                         </TouchableOpacity>
                     </View>
-
-
-
+                    
                     <View style={styles.view}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.view}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.view}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.view}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
                     </View>
 
                 </ScrollView>

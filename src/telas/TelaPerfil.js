@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import BoxPerfil from './componentes/BoxPerfil';
+import BoxPerfil from '../componentes/BoxPerfil';
 
 const TelaPerfil = () => {
     return (
@@ -13,7 +13,7 @@ const TelaPerfil = () => {
                         <Text style={styles.legenda}>Legenda</Text>
                     </View>
                     <View style={styles.direita}>
-                        <Image style={styles.fotodeperfil} source={require('./assets/imagem5.png')}/>
+                        <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')}/>
                     </View>
                 </View>
                 <View style={styles.botoes}>

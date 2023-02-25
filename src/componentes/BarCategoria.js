@@ -22,11 +22,11 @@ const BarCategoria = () =>{
       </TouchableOpacity>
 
       <TouchableOpacity>
-        <Image source={require("../assets/iconsbelezura/calendario.png")} style={styles.imagem}></Image>
+        <Image source={require("../../assets/iconsbelezura/calendario.png")} style={styles.imagem}></Image>
       </TouchableOpacity>
 
       <TouchableOpacity>
-        <Image source={require("../assets/iconsbelezura/marcador.png")} style={styles.imagem}></Image>
+        <Image source={require("../../assets/iconsbelezura/marcador.png")} style={styles.imagem}></Image>
       </TouchableOpacity>
 
     </View>

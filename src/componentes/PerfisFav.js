@@ -15,7 +15,7 @@ const PerfisFav = () => {
 const Perfil = () => {
     return (
         <View style={styles.perfil}>
-            <Image source={require('../assets/imagem5.png')} style={styles.imagem}/>
+            <Image source={require('../../assets/imagem5.png')} style={styles.imagem}/>
         </View>
     )
 }

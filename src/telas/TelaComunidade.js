@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import BarCategoria from './componentes/BarCategoria';
+import BarCategoria from '../componentes/BarCategoria';
 
 const TelaComunidade = () => {
     return (

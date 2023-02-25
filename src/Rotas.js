@@ -5,10 +5,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome } from '@expo/vector-icons';
 
 // Telas
-import TelaProfissionais from './TelaProfissionais';
-import TelaComunidade from './TelaComunidade'
-import TelaAgenda from './TelaAgenda';
-import TelaPerfil from './TelaPerfil';
+import TelaProfissionais from './telas/TelaProfissionais';
+import TelaComunidade from './telas/TelaComunidade'
+import TelaAgenda from './telas/TelaAgenda';
+import TelaPerfil from './telas/TelaPerfil';
 
 // Nomes das Telas
 const telaProfissionais = 'Profissionais';
@@ -18,7 +18,7 @@ const telaPerfil = 'Perfil';
 
 const Tab = createBottomTabNavigator();
 
-const TabNavegacao = () => {
+const Rotas = () => {
     return (
       <NavigationContainer independent={true}>
         <Tab.Navigator
@@ -55,4 +55,4 @@ const TabNavegacao = () => {
       )
   }
 
-export default TabNavegacao
+export default Rotas

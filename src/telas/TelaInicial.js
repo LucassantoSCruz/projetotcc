@@ -10,7 +10,7 @@ const TelaInicial = ({navigation}) => {
             <Text style={styles.titulo2}>
                 BELEZURA
             </Text>
-            <Image source={require('./assets/logo.png')}
+            <Image source={require('../../assets/logo.png')}
             style={styles.logo}/>
             <Text style={styles.legenda}>
                 O aplicativo que acaba com a sua feiura

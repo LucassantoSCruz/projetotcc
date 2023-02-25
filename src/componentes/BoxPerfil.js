@@ -7,7 +7,7 @@ const BoxPerfil = () => {
         <TouchableOpacity style={styles.touchable}>
             <View style={styles.view2}>
                 <Image
-                source={require('../assets/imagem1.png')}
+                source={require('../../assets/imagem1.png')}
                 style={styles.imagem}/>
             </View>
             <View style={styles.view}>

@@ -114,7 +114,7 @@ const TelaCadastro = () => {
         Foto de Perfil
       </Text>
 
-      <Image style={styles.fotoperfil} source={require('./assets/Perfil.png')}/>
+      <Image style={styles.fotoperfil} source={require('../../assets/Perfil.png')}/>
 
       <TouchableOpacity style={styles.botaofoto}>
         <Text style={styles.txtbtn}>

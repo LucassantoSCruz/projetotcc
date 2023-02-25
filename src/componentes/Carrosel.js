@@ -7,7 +7,7 @@ const Carrosel = () => {
         <TouchableOpacity style={styles.touchable}>
                 <View>
                     <Image
-                    source={require('../assets/imagem2.png')}
+                    source={require('../../assets/imagem2.png')}
                     style={styles.imagem}/>
                 </View>
                 <View style={styles.view}>

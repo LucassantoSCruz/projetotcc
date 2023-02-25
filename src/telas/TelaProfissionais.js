@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity } from 'react-native';
-import BarCategoria from './componentes/BarCategoria';
-import BoxPerfil from './componentes/BoxPerfil';
-import PerfisFav from './componentes/PerfisFav';
-import Carrosel from './componentes/Carrosel';
+import BarCategoria from '../componentes/BarCategoria';
+import BoxPerfil from '../componentes/BoxPerfil';
+import PerfisFav from '../componentes/PerfisFav';
+import Carrosel from '../componentes/Carrosel';
 
 const TelaProfissionais = () => {
     return (

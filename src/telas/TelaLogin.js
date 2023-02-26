@@ -1,23 +1,58 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import { BottomSheet } from 'react-native-btr';
 
 const TelaLogin = ({navigation}) => {
+
+const [visivel, setVisivel] = useState(false);
+
+function toggle() {
+  setVisivel((visivel) => !visivel);
+}
+
     return (
-        <View style={styles2.view}>
-            <Text style={styles2.titulo}>
+        <View style={styles.view}>
+
+            <Text style={styles.titulo}>
                 Login
             </Text>
+
             <TextInput
-                style={styles2.caixadetexto}
+                style={styles.caixadetexto}
                 placeholder="Usuário"/>
+
             <TextInput
-                style={styles2.caixadetexto}
+                style={styles.caixadetexto}
                 placeholder="Senha"/>
-            <TextInput
-                style={styles2.caixadetexto}
-                placeholder="Escolha seu tipo de conta"/>
-            <TouchableOpacity style={styles2.botao} onPress={()=>navigation.navigate('Profissionais')}>
-                <Text style={styles2.textobotao}>
+
+            <TouchableOpacity style={styles.botaomodal} onPress={toggle}>
+              <View>
+                <Text style={styles.titulomodal}>
+                  Escolha o seu tipo de conta:
+                </Text>
+              </View>
+              </TouchableOpacity>
+              <BottomSheet
+                visible={visivel}
+                onBackButtonPress={toggle}
+                onBackdropPress={toggle}
+              >
+                <View style={styles.fundomodal}>
+                  <TouchableOpacity style={styles.selecao}>
+                    <Text style={styles.textomodal}>
+                      Profissional - Pessoa Jurídica
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.selecao}>
+                    <Text style={styles.textomodal}>
+                      Pessoal - Pessoa Física
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </BottomSheet>
+
+            <TouchableOpacity style={styles.botao} onPress={()=>navigation.navigate('Profissionais')}>
+                <Text style={styles.textobotao}>
                     Entrar
                 </Text>
             </TouchableOpacity>
@@ -25,7 +60,7 @@ const TelaLogin = ({navigation}) => {
     )
 }
 
-const styles2 = StyleSheet.create({
+const styles = StyleSheet.create({
   view: {
     flex: 1,
     justifyContent: 'center',
@@ -38,7 +73,7 @@ const styles2 = StyleSheet.create({
     color: 'black'
   },
   caixadetexto: {
-    width: 300,
+    width:'80%',
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
@@ -61,11 +96,38 @@ const styles2 = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20
 },
-  legenda: {
+  botaomodal: {
+    justifyContent: 'center',
+    width: '80%',
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 15,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: 'white',
+  },
+  titulomodal:{
+    color: '#666666'
+  },
+  fundomodal: {
+    backgroundColor: "#fff",
+    height: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  selecao: {
+    width: '90%',
+  },
+  textomodal: {
+    textAlign: 'center',
     fontSize: 20,
-    fontWeight: 'bold',
+    margin: 10,
+    backgroundColor: '#d0a3ce',
     color: 'white',
-    margin: 5
+    padding: 10,
+    borderRadius: 50
   }
 });
 

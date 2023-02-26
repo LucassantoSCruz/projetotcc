@@ -42,8 +42,10 @@ const TelaCadastro = () => {
       />
 
       <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
-        <View >
-          <Text style={styles.titulomodal}>Sexo:</Text>
+        <View>
+          <Text style={styles.titulomodal}>
+            Sexo:
+          </Text>
         </View>
       </TouchableOpacity>
       <BottomSheet

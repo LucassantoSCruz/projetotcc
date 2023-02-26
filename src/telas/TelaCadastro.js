@@ -1,18 +1,28 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { BottomSheet } from 'react-native-btr';
 
 const TelaCadastro = () => {
 
   const [nome, setNome] = useState(null)
   const [sobrenome, setSobrenome] = useState(null)
-  const [cpf, setCpf] = useState(null)
+  //const [cpf, setCpf] = useState(null)
   const [nomefantasia, setNomefantasia] = useState(null)
   const [telefone, setTelefone] = useState(null)
   const [email, setEmail] = useState(null)
   const [senha, setSenha] = useState(null)
   const [descr, onChangeText] = useState(null)
 
+  const [visivelSexo, setVisivelSexo] = useState(false);
+  const [visivelCPF, setVisivelCPF] = useState(false);
+
+  function toggle1() {
+    setVisivelSexo((visivelSexo) => !visivelSexo);
+  }
+  function toggle2() {
+    setVisivelCPF((visivelCPF) => !visivelCPF);
+  }
+  
   return (
     <ScrollView>
     <View style={styles.container}>
@@ -30,48 +40,62 @@ const TelaCadastro = () => {
         placeholder='Sobrenome:'
         onChangeText={value => setSobrenome(value)}
       />
-      
-      <View style={styles.caixa}>
-        <Text style={styles.txt}>
-          Sexo:
-        </Text>
-          <BouncyCheckbox
-            style={{marginLeft:10}}
-            fillColor="#9a6b99"
-            text='Feminino'
-          />
-          <BouncyCheckbox
-            style={{marginLeft:10}}
-            fillColor="#9a6b99"
-            text='Masculino'
-          />
-          <BouncyCheckbox
-            style={{marginLeft:10}}
-            fillColor="#9a6b99"
-            text='Prefiro não dizer'
-          />            
-      </View>
 
-      <View style={styles.caixa}>
-        <Text style={styles.txt}>
-          Tipo de conta:
-        </Text>
-        <View style={styles.check}>
-        <BouncyCheckbox
-            style={{marginLeft:10}}
-            fillColor="#9a6b99"
-            text='Física'
-          /> 
-          <BouncyCheckbox
-            style={{marginLeft:10}}
-            fillColor="#9a6b99"
-            text='Jurídica'
-          /> 
+      <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
+        <View >
+          <Text style={styles.titulomodal}>Sexo:</Text>
         </View>
-      </View>
+      </TouchableOpacity>
+      <BottomSheet
+        visible={visivelSexo}
+        onBackButtonPress={toggle1}
+        onBackdropPress={toggle1}
+      >
+        <View style={styles.fundomodal}>
+          <TouchableOpacity style={styles.selecao}>
+            <Text style={styles.textomodal}>
+              Feminino
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.selecao}>
+            <Text style={styles.textomodal}>
+              Masculino
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.selecao}>
+            <Text style={styles.textomodal}>
+              Outros/Prefere não dizer
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
 
+      <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
+        <View >
+          <Text style={styles.titulomodal}>Tipo de Conta:</Text>
+        </View>
+      </TouchableOpacity>
+      <BottomSheet
+        visible={visivelCPF}
+        onBackButtonPress={toggle2}
+        onBackdropPress={toggle2}
+      >
+        <View style={styles.fundomodal}>
+          <TouchableOpacity style={styles.selecao}>
+            <Text style={styles.textomodal}>
+              Profissional - Pessoa Jurídica
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.selecao}>
+            <Text style={styles.textomodal}>
+              Pessoal - Pessoa Física
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
+      
       <TextInput style={styles.campo}
-        placeholder='Cpf/Cnpj:'
+        placeholder='CPF/CNPJ:'
         onChangeText={value => setCpf(value)}
         keyboardType='numeric'
         returnKeyType='done'
@@ -105,7 +129,7 @@ const TelaCadastro = () => {
         editable
         multiline
         numberOfLines={6}
-        maxLength={40}
+        maxLength={200}
         onChangeText={value => onChangeText(value)}
         value={descr}
       />
@@ -230,6 +254,40 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20
   },
+  botaomodal: {
+    justifyContent: 'center',
+    width: '80%',
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 15,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: 'white',
+  },
+  titulomodal:{
+    color: '#666666'
+  },
+  fundomodal: {
+    backgroundColor: "#fff",
+    height: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  selecao: {
+    width: '90%',
+  },
+  textomodal: {
+    textAlign: 'center',
+    fontSize: 20,
+    margin: 10,
+    backgroundColor: '#d0a3ce',
+    color: 'white',
+    padding: 10,
+    borderRadius: 50
+  }
 });
 
 export default TelaCadastro

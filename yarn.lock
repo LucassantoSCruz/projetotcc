@@ -6510,6 +6510,11 @@
   "resolved" "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   "version" "4.0.8"
 
+"lodash.isequal@4.5.0":
+  "integrity" "sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ=="
+  "resolved" "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
+  "version" "4.5.0"
+
 "lodash.memoize@^4.1.2":
   "integrity" "sha512-t7j+NzmgnQzTAYXcsHYLgimltOV1MXHtlOWf6GjL9Kj8GK5FInw5JotxvbOs+IvV1/Dzo04/fCGfLVs7aXb4Ag=="
   "resolved" "https://registry.npmjs.org/lodash.memoize/-/lodash.memoize-4.1.2.tgz"
@@ -8383,7 +8388,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@*", "prop-types@^15.7.2":
+"prop-types@*", "prop-types@^15.6.2", "prop-types@^15.7.2":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -8652,10 +8657,26 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
+"react-native-animatable@1.3.3":
+  "integrity" "sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w=="
+  "resolved" "https://registry.npmjs.org/react-native-animatable/-/react-native-animatable-1.3.3.tgz"
+  "version" "1.3.3"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-native-bouncy-checkbox@^3.0.7":
   "integrity" "sha512-776TgMGt9wTpOQA1TcvFjL5VUn6o945wFYf3Ztqva62/vT2o3JAezLiP7hYh2Svd+PewfWBYSPMs4jeaSoS8Sg=="
   "resolved" "https://registry.npmjs.org/react-native-bouncy-checkbox/-/react-native-bouncy-checkbox-3.0.7.tgz"
   "version" "3.0.7"
+
+"react-native-btr@^2.2.0":
+  "integrity" "sha512-a1r74i1oPvDteciFS0kj+4Y5K8OyC3HbDOvUzZCd6ftcv7xdNwEsCcAZIsW9h0YNJEb059AV4UneDL3+C8wDzA=="
+  "resolved" "https://registry.npmjs.org/react-native-btr/-/react-native-btr-2.2.0.tgz"
+  "version" "2.2.0"
+  dependencies:
+    "react-native-modal" "^13.0.1"
+    "react-native-radio-buttons-group" "^2.2.11"
+    "react-native-vector-icons" "^9.2.0"
 
 "react-native-codegen@^0.70.6":
   "integrity" "sha512-kdwIhH2hi+cFnG5Nb8Ji2JwmcCxnaOOo9440ov7XDzSvGfmUStnCzl+MCW8jLjqHcE4icT7N9y+xx4f50vfBTw=="
@@ -8687,6 +8708,21 @@
   "integrity" "sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg=="
   "resolved" "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz"
   "version" "1.3.1"
+
+"react-native-modal@^13.0.1":
+  "integrity" "sha512-UB+mjmUtf+miaG/sDhOikRfBOv0gJdBU2ZE1HtFWp6UixW9jCk/bhGdHUgmZljbPpp0RaO/6YiMmQSSK3kkMaw=="
+  "resolved" "https://registry.npmjs.org/react-native-modal/-/react-native-modal-13.0.1.tgz"
+  "version" "13.0.1"
+  dependencies:
+    "prop-types" "^15.6.2"
+    "react-native-animatable" "1.3.3"
+
+"react-native-radio-buttons-group@^2.2.11":
+  "integrity" "sha512-ebYKTddyon/+8OxZIfuowB2/0gDcRnc+H0Jn5JBjIBqh5Zo2atIbXt1RrblA5V7dAvwlLCP4B/uzR2kFcLi8VA=="
+  "resolved" "https://registry.npmjs.org/react-native-radio-buttons-group/-/react-native-radio-buttons-group-2.3.2.tgz"
+  "version" "2.3.2"
+  dependencies:
+    "lodash.isequal" "4.5.0"
 
 "react-native-safe-area-context@>= 0.6.0", "react-native-safe-area-context@>= 3.0.0", "react-native-safe-area-context@4.4.1":
   "integrity" "sha512-N9XTjiuD73ZpVlejHrUWIFZc+6Z14co1K/p1IFMkImU7+avD69F3y+lhkqA2hN/+vljdZrBSiOwXPkuo43nFQA=="
@@ -8729,7 +8765,7 @@
     "postcss-value-parser" "^4.2.0"
     "styleq" "^0.1.2"
 
-"react-native@*", "react-native@>= 0.55.x", "react-native@>=0.42.0", "react-native@>=0.57", "react-native@0.70.5":
+"react-native@*", "react-native@>= 0.55.x", "react-native@>=0.42.0", "react-native@>=0.57", "react-native@>=0.65.0", "react-native@0.70.5":
   "integrity" "sha512-5NZM80LC3L+TIgQX/09yiyy48S73wMgpIgN5cCv3XTMR394+KpDI3rBZGH4aIgWWuwijz31YYVF5504+9n2Zfw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.70.5.tgz"
   "version" "0.70.5"

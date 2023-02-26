@@ -53,38 +53,22 @@ const TelaProfissionais = () => {
                             <Text style={styles.texto2}>Ver Todos</Text>
                         </TouchableOpacity>
                     </View>
-                    
+
                     <View style={styles.view}>
-                        <TouchableOpacity>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
+                        <BoxPerfil/>
+                        <BoxPerfil/>
                     </View>
                     <View style={styles.view}>
-                        <TouchableOpacity>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
+                        <BoxPerfil/>
+                        <BoxPerfil/>
                     </View>
                     <View style={styles.view}>
-                        <TouchableOpacity>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
+                        <BoxPerfil/>
+                        <BoxPerfil/>
                     </View>
                     <View style={styles.view}>
-                        <TouchableOpacity>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
+                        <BoxPerfil/>
+                        <BoxPerfil/>
                     </View>
 
                 </ScrollView>

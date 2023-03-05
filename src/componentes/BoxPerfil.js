@@ -4,7 +4,7 @@ import Data from "./Data";
 
 const BoxPerfil = () => {
     return (
-        <TouchableOpacity style={styles.touchable}>
+        <View style={styles.touchable}>
             <View style={styles.view2}>
                 <Image
                 source={require('../../assets/imagem1.png')}
@@ -13,7 +13,7 @@ const BoxPerfil = () => {
             <View style={styles.view}>
             <Data/>
             </View>
-        </TouchableOpacity>
+        </View>
     )
 }
 

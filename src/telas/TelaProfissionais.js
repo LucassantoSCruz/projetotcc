@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
 import BoxPerfil from '../componentes/BoxPerfil';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 
-const TelaProfissionais = () => {
+const TelaProfissionais = ({navigation}) => {
     return (
         <View style={{flex: 1}}>
 
@@ -55,8 +55,12 @@ const TelaProfissionais = () => {
                     </View>
 
                     <View style={styles.view}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+                        <TouchableOpacity onPress={()=>navigation.navigate('PerfilProfissional')}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.view}>
                         <BoxPerfil/>

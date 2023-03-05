@@ -5,6 +5,7 @@ import BoxPerfil from '../componentes/BoxPerfil';
 const TelaPerfil = () => {
     return (
             <View>
+                <ScrollView>
                 <View style={styles.view}>
                     <View style={styles.esquerda}>
                         <Text style={styles.pronome}>Pronome: Elx</Text>
@@ -27,7 +28,6 @@ const TelaPerfil = () => {
                         <Text style={styles.texto}>NOVO</Text>
                     </TouchableOpacity>
                 </View>
-                <ScrollView>
                     <View style={styles.view2}>
                         <BoxPerfil/>
                         <BoxPerfil/>

@@ -29,8 +29,12 @@ const TelaPerfilProfissional = () => {
                     </TouchableOpacity>
                 </View>
                     <View style={styles.view2}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.view2}>
                         <BoxPerfil/>

@@ -8,7 +8,7 @@ const conexao = require('../database/Database');
 const modelServicos = conexao.define('servico', {
     //Definição dos campos e seus attributos
     IDServico:{
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
@@ -32,7 +32,7 @@ const modelServicos = conexao.define('servico', {
 })
 
 //Forçar a criação do modelo
-//modelServicos.sync({ force: true});
+modelServicos.sync({ force: true});
 
 //Exportação do modelo
 module.exports = modelServicos;

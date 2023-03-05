@@ -80,7 +80,7 @@ router.get('/listarClientes', (req, res) => {
                 erroStatus: true,
                 mensagemStatus: 'Erro ao listar os clientes',
                 erroObject: erro
-            });
+            })
         }
     )
 });

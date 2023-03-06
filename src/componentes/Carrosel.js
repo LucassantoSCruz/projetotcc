@@ -1,6 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Data from "./Data";
+import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 const Carrosel = () => {
     return (
@@ -11,7 +10,9 @@ const Carrosel = () => {
                     style={styles.imagem}/>
                 </View>
                 <View style={styles.view}>
-                    <Data/>
+                <Text style={styles.text}>
+                    Exemplo de Serviço
+                </Text>
                 </View>
         </TouchableOpacity>
     )
@@ -39,6 +40,12 @@ const styles = StyleSheet.create({
     },
     view2: {
         alignItems: 'center'
+    },
+    text: {
+        margin: 10,
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: 'white'
     }
 })
 

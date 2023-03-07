@@ -29,20 +29,36 @@ const TelaPerfilProfissional = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
                     <View style={styles.view2}>
-                        <TouchableOpacity onPress={()=>navigation.navigate('Servico')}>
+
+                        <TouchableOpacity style={styles.boxperfil} onPress={()=>navigation.navigate('Servico')}>
                             <BoxPerfil/>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+
+                    </View>
+                    <View style={styles.view2}>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.boxperfil}>
                             <BoxPerfil/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.view2}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
-                    </View>
-                    <View style={styles.view2}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+
                     </View>
                 </ScrollView>
             </View>
@@ -142,6 +158,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         fontSize: 20,
+    },
+    boxperfil: {
+        flex: 1,
     }
 });
 

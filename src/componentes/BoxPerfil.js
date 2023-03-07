@@ -3,8 +3,8 @@ import { View, Image, StyleSheet, Text } from 'react-native'
 
 const BoxPerfil = () => {
     return (
-        <View style={styles.touchable}>
-            <View style={styles.view2}>
+        <View style={styles.caixa}>
+            <View style={styles.caixa2}>
                 <Image
                 source={require('../../assets/imagem1.png')}
                 style={styles.imagem}/>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         borderRadius: 14,
         backgroundColor: '#9a6b99',
     },
-    touchable: {
+    caixa: {
         borderColor: "black",
         borderWidth: 1,
         borderRadius: 15,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         height: 150,
         resizeMode: 'contain',
     },
-    view2: {
+    caixa2: {
         alignItems: 'center'
     },
     text: {

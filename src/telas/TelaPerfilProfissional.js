@@ -24,9 +24,6 @@ const TelaPerfilProfissional = ({navigation}) => {
                     <TouchableOpacity style={styles.botao2}>
                         <Text style={styles.texto}>CHAT</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.botao3}>
-                        <Text style={styles.texto}>NOVO</Text>
-                    </TouchableOpacity>
                 </View>
                     <View style={styles.view2}>
 
@@ -125,7 +122,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     botao1: {
-        flex: 2,
+        flex: 1,
         alignItems: 'center',
         backgroundColor: '#B987B8',
         padding: 10,

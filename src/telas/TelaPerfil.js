@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 
-const TelaPerfil = () => {
+const TelaPerfil = ({navigation}) => {
     return (
             <View>
                 <ScrollView>
@@ -24,7 +24,7 @@ const TelaPerfil = () => {
                     <TouchableOpacity style={styles.botao2}>
                         <Text style={styles.texto}>CHAT</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.botao3}>
+                    <TouchableOpacity style={styles.botao3} onPress={()=>navigation.navigate('TelaCriarServico')}>
                         <Text style={styles.texto}>NOVO</Text>
                     </TouchableOpacity>
                 </View>

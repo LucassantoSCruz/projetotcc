@@ -3,6 +3,9 @@
 //Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
+const telefones = require('./ModelTelefones');
+const endereco = require('./ModelEnderecos');
+
 
 //Criação do modelo
 const modelProfissionais = conexao.define('profissional', {
@@ -12,8 +15,7 @@ const modelProfissionais = conexao.define('profissional', {
         primaryKey: true,
         autoIncrement: true
     },
-    //FK_Enderecos_Profissionais: {},
-    //FK_Telefones_Profissionais: {},
+
     nome:{
         type: sequelize.STRING,
         allowNull: false
@@ -46,11 +48,26 @@ const modelProfissionais = conexao.define('profissional', {
     },
     fotoPerfil: {
         type: sequelize.BLOB
+    },
+     //FK_Enderecos_Profissionais: {},
+    IDEnderecos: {
+        type: sequelize.INTEGER,
+        allowNull: false
+    },
+    //FK_Telefones_Profissionais: {},
+    IDTelefones: {
+        type: sequelize.INTEGER,
+        allowNull: false
     }
 })
 
+//relacionando as chaves estrangeiras
+modelProfissionais.belongsTo(endereco, {foreignKey: 'IDEnderecos', allowNull:false })
+modelProfissionais.belongsTo(telefones, {foreignKey: 'IDTelefones', allowNull:false })
+
+
 //Forçar a criação do modelo
-//modelProfissionais.sync({ force: true });
+modelProfissionais.sync({ force: true });
 
 //Exportação do modelo
 module.exports = modelProfissionais;

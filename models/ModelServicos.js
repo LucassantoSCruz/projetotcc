@@ -3,6 +3,7 @@
 //Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
+const categoria = require('./ModelCategoria');
 
 //Criação do modelo
 const modelServicos = conexao.define('servico', {
@@ -12,7 +13,7 @@ const modelServicos = conexao.define('servico', {
         primaryKey: true,
         autoIncrement: true
     },
-    //FK_Categorias_Servicos: {},
+   
     preco: {
         type: sequelize.DECIMAL(10,2),
         allowNull: false
@@ -28,8 +29,17 @@ const modelServicos = conexao.define('servico', {
     duracao: {
         type: sequelize.STRING,
         allowNull: false
+    },
+     //FK_Categorias_Servicos: {},
+    IDCategoria:{
+        type: sequelize.INTEGER,
+        allowNull: false
     }
 })
+
+//relacionando as chaves estrangeiras
+modelServicos.belongsTo(categoria, {foreignKey: 'IDCategoria', allowNull:false })
+
 
 //Forçar a criação do modelo
 modelServicos.sync({ force: true});

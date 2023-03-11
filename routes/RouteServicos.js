@@ -84,11 +84,61 @@ router.get('/listarServicos', (req, res) => {
     )
 });
 
-//Rota de alteração
+router.put('/alterarServicos', (req, res) =>{
 
+    let { IDServico, preco, descricao, titulo, duracao } = req.body;
 
-//rota de exclusão
+    modelServicos.update(
+        { preco, descricao, titulo, duracao},
+        {where:{  IDServico }}
 
+    ).then(
+        () => {
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:'Cliente alterado com sucesso!'
+            })
+        }
+    ).catch(
+        (error)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:'Erro ao alterar',
+                errorObject:error
+            })
+        }
+    )
+
+})
+
+//Rota de Exclusão
+router.delete('/excluirServicos:IDServico', (req, res)=>{
+
+    console.log(req.params);
+
+    let {IDServico} = req.params;
+
+    modelServicos.destroy(
+        {where:{IDServico}}
+    ).then(
+        () => {
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:'Serviço excluido'
+            })
+        }
+    ).catch(
+        (error)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:'Erro ao excluir',
+                errorObject:error
+            })
+        }
+    )
+
+   
+})
 
 //INÍCIO DAS ROTAS DE CRUD DA TABELA SERVICOS
 

@@ -90,11 +90,66 @@ router.get('/listagemProfissionais', (req, res) => {
     )
 });
 
-//Rota de alteração
+//Rota de Alteração
+router.put('/alterarProfissionais', (req, res) =>{
 
+    let {
+        IDProfissional, nome, CNPJ_CPF, atendimentoDomiciliar, email, 
+        senha, descricao, contatoPrincipal, contatoSecundario, fotoPerfil
+    } = req.body;
 
-//Rota de exclusão
+    modelProfissionais.update(
+        { nome, CNPJ_CPF, atendimentoDomiciliar, email, 
+            senha, descricao, contatoPrincipal, contatoSecundario, fotoPerfil},
+        {where:{ IDProfissional}}
 
+    ).then(
+        () => {
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:'Cliente alterado com sucesso!'
+            })
+        }
+    ).catch(
+        (error)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:'Erro ao alterar',
+                errorObject:error
+            })
+        }
+    )
+
+})
+
+//Rota de Exclusão
+router.delete('/excluirProfissionais:IDProfissional', (req, res)=>{
+
+    console.log(req.params);
+
+    let {IDProfissional} = req.params;
+
+    modelProfissionais.destroy(
+        {where:{IDProfissional}}
+    ).then(
+        () => {
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:'Profissional excluido'
+            })
+        }
+    ).catch(
+        (error)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:'Erro ao excluir',
+                errorObject:error
+            })
+        }
+    )
+
+   
+})
 
 //FIM DAS ROTAS DE CRUD TABELA DE PROFISSIONAIS
 

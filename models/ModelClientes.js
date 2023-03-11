@@ -3,6 +3,9 @@
 //Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
+const colecoes = require('./ModelColecoes');
+const avaliacoes = require('./ModelAvaliacoes');
+
 
 //Criação do modelo
 const modelClientes = conexao.define('cliente', {
@@ -12,8 +15,6 @@ const modelClientes = conexao.define('cliente', {
         primaryKey: true,
         autoIncrement: true
     },
-    //FK_Colecoes_Clientes
-    //FK_Avaliações_Clientes
     nome:{
         type: sequelize.STRING,
         allowNull: false
@@ -27,12 +28,32 @@ const modelClientes = conexao.define('cliente', {
         allowNull: false
     },
     fotoPerfil:{
-        type: sequelize.BLOB
+        type: sequelize.BLOB,
+        allowNull: false
+    },
+    avaliaçoesID:{
+        type: sequelize.INTEGER,
+        allowNull: false
+    },
+     //FK_Colecoes_Clientes
+    IDColecoes:{
+        type:sequelize.INTEGER,
+        allowNull:false
+    },
+    //FK_Avaliações_Clientes
+    IDAvaliacoes:{
+        type:sequelize.INTEGER,
+        allowNull:false
     }
+
 });
 
+modelClientes.belongsTo(colecoes, {foreignKey:'IDColecoes', allowNull:false})
+modelClientes.belongsTo(avaliacoes, {foreignKey:'IDAvaliacoes', allowNull:false})
+
+
 //Forçar a criação do modelo
-//modelClientes.sync({ force:true });
+modelClientes.sync({ force:true });
 
 //Exportação do modelo
 module.exports = modelClientes;

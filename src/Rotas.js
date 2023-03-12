@@ -78,7 +78,7 @@ const RotaPerfil = () => {
     <NavigationContainer independent={true}>
       <Stack.Navigator>
         <Tab.Screen name={telaPerfil} component={TelaPerfil} options={{ headerTitleAlign: 'center' }} />
-        <Tab.Screen name='TelaCriarServico' component={TelaCriarServico} options={{ headerTitleAlign: 'center' }} />
+        <Tab.Screen name='TelaCriarServico' component={TelaCriarServico} options={{ title: 'Criar Serviço', headerTitleAlign: 'center' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

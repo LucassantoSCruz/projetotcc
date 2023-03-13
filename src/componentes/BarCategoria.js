@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { BottomSheet } from "react-native-btr";
 import MapView from "react-native-maps";
+import Location from 'expo-location';
+
 
 const BarCategoria = () =>{
 
@@ -41,6 +43,7 @@ function alternar() {
           onBackButtonPress={alternar}
           onBackdropPress={alternar}
           >
+          
           <View style={styles.fundomodal}>
             <Text style={styles.textomapa}>Localização</Text>
               <MapView style={styles.mapa}
@@ -52,6 +55,7 @@ function alternar() {
                   }}
               />
           </View>
+          
         </BottomSheet>
       </TouchableOpacity>
 

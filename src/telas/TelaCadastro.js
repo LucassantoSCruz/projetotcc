@@ -43,7 +43,10 @@ const TelaCadastro = () => {
 
     if(cep.length === 8){
       try{
-        const resultado = await cep(cep);
+        //consultando o cep no servidor do Node.js
+        //atualizando os dados do endereço com os dados recebidos
+        const response = await fetch(`http://`);
+        const resultado = await response.json();
         setEndereco(resultado)
       } catch(error){
         console.log(error);
@@ -342,4 +345,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TelaCadastro
+export default TelaCadastro;

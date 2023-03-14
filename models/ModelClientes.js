@@ -9,6 +9,7 @@ const modelClientesServicos = require('./ModelClientesServicos');
 const modelClientesServicosSociais = require('./ModelClientesServicosSociais');
 const modelServicos = require('./ModelServicos');
 const modelServicosSociais = require('./ModelServicosSociais');
+const modelColecoes = require('./ModelColecoes');
 
 //Criação do modelo
 const modelClientes = conexao.define('clientes', {
@@ -51,6 +52,14 @@ const modelClientes = conexao.define('clientes', {
     createdAt: 'dataCriacao',
     updatedAt: 'ultimaModificacao'
 });
+
+//Relacionamento com "colecoes"
+modelColecoes.belongsTo(modelClientes, {
+    foreignKey: 'FK_Clientes_Colecoes'
+})
+modelClientes.hasMany(modelColecoes, {
+    foreignKey: 'FK_Clientes_Colecoes'
+}); 
 
 //Relacionamento com "servicos"
 modelClientes.belongsToMany(modelServicos, {

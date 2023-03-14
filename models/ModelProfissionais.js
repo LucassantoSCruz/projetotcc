@@ -14,6 +14,9 @@ const modelAvaliacoes = require('./ModelAvaliacoes');
 const modelEnderecos = require('./ModelEnderecos');
 const modelServicosSociais = require('./ModelServicosSociais');
 const modelProfissionaisServicosSociais = require('./ModelProfissionaisServicosSociais');
+const modelColecoes = require('./ModelColecoes');
+const modelProfissionaisColecoes = require('./ModelProfissionaisColecoes');
+const modelProfissionaisAvaliacoes = require('./ModelProfissionaisAvaliacoes');
 
 //Criação do modelo
 const modelProfissionais = conexao.define('profissionais', {
@@ -96,14 +99,6 @@ modelTelefones.belongsTo(modelProfissionais, {
     foreignKey: 'FK_Profissionais_Telefones'
 })
 
-//Relacionamento com "avaliacoes"
-modelProfissionais.hasMany(modelAvaliacoes, {
-    foreignKey: 'FK_Profissionais_Avaliacoes'
-});
-modelAvaliacoes.belongsTo(modelProfissionais, {
-    foreignKey: 'FK_Profissionais_Avaliacoes'
-})
-
 //Relacionamento com "enderecos"
 modelEnderecos.hasMany(modelProfissionais, {
     foreignKey: 'FK_Enderecos_Profissionais'
@@ -146,6 +141,42 @@ modelServicosSociais.belongsToMany(modelProfissionais, {
     foreignKey: 'FK_ServicosSociais_Profissionais',
     constraint: true,
     uniqueKey: 'servicos_sociais_profissionais'
+})
+
+//Relacionamento com "colecoes"
+modelProfissionais.belongsToMany(modelColecoes, {
+    through: {
+        model: modelProfissionaisColecoes,
+    },
+    foreignKey: 'FK_Profissionais_Colecoes',
+    constraint: true,
+    uniqueKey: 'profissionais_colecoes'
+})
+modelColecoes.belongsToMany(modelProfissionais, {
+    through: {
+        model: modelProfissionaisColecoes,
+    },
+    foreignKey: 'FK_Colecoes_Profissionais',
+    constraint: true,
+    uniqueKey: 'colecoes_profissionais'
+})
+
+//Relacionamento com "avaliacoes"
+modelProfissionais.belongsToMany(modelAvaliacoes, {
+    through: {
+        model: modelProfissionaisAvaliacoes,
+    },
+    foreignKey: 'FK_Profissionais_Avaliacoes',
+    constraint: true,
+    uniqueKey: 'profissionais_avaliacoes'
+})
+modelAvaliacoes.belongsToMany(modelProfissionais, {
+    through: {
+        model: modelProfissionaisAvaliacoes,
+    },
+    foreignKey: 'FK_Avaliacoes_Profissionais',
+    constraint: true,
+    uniqueKey: 'avaliacoes_profissionais'
 })
 
 //FIM DA DECLARAÇÃO DOS RELACIONAMENTOS ENTRE AS MODELS

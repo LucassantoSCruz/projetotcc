@@ -3,12 +3,13 @@
 //Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
-const colecoes = require('./ModelColecoes');
-const avaliacoes = require('./ModelAvaliacoes');
 
+//Importação das models
+const modelClientesServicos = require('./ModelClientesServicos');
+const modelServicos = require('./ModelServicos');
 
 //Criação do modelo
-const modelClientes = conexao.define('cliente', {
+const modelClientes = conexao.define('clientes', {
     //Definição de cada campo e seus atributos
     IDCliente:{
         type: sequelize.INTEGER,
@@ -35,25 +36,37 @@ const modelClientes = conexao.define('cliente', {
         type: sequelize.INTEGER,
         allowNull: false
     },
-     //FK_Colecoes_Clientes
     IDColecoes:{
         type:sequelize.INTEGER,
         allowNull:false
     },
-    //FK_Avaliações_Clientes
     IDAvaliacoes:{
         type:sequelize.INTEGER,
         allowNull:false
     }
-
+}, {
+    freezeTableName: true,
+    createdAt: 'dataCriacao',
+    updatedAt: 'ultimaModificacao'
 });
 
-modelClientes.belongsTo(colecoes, {foreignKey:'IDColecoes', allowNull:false})
-modelClientes.belongsTo(avaliacoes, {foreignKey:'IDAvaliacoes', allowNull:false})
-
-
-//Forçar a criação do modelo
-modelClientes.sync({ force:true });
+//Relacionamento com "servicos"
+modelClientes.belongsToMany(modelServicos, {
+    through: {
+        model: modelClientesServicos,
+    },
+    foreignKey: 'FK_Clientes_Servicos',
+    constraint: true,
+    uniqueKey: 'clientes_servicos'
+})
+modelServicos.belongsToMany(modelClientes, {
+    through: {
+        model: modelClientesServicos,
+    },
+    foreignKey: 'FK_Servicos_Clientes',
+    constraint: true,
+    uniqueKey: 'servicos_clientes'
+})
 
 //Exportação do modelo
 module.exports = modelClientes;

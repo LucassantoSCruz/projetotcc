@@ -1,21 +1,21 @@
-/*Arquivo com o modelo da tabela de clientes*/
+/*Arquivo com o modelo da tabela "profissionais"*/
 
 //Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
-const telefones = require('./ModelTelefones');
-const endereco = require('./ModelEnderecos');
 
+//Importação das models
+const modelProfissionaisServicos = require('./ModelProfissionaisServicos');
+const modelServicos = require('./ModelServicos');
 
 //Criação do modelo
-const modelProfissionais = conexao.define('profissional', {
+const modelProfissionais = conexao.define('profissionais', {
     //Definição dos campos e de seus atributos
     IDProfissional:{
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-
     nome:{
         type: sequelize.STRING,
         allowNull: false
@@ -26,8 +26,7 @@ const modelProfissionais = conexao.define('profissional', {
     },
     atendimentoDomiciliar: {
         type: sequelize.BOOLEAN,
-        defaultValue: false,
-        allowNull: false
+        defaultValue: false
     },
     email: {
         type: sequelize.STRING,
@@ -36,6 +35,13 @@ const modelProfissionais = conexao.define('profissional', {
     senha: {
         type: sequelize.STRING,
         allowNull: false
+    },
+    IDEnderecos: {
+        type: sequelize.INTEGER,
+        allowNull: false
+    },
+    IDTelefones: {
+        type: sequelize.INTEGER
     },
     descricao: {
         type: sequelize.TEXT
@@ -49,25 +55,33 @@ const modelProfissionais = conexao.define('profissional', {
     fotoPerfil: {
         type: sequelize.BLOB
     },
-     //FK_Enderecos_Profissionais: {},
-    IDEnderecos: {
-        type: sequelize.INTEGER,
-        allowNull: false
+}, {
+    freezeTableName: true,
+    createdAt: 'dataCriacao',
+    updatedAt: 'ultimaModificacao'
+});
+
+//INÍCIO DA DECLARAÇÃO DOS RELACIONAMENTOS ENTR AS MODELS
+
+//Relacionamento com "servicos"
+modelProfissionais.belongsToMany(modelServicos, {
+    through: {
+        model: modelProfissionaisServicos,
     },
-    //FK_Telefones_Profissionais: {},
-    IDTelefones: {
-        type: sequelize.INTEGER,
-        allowNull: false
-    }
+    foreignKey: 'FK_Profissionais_Servicos',
+    constraint: true,
+    uniqueKey: 'profissionais_servicos'
+})
+modelServicos.belongsToMany(modelProfissionais, {
+    through: {
+        model: modelProfissionaisServicos,
+    },
+    foreignKey: 'FK_Servicos_Profissionais',
+    constraint: true,
+    uniqueKey: 'servicos_profissionais'
 })
 
-//relacionando as chaves estrangeiras
-modelProfissionais.belongsTo(endereco, {foreignKey: 'IDEnderecos', allowNull:false })
-modelProfissionais.belongsTo(telefones, {foreignKey: 'IDTelefones', allowNull:false })
-
-
-//Forçar a criação do modelo
-modelProfissionais.sync({ force: true });
+//FIM DA DECLARAÇÃO DOS RELACIONAMENTOS ENTR AS MODELS
 
 //Exportação do modelo
 module.exports = modelProfissionais;

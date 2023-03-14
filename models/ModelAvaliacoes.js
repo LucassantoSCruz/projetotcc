@@ -1,3 +1,4 @@
+/*
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
@@ -23,7 +24,8 @@ const modelAvaliacoes = conexao.define('avaliacao', {
 })
 
 //Forçar a criação do modelo
-modelAvaliacoes.sync({ force:true });
+//modelAvaliacoes.sync({ force:true });
 
 //Exportação do modelo
 module.exports = modelAvaliacoes;
+*/

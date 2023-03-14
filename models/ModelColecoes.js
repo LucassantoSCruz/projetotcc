@@ -1,3 +1,4 @@
+/*
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 const profissionais = require('./ModelProfissionais')
@@ -21,11 +22,11 @@ const modelColecoes = conexao.define('colecoes', {
     }
 })
 
-modelColecoes.belongsTo(profissionais,{foreignKey:'IDProfissionais', allowNull:false})
+//modelColecoes.belongsTo(profissionais,{foreignKey:'IDProfissionais', allowNull:false})
 
 //Forçar a criação do modelo
-modelColecoes.sync({ force: true });
+//modelColecoes.sync({ force: true });
 
 //Exportação do modelo
 module.exports = modelColecoes;
-
+*/

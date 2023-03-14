@@ -3,22 +3,22 @@ const conexao = require('../database/Database');
 
 const modelTelefones = conexao.define('telefones', {
     
-    IDTelefone :{
+    IDTelefone: {
         type: sequelize.INTEGER,
         primaryKey:true,
         autoIncrement:true
     },
-    DDD :{
+    DDD: {
         type: sequelize.STRING,
         allowNull: false
     },
-    telefone:{
+    telefone: {
         type: sequelize.STRING,
         allowNull: false
     }
 })
 
-modelTelefones.sync({ force:true });
+//Relacionamentos
 
 //Exportação do modelo
 module.exports = modelTelefones;

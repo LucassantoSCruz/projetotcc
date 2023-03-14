@@ -1,3 +1,4 @@
+/*
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 const servicosSociais = require('./ModelServicosSociais');
@@ -29,14 +30,15 @@ const modelParticipantes = conexao.define('participantes', {
 })
 
 //relacionando as chaves estrangeiras
-modelParticipantes.belongsTo(clientes, {foreignKey: 'IDClientes', allowNull:false });
-modelParticipantes.belongsTo(servicosSociais, {foreignKey: 'IDServicosSociais', allowNull:false })
-modelParticipantes.belongsTo(profissionais, {foreignKey: 'IDProfissionais', allowNull:false })
+//modelParticipantes.belongsTo(clientes, {foreignKey: 'IDClientes', allowNull:false });
+//modelParticipantes.belongsTo(servicosSociais, {foreignKey: 'IDServicosSociais', allowNull:false })
+//modelParticipantes.belongsTo(profissionais, {foreignKey: 'IDProfissionais', allowNull:false })
 
 
 
 //Forçar a criação do modelo
-modelParticipantes.sync({ force: true });
+//modelParticipantes.sync({ force: true });
 
 //Exportação do modelo
 module.exports = modelParticipantes;
+*/

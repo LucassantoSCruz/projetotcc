@@ -1,3 +1,4 @@
+/*
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 const enderecos = require('./ModelEnderecos');
@@ -30,11 +31,12 @@ const modelServicoSociais = conexao.define('servicosSociais', {
 
 
 //relacionando as chaves estrangeiras
-modelServicoSociais.belongsTo(enderecos, {foreignKey: 'IDEndereco', allowNull:false })
+//modelServicoSociais.belongsTo(enderecos, {foreignKey: 'IDEndereco', allowNull:false })
 
 
 
-modelServicoSociais.sync({ force:true });
+//modelServicoSociais.sync({ force:true });
 
 //Exportação do modelo
 module.exports = modelServicoSociais;
+*/

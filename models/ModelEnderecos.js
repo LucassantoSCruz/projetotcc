@@ -1,3 +1,4 @@
+/*
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
@@ -35,7 +36,8 @@ const modelEndereco = conexao.define('endereco', {
 })
 
 //Forçar a criação do modelo
-modelEndereco.sync({ force: true });
+//modelEndereco.sync({ force: true });
 
 //Exportação do modelo
 module.exports = modelEndereco;
+*/

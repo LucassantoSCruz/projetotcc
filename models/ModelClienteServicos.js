@@ -26,11 +26,11 @@ const modelClienteServicos = conexao.define('clienteServicos', {
     }
 })
 
-modelClienteServicos.belongsTo(servicos, {foreignKey:'IDServicos', allowNull:false})
-modelClienteServicos.belongsTo(clientes, {foreignKey:'IDClientes', allowNull:false})
+//modelClienteServicos.belongsTo(servicos, {foreignKey:'IDServicos', allowNull:false})
+//modelClienteServicos.belongsTo(clientes, {foreignKey:'IDClientes', allowNull:false})
 
 //Forçar a criação do modelo
-modelClienteServicos.sync({ force: true });
+//modelClienteServicos.sync({ force: true });
 
 //Exportação do modelo
 module.exports = modelClienteServicos;

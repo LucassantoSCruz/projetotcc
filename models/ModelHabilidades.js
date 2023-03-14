@@ -1,3 +1,4 @@
+/*
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
@@ -15,7 +16,8 @@ const modelHabilidades = conexao.define('habilidades', {
 })
 
 //Forçar a criação do modelo
-modelHabilidades.sync({ force: true });
+//modelHabilidades.sync({ force: true });
 
 //Exportação do modelo
 module.exports = modelHabilidades;
+*/

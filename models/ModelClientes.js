@@ -6,7 +6,9 @@ const conexao = require('../database/Database');
 
 //Importação das models
 const modelClientesServicos = require('./ModelClientesServicos');
+const modelClientesServicosSociais = require('./ModelClientesServicosSociais');
 const modelServicos = require('./ModelServicos');
+const modelServicosSociais = require('./ModelServicosSociais');
 
 //Criação do modelo
 const modelClientes = conexao.define('clientes', {
@@ -55,7 +57,7 @@ modelClientes.belongsToMany(modelServicos, {
     through: {
         model: modelClientesServicos,
     },
-    foreignKey: 'FK_Clientes_Servicos',
+    foreignKey: 'FK_Clientes_ServicosSociais',
     constraint: true,
     uniqueKey: 'clientes_servicos'
 })
@@ -63,9 +65,27 @@ modelServicos.belongsToMany(modelClientes, {
     through: {
         model: modelClientesServicos,
     },
-    foreignKey: 'FK_Servicos_Clientes',
+    foreignKey: 'FK_ServicosSociais_Clientes',
     constraint: true,
     uniqueKey: 'servicos_clientes'
+})
+
+//Relacionamento com "servicos_sociais"
+modelClientes.belongsToMany(modelServicosSociais, {
+    through: {
+        model: modelClientesServicosSociais,
+    },
+    foreignKey: 'FK_Clientes_ServicosSociais',
+    constraint: true,
+    uniqueKey: 'profissionais_servicos_clientes'
+})
+modelServicosSociais.belongsToMany(modelClientes, {
+    through: {
+        model: modelClientesServicosSociais,
+    },
+    foreignKey: 'FK_ServicosSociais_Clientes',
+    constraint: true,
+    uniqueKey: 'servicos_sociais_clientes'
 })
 
 //Exportação do modelo

@@ -1,9 +1,11 @@
-/*
+/*Arquivo com o modelo da tabela "avaliacoes"*/
+
+//Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
-const modelAvaliacoes = conexao.define('avaliacao', {
-
+const modelAvaliacoes = conexao.define('avaliacoes', {
+    //Declaração dos campos
     IDAvaliacao:{
         type: sequelize.INTEGER,
         primaryKey: true,
@@ -21,11 +23,11 @@ const modelAvaliacoes = conexao.define('avaliacao', {
         type: sequelize.STRING,
         allowNull: false
     }
+}, {
+    freezeTableName: true,
+    createdAt: 'dataCriacao',
+    updatedAt: 'ultimaModificacao'
 })
-
-//Forçar a criação do modelo
-//modelAvaliacoes.sync({ force:true });
 
 //Exportação do modelo
 module.exports = modelAvaliacoes;
-*/

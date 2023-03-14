@@ -1,9 +1,11 @@
-/*
+/*Arquivo com o modelo da tabela "enderecos*/
+
+//Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
-const modelEndereco = conexao.define('endereco', {
-
+const modelEnderecos = conexao.define('enderecos', {
+    //Declaração do campos
     IDEndereco:{
         type: sequelize.INTEGER,
         primaryKey: true,
@@ -33,11 +35,11 @@ const modelEndereco = conexao.define('endereco', {
         type: sequelize.STRING,
         allowNull:false
     },
+}, {
+    freezeTableName: true,
+    createdAt: 'dataCriacao',
+    updatedAt: 'ultimaModificacao'
 })
 
-//Forçar a criação do modelo
-//modelEndereco.sync({ force: true });
-
 //Exportação do modelo
-module.exports = modelEndereco;
-*/
+module.exports = modelEnderecos;

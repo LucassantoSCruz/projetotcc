@@ -16,9 +16,11 @@ const modelTelefones = conexao.define('telefones', {
         type: sequelize.STRING,
         allowNull: false
     }
+}, {
+    freezeTableName: true,
+    createdAt: 'dataCriacao',
+    updatedAt: 'ultimaModificacao'
 })
-
-//Relacionamentos
 
 //Exportação do modelo
 module.exports = modelTelefones;

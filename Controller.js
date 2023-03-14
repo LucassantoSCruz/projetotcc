@@ -27,7 +27,7 @@ app.use('/', routeCategorias);
 //FIM DA UTILIZAÇÃO DAS ROTAS
 
 //Sincronização de todas as tabelas
-conexao.sync();
+conexao.sync(); 
 
 //Criação do webserver local
 app.listen(3000, ()=>{

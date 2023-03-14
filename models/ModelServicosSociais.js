@@ -1,16 +1,16 @@
-/*
+/*Arquivo com o modelo da tabela "profissionais"*/
+
+//Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
-const enderecos = require('./ModelEnderecos');
 
-const modelServicoSociais = conexao.define('servicosSociais', {
-
+const modelServicosSociais = conexao.define('servicos_sociais', {
+    //Declaração dos campos
     IDServicosSociais:{
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    
     data:{
         type: sequelize.DATE,
         allowNull:false
@@ -21,22 +21,16 @@ const modelServicoSociais = conexao.define('servicosSociais', {
     descricao:{
         type: sequelize.STRING,
     },
-    //FK_Enderecos_ServicosSociais
     IDEndereco:{
         type: sequelize.INTEGER,
         allowNull:false
     }
 
+}, {
+    freezeTableName: true,
+    createdAt: 'dataCriacao',
+    updatedAt: 'ultimaModificacao'
 })
 
-
-//relacionando as chaves estrangeiras
-//modelServicoSociais.belongsTo(enderecos, {foreignKey: 'IDEndereco', allowNull:false })
-
-
-
-//modelServicoSociais.sync({ force:true });
-
 //Exportação do modelo
-module.exports = modelServicoSociais;
-*/
+module.exports = modelServicosSociais;

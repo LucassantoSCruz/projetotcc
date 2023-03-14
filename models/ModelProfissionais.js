@@ -7,6 +7,13 @@ const conexao = require('../database/Database');
 //Importação das models
 const modelProfissionaisServicos = require('./ModelProfissionaisServicos');
 const modelServicos = require('./ModelServicos');
+const modelTelefones = require('./ModelTelefones');
+const modelHabilidadesProfissionais = require('./ModelHabilidadesProfissionais');
+const modelHabilidades = require('./ModelHabilidades');
+const modelAvaliacoes = require('./ModelAvaliacoes');
+const modelEnderecos = require('./ModelEnderecos');
+const modelServicosSociais = require('./ModelServicosSociais');
+const modelProfissionaisServicosSociais = require('./ModelProfissionaisServicosSociais');
 
 //Criação do modelo
 const modelProfissionais = conexao.define('profissionais', {
@@ -61,7 +68,7 @@ const modelProfissionais = conexao.define('profissionais', {
     updatedAt: 'ultimaModificacao'
 });
 
-//INÍCIO DA DECLARAÇÃO DOS RELACIONAMENTOS ENTR AS MODELS
+//INÍCIO DA DECLARAÇÃO DOS RELACIONAMENTOS ENTRE AS MODELS
 
 //Relacionamento com "servicos"
 modelProfissionais.belongsToMany(modelServicos, {
@@ -81,7 +88,67 @@ modelServicos.belongsToMany(modelProfissionais, {
     uniqueKey: 'servicos_profissionais'
 })
 
-//FIM DA DECLARAÇÃO DOS RELACIONAMENTOS ENTR AS MODELS
+//Relacionamento com "telefones"
+modelProfissionais.hasMany(modelTelefones, {
+    foreignKey: 'FK_Profissionais_Telefones'
+});
+modelTelefones.belongsTo(modelProfissionais, {
+    foreignKey: 'FK_Profissionais_Telefones'
+})
+
+//Relacionamento com "avaliacoes"
+modelProfissionais.hasMany(modelAvaliacoes, {
+    foreignKey: 'FK_Profissionais_Avaliacoes'
+});
+modelAvaliacoes.belongsTo(modelProfissionais, {
+    foreignKey: 'FK_Profissionais_Avaliacoes'
+})
+
+//Relacionamento com "enderecos"
+modelEnderecos.hasMany(modelProfissionais, {
+    foreignKey: 'FK_Enderecos_Profissionais'
+});
+modelProfissionais.belongsTo(modelEnderecos, {
+    foreignKey: 'FK_Enderecos_Profissionais'
+}) 
+
+//Relacionamento com "habilidades"
+modelProfissionais.belongsToMany(modelHabilidades, {
+    through: {
+        model: modelHabilidadesProfissionais,
+    },
+    foreignKey: 'FK_Profissionais_Habilidades',
+    constraint: true,
+    uniqueKey: 'profissionais_habilidades'
+})
+modelHabilidades.belongsToMany(modelProfissionais, {
+    through: {
+        model: modelHabilidadesProfissionais,
+    },
+    foreignKey: 'FK_Habilidades_Profissionais',
+    constraint: true,
+    uniqueKey: 'habilidades_profissionais'
+})
+
+//Relacionamento com "servicos_sociais"
+modelProfissionais.belongsToMany(modelServicosSociais, {
+    through: {
+        model: modelProfissionaisServicosSociais,
+    },
+    foreignKey: 'FK_Profissionais_ServicosSociais',
+    constraint: true,
+    uniqueKey: 'profissionais_servicos_sociais'
+})
+modelServicosSociais.belongsToMany(modelProfissionais, {
+    through: {
+        model: modelProfissionaisServicosSociais,
+    },
+    foreignKey: 'FK_ServicosSociais_Profissionais',
+    constraint: true,
+    uniqueKey: 'servicos_sociais_profissionais'
+})
+
+//FIM DA DECLARAÇÃO DOS RELACIONAMENTOS ENTRE AS MODELS
 
 //Exportação do modelo
 module.exports = modelProfissionais;

@@ -14,6 +14,7 @@ import TelaPerfil from './telas/TelaPerfil';
 import TelaPerfilProfissional from './telas/TelaPerfilProfissional';
 import TelaServico from './telas/TelaServico';
 import TelaCriarServico from './telas/TelaCriarServico';
+import TelaComunidadeInfo from './telas/TelaComunidadeInfo';
 
 // Nomes das Telas
 const telaProfissionais = 'Profissionais';
@@ -51,7 +52,7 @@ const Rotas = () => {
         })}>
 
         <Tab.Screen name={telaProfissionais} component={RotaProfissional} options={{ headerTitleAlign: 'center', headerShown: false }} />
-        <Tab.Screen name={telaComunidade} component={TelaComunidade} options={{ headerTitleAlign: 'center' }} />
+        <Tab.Screen name={telaComunidade} component={RotaComunidade} options={{ headerTitleAlign: 'center', headerShown: false }} />
         <Tab.Screen name={telaAgenda} component={TelaAgenda} options={{ headerTitleAlign: 'center' }} />
         <Tab.Screen name={telaPerfil} component={RotaPerfil} options={{ headerTitleAlign: 'center', headerShown: false }} />
       </Tab.Navigator>
@@ -78,7 +79,18 @@ const RotaPerfil = () => {
     <NavigationContainer independent={true}>
       <Stack.Navigator>
         <Tab.Screen name={telaPerfil} component={TelaPerfil} options={{ headerTitleAlign: 'center' }} />
-        <Tab.Screen name='TelaCriarServico' component={TelaCriarServico} options={{ title: 'Criar Serviço', headerTitleAlign: 'center' }} />
+        <Tab.Screen name='TelaCriarServico' component={TelaCriarServico} options={{ headerTitleAlign: 'center' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+const RotaComunidade = () => {
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator>
+        <Tab.Screen name={telaComunidade} component={TelaComunidade} options={{ headerTitleAlign: 'center' }} />
+        <Tab.Screen name='TelaComunidadeInfo' component={TelaComunidadeInfo} options={{ headerTitleAlign: 'center' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

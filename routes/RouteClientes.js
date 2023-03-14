@@ -86,10 +86,61 @@ router.get('/listarClientes', (req, res) => {
 });
 
 //Rota de Alteração
+router.put('/alterarClientes', (req, res) =>{
 
+    let {IDCliente, nome, email, senha, fotoPerfil} = req.body;
+
+    modelClientes.update(
+        { nome, email, senha, fotoPerfil},
+        {where:{IDCliente}}
+
+    ).then(
+        () => {
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:'Cliente alterado com sucesso!'
+            })
+        }
+    ).catch(
+        (error)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:'Erro ao alterar',
+                errorObject:error
+            })
+        }
+    )
+
+})
 
 //Rota de Exclusão
+router.delete('/excluirClientes:IDCliente', (req, res)=>{
 
+    console.log(req.params);
+
+    let {IDCliente} = req.params;
+
+    modelClientes.destroy(
+        {where:{IDCliente}}
+    ).then(
+        () => {
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:'Cliente excluido'
+            })
+        }
+    ).catch(
+        (error)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:'Erro ao excluir',
+                errorObject:error
+            })
+        }
+    )
+
+   
+})
 
 //FIM DAS ROTAS DE CRUD DA TABELA CLIENTES
 

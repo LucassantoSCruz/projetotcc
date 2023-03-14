@@ -14,13 +14,11 @@
     "@react-navigation/bottom-tabs": "^6.5.2",
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",
+    "cep-promise": "^4.4.0",
     "deprecated-react-native-prop-types": "^4.0.0",
     "expo": "~47.0.8",
-<<<<<<< Updated upstream
     "expo-image-picker": "~14.0.2",
-=======
     "expo-location": "~15.0.1",
->>>>>>> Stashed changes
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",

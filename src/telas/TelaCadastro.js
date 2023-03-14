@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise 
 

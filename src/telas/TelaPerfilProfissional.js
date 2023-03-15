@@ -2,53 +2,66 @@ import * as React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 
-const TelaPerfilProfissional = ({navigation}) => {
+const TelaPerfilProfissional = ({ navigation }) => {
     return (
-            <View>
-                <ScrollView>
+        <View>
+            <ScrollView>
                 <View style={styles.view}>
                     <View style={styles.esquerda}>
                         <Text style={styles.pronome}>Pronome: Elx</Text>
                         <Text style={styles.nome}>Nome do Perfil</Text>
-                        <View style={styles.linha}/>
+                        <View style={styles.linha} />
                         <Text style={styles.legenda}>Legenda</Text>
                     </View>
                     <View style={styles.direita}>
-                        <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')}/>
+                        <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} />
                     </View>
                 </View>
                 <View style={styles.botoes}>
                     <TouchableOpacity style={styles.botao1}>
-                        <Text style={styles.texto}>INFORMAÇÕES</Text>
+                        <Text style={styles.texto} onPress={() => navigation.navigate('TelaInformacoes')}>INFORMAÇÕES</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.botao2}>
                         <Text style={styles.texto}>CHAT</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.botao3}>
-                        <Text style={styles.texto}>NOVO</Text>
+                </View>
+                <View style={styles.view2}>
+
+                    <TouchableOpacity style={styles.boxperfil} onPress={() => navigation.navigate('Servico')}>
+                        <BoxPerfil />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.boxperfil}>
+                        <BoxPerfil />
+                    </TouchableOpacity>
+
+                </View>
+                <View style={styles.view2}>
+
+                    <TouchableOpacity style={styles.boxperfil}>
+                        <BoxPerfil />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.boxperfil}>
+                        <BoxPerfil />
                     </TouchableOpacity>
                 </View>
-                    <View style={styles.view2}>
-                        <TouchableOpacity onPress={()=>navigation.navigate('Servico')}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.view2}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
-                    </View>
-                    <View style={styles.view2}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
-                    </View>
-                </ScrollView>
-            </View>
+                <View style={styles.view2}>
+
+                    <TouchableOpacity style={styles.boxperfil}>
+                        <BoxPerfil />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.boxperfil}>
+                        <BoxPerfil />
+                    </TouchableOpacity>
+
+                </View>
+            </ScrollView>
+        </View>
     );
 };
-      
+
 const styles = StyleSheet.create({
     view: {
         flexDirection: 'row',
@@ -109,7 +122,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     botao1: {
-        flex: 2,
+        flex: 1,
         alignItems: 'center',
         backgroundColor: '#B987B8',
         padding: 10,
@@ -141,7 +154,10 @@ const styles = StyleSheet.create({
     texto: {
         fontWeight: 'bold',
         color: 'white',
-        fontSize: 20,
+        fontSize: 17,
+    },
+    boxperfil: {
+        flex: 1,
     }
 });
 

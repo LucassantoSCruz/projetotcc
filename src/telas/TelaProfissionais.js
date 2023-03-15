@@ -55,24 +55,45 @@ const TelaProfissionais = ({navigation}) => {
                     </View>
 
                     <View style={styles.view}>
-                        <TouchableOpacity onPress={()=>navigation.navigate('PerfilProfissional')}>
+                        <TouchableOpacity style={styles.boxperfil} onPress={()=>navigation.navigate('PerfilProfissional')}>
                             <BoxPerfil/>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity style={styles.boxperfil}>
                             <BoxPerfil/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.view}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+
                     </View>
                     <View style={styles.view}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+
                     </View>
                     <View style={styles.view}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.boxperfil}>
+                            <BoxPerfil/>
+                        </TouchableOpacity>
+                        
                     </View>
 
                 </ScrollView>
@@ -114,6 +135,9 @@ const styles = StyleSheet.create({
     view3: {
         flexDirection: 'row',
         justifyContent: "space-between"
+    },
+    boxperfil: {
+        flex: 1,
     }
 })
 

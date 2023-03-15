@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
+import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise 
 
 const TelaCadastro = () => {
 
@@ -9,9 +10,22 @@ const TelaCadastro = () => {
   //const [cpf, setCpf] = useState(null)
   const [nomefantasia, setNomefantasia] = useState(null)
   const [telefone, setTelefone] = useState(null)
+
+  //add o endereço
+  const [cepEnd, setCepEnd] = useState(null);
+  const [endereco, setEndereco] = useState({
+    Rua: '',
+    Bairro: '',
+    Cidade: '',
+    Estado: '',
+    Numero: '',
+    Complemeto: ''
+  });
+
   const [email, setEmail] = useState(null)
   const [senha, setSenha] = useState(null)
   const [descr, onChangeText] = useState(null)
+  
 
   const [visivelSexo, setVisivelSexo] = useState(false);
   const [visivelCPF, setVisivelCPF] = useState(false);
@@ -22,6 +36,25 @@ const TelaCadastro = () => {
   function toggle2() {
     setVisivelCPF((visivelCPF) => !visivelCPF);
   }
+
+
+  // função modCep para conferir se o Cep está correto
+  const modCep = async (cep) => {
+
+    if(cep.length === 8){
+      try{
+        //consultando o cep no servidor do Node.js
+        //atualizando os dados do endereço com os dados recebidos
+        const response = await fetch(`http://`);
+        const resultado = await response.json();
+        setEndereco(resultado)
+      } catch(error){
+        console.log(error);
+      }
+    }
+  };
+
+
   
   return (
     <ScrollView>
@@ -71,6 +104,26 @@ const TelaCadastro = () => {
           </TouchableOpacity>
         </View>
       </BottomSheet>
+
+    
+    {/* colocando o campo do cep para calcular o endereço */}
+    <TextInput
+      placeholder='CEP'
+      value='{cepEnd}'
+      onChangeText={text => setCepEnd(text)}
+      onBlu = {() => modCep(cepEnd)}
+    />
+    <Text> Rua: {endereco.Rua}</Text>
+    <Text> Bairro: {endereco.Bairro}</Text>
+    <Text> Cidade: {endereco.Cidade}</Text>
+    <Text> Estado: {endereco.Estado}</Text>
+    <Text> Numero: {endereco.Numero}</Text>
+    <Text> Complemeto: {endereco.Complemeto}</Text>
+    <Button title='Salvar' onPress={() => console.log(endereco)} />
+
+     {/* Precisa modificar o style, pq estou fazendo para criar as rotas */}
+
+
 
       <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
         <View >
@@ -292,4 +345,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TelaCadastro
+export default TelaCadastro;

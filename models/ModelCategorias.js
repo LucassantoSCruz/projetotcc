@@ -1,11 +1,8 @@
-/*
-* Arquivo responsável pela criação da tabela "categorias"
-*/
+/*Arquivo responsável pela criação da tabela "categorias"*/
 
 //importação do Sequilize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
-
 
 //Criação do modelo da tabela
 const modelCategorias = conexao.define('categorias',{

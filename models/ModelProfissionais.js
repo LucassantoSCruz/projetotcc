@@ -81,7 +81,7 @@ modelProfissionais.belongsToMany(modelServicos, {
     foreignKey: 'FK_Profissionais_Servicos',
     constraint: true,
     uniqueKey: 'profissionais_servicos'
-})
+});
 modelServicos.belongsToMany(modelProfissionais, {
     through: {
         model: modelProfissionaisServicos,
@@ -89,7 +89,7 @@ modelServicos.belongsToMany(modelProfissionais, {
     foreignKey: 'FK_Servicos_Profissionais',
     constraint: true,
     uniqueKey: 'servicos_profissionais'
-})
+});
 
 //Relacionamento com "telefones"
 modelProfissionais.hasMany(modelTelefones, {
@@ -97,7 +97,7 @@ modelProfissionais.hasMany(modelTelefones, {
 });
 modelTelefones.belongsTo(modelProfissionais, {
     foreignKey: 'FK_Profissionais_Telefones'
-})
+});
 
 //Relacionamento com "enderecos"
 modelEnderecos.hasMany(modelProfissionais, {
@@ -105,7 +105,7 @@ modelEnderecos.hasMany(modelProfissionais, {
 });
 modelProfissionais.belongsTo(modelEnderecos, {
     foreignKey: 'FK_Enderecos_Profissionais'
-}) 
+});
 
 //Relacionamento com "habilidades"
 modelProfissionais.belongsToMany(modelHabilidades, {
@@ -132,7 +132,7 @@ modelProfissionais.belongsToMany(modelServicosSociais, {
     },
     foreignKey: 'FK_Profissionais_ServicosSociais',
     constraint: true,
-    uniqueKey: 'profissionais_servicos_sociais'
+    uniqueKey: 'profissionais_servicosSociais'
 })
 modelServicosSociais.belongsToMany(modelProfissionais, {
     through: {
@@ -140,7 +140,7 @@ modelServicosSociais.belongsToMany(modelProfissionais, {
     },
     foreignKey: 'FK_ServicosSociais_Profissionais',
     constraint: true,
-    uniqueKey: 'servicos_sociais_profissionais'
+    uniqueKey: 'servicosSociais_profissionais'
 })
 
 //Relacionamento com "colecoes"

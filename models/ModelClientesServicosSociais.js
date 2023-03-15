@@ -13,6 +13,10 @@ const modelClientesServicosSociais = conexao.define('clientes_servicos_sociais',
     },
     FK_Clientes_ServicosSociais: {
         type: sequelize.INTEGER
+    },
+    organizador:{
+        type: sequelize.INTEGER,
+        allowNull: false
     }
 }, {
     freezeTableName: true,

@@ -1,22 +1,18 @@
-/*Arquivo com o modelo da tabela que junta "profissionais" e "servicos_sociais"*/
+/*Arquivo com o modelo da tabela que junta "servicos_sociais" e "categorias"*/
 
 //Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
 //Criação do modelo
-const modelProfissionaisServicosSociais = conexao.define('profissionais_servicos_sociais', {
+const modelServicosSociaisCategorias = conexao.define('servicosSociais_categorias', {
     
     //Definição dos campos e seus attributos
-    FK_Profissionais_ServicosSociais: {
+    FK_ServicosSociais_Categorias: {
         type: sequelize.INTEGER
     },
-    FK_ServicosSociais_Profissionais: {
+    FK_Categorias_ServicosSociais: {
         type: sequelize.INTEGER
-    },
-    organizador:{
-        type: sequelize.INTEGER,
-        allowNull: false
     }
 }, {
     freezeTableName: true,
@@ -25,4 +21,4 @@ const modelProfissionaisServicosSociais = conexao.define('profissionais_servicos
 });
 
 //Exportação do modelo
-module.exports = modelProfissionaisServicosSociais;  
+module.exports = modelServicosSociaisCategorias;  

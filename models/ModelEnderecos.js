@@ -4,6 +4,9 @@
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
+//Importação da models
+const modelServicosSociais = require('./ModelServicosSociais');
+
 const modelEnderecos = conexao.define('enderecos', {
     //Declaração do campos
     IDEndereco:{
@@ -40,6 +43,14 @@ const modelEnderecos = conexao.define('enderecos', {
     createdAt: 'dataCriacao',
     updatedAt: 'ultimaModificacao'
 })
+
+//Relacionamento com "servicos_sociais"
+modelEnderecos.hasMany(modelServicosSociais, {
+    foreignKey: 'FK_Enderecos_ServicosSociais'
+});
+modelServicosSociais.belongsTo(modelEnderecos, {
+    foreignKey: 'FK_Enderecos_ServicosSociais'
+}) 
 
 //Exportação do modelo
 module.exports = modelEnderecos;

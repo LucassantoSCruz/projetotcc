@@ -3,7 +3,6 @@
 //Importação do sequelize e da conexão com o banco
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
-const modelClientes = require('./ModelClientes');
 
 //Criação do modelo
 const modelColecoes = conexao.define('colecoes', {

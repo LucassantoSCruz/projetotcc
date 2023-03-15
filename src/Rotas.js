@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Button } from 'react-native'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -15,6 +14,8 @@ import TelaPerfilProfissional from './telas/TelaPerfilProfissional';
 import TelaServico from './telas/TelaServico';
 import TelaCriarServico from './telas/TelaCriarServico';
 import TelaComunidadeInfo from './telas/TelaComunidadeInfo';
+import TelaInformacoes from './telas/TelaInformacoes';
+import TelaConfiguracoes from './telas/TelaConfiguracoes';
 
 // Nomes das Telas
 const telaProfissionais = 'Profissionais';
@@ -69,6 +70,7 @@ const RotaProfissional = () => {
         <Stack.Screen name={telaProfissionais} component={TelaProfissionais} options={{ headerTitleAlign: 'center' }} />
         <Stack.Screen name='PerfilProfissional' component={TelaPerfilProfissional} options={{ title: 'Perfil Profissional', headerTitleAlign: 'center' }} />
         <Stack.Screen name='Servico' component={TelaServico} options={{ title: 'Serviço', headerTitleAlign: 'center' }} />
+        <Stack.Screen name='TelaInformacoes' component={TelaInformacoes} options={{ title: 'Informações', headerTitleAlign: 'center' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )
@@ -78,8 +80,9 @@ const RotaPerfil = () => {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
-        <Tab.Screen name={telaPerfil} component={TelaPerfil} options={{ headerTitleAlign: 'center' }} />
-        <Tab.Screen name='TelaCriarServico' component={TelaCriarServico} options={{ headerTitleAlign: 'center' }} />
+        <Stack.Screen name={telaPerfil} component={TelaPerfil} options={{ headerTitleAlign: 'center', }} />
+        <Stack.Screen name='TelaCriarServico' component={TelaCriarServico} options={{ title: 'Criar Serviço', headerTitleAlign: 'center' }} />
+        <Stack.Screen name='TelaConfiguracoes' component={TelaConfiguracoes} options={{ title: 'TelaConfiguracoes', headerTitleAlign: 'center' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )
@@ -89,8 +92,8 @@ const RotaComunidade = () => {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
-        <Tab.Screen name={telaComunidade} component={TelaComunidade} options={{ headerTitleAlign: 'center' }} />
-        <Tab.Screen name='TelaComunidadeInfo' component={TelaComunidadeInfo} options={{ headerTitleAlign: 'center' }} />
+        <Stack.Screen name={telaComunidade} component={TelaComunidade} options={{ headerTitleAlign: 'center' }} />
+        <Stack.Screen name='TelaComunidadeInfo' component={TelaComunidadeInfo} options={{ headerTitleAlign: 'center' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

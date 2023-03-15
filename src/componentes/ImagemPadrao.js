@@ -7,7 +7,7 @@ export default function ImagemPadrao({ placeholderImageSource, imagemSelecionada
   return <Image source={imageSource} style={styles.image} />;
 }
 
-const styles = StyleSheet.create({  
+const styles = StyleSheet.create({
   image: {
     flex: 1,
     width: '100%',

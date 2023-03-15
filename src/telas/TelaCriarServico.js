@@ -28,8 +28,10 @@ const TelaCriarServico = () => {
                 text: 'Cancelar',
                 onPress: () => console.log('Serviço Cancelado')
             },
-            { text: 'Publicar',
-            onPress: () => console.log('Publicado') },
+            {
+                text: 'Publicar',
+                onPress: () => console.log('Publicado')
+            },
         ])
     }
 
@@ -37,7 +39,9 @@ const TelaCriarServico = () => {
         <View style={{ flex: 1 }}>
             <ScrollView>
                 <View style={styles.fundoimagem}>
-                    <ImagemPadrao placeholderImageSource={PlaceholderImage} imagemSelecionada={imagemSelecionada} />
+                    <ImagemPadrao
+                        placeholderImageSource={PlaceholderImage}
+                        imagemSelecionada={imagemSelecionada} />
                     <TouchableOpacity style={styles.botaoimagem} onPress={pickImageAsync}>
                         <Text>
                             Trocar/Imagem

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise 
@@ -10,6 +10,78 @@ const TelaCadastro = () => {
   //const [cpf, setCpf] = useState(null)
   const [nomefantasia, setNomefantasia] = useState(null)
   const [telefone, setTelefone] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [senha, setSenha] = useState(null)
+  const [descr, onChangeText] = useState(null)
+  const [visivelSexo, setVisivelSexo] = useState(false);
+  const [visivelCPF, setVisivelCPF] = useState(false);
+
+  function toggle1() {
+    setVisivelSexo((visivelSexo) => !visivelSexo);
+  }
+  function toggle2() {
+    setVisivelCPF((visivelCPF) => !visivelCPF);
+  }
+
+  const [profissional, setProfissional] = useState(false);
+  const [pessoal, setPessoal] = useState(false);
+
+  useEffect(() => {
+    if (profissional == true) {
+      console.log('Profissional'),
+      setTipoconta('Profissional')
+    }
+    return () => {
+      setProfissional(false)
+    }
+  }, [profissional])
+
+  useEffect(() => {
+    if (pessoal == true) {
+      console.log('Pessoal')
+      setTipoconta('Pessoal')
+    }
+    return () => {
+      setPessoal(false)
+    }
+  }, [pessoal])
+
+  const [masculino, setMasculino] = useState(false);
+  const [feminino, setFeminino] = useState(false);
+  const [outro, setOutro] = useState(false)
+
+  useEffect(() => {
+    if (masculino == true) {
+      console.log('Masculino'),
+      setTiposexo('Masculino')
+    }
+    return () => {
+      setMasculino(false)
+    }
+  })
+
+  useEffect(() => {
+    if (feminino == true) {
+      console.log('Feminino')
+      setTiposexo('Feminino')
+    }
+    return () => {
+      setFeminino(false)
+    }
+  })
+
+  useEffect(() => {
+    if (outro == true) {
+      console.log('Outro')
+      setTiposexo('Outro/Prefere não dizer')
+    }
+    return () => {
+      setOutro(false)
+    }
+  })
+
+  const [tipoconta, setTipoconta] = useState("")
+  const [tiposexo, setTiposexo] = useState("")
 
   //add o endereço
   const [cepEnd, setCepEnd] = useState(null);
@@ -21,22 +93,6 @@ const TelaCadastro = () => {
     Numero: '',
     Complemeto: ''
   });
-
-  const [email, setEmail] = useState(null)
-  const [senha, setSenha] = useState(null)
-  const [descr, onChangeText] = useState(null)
-
-
-  const [visivelSexo, setVisivelSexo] = useState(false);
-  const [visivelCPF, setVisivelCPF] = useState(false);
-
-  function toggle1() {
-    setVisivelSexo((visivelSexo) => !visivelSexo);
-  }
-  function toggle2() {
-    setVisivelCPF((visivelCPF) => !visivelCPF);
-  }
-
 
   // função modCep para conferir se o Cep está correto
   const modCep = async (cep) => {
@@ -53,8 +109,6 @@ const TelaCadastro = () => {
       }
     }
   };
-
-
 
   return (
     <ScrollView>
@@ -77,7 +131,7 @@ const TelaCadastro = () => {
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
           <View>
             <Text style={styles.titulomodal}>
-              Sexo:
+              Sexo: {tiposexo}
             </Text>
           </View>
         </TouchableOpacity>
@@ -87,19 +141,19 @@ const TelaCadastro = () => {
           onBackdropPress={toggle1}
         >
           <View style={styles.fundomodal}>
-            <TouchableOpacity style={styles.selecao}>
+            <TouchableOpacity style={styles.selecao} onPress={()=>setFeminino(true)}>
               <Text style={styles.textomodal}>
                 Feminino
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao}>
+            <TouchableOpacity style={styles.selecao} onPress={()=>setMasculino(true)}>
               <Text style={styles.textomodal}>
                 Masculino
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao}>
+            <TouchableOpacity style={styles.selecao} onPress={()=>setOutro(true)}>
               <Text style={styles.textomodal}>
-                Outros/Prefere não dizer
+                Outro/Prefere não dizer
               </Text>
             </TouchableOpacity>
           </View>
@@ -107,7 +161,7 @@ const TelaCadastro = () => {
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
           <View >
-            <Text style={styles.titulomodal}>Tipo de Conta:</Text>
+            <Text style={styles.titulomodal}>Tipo de Conta: {tipoconta}</Text>
           </View>
         </TouchableOpacity>
         <BottomSheet
@@ -116,12 +170,12 @@ const TelaCadastro = () => {
           onBackdropPress={toggle2}
         >
           <View style={styles.fundomodal}>
-            <TouchableOpacity style={styles.selecao}>
+            <TouchableOpacity style={styles.selecao} onPress={()=>setProfissional(true)}>
               <Text style={styles.textomodal}>
                 Profissional - Pessoa Jurídica
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao}>
+            <TouchableOpacity style={styles.selecao} onPress={()=>setPessoal(true)}>
               <Text style={styles.textomodal}>
                 Pessoal - Pessoa Física
               </Text>

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Text, View, StyleSheet} from 'react-native';
 
-const TelaAgenda = () => {
+const TelaChat = () => {
     return (
         <View style={{ flex: 1}}>
             <View style={styles.view}>
-                <Text>Tela Agenda</Text>
+                <Text>Tela Chat</Text>
             </View>
         </View>
     )
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default TelaAgenda
+export default TelaChat

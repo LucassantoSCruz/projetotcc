@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button, Alert } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
-import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise 
+import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise
+
+import * as ImagePicker from 'expo-image-picker';
+import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
+
+const PlaceholderImage = require('../../assets/Perfil.png');
 
 const TelaCadastro = () => {
 
   const [nome, setNome] = useState(null)
   const [sobrenome, setSobrenome] = useState(null)
-  //const [cpf, setCpf] = useState(null)
+  const [cpf, setCpf] = useState(null)
   const [nomefantasia, setNomefantasia] = useState(null)
   const [telefone, setTelefone] = useState(null)
   const [email, setEmail] = useState(null)
@@ -29,7 +34,7 @@ const TelaCadastro = () => {
   useEffect(() => {
     if (profissional == true) {
       console.log('Profissional'),
-      setTipoconta('Profissional')
+        setTipoconta('Profissional')
     }
     return () => {
       setProfissional(false)
@@ -53,7 +58,7 @@ const TelaCadastro = () => {
   useEffect(() => {
     if (masculino == true) {
       console.log('Masculino'),
-      setTiposexo('Masculino')
+        setTiposexo('Masculino')
     }
     return () => {
       setMasculino(false)
@@ -79,6 +84,22 @@ const TelaCadastro = () => {
       setOutro(false)
     }
   })
+
+  const [imagemSelecionada, setImagemSelecionada] = useState(null);
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+      aspect: [1, 1]
+    });
+
+    if (!result.canceled) {
+      setImagemSelecionada(result.assets[0].uri);
+    } else {
+      Alert.alert("Atenção", "Você não selecionou nenhuma imagem.");
+    }
+  };
 
   const [tipoconta, setTipoconta] = useState("")
   const [tiposexo, setTiposexo] = useState("")
@@ -141,17 +162,17 @@ const TelaCadastro = () => {
           onBackdropPress={toggle1}
         >
           <View style={styles.fundomodal}>
-            <TouchableOpacity style={styles.selecao} onPress={()=>setFeminino(true)}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setFeminino(true)}>
               <Text style={styles.textomodal}>
                 Feminino
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao} onPress={()=>setMasculino(true)}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setMasculino(true)}>
               <Text style={styles.textomodal}>
                 Masculino
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao} onPress={()=>setOutro(true)}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setOutro(true)}>
               <Text style={styles.textomodal}>
                 Outro/Prefere não dizer
               </Text>
@@ -170,12 +191,12 @@ const TelaCadastro = () => {
           onBackdropPress={toggle2}
         >
           <View style={styles.fundomodal}>
-            <TouchableOpacity style={styles.selecao} onPress={()=>setProfissional(true)}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setProfissional(true)}>
               <Text style={styles.textomodal}>
                 Profissional - Pessoa Jurídica
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao} onPress={()=>setPessoal(true)}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setPessoal(true)}>
               <Text style={styles.textomodal}>
                 Pessoal - Pessoa Física
               </Text>
@@ -227,9 +248,12 @@ const TelaCadastro = () => {
           Foto de Perfil
         </Text>
 
-        <Image style={styles.fotoperfil} source={require('../../assets/Perfil.png')} />
+          <ImagemPadraoPerfil
+            placeholderImageSource={PlaceholderImage}
+            imagemSelecionada={imagemSelecionada}
+          />
 
-        <TouchableOpacity style={styles.botaofoto}>
+        <TouchableOpacity style={styles.botaofoto} onPress={pickImageAsync}>
           <Text style={styles.txtbtn}>
             Importar Foto
           </Text>
@@ -440,6 +464,10 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 10,
     borderRadius: 50
+  },
+  fotodeperfil: {
+    height: 150,
+    width: 150
   }
 });
 

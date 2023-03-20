@@ -1,27 +1,30 @@
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState, useReducer } from 'react';
+import { BottomSheet } from 'react-native-btr';
 
 const initialState = { count: 1, valor: 40, valorTotal: 40 };
 
 function reducer(state, action) {
-  switch (action.type) {
-    case "increment":
-      return { count: state.count + 1,
-        valor: state.valor,
-        valorTotal: (state.count + 1) * state.valor
-    };
-    case "decrement":
-      return { count: state.count - 1,
-        valor: state.valor,
-        valorTotal: (state.count - 1) * state.valor
-    };    
-    case "reset":
-      return { count: 1 };
-    case "final":
-      return { count: action.valorTotal };
-    default:
-      throw new Error();
-  }
+    switch (action.type) {
+        case "increment":
+            return {
+                count: state.count + 1,
+                valor: state.valor,
+                valorTotal: (state.count + 1) * state.valor
+            };
+        case "decrement":
+            return {
+                count: state.count - 1,
+                valor: state.valor,
+                valorTotal: (state.count - 1) * state.valor
+            };
+        case "reset":
+            return { count: 1 };
+        case "final":
+            return { count: action.valorTotal };
+        default:
+            throw new Error();
+    }
 }
 
 const TelaServico = () => {
@@ -31,9 +34,9 @@ const TelaServico = () => {
     //const [valorTotal, setvalorTotal] = useState(0)
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    useEffect(()=>{
+    useEffect(() => {
         setValor(state.valorTotal)
-    },[state])
+    }, [state])
 
     // useEffect(()=>{
     //     if (botao == true) {
@@ -55,89 +58,107 @@ const TelaServico = () => {
         setContador(contador - 1)
     }
 
+    const [visivel, setVisivel] = useState(false);
+
+    function clicou() {
+        setVisivel((visivel) => !visivel)
+    }
+
     return (
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
             <ScrollView>
-            <View style={styles.container}>
-                <Image style={styles.imagem} source={require('../../assets/imagem1.png')}/>
-            </View>
+                <View style={styles.container}>
+                    <Image style={styles.imagem} source={require('../../assets/imagem1.png')} />
+                </View>
 
-            <View>
-                <Text style={styles.titulo1}>
-                    Corte Simples
-                </Text>
-            </View>
+                <View>
+                    <Text style={styles.titulo1}>
+                        Corte Simples
+                    </Text>
+                </View>
 
-            <View style={styles.avaliacao}>
-                <TouchableOpacity>
-                    <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')}/>
+                <View style={styles.avaliacao}>
+                    <TouchableOpacity>
+                        <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')} />
+                    </TouchableOpacity>
+
+                    <Text style={styles.textoavalaiacao}>
+                        4,5
+                    </Text>
+                </View>
+
+                <View style={styles.caixa}>
+                    <Text style={styles.titulo2}>
+                        Descrição
+                    </Text>
+                    <Text style={styles.texto}>
+                        Um corte simples e acabou minha criatividade!
+                    </Text>
+                </View>
+
+                <View style={styles.incr}>
+
+                    <TouchableOpacity onPress={() => { dispatch({ type: "decrement" }); console.log(state.count); console.log(state.valorTotal) }}>
+                        <Image style={styles.mais} source={require('../../assets/botaomenos.png')} />
+                    </TouchableOpacity>
+
+                    <Text style={styles.cont}>
+                        {state.count}
+                    </Text>
+
+                    <TouchableOpacity onPress={() => { dispatch({ type: "increment" }); console.log(state.count); console.log(state.valorTotal) }}>
+                        <Image style={styles.mais} source={require('../../assets/botaomais.png')} />
+                    </TouchableOpacity>
+
+                </View>
+
+                <View style={styles.valor}>
+                    <View>
+                        <Text style={styles.preco}>
+                            R${state.valor},00
+                        </Text>
+                    </View>
+
+                    <View>
+                        <Text style={styles.precototal}>
+                            R${state.valorTotal},00
+                        </Text>
+                    </View>
+                </View>
+
+                <TouchableOpacity style={styles.btn} onPress={clicou}>
+                    <Text style={styles.textobtn}>
+                        Comprar
+                    </Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity>
-                    <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')}/>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                    <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')}/>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                    <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')}/>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                    <Image style={styles.heart} source={require('../../assets/iconsbelezura/coracao3.png')}/>
-                </TouchableOpacity>
-
-                <Text>
-                    4,5
-                </Text>
-            </View>
-
-        <View style={styles.caixa}>
-            <Text style={styles.titulo2}>
-                Descrição
-            </Text>
-            <Text style={styles.texto}>
-                Um corte simples e acabou minha criatividade!
-            </Text>
-        </View>
-
-        <View style={styles.incr}>
-
-            <TouchableOpacity onPress={() => { dispatch({ type: "decrement" }); console.log(state.count); console.log(state.valorTotal)}}>
-                <Image style={styles.mais} source={require('../../assets/botaomenos.png')}/>    
-            </TouchableOpacity>
-
-            <Text style={styles.cont}>
-                {state.count}
-            </Text>
-
-            <TouchableOpacity onPress={() => { dispatch({ type: "increment" }); console.log(state.count); console.log(state.valorTotal)}}>         
-                <Image style={styles.mais} source={require('../../assets/botaomais.png')}/>
-            </TouchableOpacity>
-
-        </View>
-
-        <View style={styles.valor}>
-            <View>
-                <Text style={styles.preco}>
-                    R${state.valor},00
-                </Text>
-            </View>
-
-            <View>
-                <Text style={styles.precototal}>
-                    R${state.valorTotal},00
-                </Text>
-            </View>
-        </View>
-
-        <TouchableOpacity style={styles.btn}>
-            <Text style={styles.textobtn}>            
-                Comprar
-            </Text>
-        </TouchableOpacity>
+                <BottomSheet
+                    visible={visivel}
+                    onBackButtonPress={clicou}
+                    onBackdropPress={clicou}
+                >
+                    <View style={styles.campo}>
+                        <Text style={styles.campotitulo}>Confirmar Serviço</Text>
+                        <Text style={styles.campotexto}>Valor: {state.valorTotal},00</Text>
+                        <Text style={styles.campotexto}>Data:</Text>
+                        <Text style={styles.campotexto}>Hora:</Text>
+                    </View>
+                </BottomSheet>
 
             </ScrollView>
         </View>
@@ -145,8 +166,8 @@ const TelaServico = () => {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
+    container: {
+        flex: 1,
         backgroundColor: '#dcbadb',
         alignItems: 'center',
         justifyContent: 'center'
@@ -156,7 +177,7 @@ const styles = StyleSheet.create({
         height: 250,
     },
     avaliacao: {
-        flexDirection:'row',
+        flexDirection: 'row',
     },
     heart: {
         width: 20,
@@ -164,19 +185,24 @@ const styles = StyleSheet.create({
         marginTop: 0,
         marginLeft: 15,
     },
+    textoavalaiacao: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginHorizontal: 10
+    },
     caixa: {
         marginBottom: 60
     },
     titulo1: {
         fontSize: 30,
-        fontWeight:'bold',
+        fontWeight: 'bold',
         marginLeft: 15,
     },
     titulo2: {
         fontSize: 20,
         fontWeight: 'bold',
         margin: 15
-    }, 
+    },
     texto: {
         color: 'grey',
         fontSize: 15,
@@ -191,20 +217,20 @@ const styles = StyleSheet.create({
         height: 30,
         marginLeft: 10,
         borderRadius: 100,
-        backgroundColor:'#9a6b99'
+        backgroundColor: '#9a6b99'
     },
     cont: {
         fontSize: 20,
         marginLeft: 10,
         fontWeight: 'bold'
-    }, 
+    },
     valor: {
         flexDirection: 'row',
-        justifyContent:'space-between'
+        justifyContent: 'space-between'
     },
     preco: {
         fontSize: 30,
-        fontWeight:'bold',
+        fontWeight: 'bold',
         color: '#9a6b99',
         padding: 5,
         marginLeft: 15,
@@ -212,7 +238,7 @@ const styles = StyleSheet.create({
     },
     precototal: {
         fontSize: 30,
-        fontWeight:'bold',
+        fontWeight: 'bold',
         color: '#9a6b99',
         borderColor: 'black',
         borderWidth: 1,
@@ -231,6 +257,22 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         textAlign: 'center'
+    },
+    campo: {
+        height: 250,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    campotitulo: {
+        fontSize: 22,
+        margin: 7.5,
+        fontWeight: 'bold'
+    },
+    campotexto: {
+        fontSize: 22,
+        margin: 7.5,
+        fontWeight: 'bold'
     }
 });
 

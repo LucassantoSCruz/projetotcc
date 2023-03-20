@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 
+import CurrencyInput from 'react-native-currency-input';
+
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoServico from '../componentes/ImagemPadraoServico';
 
@@ -35,6 +37,8 @@ const TelaCriarServico = () => {
             },
         ])
     }
+
+    const [valor, setValor] = useState(null)
 
     return (
         <View style={{ flex: 1 }}>
@@ -78,12 +82,14 @@ const TelaCriarServico = () => {
                         <Text style={styles.preco}>
                             R$
                         </Text>
-                        <TextInput
+
+                        <CurrencyInput
                             style={styles.colocarpreco}
-                            placeholder='00,00'
-                            maxLength={6}
-                            keyboardType='numeric'
+                            placeholder='0,00'
+                            value={valor}
+                            onChangeValue={setValor}
                         />
+
                     </View>
                 </View>
 

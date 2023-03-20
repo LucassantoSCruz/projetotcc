@@ -8,7 +8,7 @@ import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
 
 const PlaceholderImage = require('../../assets/Perfil.png');
 
-const TelaCadastro = () => {
+const TelaCadastro = ({navigation}) => {
 
   const [nome, setNome] = useState(null)
   const [sobrenome, setSobrenome] = useState(null)
@@ -316,7 +316,7 @@ const TelaCadastro = () => {
         <Button title='Salvar' onPress={() => console.log(endereco)} />
         Precisa modificar o style, pq estou fazendo para criar as rotas */}
 
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={()=>navigation.navigate('Profissionais')}>
           <Text style={styles.txtbtn}>
             Cadastrar
           </Text>

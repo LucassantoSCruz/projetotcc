@@ -1,6 +1,8 @@
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import React, { useEffect, useState, useReducer } from 'react';
 import { BottomSheet } from 'react-native-btr';
+import MaskInput, { Masks } from 'react-native-mask-input';
+//import { MaskedTextInput } from 'react-native-mask-text';  esse é outro componente para máscarar o valor inserido, vou conferir ainda qual dos dois compensa mais usar
 
 const initialState = { count: 1, valor: 40, valorTotal: 40 };
 
@@ -63,6 +65,8 @@ const TelaServico = () => {
     function clicou() {
         setVisivel((visivel) => !visivel)
     }
+
+    const [data, setData] = useState('');
 
     return (
         <View style={{ flex: 1 }}>
@@ -154,9 +158,22 @@ const TelaServico = () => {
                 >
                     <View style={styles.campo}>
                         <Text style={styles.campotitulo}>Confirmar Serviço</Text>
-                        <Text style={styles.campotexto}>Valor: {state.valorTotal},00</Text>
-                        <Text style={styles.campotexto}>Data:</Text>
-                        <Text style={styles.campotexto}>Hora:</Text>
+                        <Text style={styles.campotexto}>Valor Total: {state.valorTotal},00</Text>
+                        <View style={styles.campoformacao}>
+                            <Text style={styles.campotexto}>Data: </Text>
+                            <MaskInput
+                                value={data}
+                                onChangeText={setData}
+                                mask={Masks.DATE_DDMMYYYY}
+                                style={styles.campotexto}
+                                keyboardType='numeric'
+                            />
+                            {/* <TextInput style={styles.campoinserir} /> */}
+                        </View>
+                        <View style={styles.campoformacao}>
+                            <Text style={styles.campotexto}>Hora: </Text>
+                            <TextInput style={styles.campoinserir} />
+                        </View>
                     </View>
                 </BottomSheet>
 
@@ -262,6 +279,13 @@ const styles = StyleSheet.create({
         height: 250,
         backgroundColor: 'white',
         justifyContent: 'center',
+        alignItems: 'center',
+    },
+    campoformacao: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        margin: 7.5,
+        justifyContent: 'center',
         alignItems: 'center'
     },
     campotitulo: {
@@ -273,6 +297,13 @@ const styles = StyleSheet.create({
         fontSize: 22,
         margin: 7.5,
         fontWeight: 'bold'
+    },
+    campoinserir: {
+        borderColor: 'black',
+        borderWidth: 1,
+        padding: 15,
+        borderRadius: 20,
+        fontSize: 22
     }
 });
 

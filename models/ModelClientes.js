@@ -1,7 +1,8 @@
 /*Arquivo com o modelo da tabela de clientes*/
 
 //Importação do sequelize e da conexão com o banco
-const sequelize = require('sequelize');
+//const { TabRouter } = require('@react-navigation/native');
+const Sequelize = require('sequelize');
 const conexao = require('../database/Database');
 const modelAvaliacoes = require('./ModelAvaliacoes');
 
@@ -15,38 +16,42 @@ const modelServicosSociais = require('./ModelServicosSociais');
 //Criação do modelo
 const modelClientes = conexao.define('clientes', {
     //Definição de cada campo e seus atributos
-    IDCliente:{
-        type: sequelize.INTEGER,
+    cpf:{
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        allowNull:false
     },
     nome:{
-        type: sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     email:{
-        type: sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     senha:{
-        type: sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     fotoPerfil:{
-        type: sequelize.BLOB,
+        type: Sequelize.BLOB,
+        allowNull: true
+    },
+    cep:{
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     avaliaçoesID:{
-        type: sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.INTEGER,
+        allowNull: true
     },
     IDColecoes:{
-        type:sequelize.INTEGER,
-        allowNull:false
+        type:Sequelize.INTEGER,
+        allowNull:true
     },
     IDAvaliacoes:{
-        type:sequelize.INTEGER,
-        allowNull:false
+        type:Sequelize.INTEGER,
+        allowNull:true
     }
 }, {
     freezeTableName: true,

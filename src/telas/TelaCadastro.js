@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise 
+import axios from 'axios';
 
 const TelaCadastro = () => {
 
@@ -12,21 +13,17 @@ const TelaCadastro = () => {
   const [telefone, setTelefone] = useState(null)
 
   //add o endereço
-  const [cepEnd, setCepEnd] = useState(null);
-  const [endereco, setEndereco] = useState({
-    Rua: '',
-    Bairro: '',
-    Cidade: '',
-    Estado: '',
-    Numero: '',
-    Complemeto: ''
-  });
+  const [cepEnd, setCepEnd] = useState({});
+  const [infoCep, setInfo] = useState('');
 
   const [email, setEmail] = useState(null)
   const [senha, setSenha] = useState(null)
   const [descr, onChangeText] = useState(null)
   
 
+  const pessoaF = useState(null);
+  const pessoaJ = useState(null)
+  const pessoas = useState(null)
   const [visivelSexo, setVisivelSexo] = useState(false);
   const [visivelCPF, setVisivelCPF] = useState(false);
 
@@ -37,23 +34,47 @@ const TelaCadastro = () => {
     setVisivelCPF((visivelCPF) => !visivelCPF);
   }
 
+  const getCep = async () => {
+    const {data} = await axios.get(`https://viacep.com.br/ws/${cepEnd}/json`);
+    setInfo(data);
+  }
 
-  // função modCep para conferir se o Cep está correto
-  const modCep = async (cep) => {
+  const rotaCadastro = async () =>{
+    //const {data} = await axios.post(`http://localhost:3000/CadastroDados`);
+    const cadastrar = data => axios.post(`http://localhost:3000/CadastroDadosF`, data)
+    .then(() => {
+      console.log('dados cadastrados!')
+    }).catch(() => {
+      console.log('erro ao cadastrar')
+    })
+  }
 
-    if(cep.length === 8){
-      try{
-        //consultando o cep no servidor do Node.js
-        //atualizando os dados do endereço com os dados recebidos
-        const response = await fetch(`http://`);
-        const resultado = await response.json();
-        setEndereco(resultado)
-      } catch(error){
-        console.log(error);
-      }
+
+/*diferença entre pessoaFisica e pessoaJuridica
+if(pessoas => pessoas.pessoaF) { 
+  //ligação com o front
+    const rotaCadastro = async () =>{
+      //const {data} = await axios.post(`http://localhost:3000/CadastroDados`);
+      const cadastrar = data => axios.post(`http://localhost:3000/CadastroDadosF`, data)
+      .then(() => {
+        console.log('dados cadastrados!')
+      }).catch(() => {
+        console.log('erro ao cadastrar')
+      })
     }
-  };
-
+  } else {
+    const rotaCadastro = async () =>{
+      //const {data} = await axios.post(`http://localhost:3000/CadastroDados`);
+      const cadastrar = data => axios.post(``, data)
+      .then(() => {
+        console.log('dados cadastrados!')
+      }).catch(() => {
+        console.log('erro ao cadastrar')
+      })
+    }
+  }
+ */
+ 
 
   
   return (
@@ -109,17 +130,19 @@ const TelaCadastro = () => {
     {/* colocando o campo do cep para calcular o endereço */}
     <TextInput
       placeholder='CEP'
-      value='{cepEnd}'
+      value={cepEnd}
       onChangeText={text => setCepEnd(text)}
-      onBlu = {() => modCep(cepEnd)}
     />
-    <Text> Rua: {endereco.Rua}</Text>
-    <Text> Bairro: {endereco.Bairro}</Text>
-    <Text> Cidade: {endereco.Cidade}</Text>
-    <Text> Estado: {endereco.Estado}</Text>
-    <Text> Numero: {endereco.Numero}</Text>
-    <Text> Complemeto: {endereco.Complemeto}</Text>
-    <Button title='Salvar' onPress={() => console.log(endereco)} />
+    <TouchableOpacity onPress={getCep}>
+    <Button title='Buscar'/>
+    </TouchableOpacity>
+    <Text> Rua: {infoCep.logradouro}</Text>
+    <Text> Bairro: {infoCep.Bairro}</Text>
+    <Text> Cidade: {infoCep.Cidade}</Text>
+    <Text> Estado: {infoCep.Estado}</Text>
+    <Text> Numero: {infoCep.Numero}</Text>
+    <Text> Complemeto: {infoCep.Complemeto}</Text>
+  
 
      {/* Precisa modificar o style, pq estou fazendo para criar as rotas */}
 
@@ -135,19 +158,20 @@ const TelaCadastro = () => {
         onBackButtonPress={toggle2}
         onBackdropPress={toggle2}
       >
-        <View style={styles.fundomodal}>
+        <View style={styles.fundomodal} value={pessoas}>
           <TouchableOpacity style={styles.selecao}>
-            <Text style={styles.textomodal}>
+            <Text style={styles.textomodal}  onPress={pessoaJ}>
               Profissional - Pessoa Jurídica
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.selecao}>
-            <Text style={styles.textomodal}>
+            <Text style={styles.textomodal}  onPress={pessoaF}>
               Pessoal - Pessoa Física
             </Text>
           </TouchableOpacity>
         </View>
       </BottomSheet>
+      
       
       <TextInput style={styles.campo}
         placeholder='CPF/CNPJ:'
@@ -202,7 +226,7 @@ const TelaCadastro = () => {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.botao}>
-        <Text style={styles.txtbtn}>
+        <Text style={styles.txtbtn} onPress={rotaCadastro}>
           Cadastrar
         </Text>
       </TouchableOpacity>
@@ -211,6 +235,10 @@ const TelaCadastro = () => {
     </ScrollView>
   );
 }
+
+ 
+
+
 
 const styles = StyleSheet.create({
   container: {

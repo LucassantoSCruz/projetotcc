@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button, Alert } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise
-
+import modelClientes from '../../models/ModelClientes';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
 
@@ -106,30 +106,33 @@ const TelaCadastro = ({navigation}) => {
 
   //add o endereço
   const [cepEnd, setCepEnd] = useState(null);
-  const [endereco, setEndereco] = useState({
-    Rua: '',
-    Bairro: '',
-    Cidade: '',
-    Estado: '',
-    Numero: '',
-    Complemeto: ''
-  });
+  const [infoCep, setInfo] = useState('');
 
-  // função modCep para conferir se o Cep está correto
-  const modCep = async (cep) => {
+//cep
+  const getCep = async () => {
+    const {data} = await axios.get(`https://viacep.com.br/ws/${cepEnd}/json`);
+    setInfo(data);
+  }
 
-    if (cep.length === 8) {
-      try {
-        //consultando o cep no servidor do Node.js
-        //atualizando os dados do endereço com os dados recebidos
-        const response = await fetch(`http://`);
-        const resultado = await response.json();
-        setEndereco(resultado)
-      } catch (error) {
-        console.log(error);
-      }
+
+  const cadastro = async () => {
+    const clientes = {
+      cpf: {setCpf},
+      nome: {setNome},
+      sobrenome: {setSobrenome},
+      email: {setEmail},
+      senha: {setSenha},
+      cep: {setCepEnd},
     }
-  };
+    try{
+      const response = await axios.post('http://localhost:3000/CadastroDadosF', modelclientes)
+      console.log(response.data);
+    }catch(error){
+      console.error(error)
+    }
+  }
+
+
 
   return (
     <ScrollView>
@@ -266,39 +269,46 @@ const TelaCadastro = ({navigation}) => {
         <TextInput
           style={styles.campo}
           placeholder='CEP:'
-          //value='{cepEnd}'
+          value={setCepEnd}
           onChangeText={text => setCepEnd(text)}
-          onBlu={() => modCep(cepEnd)}
         />
+
+        <TouchableOpacity style={styles.botaofoto} onPress={getCep}>
+          <Text style={styles.txtbtn}>
+            Salvar Endereço
+          </Text>
+        </TouchableOpacity> 
+
         <TextInput
           style={styles.campo}
           placeholder='Rua:'
+          value={setInfo.logradouro}
         />
         <TextInput
           style={styles.campo}
           placeholder='Bairro:'
+          value={setInfo.Bairro}
         />
         <TextInput
           style={styles.campo}
           placeholder='Cidade:'
+          value={setInfo.Cidade}
         />
         <TextInput
           style={styles.campo}
           placeholder='Estado:'
+          value={setInfo.Estado}
         />
         <TextInput
           style={styles.campo}
           placeholder='Numero:'
+          value={setInfo.Numero}
         />
         <TextInput
           style={styles.campo}
           placeholder='Complemento:'
         />
-        <TouchableOpacity style={styles.botaofoto} onPress={() => console.log(endereco)}>
-          <Text style={styles.txtbtn}>
-            Salvar Endereço
-          </Text>
-        </TouchableOpacity>
+        
 
         {/* colocando o campo do cep para calcular o endereço
         <TextInput
@@ -316,8 +326,8 @@ const TelaCadastro = ({navigation}) => {
         <Button title='Salvar' onPress={() => console.log(endereco)} />
         Precisa modificar o style, pq estou fazendo para criar as rotas */}
 
-        <TouchableOpacity style={styles.botao} onPress={()=>navigation.navigate('Profissionais')}>
-          <Text style={styles.txtbtn}>
+        <TouchableOpacity style={styles.botao} onPress={(cadastro)}>
+          <Text style={styles.txtbtn} >
             Cadastrar
           </Text>
         </TouchableOpacity>

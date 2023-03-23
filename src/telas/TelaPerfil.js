@@ -23,7 +23,7 @@ const TelaPerfil = ({ navigation }) => {
                     <TouchableOpacity style={styles.botao1}>
                         <Text style={styles.texto} onPress={() => navigation.navigate('TelaConfiguracoes')}>CONFIGURAÇÕES</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.botao2}>
+                    <TouchableOpacity style={styles.botao2} onPress={() => navigation.navigate('TelaChat')}>
                         <Text style={styles.texto}>CHAT</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.botao3} onPress={() => navigation.navigate('TelaCriarServico')}>

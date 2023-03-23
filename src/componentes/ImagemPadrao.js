@@ -10,7 +10,9 @@ export default function ImagemPadrao({ placeholderImageSource, imagemSelecionada
 const styles = StyleSheet.create({
   image: {
     flex: 1,
-    width: '100%',
-    height: '100%'
+    width: 200,
+    height: 200,
+    borderRadius: 200,
+    margin: 15
   },
 });

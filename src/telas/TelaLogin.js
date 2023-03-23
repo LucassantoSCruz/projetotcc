@@ -1,63 +1,88 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 
-const TelaLogin = ({navigation}) => {
+const TelaLogin = ({ navigation }) => {
 
-const [visivel, setVisivel] = useState(false);
+  const [visivel, setVisivel] = useState(false);
 
-function toggle() {
-  setVisivel((visivel) => !visivel);
-}
+  function toggle() {
+    setVisivel((visivel) => !visivel);
+  }
 
-    return (
-        <View style={styles.view}>
+  const [profissional, setProfissional] = useState(false);
+  const [pessoal, setPessoal] = useState(false);
 
-            <Text style={styles.titulo}>
-                Login
-            </Text>
+  useEffect(() => {
+    if (profissional == true) {
+      console.log('Profissional')
+      setTipoconta('Profissional')
+    }
+    return () => {
+      setProfissional(false)
+    }
+  }, [profissional])
 
-            <TextInput
-                style={styles.caixadetexto}
-                placeholder="Usuário"/>
+  useEffect(() => {
+    if (pessoal == true) {
+      console.log('Pessoal')
+      setTipoconta('Pessoal')
+    }
+    return () => {
+      setPessoal(false)
+    }
+  }, [pessoal])
+  
+  const [tipoconta, setTipoconta] = useState('')
 
-            <TextInput
-                style={styles.caixadetexto}
-                placeholder="Senha"/>
+  return (
+    <View style={styles.view}>
 
-            <TouchableOpacity style={styles.botaomodal} onPress={toggle}>
-              <View>
-                <Text style={styles.titulomodal}>
-                  Escolha o seu tipo de conta:
-                </Text>
-              </View>
-              </TouchableOpacity>
-              <BottomSheet
-                visible={visivel}
-                onBackButtonPress={toggle}
-                onBackdropPress={toggle}
-              >
-                <View style={styles.fundomodal}>
-                  <TouchableOpacity style={styles.selecao}>
-                    <Text style={styles.textomodal}>
-                      Profissional - Pessoa Jurídica
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.selecao}>
-                    <Text style={styles.textomodal}>
-                      Pessoal - Pessoa Física
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </BottomSheet>
+      <Text style={styles.titulo}>
+        Login
+      </Text>
 
-            <TouchableOpacity style={styles.botao} onPress={()=>navigation.navigate('Profissionais')}>
-                <Text style={styles.textobotao}>
-                    Entrar
-                </Text>
-            </TouchableOpacity>
+      <TextInput
+        style={styles.caixadetexto}
+        placeholder="Usuário" />
+
+      <TextInput
+        style={styles.caixadetexto}
+        placeholder="Senha" />
+
+      <TouchableOpacity style={styles.botaomodal} onPress={toggle}>
+        <View>
+          <Text style={styles.titulomodal}>
+            Tipo de conta: {tipoconta}
+          </Text>
         </View>
-    )
+      </TouchableOpacity>
+      <BottomSheet
+        visible={visivel}
+        onBackButtonPress={toggle}
+        onBackdropPress={toggle}
+      >
+        <View style={styles.fundomodal}>
+          <TouchableOpacity style={styles.selecao} onPress={()=>setProfissional(true)}>
+            <Text style={styles.textomodal}>
+              Profissional - Pessoa Jurídica
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.selecao} onPress={()=>setPessoal(true)}>
+            <Text style={styles.textomodal}>
+              Pessoal - Pessoa Física
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
+
+      <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Profissionais')}>
+        <Text style={styles.textobotao}>
+          Entrar
+        </Text>
+      </TouchableOpacity>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -73,7 +98,7 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   caixadetexto: {
-    width:'80%',
+    width: '80%',
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
@@ -90,12 +115,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 30,
     borderRadius: 10
-},
+  },
   textobotao: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20
-},
+  },
   botaomodal: {
     justifyContent: 'center',
     width: '80%',
@@ -106,7 +131,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: 'white',
   },
-  titulomodal:{
+  titulomodal: {
     color: '#666666'
   },
   fundomodal: {

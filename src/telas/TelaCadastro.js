@@ -1,15 +1,108 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button, Alert } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
-import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise 
+import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise
 
-const TelaCadastro = () => {
+import * as ImagePicker from 'expo-image-picker';
+import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
+
+const PlaceholderImage = require('../../assets/Perfil.png');
+
+const TelaCadastro = ({navigation}) => {
 
   const [nome, setNome] = useState(null)
   const [sobrenome, setSobrenome] = useState(null)
-  //const [cpf, setCpf] = useState(null)
+  const [cpf, setCpf] = useState(null)
   const [nomefantasia, setNomefantasia] = useState(null)
   const [telefone, setTelefone] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [senha, setSenha] = useState(null)
+  const [descr, onChangeText] = useState(null)
+  const [visivelSexo, setVisivelSexo] = useState(false);
+  const [visivelCPF, setVisivelCPF] = useState(false);
+
+  function toggle1() {
+    setVisivelSexo((visivelSexo) => !visivelSexo);
+  }
+  function toggle2() {
+    setVisivelCPF((visivelCPF) => !visivelCPF);
+  }
+
+  const [profissional, setProfissional] = useState(false);
+  const [pessoal, setPessoal] = useState(false);
+
+  useEffect(() => {
+    if (profissional == true) {
+      console.log('Profissional'),
+        setTipoconta('Profissional')
+    }
+    return () => {
+      setProfissional(false)
+    }
+  }, [profissional])
+
+  useEffect(() => {
+    if (pessoal == true) {
+      console.log('Pessoal')
+      setTipoconta('Pessoal')
+    }
+    return () => {
+      setPessoal(false)
+    }
+  }, [pessoal])
+
+  const [masculino, setMasculino] = useState(false);
+  const [feminino, setFeminino] = useState(false);
+  const [outro, setOutro] = useState(false)
+
+  useEffect(() => {
+    if (masculino == true) {
+      console.log('Masculino'),
+        setTiposexo('Masculino')
+    }
+    return () => {
+      setMasculino(false)
+    }
+  })
+
+  useEffect(() => {
+    if (feminino == true) {
+      console.log('Feminino')
+      setTiposexo('Feminino')
+    }
+    return () => {
+      setFeminino(false)
+    }
+  })
+
+  useEffect(() => {
+    if (outro == true) {
+      console.log('Outro')
+      setTiposexo('Outro/Prefere não dizer')
+    }
+    return () => {
+      setOutro(false)
+    }
+  })
+
+  const [imagemSelecionada, setImagemSelecionada] = useState(null);
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+      aspect: [1, 1]
+    });
+
+    if (!result.canceled) {
+      setImagemSelecionada(result.assets[0].uri);
+    } else {
+      Alert.alert("Atenção", "Você não selecionou nenhuma imagem.");
+    }
+  };
+
+  const [tipoconta, setTipoconta] = useState("")
+  const [tiposexo, setTiposexo] = useState("")
 
   //add o endereço
   const [cepEnd, setCepEnd] = useState(null);
@@ -22,194 +115,216 @@ const TelaCadastro = () => {
     Complemeto: ''
   });
 
-  const [email, setEmail] = useState(null)
-  const [senha, setSenha] = useState(null)
-  const [descr, onChangeText] = useState(null)
-  
-
-  const [visivelSexo, setVisivelSexo] = useState(false);
-  const [visivelCPF, setVisivelCPF] = useState(false);
-
-  function toggle1() {
-    setVisivelSexo((visivelSexo) => !visivelSexo);
-  }
-  function toggle2() {
-    setVisivelCPF((visivelCPF) => !visivelCPF);
-  }
-
-
   // função modCep para conferir se o Cep está correto
   const modCep = async (cep) => {
 
-    if(cep.length === 8){
-      try{
+    if (cep.length === 8) {
+      try {
         //consultando o cep no servidor do Node.js
         //atualizando os dados do endereço com os dados recebidos
         const response = await fetch(`http://`);
         const resultado = await response.json();
         setEndereco(resultado)
-      } catch(error){
+      } catch (error) {
         console.log(error);
       }
     }
   };
 
-
-  
   return (
     <ScrollView>
-    <View style={styles.container}>
+      <View style={styles.container}>
 
-      <Text style={styles.titulo}>
-        Cadastre-se
-      </Text>
+        <Text style={styles.titulo}>
+          Cadastre-se
+        </Text>
 
-      <TextInput style={styles.campo}
-        placeholder='Nome:'
-        onChangeText={value => setNome(value)}
-      />
+        <TextInput style={styles.campo}
+          placeholder='Nome:'
+          onChangeText={value => setNome(value)}
+        />
 
-      <TextInput style={styles.campo}
-        placeholder='Sobrenome:'
-        onChangeText={value => setSobrenome(value)}
-      />
+        <TextInput style={styles.campo}
+          placeholder='Sobrenome:'
+          onChangeText={value => setSobrenome(value)}
+        />
 
-      <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
-        <View>
-          <Text style={styles.titulomodal}>
-            Sexo:
+        <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
+          <View>
+            <Text style={styles.titulomodal}>
+              Sexo: {tiposexo}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <BottomSheet
+          visible={visivelSexo}
+          onBackButtonPress={toggle1}
+          onBackdropPress={toggle1}
+        >
+          <View style={styles.fundomodal}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setFeminino(true)}>
+              <Text style={styles.textomodal}>
+                Feminino
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => setMasculino(true)}>
+              <Text style={styles.textomodal}>
+                Masculino
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => setOutro(true)}>
+              <Text style={styles.textomodal}>
+                Outro/Prefere não dizer
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </BottomSheet>
+
+        <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
+          <View >
+            <Text style={styles.titulomodal}>Tipo de Conta: {tipoconta}</Text>
+          </View>
+        </TouchableOpacity>
+        <BottomSheet
+          visible={visivelCPF}
+          onBackButtonPress={toggle2}
+          onBackdropPress={toggle2}
+        >
+          <View style={styles.fundomodal}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setProfissional(true)}>
+              <Text style={styles.textomodal}>
+                Profissional - Pessoa Jurídica
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => setPessoal(true)}>
+              <Text style={styles.textomodal}>
+                Pessoal - Pessoa Física
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </BottomSheet>
+
+        <TextInput style={styles.campo}
+          placeholder='CPF/CNPJ:'
+          onChangeText={value => setCpf(value)}
+          keyboardType='numeric'
+          returnKeyType='done'
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='Nome fantasia:'
+          onChangeText={value => setNomefantasia(value)}
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='Telefone:'
+          onChangeText={value => setTelefone(value)}
+          keyboardType='numeric'
+          returnKeyType='done'
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='E-mail:'
+          onChangeText={value => setEmail(value)}
+          keyboardType='email-address'
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='Crie uma senha:'
+          onChangeText={value => setSenha(value)}
+        />
+
+        <TextInput style={styles.descricao}
+          placeholder='Descrição:'
+          editable
+          multiline
+          numberOfLines={6}
+          maxLength={200}
+          onChangeText={value => onChangeText(value)}
+          value={descr}
+        />
+
+        <Text style={styles.titfotodeperfil}>
+          Foto de Perfil
+        </Text>
+
+          <ImagemPadraoPerfil
+            placeholderImageSource={PlaceholderImage}
+            imagemSelecionada={imagemSelecionada}
+          />
+
+        <TouchableOpacity style={styles.botaofoto} onPress={pickImageAsync}>
+          <Text style={styles.txtbtn}>
+            Importar Foto
           </Text>
-        </View>
-      </TouchableOpacity>
-      <BottomSheet
-        visible={visivelSexo}
-        onBackButtonPress={toggle1}
-        onBackdropPress={toggle1}
-      >
-        <View style={styles.fundomodal}>
-          <TouchableOpacity style={styles.selecao}>
-            <Text style={styles.textomodal}>
-              Feminino
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.selecao}>
-            <Text style={styles.textomodal}>
-              Masculino
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.selecao}>
-            <Text style={styles.textomodal}>
-              Outros/Prefere não dizer
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </BottomSheet>
+        </TouchableOpacity>
 
-    
-    {/* colocando o campo do cep para calcular o endereço */}
-    <TextInput
-      placeholder='CEP'
-      value='{cepEnd}'
-      onChangeText={text => setCepEnd(text)}
-      onBlu = {() => modCep(cepEnd)}
-    />
-    <Text> Rua: {endereco.Rua}</Text>
-    <Text> Bairro: {endereco.Bairro}</Text>
-    <Text> Cidade: {endereco.Cidade}</Text>
-    <Text> Estado: {endereco.Estado}</Text>
-    <Text> Numero: {endereco.Numero}</Text>
-    <Text> Complemeto: {endereco.Complemeto}</Text>
-    <Button title='Salvar' onPress={() => console.log(endereco)} />
-
-     {/* Precisa modificar o style, pq estou fazendo para criar as rotas */}
-
-
-
-      <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
-        <View >
-          <Text style={styles.titulomodal}>Tipo de Conta:</Text>
-        </View>
-      </TouchableOpacity>
-      <BottomSheet
-        visible={visivelCPF}
-        onBackButtonPress={toggle2}
-        onBackdropPress={toggle2}
-      >
-        <View style={styles.fundomodal}>
-          <TouchableOpacity style={styles.selecao}>
-            <Text style={styles.textomodal}>
-              Profissional - Pessoa Jurídica
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.selecao}>
-            <Text style={styles.textomodal}>
-              Pessoal - Pessoa Física
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </BottomSheet>
-      
-      <TextInput style={styles.campo}
-        placeholder='CPF/CNPJ:'
-        onChangeText={value => setCpf(value)}
-        keyboardType='numeric'
-        returnKeyType='done'
-      />
-
-      <TextInput style={styles.campo} 
-        placeholder='Nome fantasia:'
-        onChangeText={value => setNomefantasia(value)}
-      />
-
-      <TextInput style={styles.campo}
-        placeholder='Telefone:'
-        onChangeText={value => setTelefone(value)}
-        keyboardType='numeric'
-        returnKeyType='done'
-      />
-
-      <TextInput style={styles.campo}
-        placeholder='E-mail:'
-        onChangeText={value => setEmail(value)}
-        keyboardType='email-address'
-      />
-
-      <TextInput style={styles.campo}
-        placeholder='Crie uma senha:'
-        onChangeText={value => setSenha(value)}
-      />
-
-      <TextInput style={styles.descricao}
-        placeholder='Descrição:'
-        editable
-        multiline
-        numberOfLines={6}
-        maxLength={200}
-        onChangeText={value => onChangeText(value)}
-        value={descr}
-      />
-
-      <Text style={styles.titfotodeperfil}>
-        Foto de Perfil
-      </Text>
-
-      <Image style={styles.fotoperfil} source={require('../../assets/Perfil.png')}/>
-
-      <TouchableOpacity style={styles.botaofoto}>
-        <Text style={styles.txtbtn}>
-          Importar Foto
+        <Text style={styles.tituloestabelecimento}>
+          Local do Estabelecimento
         </Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity style={styles.botao}>
-        <Text style={styles.txtbtn}>
-          Cadastrar
-        </Text>
-      </TouchableOpacity>
+        <TextInput
+          style={styles.campo}
+          placeholder='CEP:'
+          //value='{cepEnd}'
+          onChangeText={text => setCepEnd(text)}
+          onBlu={() => modCep(cepEnd)}
+        />
+        <TextInput
+          style={styles.campo}
+          placeholder='Rua:'
+        />
+        <TextInput
+          style={styles.campo}
+          placeholder='Bairro:'
+        />
+        <TextInput
+          style={styles.campo}
+          placeholder='Cidade:'
+        />
+        <TextInput
+          style={styles.campo}
+          placeholder='Estado:'
+        />
+        <TextInput
+          style={styles.campo}
+          placeholder='Numero:'
+        />
+        <TextInput
+          style={styles.campo}
+          placeholder='Complemento:'
+        />
+        <TouchableOpacity style={styles.botaofoto} onPress={() => console.log(endereco)}>
+          <Text style={styles.txtbtn}>
+            Salvar Endereço
+          </Text>
+        </TouchableOpacity>
 
-    </View>
+        {/* colocando o campo do cep para calcular o endereço
+        <TextInput
+          placeholder='CEP'
+          value='{cepEnd}'
+          onChangeText={text => setCepEnd(text)}
+          onBlu={() => modCep(cepEnd)}
+        />
+        <Text> Rua: {endereco.Rua}</Text>
+        <Text> Bairro: {endereco.Bairro}</Text>
+        <Text> Cidade: {endereco.Cidade}</Text>
+        <Text> Estado: {endereco.Estado}</Text>
+        <Text> Numero: {endereco.Numero}</Text>
+        <Text> Complemeto: {endereco.Complemeto}</Text>
+        <Button title='Salvar' onPress={() => console.log(endereco)} />
+        Precisa modificar o style, pq estou fazendo para criar as rotas */}
+
+        <TouchableOpacity style={styles.botao} onPress={()=>navigation.navigate('Profissionais')}>
+          <Text style={styles.txtbtn}>
+            Cadastrar
+          </Text>
+        </TouchableOpacity>
+
+      </View>
     </ScrollView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -222,6 +337,13 @@ const styles = StyleSheet.create({
   titulo: {
     fontSize: 20,
     margin: 30,
+    fontWeight: 'bold',
+    color: 'black '
+  },
+  tituloestabelecimento: {
+    fontSize: 20,
+    marginBottom: 30,
+    marginTop: 15,
     fontWeight: 'bold',
     color: 'black '
   },
@@ -240,12 +362,12 @@ const styles = StyleSheet.create({
     height: 150,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom:15,
+    marginBottom: 15,
     padding: 10,
     borderRadius: 10,
     backgroundColor: 'white'
   },
-  txt:{
+  txt: {
     marginBottom: 10
   },
   check: {
@@ -272,7 +394,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center'
   },
-  titfotodeperfil:{
+  titfotodeperfil: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black ',
@@ -292,7 +414,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     borderRadius: 10,
-    marginBottom: 30
+    marginBottom: 15
   },
   botao: {
     width: '80%',
@@ -320,7 +442,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: 'white',
   },
-  titulomodal:{
+  titulomodal: {
     color: '#666666'
   },
   fundomodal: {
@@ -342,6 +464,10 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 10,
     borderRadius: 50
+  },
+  fotodeperfil: {
+    height: 150,
+    width: 150
   }
 });
 

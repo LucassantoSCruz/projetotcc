@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
 
-import ImagemPadrao from '../componentes/ImagemPadrao';
+import CurrencyInput from 'react-native-currency-input';
+
+import * as ImagePicker from 'expo-image-picker';
+import ImagemPadraoServico from '../componentes/ImagemPadraoServico';
 
 const PlaceholderImage = require('../../assets/imagemInicial.png');
 
@@ -13,6 +15,7 @@ const TelaCriarServico = () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             quality: 1,
+            aspect: [3, 2]
         });
 
         if (!result.canceled) {
@@ -35,11 +38,13 @@ const TelaCriarServico = () => {
         ])
     }
 
+    const [valor, setValor] = useState(null)
+
     return (
         <View style={{ flex: 1 }}>
             <ScrollView>
                 <View style={styles.fundoimagem}>
-                    <ImagemPadrao
+                    <ImagemPadraoServico
                         placeholderImageSource={PlaceholderImage}
                         imagemSelecionada={imagemSelecionada} />
                     <TouchableOpacity style={styles.botaoimagem} onPress={pickImageAsync}>
@@ -77,12 +82,14 @@ const TelaCriarServico = () => {
                         <Text style={styles.preco}>
                             R$
                         </Text>
-                        <TextInput
+
+                        <CurrencyInput
                             style={styles.colocarpreco}
-                            placeholder='00,00'
-                            maxLength={6}
-                            keyboardType='numeric'
+                            placeholder='0,00'
+                            value={valor}
+                            onChangeValue={setValor}
                         />
+
                     </View>
                 </View>
 
@@ -103,7 +110,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#dcbadb',
-        height: 250,
+        height: 270,
     },
     botaoimagem: {
         marginHorizontal: 15,

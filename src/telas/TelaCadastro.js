@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button, Alert } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
-import cep from 'cep-promise';//biblioteca pra consultar CEP -> npm install cep-promise
-import modelClientes from '../../models/ModelClientes';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
+import axios from 'axios';
+import { value } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 
 const PlaceholderImage = require('../../assets/Perfil.png');
 
-const TelaCadastro = ({navigation}) => {
+const TelaCadastro = ({ navigation }) => {
 
   const [nome, setNome] = useState(null)
   const [sobrenome, setSobrenome] = useState(null)
@@ -108,29 +108,31 @@ const TelaCadastro = ({navigation}) => {
   const [cepEnd, setCepEnd] = useState(null);
   const [infoCep, setInfo] = useState('');
 
-//cep
+  //cep
   const getCep = async () => {
-    const {data} = await axios.get(`https://viacep.com.br/ws/${cepEnd}/json`);
+    const { data } = await axios.get(`https://viacep.com.br/ws/${cepEnd}/json`);
     setInfo(data);
   }
 
 
-  const cadastro = async () => {
-    const clientes = {
-      cpf: {setCpf},
-      nome: {setNome},
-      sobrenome: {setSobrenome},
-      email: {setEmail},
-      senha: {setSenha},
-      cep: {setCepEnd},
-    }
-    try{
-      const response = await axios.post('http://localhost:3000/CadastroDadosF', modelclientes)
+  const rotaCadastro = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/ListagemDados', {
+        // setCpf: "000",
+        // nome: "000",
+        // sobrenome: "000",
+        // email: "000",
+        // senha: "000",
+        // cepEnd: "000",
+        
+      });
       console.log(response.data);
-    }catch(error){
-      console.error(error)
+    } catch (error) {
+      console.error(error);
     }
-  }
+  };
+
+
 
 
 
@@ -145,11 +147,14 @@ const TelaCadastro = ({navigation}) => {
         <TextInput style={styles.campo}
           placeholder='Nome:'
           onChangeText={value => setNome(value)}
+          value={nome}
+
         />
 
         <TextInput style={styles.campo}
           placeholder='Sobrenome:'
           onChangeText={value => setSobrenome(value)}
+          value={sobrenome}
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
@@ -212,6 +217,7 @@ const TelaCadastro = ({navigation}) => {
           onChangeText={value => setCpf(value)}
           keyboardType='numeric'
           returnKeyType='done'
+          value={cpf}
         />
 
         <TextInput style={styles.campo}
@@ -224,17 +230,20 @@ const TelaCadastro = ({navigation}) => {
           onChangeText={value => setTelefone(value)}
           keyboardType='numeric'
           returnKeyType='done'
+          value={telefone}
         />
 
         <TextInput style={styles.campo}
           placeholder='E-mail:'
           onChangeText={value => setEmail(value)}
           keyboardType='email-address'
+          value={email}
         />
 
         <TextInput style={styles.campo}
           placeholder='Crie uma senha:'
           onChangeText={value => setSenha(value)}
+          value={senha}
         />
 
         <TextInput style={styles.descricao}
@@ -245,16 +254,17 @@ const TelaCadastro = ({navigation}) => {
           maxLength={200}
           onChangeText={value => onChangeText(value)}
           value={descr}
+
         />
 
         <Text style={styles.titfotodeperfil}>
           Foto de Perfil
         </Text>
 
-          <ImagemPadraoPerfil
-            placeholderImageSource={PlaceholderImage}
-            imagemSelecionada={imagemSelecionada}
-          />
+        <ImagemPadraoPerfil
+          placeholderImageSource={PlaceholderImage}
+          imagemSelecionada={imagemSelecionada}
+        />
 
         <TouchableOpacity style={styles.botaofoto} onPress={pickImageAsync}>
           <Text style={styles.txtbtn}>
@@ -269,7 +279,7 @@ const TelaCadastro = ({navigation}) => {
         <TextInput
           style={styles.campo}
           placeholder='CEP:'
-          value={setCepEnd}
+          value={cepEnd}
           onChangeText={text => setCepEnd(text)}
         />
 
@@ -277,38 +287,38 @@ const TelaCadastro = ({navigation}) => {
           <Text style={styles.txtbtn}>
             Salvar Endereço
           </Text>
-        </TouchableOpacity> 
+        </TouchableOpacity>
 
         <TextInput
           style={styles.campo}
           placeholder='Rua:'
-          value={setInfo.logradouro}
+          value={infoCep.logradouro}
         />
         <TextInput
           style={styles.campo}
           placeholder='Bairro:'
-          value={setInfo.Bairro}
+          value={infoCep.bairro}
         />
         <TextInput
           style={styles.campo}
           placeholder='Cidade:'
-          value={setInfo.Cidade}
+          value={infoCep.cidade}
         />
         <TextInput
           style={styles.campo}
           placeholder='Estado:'
-          value={setInfo.Estado}
+          value={infoCep.estado}
         />
         <TextInput
           style={styles.campo}
           placeholder='Numero:'
-          value={setInfo.Numero}
+          value={infoCep.numero}
         />
         <TextInput
           style={styles.campo}
           placeholder='Complemento:'
         />
-        
+
 
         {/* colocando o campo do cep para calcular o endereço
         <TextInput
@@ -326,7 +336,12 @@ const TelaCadastro = ({navigation}) => {
         <Button title='Salvar' onPress={() => console.log(endereco)} />
         Precisa modificar o style, pq estou fazendo para criar as rotas */}
 
-        <TouchableOpacity style={styles.botao} onPress={(cadastro)}>
+        <TouchableOpacity style={styles.botao} onPress={
+          () => {
+            rotaCadastro();
+          }
+
+        }>
           <Text style={styles.txtbtn} >
             Cadastrar
           </Text>

@@ -2,53 +2,55 @@ import * as React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 
-const TelaPerfil = () => {
+
+
+const TelaPerfil = ({ navigation }) => {
     return (
-            <View>
-                <ScrollView>
+        <View>
+            <ScrollView>
                 <View style={styles.view}>
                     <View style={styles.esquerda}>
                         <Text style={styles.pronome}>Pronome: Elx</Text>
                         <Text style={styles.nome}>Nome do Perfil</Text>
-                        <View style={styles.linha}/>
+                        <View style={styles.linha} />
                         <Text style={styles.legenda}>Legenda</Text>
                     </View>
                     <View style={styles.direita}>
-                        <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')}/>
+                        <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} />
                     </View>
                 </View>
                 <View style={styles.botoes}>
                     <TouchableOpacity style={styles.botao1}>
-                        <Text style={styles.texto}>INFORMAÇÕES</Text>
+                        <Text style={styles.texto} onPress={() => navigation.navigate('TelaConfiguracoes')}>CONFIGURAÇÕES</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.botao2}>
+                    <TouchableOpacity style={styles.botao2} onPress={() => navigation.navigate('TelaChat')}>
                         <Text style={styles.texto}>CHAT</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.botao3}>
+                    <TouchableOpacity style={styles.botao3} onPress={() => navigation.navigate('TelaCriarServico')}>
                         <Text style={styles.texto}>NOVO</Text>
                     </TouchableOpacity>
                 </View>
-                    <View style={styles.view2}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
-                    </View>
-                    <View style={styles.view2}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
-                    </View>
-                    <View style={styles.view2}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
-                    </View>
-                    <View style={styles.view2}>
-                        <BoxPerfil/>
-                        <BoxPerfil/>
-                    </View>
-                </ScrollView>
-            </View>
+                <View style={styles.view2}>
+                    <BoxPerfil />
+                    <BoxPerfil />
+                </View>
+                <View style={styles.view2}>
+                    <BoxPerfil />
+                    <BoxPerfil />
+                </View>
+                <View style={styles.view2}>
+                    <BoxPerfil />
+                    <BoxPerfil />
+                </View>
+                <View style={styles.view2}>
+                    <BoxPerfil />
+                    <BoxPerfil />
+                </View>
+            </ScrollView>
+        </View>
     );
 };
-      
+
 const styles = StyleSheet.create({
     view: {
         flexDirection: 'row',
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
     texto: {
         fontWeight: 'bold',
         color: 'white',
-        fontSize: 20,
+        fontSize: 17,
     }
 });
 

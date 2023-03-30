@@ -13,7 +13,7 @@ const routeCategorias = require('./routes/RouteCategorias');
 //Tornando o express executável
 const app = express();
 app.use(express.json());
-conexao.sync({ force : true }); 
+//conexao.sync({ force : true }); 
 
 //INÍCIO DA UTILIZAÇÃO DAS ROTAS
 app.use('/', routeClientes);

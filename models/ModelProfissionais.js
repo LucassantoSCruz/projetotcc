@@ -21,7 +21,7 @@ const modelProfissionaisAvaliacoes = require('./ModelProfissionaisAvaliacoes');
 //Criação do modelo
 const modelProfissionais = conexao.define('profissionais', {
     //Definição dos campos e de seus atributos
-    IDProfissional:{
+    cpf:{
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -36,7 +36,8 @@ const modelProfissionais = conexao.define('profissionais', {
     },
     atendimentoDomiciliar: {
         type: sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: true,
+        allowNull:true
     },
     email: {
         type: sequelize.STRING,
@@ -51,19 +52,24 @@ const modelProfissionais = conexao.define('profissionais', {
         allowNull: false
     },
     IDTelefones: {
-        type: sequelize.INTEGER
+        type: sequelize.INTEGER,
+        allowNull: false
     },
     descricao: {
-        type: sequelize.TEXT
+        type: sequelize.TEXT,
+        allowNull: true
     },
     contatoPrincipal: {
-        type: sequelize.STRING
+        type: sequelize.STRING,
+        allowNull: true
     },
     contatoSecundario: {
-        type: sequelize.STRING
+        type: sequelize.STRING,
+        allowNull: true
     },
     fotoPerfil: {
-        type: sequelize.BLOB
+        type: sequelize.BLOB,
+        allowNull: true
     },
 }, {
     freezeTableName: true,

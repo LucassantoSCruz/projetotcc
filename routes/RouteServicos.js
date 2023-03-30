@@ -1,36 +1,19 @@
-/*
-***************************************************************************
-*Este arquivo contém as rotas do modelo da tabela de serviços
-***************************************************************************
-*
-*CAMPOS DA TABELA SERVICOS PARA REFERÊNCIA:
-*IDServico, preco, descricao, titulo, duracao
-*
-*FK_Categorias_Servicos
-*/
 
-//Importação do Express, do modelo e do Router do Express
 const express = require('express');
 const modelServicos = require('../models/ModelServicos');
 const router = express.Router();
-
-//INÍCIO DAS ROTAS DE CRUD DA TABELA SERVICOS
 
 //Rota de cadastro
 router.post('/cadastrarServico', (req, res) => {
     console.log(req.body);
 
-    //Declaração das variáveis que irão representar os campos da tabela
-    let {IDServico, preco, descricao, titulo, duracao} = req.body;
+     let {IDServico, preco, descricao, titulo, duracao} = req.body;
 
-    //Crie estes campos...
+   
     modelServicos.create(
         {IDServico, preco, descricao, titulo, duracao}
     ).then(
-        /*
-        *...e então, caso dê certo, retorne este objeto JSON com o 
-        *status HTTP...
-        */
+       
        () => {
             return res.status(201).json({
                 erroStatus: false,
@@ -38,10 +21,7 @@ router.post('/cadastrarServico', (req, res) => {
             })
        }
     ).catch(
-        /*
-        *...caso "pegue" um erro, retorne este objeto JSON com o 
-        *status HTTP e o objeto do erro
-        */
+      
        (erro) => {
             return res.status(201).json({
                 erroStatus: true,
@@ -55,13 +35,9 @@ router.post('/cadastrarServico', (req, res) => {
 //Rota de listagem
 router.get('/listarServicos', (req, res) => {
 
-    //Ache todos os registros...
     modelServicos.finAll()
     .then(
-        /*
-        *...e então, caso dê certo, retorne este objeto JSON com
-        * o status HTTP e a listagem...
-        */
+        
        (response) => {
         return res.status(200).json({
             erroStatus: false,
@@ -70,10 +46,7 @@ router.get('/listarServicos', (req, res) => {
         })
        }
     ).catch(
-        /*
-        *...caso "pegue" um erro, retorne este objeto JSON com o 
-        * status HTTP e o objeto do erro
-        */
+      
        (erro) => {
             return res.status(400).json({
                 erroStatus: true,
@@ -140,7 +113,6 @@ router.delete('/excluirServicos:IDServico', (req, res)=>{
    
 })
 
-//INÍCIO DAS ROTAS DE CRUD DA TABELA SERVICOS
 
 //Exportação
 module.exports = router;

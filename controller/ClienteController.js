@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 const RouteCliente = require('../routes/RouteClientes')
 const Controller = express.Router();
 
@@ -10,3 +10,4 @@ Controller.put('Belezura/AtualizarDados/:IDCliente', RouteCliente.putCliente);
 Controller.delete('Belezura/DeletarDados/:IDCliente', RouteCliente.destroyCliente);
 
 module.exports = Controller;
+*/

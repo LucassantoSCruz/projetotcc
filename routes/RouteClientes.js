@@ -1,11 +1,12 @@
 const express = require('express');
 const modelClientes = require('../models/ModelClientes');
+const router = express.Router();
 
-const clientesController = {
+    router.post('/CadastroDadosF', (req, res) => {
+            
+        let{cpf, nome, sobrenome, email, senha, cep} = req.body;
 
-    createCliente: (req, res) => {
-        let{cpf, nome, email, senha, cep} = req.body
-        modelClientes.create({cpf, nome, email, senha, cep})
+        modelClientes.create({cpf, nome, sobrenome, email, senha, cep})
             .then(
                 ()=>{
                     return res.status(201).json({
@@ -21,8 +22,10 @@ const clientesController = {
                     });
                 }
             )
-    },
-    getCliente: (req, res) => {
+    })
+
+
+    router.get('/ListagemDados', (req, res) => {
         modelClientes.findAll()
         .then(
             (response)=>{
@@ -41,10 +44,11 @@ const clientesController = {
                 })
             }
         )
-    },
-    getClienteID:(req, res) => {
-        let {IDCliente} = req.params;
-        modelClientes.findByPk(IDCliente)
+    })
+
+    router.get('/ListagemDadosID/:IDCliente',(req, res) => {
+        let {cpf} = req.params;
+        modelClientes.findByPk(cpf)
             .then(
                 (response) => {
                     return res.staus(200).json({
@@ -62,13 +66,14 @@ const clientesController = {
                 })
             }
         )
-    },
-    putCliente:(req, res) => {
-        let{ nome, email, senha} = req.body;
-        let{IDCliente} =req.params;
+    }) 
+    
+    router.put('/AtualizarDados/:IDCliente',(req, res) => {
+        let{nome, sobrenome, email, senha, cep} = req.body;
+        let{ cpf} =req.params;
         modelClientes.update(
-            { nome, email, senha},
-            {where:{IDCliente}}
+            {nome, sobrenome, email, senha, cep},
+            {where:{ cpf, }}
         ).then(
             ()=>{
                 return res.staus(200).json({
@@ -85,13 +90,14 @@ const clientesController = {
                 });
             }
         )
-    },
-    destroyCliente:(req, res) => {
-        let{IDCliente} = req.params;
-        modelClientes.findByPk(IDCliente)
+    })
+
+    router.delete('/DeletarDados/:IDCliente',(req, res) => {
+        let{cpf} = req.params;
+        modelClientes.findByPk(cpf)
             .then((clientes) => {
                 if(clientes){
-                    modelClientes.destroy({where:{IDCliente}})
+                    modelClientes.destroy({where:{cpf}})
                     .then(()=>{
                         return res.status(200).json({
                             erroStatus:false,
@@ -118,8 +124,8 @@ const clientesController = {
                     errorObject:error
                 })
             })
-    }                    
-}
+    })                    
+
 
 //Exportação das rotas
-module.exports = clientesController;
+module.exports = router;

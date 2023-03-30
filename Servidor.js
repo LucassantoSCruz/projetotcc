@@ -3,7 +3,7 @@ const conexao = require('./database/Database')
 const express = require('express');
 
 //Importação das rotas
-const clienteController = require('./controller/ClienteController');
+const routeClientes = require('./routes/RouteClientes');
 const routeProfissionais = require('./routes/RouteProfissionais');
 const routeServicos = require('./routes/RouteServicos');
 const routeCategorias = require('./routes/RouteCategorias');
@@ -16,7 +16,7 @@ app.use(express.json());
 conexao.sync({ force : true }); 
 
 //INÍCIO DA UTILIZAÇÃO DAS ROTAS
-app.use('/', clienteController);
+app.use('/', routeClientes);
 app.use('/', routeProfissionais);
 app.use('/', routeServicos);
 app.use('/', routeCategorias);

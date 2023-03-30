@@ -25,6 +25,10 @@ const modelClientes = conexao.define('clientes', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    sobrenome:{
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     email:{
         type: Sequelize.STRING,
         allowNull: false
@@ -40,6 +44,10 @@ const modelClientes = conexao.define('clientes', {
     cep:{
         type: Sequelize.INTEGER,
         allowNull: false
+    },
+    descricao:{
+        type: Sequelize.STRING,
+        allowNull: true
     },
     avaliaçoesID:{
         type: Sequelize.INTEGER,

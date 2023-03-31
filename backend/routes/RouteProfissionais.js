@@ -3,12 +3,7 @@
 * Este arquivo tem todas as rotas do modelo da tabela de 
 * Profissionais 
 *********************************************************************
-*
-*CAMPOS DA TABELA PROFISSIONAIS PARA REFERÊNCIA:
-* IDProfissional, nome, CNPJ_CPF, atendimentoDomiciliar, email, senha,  
-* descricao, contatoPrincipal, contatoSecundario, fotoPerfil
-*
-* FK_Enderecos_Profissionais, FK_Telefones_Profissionais
+* CNPJ, nome, email, senha, atendimentoDomiciliar, descricao, fotoPerfil
 */
 
 //Importação do Express, do modelo e do gerenciador de rotas do Express
@@ -23,18 +18,11 @@ router.post('/cadastrarProfissonal', (req, res) => {
     console.log(req.body);
     
     //Declaração das variáveis que irão representar os campos da tabela
-    let {
-            IDProfissional, nome, CNPJ_CPF, atendimentoDomiciliar, email, 
-            senha, descricao, contatoPrincipal, contatoSecundario, fotoPerfil
-        } = req.body;
+    let {CNPJ, nome, email, senha, atendimentoDomiciliar, descricao} = req.body;
 
     //Crie estes campos...
     modelProfissionais.create(
-        {
-            IDProfissional, nome, CNPJ_CPF, 
-            atendimentoDomiciliar, email, senha, descricao, 
-            contatoPrincipal, contatoSecundario, fotoPerfil
-        }
+        {CNPJ, nome, email, senha, atendimentoDomiciliar, descricao}
     ).then(
         //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{
@@ -90,17 +78,66 @@ router.get('/listagemProfissionais', (req, res) => {
     )
 });
 
+//Rota de listagem por CNPJ
+router.get('/ListarProfissionalCNPJ/:CNPJ', (req, res)=>{
+    
+    let {CNPJ} = req.params;
+
+    AvatarModel.findByPk(CNPJ)
+    .then(
+        (response)=>{
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:"Profissional listado com sucesso!",
+                data: response
+            })
+        }
+    )
+    .catch(
+        (erro)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:"Erro ao listar Profissional!",
+                erroObject:erro
+            });
+        }
+    )
+});
+
+//Rota de listagem por nome_avatar
+router.get('/ListarProfissionaisNome/:nome', (req, res)=>{
+
+    let {nome_avatar} = req.params;
+
+    AvatarModel.findOne({where:{nome_avatar}})
+
+    .then(
+        (response)=>{
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:"Avatar listado com sucesso!",
+                data:response
+            })
+        }
+    )
+    .catch(
+        (erro)=>{
+            return res.status(400).jason({
+                erroStatus:true,
+                mensagemStatus:"Erro ao listar Avatar!",
+                erroObject:erro
+            });
+        }
+    )
+});
+
 //Rota de Alteração
 router.put('/alterarProfissionais', (req, res) =>{
 
-    let {
-        IDProfissional, nome, CNPJ_CPF, atendimentoDomiciliar, email, 
-        senha, descricao, contatoPrincipal, contatoSecundario, fotoPerfil
-    } = req.body;
+    let {CNPJ, nome, email, senha, atendimentoDomiciliar, descricao} = req.body;
 
     modelProfissionais.update(
-        { nome, CNPJ_CPF, atendimentoDomiciliar, email, 
-            senha, descricao, contatoPrincipal, contatoSecundario, fotoPerfil},
+        {CNPJ, nome, email, senha, atendimentoDomiciliar, descricao},
         {where:{ IDProfissional}}
 
     ).then(
@@ -123,14 +160,14 @@ router.put('/alterarProfissionais', (req, res) =>{
 })
 
 //Rota de Exclusão
-router.delete('/excluirProfissionais:IDProfissional', (req, res)=>{
+router.delete('/excluirProfissionais:CNPJ', (req, res)=>{
 
     console.log(req.params);
 
-    let {IDProfissional} = req.params;
+    let {CNPJ} = req.params;
 
     modelProfissionais.destroy(
-        {where:{IDProfissional}}
+        {where:{CNPJ}}
     ).then(
         () => {
             return res.status(200).json({

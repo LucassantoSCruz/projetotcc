@@ -18,11 +18,11 @@ router.post('/cadastrarProfissonal', (req, res) => {
     console.log(req.body);
     
     //Declaração das variáveis que irão representar os campos da tabela
-    let {CNPJ, nome, email, senha, atendimentoDomiciliar, descricao} = req.body;
+    let {email, senha} = req.body;
 
     //Crie estes campos...
     modelProfissionais.create(
-        {CNPJ, nome, email, senha, atendimentoDomiciliar, descricao}
+        {email, senha}
     ).then(
         //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{
@@ -104,12 +104,12 @@ router.get('/ListarProfissionalCNPJ/:CNPJ', (req, res)=>{
     )
 });
 
-//Rota de listagem por nome_avatar
-router.get('/ListarProfissionaisNome/:nome', (req, res)=>{
+//Rota de listagem por e-mail
+router.get('/ListarProfissionaisNome/:email', (req, res)=>{
 
-    let {nome_avatar} = req.params;
+    let {email} = req.params;
 
-    AvatarModel.findOne({where:{nome_avatar}})
+    AvatarModel.findOne({where:{email}})
 
     .then(
         (response)=>{

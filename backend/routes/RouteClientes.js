@@ -1,37 +1,45 @@
+/*
+*********************************************************************
+* Este arquivo tem todas as rotas do modelo da tabela de 
+* Clientes
+*********************************************************************
+* CPF, Nome, Email, Senha, Descricao, FotoPerfil
+*/
+
 const express = require('express');
 const modelClientes = require('../models/ModelClientes');
 const router = express.Router();
 
-    router.post('/CadastroDadosF', (req, res) => {
+router.post('/cadastrarCliente', (req, res) => {
             
-        let{cpf, nome, sobrenome, email, senha, cep} = req.body;
+    let{CPF, Nome, Email, Senha, Descricao} = req.body;
 
-        modelClientes.create({cpf, nome, sobrenome, email, senha, cep})
-            .then(
-                ()=>{
-                    return res.status(201).json({
-                        erroStatus: false,
-                        mensagemStatus: "DADOS INSERIDOS COM SUCESSO"
-                    })
-                }
-            ).catch(
-                (error) => {
-                    return res.status(400).json({
-                        erroStatus: true,
-                        mensagemStatus: "ERRO AO INSERIR DADOS"
-                    });
-                }
-            )
-    })
+    modelClientes.create({CPF, Nome, Email, Senha, Descricao})
+        .then(
+            ()=>{
+                return res.status(201).json({
+                    erroStatus: false,
+                    mensagemStatus: "Cadastrado com sucesso!"
+                })
+            }
+        ).catch(
+            (error) => {
+                return res.status(400).json({
+                    erroStatus: true,
+                    mensagemStatus: "Erro ao cadastrar"
+                });
+            }
+        )
+})
 
 
-    router.get('/ListagemDados', (req, res) => {
+router.get('/listarClientes', (req, res) => {
         modelClientes.findAll()
         .then(
             (response)=>{
                 return res.status(200).json({
                     erroStatus: false,
-                    mensagemStatus: "Dados listados",
+                    mensagemStatus: "Listados com sucesso",
                     errorObject:response
                 })
             }
@@ -39,69 +47,48 @@ const router = express.Router();
             (error) => {
                 return res.status(400).json({
                     erroStatus:true,
-                    mensagemStatus: "Erro ao listar dados",
+                    mensagemStatus: "Erro ao listar",
                     errorObject: error
                 })
             }
         )
-    })
-
-    router.get('/ListagemDadosID/:IDCliente',(req, res) => {
-        let {cpf} = req.params;
-        modelClientes.findByPk(cpf)
-            .then(
-                (response) => {
-                    return res.staus(200).json({
-                        erroStatus:false,
-                        mensagemStatus:'Dados listados por ID',
-                        data: response
-                    })
-                }
-            ).catch(
-                (error) => {
-                    return res.status(400).json({
-                        erroStatus:true,
-                        mensagemStatus: "Erro ao listar dados por ID",
-                        errorObject: error
-                })
-            }
-        )
-    }) 
+})
     
-    router.put('/AtualizarDados/:IDCliente',(req, res) => {
-        let{nome, sobrenome, email, senha, cep} = req.body;
-        let{ cpf} =req.params;
+router.put('/alterarCliente/:CPF',(req, res) => {
+
+        let{CPF, Nome, Email, Senha, Descricao} = req.body;
+        
         modelClientes.update(
-            {nome, sobrenome, email, senha, cep},
-            {where:{ cpf, }}
+            {CPF, Nome, Email, Senha, Descricao},
+            {where:{CPF}}
         ).then(
             ()=>{
                 return res.staus(200).json({
                     erroStatus:false,
-                    mensagemStatus:"Dados atualizados!"
+                    mensagemStatus:"Alterado com sucesso!"
                 })
             }
         ).catch(
             (error) => {
                 return res.status(400).json({
                     erroStatus:true,
-                    mensagemStatus: "Erro ao listar dados por ID",
+                    mensagemStatus: "Erro ao alterar",
                     errorObject: error
                 });
             }
         )
-    })
+})
 
-    router.delete('/DeletarDados/:IDCliente',(req, res) => {
-        let{cpf} = req.params;
-        modelClientes.findByPk(cpf)
+router.delete('/excluirCliente/:CPF',(req, res) => {
+        let{CPF} = req.params;
+        modelClientes.findByPk(CPF)
             .then((clientes) => {
                 if(clientes){
-                    modelClientes.destroy({where:{cpf}})
+                    modelClientes.destroy({where:{CPF}})
                     .then(()=>{
                         return res.status(200).json({
                             erroStatus:false,
-                            mensagemStatus:"Dados excluidos"
+                            mensagemStatus:"Excluido"
                         })
                     }).catch(
                         (error)=>{
@@ -117,14 +104,15 @@ const router = express.Router();
                                 mensagemStatus:"Erro ao excluir dados"
                             })
                         }
-            }).catch((error) => {
+            })
+            .catch((error) => {
                 return res.status(400).json({
                     erroStatus:true,
                     mensagemStatus:"Erro ao encontrar dados",
                     errorObject:error
                 })
             })
-    })                    
+})                    
 
 
 //Exportação das rotas

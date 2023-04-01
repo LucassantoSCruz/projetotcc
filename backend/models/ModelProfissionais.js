@@ -5,49 +5,45 @@ const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
 //Criação do modelo
-const modelProfissionais = conexao.define('profissionais', {
+const modelProfissionais = conexao.define('tbl_Profissionais', {
     //Definição dos campos e de seus atributos
-    // CNPJ: {
-    //     type: sequelize.STRING,
-    //     primaryKey: true,
-    //     allowNull: false
-    // },
-    // nome:{
-    //     type: sequelize.STRING,
-    //     allowNull: false
-    // },
-    id_profissional: {
-            type: sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-    email: {
-        type: sequelize.STRING,
+    CPF_CNPJ: {
+        type: sequelize.INTEGER,
+        primaryKey: true
+    },
+    Nome:{
+        type: sequelize.STRING(100),
         allowNull: false
     },
-    senha: {
-        type: sequelize.STRING,
+    Email: {
+        type: sequelize.STRING(45),
         allowNull: false
     },
-    // atendimentoDomiciliar: {
-    //     type: sequelize.BOOLEAN,
-    //     defaultValue: false
-    // },
-    // descricao: {
-    //     type: sequelize.TEXT
-    // },
-    // fotoPerfil: {
-    //     type: sequelize.BLOB
-    // },
+    Senha: {
+        type: sequelize.STRING(30),
+        allowNull: false
+    },
+    Telefone: {
+        type: sequelize.STRING(30),
+        allowNull: true
+    },
+    AtendimentoDomiciliar: {
+        type: sequelize.BOOLEAN,
+        defaultValue: 0
+    },
+    Descricao: {
+        type: sequelize.TEXT,
+        allowNull: true
+    },
+    FotoPerfil: {
+        type: sequelize.BLOB,
+        allowNull: true
+    },
 }, {
     freezeTableName: true,
-    createdAt: false,
-    updatedAt: false
+    createdAt: 'dataCriacao',
+    updatedAt: 'ultimaModificacao'
 });
-
-//modelProfissionais.sync({ force : true }); 
-
-//FIM DA DECLARAÇÃO DOS RELACIONAMENTOS ENTRE AS MODELS
 
 //Exportação do modelo
 module.exports = modelProfissionais;

@@ -1,28 +1,28 @@
 /*
 *********************************************************************
 * Este arquivo tem todas as rotas do modelo da tabela de 
-* Categorias
+* Serviços Sociais 
 *********************************************************************
-* ID_Categoria, Nome
+* ID_ServicoSocial, Data, Titulo, Descricao
 */
 
 //Importação do Express, do modelo e do gerenciador de rotas do Express
 const express = require('express');
-const modelCategorias = require('../models/ModelCategorias');
+const modelServicosSociais = require('../models/ModelServicosSociais');
 const router = express.Router();
 
-//INÍCIO DAS ROTAS DE CRUD TABELA DE CATEGORIAS
+//INÍCIO DAS ROTAS DE CRUD TABELA DE SERVIÇOS SOCIAIS
 
 //Rota de cadastro
-router.post('/cadastrarCategoria', (req, res) => {
+router.post('/cadastrarServicoSocial', (req, res) => {
     console.log(req.body);
     
     //Declaração das variáveis que irão representar os campos da tabela
-    let {ID_Categoria, Nome} = req.body;
+    let {Data, Titulo, Descricao} = req.body;
 
     //Crie estes campos...
-    modelCategorias.create(
-        {ID_Categoria, Nome}
+    modelServicosSociais.create(
+        {Data, Titulo, Descricao}
     ).then(
         //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{
@@ -47,10 +47,10 @@ router.post('/cadastrarCategoria', (req, res) => {
 });
 
 //Rota de listagem
-router.get('/listarCategorias', (req, res) => {
+router.get('/listarServicosSociais', (req, res) => {
 
     //Procure todos os campos e registros desta tabela...
-    modelCategorias.findAll()
+    modelServicosSociais.findAll()
     .then(
         /*
         *...e então, caso dê certo, envie este arquivo JSON 
@@ -60,7 +60,7 @@ router.get('/listarCategorias', (req, res) => {
             return res.status(200).json({
                 erroStatus: false,
                 mensagemStatus: 'Listados com sucesso!',
-                Nome: response
+                data: response
             })        
         }
     ).catch(
@@ -79,13 +79,13 @@ router.get('/listarCategorias', (req, res) => {
 });
 
 //Rota de Alteração
-router.put('/alterarCategoria', (req, res) =>{
+router.put('/alterarServicoSocial', (req, res) =>{
 
-    let {ID_Categoria, Nome} = req.body;
+    let {Data, Titulo, Descricao} = req.body;
 
-    modelCategorias.update(
-        {ID_Categoria, Nome},
-        {where:{ID_Categoria}}
+    modelServicosSociais.update(
+        {Data, Titulo, Descricao},
+        {where:{ ID_ServicoSocial}}
 
     ).then(
         () => {
@@ -107,14 +107,14 @@ router.put('/alterarCategoria', (req, res) =>{
 })
 
 //Rota de Exclusão
-router.delete('/excluirCategoria:ID_Categoria', (req, res)=>{
+router.delete('/excluirServicoSocial:ID_ServicoSocial', (req, res)=>{
 
     console.log(req.params);
 
-    let {ID_Categoria} = req.params;
+    let {ID_ServicoSocial} = req.params;
 
-    modelCategorias.destroy(
-        {where:{ID_Categoria}}
+    modelServicosSociais.destroy(
+        {where:{ID_ServicoSocial}}
     ).then(
         () => {
             return res.status(200).json({
@@ -131,9 +131,11 @@ router.delete('/excluirCategoria:ID_Categoria', (req, res)=>{
             })
         }
     )
+
+   
 })
 
-//FIM DAS ROTAS DE CRUD TABELA DE CATEGORIAS
+//FIM DAS ROTAS DE CRUD TABELA DE SERVIÇOS SOCIAIS
 
 //Exportação das rotas
 module.exports = router;

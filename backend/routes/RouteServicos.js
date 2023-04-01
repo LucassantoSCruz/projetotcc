@@ -3,10 +3,9 @@
 *Este arquivo contém as rotas do modelo da tabela de serviços
 ***************************************************************************
 *
-*CAMPOS DA TABELA SERVICOS PARA REFERÊNCIA:
-*IDServico, preco, descricao, titulo, duracao
+* CAMPOS DA TABELA SERVICOS PARA REFERÊNCIA:
+* ID_Servico, Preco, Titulo, Descricao
 *
-*FK_Categorias_Servicos
 */
 
 //Importação do Express, do modelo e do Router do Express
@@ -21,11 +20,11 @@ router.post('/cadastrarServico', (req, res) => {
     console.log(req.body);
 
     //Declaração das variáveis que irão representar os campos da tabela
-    let {IDServico, preco, descricao, titulo, duracao} = req.body;
+    let {Preco, Titulo, Descricao} = req.body;
 
     //Crie estes campos...
     modelServicos.create(
-        {IDServico, preco, descricao, titulo, duracao}
+        {Preco, Titulo, Descricao}
     ).then(
         /*
         *...e então, caso dê certo, retorne este objeto JSON com o 
@@ -86,11 +85,11 @@ router.get('/listarServicos', (req, res) => {
 
 router.put('/alterarServicos', (req, res) =>{
 
-    let { IDServico, preco, descricao, titulo, duracao } = req.body;
+    let { Preco, Titulo, Descricao } = req.body;
 
     modelServicos.update(
-        { preco, descricao, titulo, duracao},
-        {where:{  IDServico }}
+        { Preco, Titulo, Descricao},
+        {where:{  ID_Servico }}
 
     ).then(
         () => {
@@ -112,14 +111,14 @@ router.put('/alterarServicos', (req, res) =>{
 })
 
 //Rota de Exclusão
-router.delete('/excluirServicos:IDServico', (req, res)=>{
+router.delete('/excluirServicos:ID_Servico', (req, res)=>{
 
     console.log(req.params);
 
-    let {IDServico} = req.params;
+    let {ID_Servico} = req.params;
 
     modelServicos.destroy(
-        {where:{IDServico}}
+        {where:{ID_Servico}}
     ).then(
         () => {
             return res.status(200).json({

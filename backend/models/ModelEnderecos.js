@@ -4,53 +4,39 @@
 const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
-//Importação da models
-const modelServicosSociais = require('./ModelServicosSociais');
-
-const modelEnderecos = conexao.define('enderecos', {
+const modelEnderecos = conexao.define('tbl_Enderecos', {
     //Declaração do campos
-    IDEndereco:{
+    ID_Endereco:{
         type: sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement:true
+        autoIncrement: true
     },
-    cidade:{
-        type: sequelize.STRING,
-        allowNull:false
+    Latitude:{
+        type: sequelize.DECIMAL,
+        allowNull: false
     },
-    bairro:{
-        type: sequelize.STRING,
-        allowNull:false
-    },
-    numero:{
-        type: sequelize.STRING,
-        allowNull:false
-    },
-    estado:{
-        type: sequelize.STRING,
-        allowNull:false
+    Longitude:{
+        type: sequelize.DECIMAL,
+        allowNull: false
     },
     CEP:{
         type: sequelize.STRING,
-        allowNull:false
+        allowNull: false
     },
-    complemento:{
+    Titulo:{
         type: sequelize.STRING,
-        allowNull:false
+        allowNull: true
     },
+    Complemento:{
+        type: sequelize.STRING,
+        allowNull: true
+    },
+    
 }, {
     freezeTableName: true,
-    createdAt: 'dataCriacao',
-    updatedAt: 'ultimaModificacao'
+    createdAt: false,
+    updatedAt: false
 })
-
-//Relacionamento com "servicos_sociais"
-modelEnderecos.hasMany(modelServicosSociais, {
-    foreignKey: 'FK_Enderecos_ServicosSociais'
-});
-modelServicosSociais.belongsTo(modelEnderecos, {
-    foreignKey: 'FK_Enderecos_ServicosSociais'
-}) 
 
 //Exportação do modelo
 module.exports = modelEnderecos;

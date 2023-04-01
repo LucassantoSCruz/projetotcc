@@ -5,21 +5,15 @@ const sequelize = require('sequelize');
 const conexao = require('../database/Database');
 
 //Criação do modelo
-const modelClientesServicos = conexao.define('clientes_servicos', {
+const modelAgenda = conexao.define('tbl_Agenda', {
     
     //Definição dos campos e seus attributos
-    ID_Servico_Cliente: {
+    ID_ServicoAgendado: {
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    FK_Servicos_Clientes: {
-        type: sequelize.INTEGER
-    },
-    FK_Clientes_Servicos: {
-        type: sequelize.INTEGER
-    },
-    data: {
+    Data: {
         type: sequelize.DATE
     }
 }, {
@@ -29,4 +23,4 @@ const modelClientesServicos = conexao.define('clientes_servicos', {
 });
 
 //Exportação do modelo
-module.exports = modelClientesServicos;  
+module.exports = modelAgenda;  

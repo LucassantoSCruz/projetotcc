@@ -1,6 +1,8 @@
 
 const conexao = require('./database/Database')
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 //Importação das rotas
 const routeAgenda = require('./routes/RouteAgenda');
@@ -15,9 +17,11 @@ const RouteServicosSociais = require('./routes/RouteServicosSociais');
 
 //Tornando o express executável
 const app = express();
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cors());
 
-conexao.sync({ force : true }); 
+//conexao.sync({ force : true }); 
 
 //INÍCIO DA UTILIZAÇÃO DAS ROTAS
 app.use('/', routeAgenda);

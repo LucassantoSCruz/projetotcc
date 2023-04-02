@@ -17,11 +17,11 @@ const modelProfissionais = conexao.define('tbl_Profissionais', {
     },
     Email: {
         type: sequelize.STRING(45),
-        allowNull: false
+        allowNull: true
     },
     Senha: {
         type: sequelize.STRING(30),
-        allowNull: false
+        allowNull: true
     },
     Telefone: {
         type: sequelize.STRING(30),

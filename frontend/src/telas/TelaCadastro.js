@@ -10,16 +10,33 @@ const PlaceholderImage = require('../../assets/Perfil.png');
 
 const TelaCadastro = ({ navigation }) => {
 
-  const [nome, setNome] = useState(null)
+  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+  const [Nome, setNome] = useState(null)
+  const [Email, setEmail] = useState(null)
+  const [Senha, setSenha] = useState(null)
+  const [Telefone, setTelefone] = useState(null)
+  const [AtendimentoDomiciliar, setAtendimentoDomiiliar] = useState(null)
+  const [Descricao, setDescricao] = useState(null)
+  
+  //Não vão para o back por enquanto
   const [sobrenome, setSobrenome] = useState(null)
-  const [cpf, setCpf] = useState(null)
   const [nomefantasia, setNomefantasia] = useState(null)
-  const [telefone, setTelefone] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [senha, setSenha] = useState(null)
-  const [descr, onChangeText] = useState(null)
   const [visivelSexo, setVisivelSexo] = useState(false);
+
   const [visivelCPF, setVisivelCPF] = useState(false);
+
+
+  //Função para cadastrar (Axios pelo Chat GPT)
+  const enviarFormulario = async () => {
+    try {
+      const response = await axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
+        CPF_CNPJ, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao
+      });
+      console.log(response.data);
+    } catch (erro) {
+      console.log(erro);
+    }
+  };
 
   function toggle1() {
     setVisivelSexo((visivelSexo) => !visivelSexo);
@@ -29,7 +46,7 @@ const TelaCadastro = ({ navigation }) => {
   }
 
   const [profissional, setProfissional] = useState(false);
-  const [pessoal, setPessoal] = useState(false);
+  const [cliente, setCliente] = useState(false);
 
   useEffect(() => {
     if (profissional == true) {
@@ -42,14 +59,14 @@ const TelaCadastro = ({ navigation }) => {
   }, [profissional])
 
   useEffect(() => {
-    if (pessoal == true) {
-      console.log('Pessoal')
-      setTipoconta('Pessoal')
+    if (cliente == true) {
+      console.log('Cliente')
+      setTipoconta('Cliente')
     }
     return () => {
-      setPessoal(false)
+      setCliente(false)
     }
-  }, [pessoal])
+  }, [cliente])
 
   const [masculino, setMasculino] = useState(false);
   const [feminino, setFeminino] = useState(false);
@@ -132,10 +149,6 @@ const TelaCadastro = ({ navigation }) => {
     }
   };
 
-
-
-
-
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -144,11 +157,12 @@ const TelaCadastro = ({ navigation }) => {
           Cadastre-se
         </Text>
 
+        <Text>{CPF_CNPJ} - {Nome} - {Email} - {Senha} - {Telefone} - {Descricao}</Text>
+
         <TextInput style={styles.campo}
           placeholder='Nome:'
           onChangeText={value => setNome(value)}
-          value={nome}
-
+          value={Nome}
         />
 
         <TextInput style={styles.campo}
@@ -204,9 +218,9 @@ const TelaCadastro = ({ navigation }) => {
                 Profissional - Pessoa Jurídica
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao} onPress={() => setPessoal(true)}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setCliente(true)}>
               <Text style={styles.textomodal}>
-                Pessoal - Pessoa Física
+                Cliente - Pessoa Física
               </Text>
             </TouchableOpacity>
           </View>
@@ -214,10 +228,10 @@ const TelaCadastro = ({ navigation }) => {
 
         <TextInput style={styles.campo}
           placeholder='CPF/CNPJ:'
-          onChangeText={value => setCpf(value)}
           keyboardType='numeric'
           returnKeyType='done'
-          value={cpf}
+          value={CPF_CNPJ}
+          onChangeText={value => setCPF_CNPJ(value)}
         />
 
         <TextInput style={styles.campo}
@@ -230,20 +244,20 @@ const TelaCadastro = ({ navigation }) => {
           onChangeText={value => setTelefone(value)}
           keyboardType='numeric'
           returnKeyType='done'
-          value={telefone}
+          value={Telefone}
         />
 
         <TextInput style={styles.campo}
           placeholder='E-mail:'
           onChangeText={value => setEmail(value)}
           keyboardType='email-address'
-          value={email}
+          value={Email}
         />
 
         <TextInput style={styles.campo}
           placeholder='Crie uma senha:'
           onChangeText={value => setSenha(value)}
-          value={senha}
+          value={Senha}
         />
 
         <TextInput style={styles.descricao}
@@ -252,8 +266,8 @@ const TelaCadastro = ({ navigation }) => {
           multiline
           numberOfLines={6}
           maxLength={200}
-          onChangeText={value => onChangeText(value)}
-          value={descr}
+          onChangeText={value => setDescricao(value)}
+          value={Descricao}
 
         />
 
@@ -336,12 +350,7 @@ const TelaCadastro = ({ navigation }) => {
         <Button title='Salvar' onPress={() => console.log(endereco)} />
         Precisa modificar o style, pq estou fazendo para criar as rotas */}
 
-        <TouchableOpacity style={styles.botao} onPress={
-          () => {
-            rotaCadastro();
-          }
-
-        }>
+        <TouchableOpacity style={styles.botao} onPress={enviarFormulario}>
           <Text style={styles.txtbtn} >
             Cadastrar
           </Text>

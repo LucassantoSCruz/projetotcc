@@ -17,20 +17,40 @@ const TelaCadastro = ({ navigation }) => {
   const [Telefone, setTelefone] = useState(null)
   const [AtendimentoDomiciliar, setAtendimentoDomiiliar] = useState(null)
   const [Descricao, setDescricao] = useState(null)
-  
-  //Não vão para o back por enquanto
-  const [sobrenome, setSobrenome] = useState(null)
   const [nomefantasia, setNomefantasia] = useState(null)
-  const [visivelSexo, setVisivelSexo] = useState(false);
+  const [visivelPronome, setVisivelPronome] = useState(false);  
+  //add o endereço
+  const [cepEnd, setCepEnd] = useState(null);
+  const [infoCep, setInfo] = useState('');
+  const [numero, setNumero] = useState(null);
+  const [complemento, setComplemento] = useState(null);
 
+  //Não vão para o back por enquanto
   const [visivelCPF, setVisivelCPF] = useState(false);
 
 
-  //Função para cadastrar (Axios pelo Chat GPT)
+  //Teste par afazer mais de uma requisição com o Axios
+  // axios.all([
+  //   axios.post('http://192.168.1.3:3000/cadastrarProfissonal'),
+  //   axios.post('http://192.168.1.3:3000/cadastrarEndereco')
+  //   ]).then(axios.spread((citiesRes, expensesRes) => {
+  //     this.cities = citiesRes.data
+  //     this.expenses = expensesRes.data
+  // }))
+
+  //Função para cadastrar
   const enviarFormulario = async () => {
     try {
       const response = await axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
-        CPF_CNPJ, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao
+        CPF_CNPJ, 
+        Nome, 
+        nomefantasia, 
+        tipoPronome, 
+        Email, 
+        Senha,
+        Telefone, 
+        AtendimentoDomiciliar, 
+        Descricao
       });
       console.log(response.data);
     } catch (erro) {
@@ -39,7 +59,7 @@ const TelaCadastro = ({ navigation }) => {
   };
 
   function toggle1() {
-    setVisivelSexo((visivelSexo) => !visivelSexo);
+    setVisivelPronome((visivelPronome) => !visivelPronome);
   }
   function toggle2() {
     setVisivelCPF((visivelCPF) => !visivelCPF);
@@ -68,37 +88,48 @@ const TelaCadastro = ({ navigation }) => {
     }
   }, [cliente])
 
-  const [masculino, setMasculino] = useState(false);
-  const [feminino, setFeminino] = useState(false);
-  const [outro, setOutro] = useState(false)
+  const [eleDele, setEleDele] = useState(false);
+  const [elaDela, setElaDela] = useState(false);
+  const [eluDelu, setEluDelu] = useState(false)
+  const [naoDizer, setNaoDizer] = useState(false)
 
   useEffect(() => {
-    if (masculino == true) {
-      console.log('Masculino'),
-        setTiposexo('Masculino')
+    if (eleDele == true) {
+      console.log('Ele/Dele'),
+        setTipoPronome('Ele/Dele')
     }
     return () => {
-      setMasculino(false)
+      setEleDele(false)
     }
   })
 
   useEffect(() => {
-    if (feminino == true) {
-      console.log('Feminino')
-      setTiposexo('Feminino')
+    if (elaDela == true) {
+      console.log('Ela/Dela')
+      setTipoPronome('Ela/Dela')
     }
     return () => {
-      setFeminino(false)
+      setElaDela(false)
     }
   })
 
   useEffect(() => {
-    if (outro == true) {
-      console.log('Outro')
-      setTiposexo('Outro/Prefere não dizer')
+    if (eluDelu == true) {
+      console.log('Elu/Delu')
+      setTipoPronome('Elu/Delu')
     }
     return () => {
-      setOutro(false)
+      setEluDelu(false)
+    }
+  })
+
+  useEffect(() => {
+    if (naoDizer == true) {
+      console.log('Prefere não dizer')
+      setTipoPronome('Prefere não dizer')
+    }
+    return () => {
+      setNaoDizer(false)
     }
   })
 
@@ -119,11 +150,7 @@ const TelaCadastro = ({ navigation }) => {
   };
 
   const [tipoconta, setTipoconta] = useState("")
-  const [tiposexo, setTiposexo] = useState("")
-
-  //add o endereço
-  const [cepEnd, setCepEnd] = useState(null);
-  const [infoCep, setInfo] = useState('');
+  const [tipoPronome, setTipoPronome] = useState("")
 
   //cep
   const getCep = async () => {
@@ -157,46 +184,43 @@ const TelaCadastro = ({ navigation }) => {
           Cadastre-se
         </Text>
 
-        <Text>{CPF_CNPJ} - {Nome} - {Email} - {Senha} - {Telefone} - {Descricao}</Text>
-
         <TextInput style={styles.campo}
           placeholder='Nome:'
           onChangeText={value => setNome(value)}
           value={Nome}
         />
 
-        <TextInput style={styles.campo}
-          placeholder='Sobrenome:'
-          onChangeText={value => setSobrenome(value)}
-          value={sobrenome}
-        />
-
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
           <View>
             <Text style={styles.titulomodal}>
-              Sexo: {tiposexo}
+              Pronome: {tipoPronome}
             </Text>
           </View>
         </TouchableOpacity>
         <BottomSheet
-          visible={visivelSexo}
+          visible={visivelPronome}
           onBackButtonPress={toggle1}
           onBackdropPress={toggle1}
         >
           <View style={styles.fundomodal}>
-            <TouchableOpacity style={styles.selecao} onPress={() => setFeminino(true)}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setElaDela(true)}>
               <Text style={styles.textomodal}>
-                Feminino
+                Ela/Dela
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao} onPress={() => setMasculino(true)}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setEleDele(true)}>
               <Text style={styles.textomodal}>
-                Masculino
+                Ele/Dele
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao} onPress={() => setOutro(true)}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setEluDelu(true)}>
               <Text style={styles.textomodal}>
-                Outro/Prefere não dizer
+                Elu/Delu
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => setNaoDizer(true)}>
+              <Text style={styles.textomodal}>
+                Prefere não dizer
               </Text>
             </TouchableOpacity>
           </View>
@@ -316,39 +340,25 @@ const TelaCadastro = ({ navigation }) => {
         <TextInput
           style={styles.campo}
           placeholder='Cidade:'
-          value={infoCep.cidade}
+          value={infoCep.localidade}
         />
         <TextInput
           style={styles.campo}
           placeholder='Estado:'
-          value={infoCep.estado}
+          value={infoCep.uf}
         />
         <TextInput
           style={styles.campo}
           placeholder='Numero:'
-          value={infoCep.numero}
+          value={numero}
+          onChangeText={text => setNumero(text)}
         />
         <TextInput
           style={styles.campo}
           placeholder='Complemento:'
+          value={complemento}
+          onChangeText={text => setComplemento(text)}
         />
-
-
-        {/* colocando o campo do cep para calcular o endereço
-        <TextInput
-          placeholder='CEP'
-          value='{cepEnd}'
-          onChangeText={text => setCepEnd(text)}
-          onBlu={() => modCep(cepEnd)}
-        />
-        <Text> Rua: {endereco.Rua}</Text>
-        <Text> Bairro: {endereco.Bairro}</Text>
-        <Text> Cidade: {endereco.Cidade}</Text>
-        <Text> Estado: {endereco.Estado}</Text>
-        <Text> Numero: {endereco.Numero}</Text>
-        <Text> Complemeto: {endereco.Complemeto}</Text>
-        <Button title='Salvar' onPress={() => console.log(endereco)} />
-        Precisa modificar o style, pq estou fazendo para criar as rotas */}
 
         <TouchableOpacity style={styles.botao} onPress={enviarFormulario}>
           <Text style={styles.txtbtn} >

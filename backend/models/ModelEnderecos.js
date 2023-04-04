@@ -23,7 +23,23 @@ const modelEnderecos = conexao.define('tbl_Enderecos', {
         type: sequelize.STRING,
         allowNull: false
     },
-    Titulo:{
+    UF:{
+        type: sequelize.STRING,
+        allowNull: true
+    },
+    LocalidadeCidade:{
+        type: sequelize.STRING,
+        allowNull: true
+    },
+    Logradouro:{
+        type: sequelize.STRING,
+        allowNull: true
+    },
+    Bairro:{
+        type: sequelize.STRING,
+        allowNull: true
+    },
+    Numero:{
         type: sequelize.STRING,
         allowNull: true
     },

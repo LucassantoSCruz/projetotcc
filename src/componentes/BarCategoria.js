@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { BottomSheet } from "react-native-btr";
 import MapView from "react-native-maps";

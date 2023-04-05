@@ -17,7 +17,7 @@ const TelaCadastro = ({ navigation }) => {
   const [Telefone, setTelefone] = useState(null)
   const [AtendimentoDomiciliar, setAtendimentoDomiiliar] = useState(null)
   const [Descricao, setDescricao] = useState(null)
-  
+
   //Não vão para o back por enquanto
   const [sobrenome, setSobrenome] = useState(null)
   const [nomefantasia, setNomefantasia] = useState(null)
@@ -141,7 +141,7 @@ const TelaCadastro = ({ navigation }) => {
         // email: "000",
         // senha: "000",
         // cepEnd: "000",
-        
+
       });
       console.log(response.data);
     } catch (error) {
@@ -290,18 +290,20 @@ const TelaCadastro = ({ navigation }) => {
           Local do Estabelecimento
         </Text>
 
-        <TextInput
-          style={styles.campo}
-          placeholder='CEP:'
-          value={cepEnd}
-          onChangeText={text => setCepEnd(text)}
-        />
+        <View style={styles.alinhamentocep}>
+          <TextInput
+            style={styles.campocep}
+            placeholder='CEP:'
+            value={cepEnd}
+            onChangeText={text => setCepEnd(text)}
+          />
 
-        <TouchableOpacity style={styles.botaofoto} onPress={getCep}>
-          <Text style={styles.txtbtn}>
-            Salvar Endereço
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.botaocep} onPress={getCep}>
+            <Text style={styles.textocep}>
+              Buscar
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         <TextInput
           style={styles.campo}
@@ -316,12 +318,12 @@ const TelaCadastro = ({ navigation }) => {
         <TextInput
           style={styles.campo}
           placeholder='Cidade:'
-          value={infoCep.cidade}
+          value={infoCep.localidade}
         />
         <TextInput
           style={styles.campo}
           placeholder='Estado:'
-          value={infoCep.estado}
+          value={infoCep.uf}
         />
         <TextInput
           style={styles.campo}
@@ -502,6 +504,36 @@ const styles = StyleSheet.create({
   fotodeperfil: {
     height: 150,
     width: 150
+  },
+  alinhamentocep: {
+    flexDirection: 'row'
+  },
+  campocep: {
+    width: '50%',
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 15,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginHorizontal: '2%'
+  },
+  botaocep: {
+    width: '25%',
+    height: 50,
+    backgroundColor: '#D0A3CE',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 2,
+    borderRadius: 10,
+    marginBottom: 15,
+    marginHorizontal: '2%'
+  },
+  textocep: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20
   }
 });
 

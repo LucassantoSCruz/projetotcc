@@ -5,6 +5,7 @@ import TelaInicial from './src/telas/TelaInicial';
 import TelaLogin from './src/telas/TelaLogin';
 import TabNavegacao from './src/Rotas';
 import TelaCadastro from './src/telas/TelaCadastro';
+import Mapa from './src/componentes/Mapa'
 
 const Stack = createNativeStackNavigator();
 

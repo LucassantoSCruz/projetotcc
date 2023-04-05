@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+
+// Caixa 
 import { BottomSheet } from 'react-native-btr';
 
 const TelaLogin = ({ navigation }) => {
 
+  // Função que declara se a caixa está visivel ou não
   const [visivel, setVisivel] = useState(false);
 
+  // 
   function toggle() {
     setVisivel((visivel) => !visivel);
   }
 
+
   const [profissional, setProfissional] = useState(false);
+
+
   const [pessoal, setPessoal] = useState(false);
 
   useEffect(() => {
@@ -35,6 +42,11 @@ const TelaLogin = ({ navigation }) => {
   
   const [tipoconta, setTipoconta] = useState('')
 
+  //Estados para "capturar" email e senha
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [sucesso, setSucesso] = useState(false); 
+
   return (
     <View style={styles.view}>
 
@@ -44,11 +56,16 @@ const TelaLogin = ({ navigation }) => {
 
       <TextInput
         style={styles.caixadetexto}
-        placeholder="Usuário" />
+        placeholder="Usuário" 
+        value={email}
+        onChangeText={setEmail}/>
 
       <TextInput
         style={styles.caixadetexto}
-        placeholder="Senha" />
+        placeholder="Senha" 
+        value={senha}
+        onChangeText={setSenha}
+        />
 
       <TouchableOpacity style={styles.botaomodal} onPress={toggle}>
         <View>

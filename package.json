@@ -2,14 +2,13 @@
   "name": "app",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
-  
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "start-back": "nodemon Servidor.js",
-    "type" : "module"
+    "type": "module"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
@@ -25,7 +24,6 @@
     "expo-location": "~15.0.1",
     "expo-status-bar": "~1.4.2",
     "express": "^4.18.2",
-    "mysql2": "^3.2.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
@@ -39,8 +37,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.7",
-    "react-navigation-stack": "^2.10.4",
-    "sequelize": "^6.29.3"
+    "react-navigation-stack": "^2.10.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

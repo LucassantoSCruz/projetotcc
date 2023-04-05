@@ -8,20 +8,28 @@ const conexao = require('../database/Database');
 const modelProfissionais = conexao.define('tbl_Profissionais', {
     //Definição dos campos e de seus atributos
     CPF_CNPJ: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING(30),
         primaryKey: true
     },
     Nome:{
         type: sequelize.STRING(100),
         allowNull: false
     },
+    NomeFantasia:{
+        type: sequelize.STRING(100),
+        allowNull: true
+    },
+    Pronomes:{
+        type: sequelize.STRING(20),
+        allowNull: true
+    },
     Email: {
         type: sequelize.STRING(45),
-        allowNull: true
+        allowNull: false
     },
     Senha: {
         type: sequelize.STRING(30),
-        allowNull: true
+        allowNull: false
     },
     Telefone: {
         type: sequelize.STRING(30),

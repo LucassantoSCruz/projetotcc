@@ -1,10 +1,9 @@
-import * as React from "react";
+import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { BottomSheet } from "react-native-btr";
 import MapView from "react-native-maps";
 import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions'
-
+// import * as Permissions from 'expo-permissions'
 
 const BarCategoria = () =>{
 
@@ -106,9 +105,9 @@ function alternar() {
   )
 } 
 
-MapScreen.navigationOptions = {
-    header: null
-}
+// MapScreen.navigationOptions = {
+//     header: null
+// }
 
 
 

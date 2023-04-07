@@ -37,7 +37,7 @@ const modelProfissionais = conexao.define('tbl_Profissionais', {
     },
     AtendimentoDomiciliar: {
         type: sequelize.BOOLEAN,
-        defaultValue: 0
+        defaultValue: false
     },
     Descricao: {
         type: sequelize.TEXT,

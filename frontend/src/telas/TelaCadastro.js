@@ -17,46 +17,77 @@ const TelaCadastro = ({ navigation }) => {
   const [Telefone, setTelefone] = useState(null)
   const [AtendimentoDomiciliar, setAtendimentoDomiiliar] = useState(null)
   const [Descricao, setDescricao] = useState(null)
-  const [nomefantasia, setNomefantasia] = useState(null)
+  const [NomeFantasia, setNomeFantasia] = useState(null)
   const [visivelPronome, setVisivelPronome] = useState(false);  
   //add o endereço
   const [cepEnd, setCepEnd] = useState(null);
   const [infoCep, setInfo] = useState('');
-  const [numero, setNumero] = useState(null);
-  const [complemento, setComplemento] = useState(null);
+  const [Latitude, setLatitude] = useState(null);
+  const [Longitude, setLongitude] = useState(null);
+  const [Numero, setNumero] = useState(null);
+  const [Complemento, setComplemento] = useState(null);
 
   //Não vão para o back por enquanto
   const [visivelCPF, setVisivelCPF] = useState(false);
 
 
-  //Teste par afazer mais de uma requisição com o Axios
-  // axios.all([
-  //   axios.post('http://192.168.1.3:3000/cadastrarProfissonal'),
-  //   axios.post('http://192.168.1.3:3000/cadastrarEndereco')
-  //   ]).then(axios.spread((citiesRes, expensesRes) => {
-  //     this.cities = citiesRes.data
-  //     this.expenses = expensesRes.data
-  // }))
-
-  //Função para cadastrar
+  //Teste para afazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
     try {
-      const response = await axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
-        CPF_CNPJ, 
-        Nome, 
-        nomefantasia, 
-        tipoPronome, 
-        Email, 
-        Senha,
-        Telefone, 
-        AtendimentoDomiciliar, 
-        Descricao
-      });
-      console.log(response.data);
+      const response = await axios.all([
+          axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
+            CPF_CNPJ, 
+            Nome, 
+            NomeFantasia, 
+            Pronomes, 
+            Email, 
+            Senha,
+            Telefone, 
+            AtendimentoDomiciliar, 
+            Descricao
+          }),
+          axios.post('http://192.168.1.3:3000/cadastrarEndereco', {
+            Latitude,
+            Longitude,
+            CEP: cepEnd,
+            UF: infoCep.uf,
+            LocalidadeCidade: infoCep.localidade,
+            Logradouro: infoCep.logradouro,
+            Bairro: infoCep.bairro,
+            Numero,
+            Complemento
+          })
+        ]);
+        //console.log(response)
+        // .then(
+        //   axios.spread((profissionalRes, enderecoRes) => {
+        //     this.profissional = profissionalRes.data
+        //     this.endereco = enderecoRes.data
+        // }));
     } catch (erro) {
       console.log(erro);
     }
   };
+
+  //Função para cadastrar
+  // const enviarFormulario = async () => {
+  //   try {
+  //     const response = await axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
+  //       CPF_CNPJ, 
+  //       Nome, 
+  //       NomeFantasia, 
+  //       Pronomes, 
+  //       Email, 
+  //       Senha,
+  //       Telefone, 
+  //       AtendimentoDomiciliar, 
+  //       Descricao
+  //     });
+  //     console.log(response.data);
+  //   } catch (erro) {
+  //     console.log(erro);
+  //   }
+  // };
 
   function toggle1() {
     setVisivelPronome((visivelPronome) => !visivelPronome);
@@ -96,7 +127,7 @@ const TelaCadastro = ({ navigation }) => {
   useEffect(() => {
     if (eleDele == true) {
       console.log('Ele/Dele'),
-        setTipoPronome('Ele/Dele')
+        setPronomes('Ele/Dele')
     }
     return () => {
       setEleDele(false)
@@ -106,7 +137,7 @@ const TelaCadastro = ({ navigation }) => {
   useEffect(() => {
     if (elaDela == true) {
       console.log('Ela/Dela')
-      setTipoPronome('Ela/Dela')
+      setPronomes('Ela/Dela')
     }
     return () => {
       setElaDela(false)
@@ -116,7 +147,7 @@ const TelaCadastro = ({ navigation }) => {
   useEffect(() => {
     if (eluDelu == true) {
       console.log('Elu/Delu')
-      setTipoPronome('Elu/Delu')
+      setPronomes('Elu/Delu')
     }
     return () => {
       setEluDelu(false)
@@ -126,7 +157,7 @@ const TelaCadastro = ({ navigation }) => {
   useEffect(() => {
     if (naoDizer == true) {
       console.log('Prefere não dizer')
-      setTipoPronome('Prefere não dizer')
+      setPronomes('Prefere não dizer')
     }
     return () => {
       setNaoDizer(false)
@@ -150,7 +181,7 @@ const TelaCadastro = ({ navigation }) => {
   };
 
   const [tipoconta, setTipoconta] = useState("")
-  const [tipoPronome, setTipoPronome] = useState("")
+  const [Pronomes, setPronomes] = useState("")
 
   //cep
   const getCep = async () => {
@@ -193,7 +224,7 @@ const TelaCadastro = ({ navigation }) => {
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
           <View>
             <Text style={styles.titulomodal}>
-              Pronome: {tipoPronome}
+              Pronome: {Pronomes}
             </Text>
           </View>
         </TouchableOpacity>
@@ -260,7 +291,7 @@ const TelaCadastro = ({ navigation }) => {
 
         <TextInput style={styles.campo}
           placeholder='Nome fantasia:'
-          onChangeText={value => setNomefantasia(value)}
+          onChangeText={value => setNomeFantasia(value)}
         />
 
         <TextInput style={styles.campo}
@@ -327,6 +358,22 @@ const TelaCadastro = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
 
+        {/* TextInput para colocar a latitude e longitude manualmente enquanto
+          não temos a api para salvá-los automaticamente - qualquer coisa podemos
+          tirá-los do banco */}
+        <TextInput
+          style={styles.campo}
+          placeholder='Latitude:'
+          value={Latitude}
+          onChangeText={value => setLatitude(value)}
+        />
+        <TextInput
+          style={styles.campo}
+          placeholder='Longitude:'
+          value={Longitude}
+          onChangeText={value => setLongitude(value)}
+        />
+
         <TextInput
           style={styles.campo}
           placeholder='Rua:'
@@ -350,13 +397,13 @@ const TelaCadastro = ({ navigation }) => {
         <TextInput
           style={styles.campo}
           placeholder='Numero:'
-          value={numero}
+          value={Numero}
           onChangeText={text => setNumero(text)}
         />
         <TextInput
           style={styles.campo}
           placeholder='Complemento:'
-          value={complemento}
+          value={Complemento}
           onChangeText={text => setComplemento(text)}
         />
 

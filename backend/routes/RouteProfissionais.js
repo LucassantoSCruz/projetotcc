@@ -18,11 +18,11 @@ router.post('/cadastrarProfissonal', (req, res) => {
     console.log(req.body);
     
     //Declaração das variáveis que irão representar os campos da tabela
-    let {CPF_CNPJ, Nome, NomeFantasia, tipoPronome, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao} = req.body;
+    let {CPF_CNPJ, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao} = req.body;
 
     //Crie estes campos...
     modelProfissionais.create(
-        {CPF_CNPJ, Nome, NomeFantasia, tipoPronome, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao}
+        {CPF_CNPJ, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao}
     ).then(
         //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{

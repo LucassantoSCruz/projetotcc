@@ -3,7 +3,7 @@
 * Este arquivo tem todas as rotas do modelo da tabela de 
 * Endereços 
 *********************************************************************
-* ID_Endereco, Latitude, Longitude, CEP, Titulo, Complemento
+* Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento
 */
 
 //Importação do Express, do modelo e do gerenciador de rotas do Express
@@ -18,11 +18,11 @@ router.post('/cadastrarEndereco', (req, res) => {
     console.log(req.body);
     
     //Declaração das variáveis que irão representar os campos da tabela
-    let {Latitude, Longitude, CEP, Titulo, Complemento} = req.body;
+    let {Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento} = req.body;
 
     //Crie estes campos...
     modelEnderecos.create(
-        {Latitude, Longitude, CEP, Titulo, Complemento}
+        {Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento}
     ).then(
         //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{
@@ -81,10 +81,10 @@ router.get('/listarEndereco', (req, res) => {
 //Rota de Alteração
 router.put('/alterarEndereco', (req, res) =>{
 
-    let {Latitude, Longitude, CEP, Titulo, Complemento} = req.body;
+    let {Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento} = req.body;
 
     modelEnderecos.update(
-        {Latitude, Longitude, CEP, Titulo, Complemento},
+        {Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento},
         {where:{ ID_Endereco}}
 
     ).then(

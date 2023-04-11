@@ -1,81 +1,124 @@
-import * as React from 'react'
-import { Text } from 'react-native'
-import MapView from 'react-native-maps'
+import React, { useEffect, useState, useRef } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location'
-// import * as Permissions from 'expo-permissions'
-import { StyleSheet } from 'react-native'
-// import { Text } from 'react-native-paper'
+import cadastro from '../telas/TelaCadastro'
 
-const { useState, useEffect } = React
+const Mapa = () => {
 
-export default function MapScreen() {
+    //definição de tipagem de estado
+    const [location, setLocation] = useState<LocationObject | null>(null);
 
-    const [ locationResult, setLocation ] = useState( null )
-    const [ mapRegion, setRegion ] = useState( null )
-    const [ hasLocationPermissions, setLocationPermission ] = useState( false )
+    const mapRef = useRef<MapView>(null);
 
-    useEffect( () => {
-        const getLocationAsync = async () => {
-            let { status } = await Permissions.askAsync( Permissions.LOCATION )
-            if ( 'granted' !== status ) {
-                setLocation( 'Permission to access location was denied' )
-            } else {
-                setLocationPermission( true );
+    const [ coordenadas, setCoordenadas ] = useState({latitude:0, longitude:0})
+
+    const [errorMsg,  setErrorMsg ] = useState(null);
+
+    
+    async function requestLocationPermissions(){
+        
+        //estado de permissão
+        const { granted } = await requestBackgroundPermissionsAsync();
+    
+        if(granted){
+            const currentPosition = await getCurrentPositionAsync();
+            setLocation(currentPosition);
+            
+            //usando a localização atual do usuario, imprimida no console
+            console.log("Localização atual =>", currentPosition)
+        }
+    }
+
+    useEffect(() => {
+        requestLocationPermissions();
+        //codigo add com o gpt
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if(status !== 'granted'){
+                setErrorMsg('Deu errro na permissão')
+                return;
             }
 
-            let { coords: { latitude, longitude } } = await Location.getCurrentPositionAsync({})
-            setLocation( JSON.stringify( { latitude, longitude } ) )
-            
-            // Center the map on the location we just fetched.
-            setRegion( { latitude, longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } );
-        }
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+        })()
+    }, []);
 
-        getLocationAsync()
-    } )
+    //mapa com as configuraçõe do video
+    useEffect(() => {
+        watchPositionAsync({
+            accuracy: LocationAccuracy.Highest,
+            timeInterval: 1000,
+            distanceInterval: 1
+        }, (response) =>{
 
-    if ( locationResult === null ) {
-        return <Text>Finding your current location...</Text>
-    }
+            console.log("Nova localização", response) //-> Dados capturados em real time
+            setLocation(response);
+            mapRef.current?.animateCamera({
+                pitch: 10,//coloca o mapa em angulos diferentes
+                center: response.coords,
 
-    if ( hasLocationPermissions === false ) {
-        return <Text>Location permissions are not granted.</Text>
-    }
+            })
+        });
+    }, []);
 
-    if ( mapRegion === null ) {
-        return <Text>Map region doesn't exist.</Text>
-    }
 
-    return (
-            <MapView
-                style={ styles.container }
-                region={ mapRegion }
-                initialRegion={{
-                    "latitude": 39.97343096953564,
-                    "latitudeDelta": 0.0922,
-                    "longitude": -75.12520805829233,
-                    "longitudeDelta": 0.0421,
+    //obtendo as coordenadas do endereco
+    //geocoder ta no Back-End, é uma biblioteca do Node.js
+    const coordenadasEnd = async (endereco) =>{
+        const res = await geocoder.geocode(endereco);
+        const {latitude, longitude} = res[0];
+        setCoordenadas({latitude, longitude})
+    };
+
+    return(
+
+        <View style = {styles.container}>
+
+        { 
+            location ? ( 
+                <MapView
+                    ref={mapRef}
+                    style={styles.mapa}
+                    initialRegion={{ 
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421
                 }}
-                onRegionChange={ region => setRegion( region )}
-            >
-                <MapView.Marker
-                    title="YIKES, Inc."
-                    description="Web Design and Development"
-                    coordinate={{"latitude":39.969183,"longitude":-75.133308}}
+                >
+                    <MapView.Marker
+                        coordinate={{
+                            latitude:  coordenadas.latitude ,
+                            longitude: coordenadas.longitude,
+                    }}
+                    title={endereco}
                 />
-            </MapView>
-    )
-}
+                </MapView>
+            ): ( 
+                <Text> Procurando...</Text>
+            )}    
+        </View>
+    );
+};
+    
 
-MapScreen.navigationOptions = {
-    header: null
-}
-
+//estilo
 const styles = StyleSheet.create({
     container: {
-        flex: 0.075,
-        backgroundColor: '#ffffff',
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-evenly"
+      flex: 0.075,
+      backgroundColor: '#ffffff',
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-evenly"
     },
-})
+    mapa:{
+        flex: 2,
+        width: '100%',
+        height: '75%',
+        justifyContent: 'flex-start'
+    }
+});
+
+export default Mapa;

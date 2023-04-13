@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Platform, Text, View, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps'
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+
+import MarcadorPessoal from './EstiloMarcadorMapa';
 
 const MapaExpo = () => {
     const [location, setLocation] = useState(null);
@@ -30,11 +32,11 @@ const MapaExpo = () => {
 
     return (
         <View style={styles.tela}>
-            <Text>{text}</Text>
+            {/* <Text>{text}</Text> */}
             {
                 location &&
                 <MapView
-                    style={{ width: '80%', height: '80%' }}
+                    style={{ width: 300, height: 250}}
                     initialRegion={{
                         latitude: location.coords.latitude,
                         longitude: location.coords.longitude,
@@ -45,14 +47,13 @@ const MapaExpo = () => {
 
                     <Marker
                         coordinate={{
-                            latitude: location.coords.latitude, 
-                            longitude: location.coords.longitude
+                            latitude: location.coords.latitude,
+                            longitude: location.coords.longitude,
                         }}
-                        image={{uri: 'custom_pin'}}
-                        provider={PROVIDER_GOOGLE}
-                        
-                    >
+                        // image={require('../../assets/iconMarcadorMapa.png')}
 
+                    >
+                        <MarcadorPessoal/>
                     </Marker>
 
                 </MapView>

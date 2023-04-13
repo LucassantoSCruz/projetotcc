@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet } from 'react-native';
+import { Platform, Text, View, StyleSheet, FlatList } from 'react-native';
 import * as Location from 'expo-location';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import MarcadorPessoal from './EstiloMarcadorMapa';
@@ -12,7 +12,7 @@ const MapaExpo = () => {
 
     /*
     Criar um estado para os marcadores
-    Chamar informaçõe dos marcadores com o axios
+    Chamar informações dos marcadores com o axios
     Passar informações para uma flatlist
     Percorrer flatlist e adicionar marcadores
     */
@@ -38,18 +38,33 @@ const MapaExpo = () => {
         text = JSON.stringify(location);
     }
 
-    // useEffect(() => {
-    //     async function fetchMarcadores() {
-    //       try {
-    //         const response = await axios.get('http://192.168.1.3:3000/listarEndereco');
-    //         setMarcadores(response.data);
-    //         console.log(marcadores);
-    //       } catch (error) {
-    //         console.log(error);
-    //       }
-    //     }
-    //     fetchMarcadores();
-    //   }, []);
+    useEffect(() => {
+        async function fetchMarcadores() {
+          try {
+            const response = await axios.get('http://192.168.1.9:3000/listarEndereco');
+            setMarcadores(response.data);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+        fetchMarcadores();
+        console.log(marcadores);
+    }, []);
+
+    function renderMarcador({ item }) {
+        return (
+            <Marker 
+            coordinate={
+                {
+                    latitude: item.data.Latitude,
+                    longitude: item.data.Longitude,
+                }
+            } 
+            title={item.data.CEP} >
+            <MarcadorPessoal/>
+        </Marker>
+        )
+    }
 
     return (
         <View style={styles.tela}>
@@ -71,10 +86,29 @@ const MapaExpo = () => {
                             latitude: location.coords.latitude,
                             longitude: location.coords.longitude,
                         }}
-                        onPress={console.log("coordinate")}
+                        // onPress={console.log(coordinate)}
                     >
-                        <MarcadorPessoal/>
+                        <MarcadorPessoal/> 
                     </Marker>
+
+                    <FlatList
+                        data={marcadores}
+                        renderItem={renderMarcador()}
+                        keyExtractor={item => item.data.ID_Endereco.toString()}
+                    />
+
+                    {/* {marcadores.data.map((marcadores, index) => (
+                        <Marker
+                        key={index}
+                        coordinate={{
+                            latitude: marcadores.data.Latitude,
+                            longitude: marcadores.data.Longitude,
+                        }}
+                        title={marcadores.data.CEP}
+                        >
+                            <MarcadorPessoal/>
+                        </Marker>
+                    ))} */}
                 </MapView>
             }
         </View>

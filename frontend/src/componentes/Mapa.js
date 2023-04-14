@@ -28,6 +28,7 @@ const MapaExpo = () => {
             setLocation(location);
             console.log(location.coords)
         })();
+        requestResponse();
     }, []);
 
     let text = 'Buscando localização..';
@@ -38,33 +39,57 @@ const MapaExpo = () => {
         text = JSON.stringify(location);
     }
 
-    useEffect(() => {
-        async function fetchMarcadores() {
-          try {
-            const response = await axios.get('http://192.168.1.9:3000/listarEndereco');
-            setMarcadores(response.data);
-          } catch (error) {
+    const requestResponse = () => {
+        axios.get('http://10.0.1.101:3000/listarEndereco')
+        .then(function (response) {
+            setMarcadores(response.data)
+            //console.log(marcadores.data)
+        })
+        .catch(function (error) {
             console.log(error);
-          }
-        }
-        fetchMarcadores();
-        console.log(marcadores);
-    }, []);
-
-    function renderMarcador({ item }) {
-        return (
-            <Marker 
-            coordinate={
-                {
-                    latitude: item.data.Latitude,
-                    longitude: item.data.Longitude,
-                }
-            } 
-            title={item.data.CEP} >
-            <MarcadorPessoal/>
-        </Marker>
-        )
+        })
     }
+
+    // function renderMarcador(item) {
+    //     // console.log("Cada Endereço", item.Longitude)
+    //     return (
+    //         // <Marker 
+    //         //     coordinate={
+    //         //         {
+    //         //             latitude: item.Latitude,
+    //         //             longitude: item.Longitude,
+    //         //         }
+    //         //     } 
+    //         // >
+    //         //     <MarcadorPessoal/>
+    //         // </Marker>
+
+    //         <Marker
+    //             coordinate={{
+    //                 latitude: item.Latitude, 
+    //                 longitude: item.Longitude
+    //             }}
+    //         />
+
+    //     );
+    // }
+
+    const Marcador = ({item}) => (
+        // console.log("Resposta Marcador: ", item)
+        <View>
+            <Text>
+                {item.Latitude}
+            </Text>
+        </View>
+        // <MapView>
+        //     <Marker
+        //         coordinate={
+        //             latitude: item.Latitude, 
+        //             longitude: item.Longitude
+        //         }
+        //     />
+        // </MapView>
+    );
 
     return (
         <View style={styles.tela}>
@@ -86,15 +111,14 @@ const MapaExpo = () => {
                             latitude: location.coords.latitude,
                             longitude: location.coords.longitude,
                         }}
-                        // onPress={console.log(coordinate)}
                     >
                         <MarcadorPessoal/> 
                     </Marker>
 
                     <FlatList
-                        data={marcadores}
-                        renderItem={renderMarcador()}
-                        keyExtractor={item => item.data.ID_Endereco.toString()}
+                        data={marcadores.data}
+                        renderItem={({item}) => <Marcador item={item}/>}
+                        keyExtractor={item => item.ID_Endereco}
                     />
 
                     {/* {marcadores.data.map((marcadores, index) => (

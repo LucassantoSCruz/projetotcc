@@ -40,7 +40,7 @@ const MapaExpo = () => {
     }
 
     const requestResponse = () => {
-        axios.get('http://10.0.1.101:3000/listarEndereco')
+        axios.get('http://192.168.1.9:3000/listarEndereco')
         .then(function (response) {
             setMarcadores(response.data)
             //console.log(marcadores.data)
@@ -50,45 +50,21 @@ const MapaExpo = () => {
         })
     }
 
-    // function renderMarcador(item) {
-    //     // console.log("Cada Endereço", item.Longitude)
-    //     return (
-    //         // <Marker 
-    //         //     coordinate={
-    //         //         {
-    //         //             latitude: item.Latitude,
-    //         //             longitude: item.Longitude,
-    //         //         }
-    //         //     } 
-    //         // >
-    //         //     <MarcadorPessoal/>
-    //         // </Marker>
-
-    //         <Marker
-    //             coordinate={{
-    //                 latitude: item.Latitude, 
-    //                 longitude: item.Longitude
-    //             }}
-    //         />
-
-    //     );
-    // }
-
     const Marcador = ({item}) => (
         // console.log("Resposta Marcador: ", item)
-        <View>
-            <Text>
-                {item.Latitude}
-            </Text>
-        </View>
-        // <MapView>
-        //     <Marker
-        //         coordinate={
-        //             latitude: item.Latitude, 
-        //             longitude: item.Longitude
-        //         }
-        //     />
-        // </MapView>
+        // <View>
+        //     <Text>
+        //         {item.Latitude}
+        //     </Text>
+        // </View>
+            <Marker
+                coordinate={
+                    {
+                        latitude: item.Latitude, 
+                        longitude: item.Longitude
+                    }
+                }
+            />
     );
 
     return (

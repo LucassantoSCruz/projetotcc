@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 
 // Caixa 
 import { BottomSheet } from 'react-native-btr';
+
+// Importação do Axios
+import axios from 'axios'
 
 const TelaLogin = ({ navigation }) => {
 
@@ -14,10 +17,7 @@ const TelaLogin = ({ navigation }) => {
     setVisivel((visivel) => !visivel);
   }
 
-
   const [profissional, setProfissional] = useState(false);
-
-
   const [pessoal, setPessoal] = useState(false);
 
   useEffect(() => {
@@ -39,13 +39,79 @@ const TelaLogin = ({ navigation }) => {
       setPessoal(false)
     }
   }, [pessoal])
-  
+
   const [tipoconta, setTipoconta] = useState('')
 
   //Estados para "capturar" email e senha
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [sucesso, setSucesso] = useState(false); 
+  const [email, setEmail] = useState(null);
+  const [senha, setSenha] = useState(null);
+  const [sucesso, setSucesso] = useState(false);
+
+  // constante do botão pesquisa
+  const [busca, setBusca] = useState(false);
+
+  // constande de dados
+  const [dados, setDados] = useState([])
+
+  // chamada da rota de listagem de um nome especifico
+  const Login = () => {
+
+    axios.get(`http://192.168.56.1:3000/ListarProfissionaisNome/${email}`, {
+      dados: {
+        Email: email,
+        Senha: senha
+      }
+    })
+      .then(function (response) {
+        setDados(response.data)
+        console.log('Usuário Encontrado: ', dados.data.Email, dados.data.Senha);
+
+      })
+      .catch(function (error) {
+        //console.error("Erro: ", error)
+        Alert.alert("Usuario não encontrado.")
+        // Alert.alert("Usuario não encontrado ou senha errada")
+        // console.error("Erro: ", error)
+      })
+  }
+
+  useEffect(() => {
+    if (busca == true) {
+      Login()
+      if (email != null) {
+        if (senha != null) {
+          Login()
+        }
+        else {
+          // Alert.alert('Digite sua senha.')
+        }
+      }
+      else {
+        Alert.alert("Digite seu Nome")
+      }
+    }
+    return () => {
+      setBusca(false)
+    }
+  }, [busca])
+
+  useEffect(() => {
+    if (dados.data != null) {
+      if (dados.data.Email == email, dados.data.Senha == senha) {
+        Alert.alert(
+          "Login Realizado",
+          "Entre no Aplicativo",
+          [{
+            text: "Entrar",
+            onPress: () => navigation.navigate('Profissionais'),
+          },]
+        )
+      }
+      else {
+        Alert.alert("Senha Incorreta.")
+      }
+    }
+  }, [dados])
 
   return (
     <View style={styles.view}>
@@ -56,16 +122,17 @@ const TelaLogin = ({ navigation }) => {
 
       <TextInput
         style={styles.caixadetexto}
-        placeholder="Usuário" 
+        onChangeText={value => setEmail(value)}
         value={email}
-        onChangeText={setEmail}/>
+        placeholder="Email"
+      />
 
       <TextInput
         style={styles.caixadetexto}
-        placeholder="Senha" 
+        onChangeText={value => setSenha(value)}
         value={senha}
-        onChangeText={setSenha}
-        />
+        placeholder="Senha"
+      />
 
       <TouchableOpacity style={styles.botaomodal} onPress={toggle}>
         <View>
@@ -80,12 +147,12 @@ const TelaLogin = ({ navigation }) => {
         onBackdropPress={toggle}
       >
         <View style={styles.fundomodal}>
-          <TouchableOpacity style={styles.selecao} onPress={()=>setProfissional(true)}>
+          <TouchableOpacity style={styles.selecao} onPress={() => setProfissional(true)}>
             <Text style={styles.textomodal}>
               Profissional - Pessoa Jurídica
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.selecao} onPress={()=>setPessoal(true)}>
+          <TouchableOpacity style={styles.selecao} onPress={() => setPessoal(true)}>
             <Text style={styles.textomodal}>
               Pessoal - Pessoa Física
             </Text>
@@ -93,7 +160,7 @@ const TelaLogin = ({ navigation }) => {
         </View>
       </BottomSheet>
 
-      <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Profissionais')}>
+      <TouchableOpacity style={styles.botao} onPress={() => setBusca(true)}>
         <Text style={styles.textobotao}>
           Entrar
         </Text>

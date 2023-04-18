@@ -18,7 +18,7 @@ const TelaCadastro = ({ navigation }) => {
   const [AtendimentoDomiciliar, setAtendimentoDomiiliar] = useState(null)
   const [Descricao, setDescricao] = useState(null)
   const [NomeFantasia, setNomeFantasia] = useState(null)
-  const [visivelPronome, setVisivelPronome] = useState(false);  
+  const [visivelPronome, setVisivelPronome] = useState(false);
   //add o endereço
   const [cepEnd, setCepEnd] = useState(null);
   const [infoCep, setInfo] = useState('');
@@ -35,35 +35,35 @@ const TelaCadastro = ({ navigation }) => {
   const enviarFormulario = async () => {
     try {
       const response = await axios.all([
-          axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
-            CPF_CNPJ, 
-            Nome, 
-            NomeFantasia, 
-            Pronomes, 
-            Email, 
-            Senha,
-            Telefone, 
-            AtendimentoDomiciliar, 
-            Descricao
-          }),
-          axios.post('http://192.168.1.3:3000/cadastrarEndereco', {
-            Latitude,
-            Longitude,
-            CEP: cepEnd,
-            UF: infoCep.uf,
-            LocalidadeCidade: infoCep.localidade,
-            Logradouro: infoCep.logradouro,
-            Bairro: infoCep.bairro,
-            Numero,
-            Complemento
-          })
-        ]);
-        //console.log(response)
-        // .then(
-        //   axios.spread((profissionalRes, enderecoRes) => {
-        //     this.profissional = profissionalRes.data
-        //     this.endereco = enderecoRes.data
-        // }));
+        axios.post('http://192.168.10.242:3000/cadastrarProfissonal', {
+          CPF_CNPJ,
+          Nome,
+          NomeFantasia,
+          Pronomes,
+          Email,
+          Senha,
+          Telefone,
+          AtendimentoDomiciliar,
+          Descricao
+        }),
+        axios.post('http://192.168.10.242:3000/cadastrarEndereco', {
+          Latitude,
+          Longitude,
+          CEP: cepEnd,
+          UF: infoCep.uf,
+          LocalidadeCidade: infoCep.localidade,
+          Logradouro: infoCep.logradouro,
+          Bairro: infoCep.bairro,
+          Numero,
+          Complemento
+        })
+      ]);
+      //console.log(response)
+      // .then(
+      //   axios.spread((profissionalRes, enderecoRes) => {
+      //     this.profissional = profissionalRes.data
+      //     this.endereco = enderecoRes.data
+      // }));
     } catch (erro) {
       console.log(erro);
     }
@@ -72,7 +72,7 @@ const TelaCadastro = ({ navigation }) => {
   //Função para cadastrar
   // const enviarFormulario = async () => {
   //   try {
-  //     const response = await axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
+  //     const response = await axios.post('http://192.168.10.242:3000/cadastrarProfissonal', {
   //       CPF_CNPJ, 
   //       Nome, 
   //       NomeFantasia, 
@@ -199,7 +199,7 @@ const TelaCadastro = ({ navigation }) => {
         // email: "000",
         // senha: "000",
         // cepEnd: "000",
-        
+
       });
       console.log(response.data);
     } catch (error) {
@@ -233,7 +233,7 @@ const TelaCadastro = ({ navigation }) => {
           onBackButtonPress={toggle1}
           onBackdropPress={toggle1}
         >
-          <View style={styles.fundomodal}>
+          <View style={styles.fundomodalpronome}>
             <TouchableOpacity style={styles.selecao} onPress={() => setElaDela(true)}>
               <Text style={styles.textomodal}>
                 Ela/Dela
@@ -345,18 +345,20 @@ const TelaCadastro = ({ navigation }) => {
           Local do Estabelecimento
         </Text>
 
-        <TextInput
-          style={styles.campo}
-          placeholder='CEP:'
-          value={cepEnd}
-          onChangeText={text => setCepEnd(text)}
-        />
+        <View style={styles.alinhamentocep}>
+          <TextInput
+            style={styles.campocep}
+            placeholder='CEP:'
+            value={cepEnd}
+            onChangeText={text => setCepEnd(text)}
+          />
 
-        <TouchableOpacity style={styles.botaofoto} onPress={getCep}>
-          <Text style={styles.txtbtn}>
-            Salvar Endereço
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.botaocep} onPress={getCep}>
+            <Text style={styles.textocep}>
+              Buscar
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {/* TextInput para colocar a latitude e longitude manualmente enquanto
           não temos a api para salvá-los automaticamente - qualquer coisa podemos
@@ -544,6 +546,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
+  fundomodalpronome: {
+    backgroundColor: "#fff",
+    height: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
   selecao: {
     width: '90%',
   },
@@ -559,6 +569,36 @@ const styles = StyleSheet.create({
   fotodeperfil: {
     height: 150,
     width: 150
+  },
+  alinhamentocep: {
+    flexDirection: 'row'
+  },
+  campocep: {
+    width: '51%',
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 15,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginHorizontal: '2%'
+  },
+  botaocep: {
+    width: '25%',
+    height: 50,
+    backgroundColor: '#D0A3CE',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 2,
+    borderRadius: 10,
+    marginBottom: 15,
+    marginHorizontal: '2%'
+  },
+  textocep: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20
   }
 });
 

@@ -56,7 +56,7 @@ const TelaLogin = ({ navigation }) => {
   // chamada da rota de listagem de um nome especifico
   const Login = () => {
 
-    axios.get(`http://192.168.56.1:3000/ListarProfissionaisNome/${email}`, {
+    axios.get(`http://192.168.10.242:3000/ListarProfissionaisNome/${email}`, {
       dados: {
         Email: email,
         Senha: senha
@@ -87,7 +87,7 @@ const TelaLogin = ({ navigation }) => {
         }
       }
       else {
-        Alert.alert("Digite seu Nome")
+        Alert.alert("Digite seu Email")
       }
     }
     return () => {

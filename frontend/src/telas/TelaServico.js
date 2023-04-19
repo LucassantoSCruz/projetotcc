@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import React, { useEffect, useState, useReducer } from 'react';
 import { BottomSheet } from 'react-native-btr';
-import MaskInput, { Masks } from 'react-native-mask-input';
-//import { MaskedTextInput } from 'react-native-mask-text';  esse é outro componente para máscarar o valor inserido, vou conferir ainda qual dos dois compensa mais usar
+import MaskInput, { Masks, createNumberMask } from 'react-native-mask-input';
+import { MaskedTextInput } from 'react-native-mask-text';  // esse é outro componente para máscarar o valor inserido, vou conferir ainda qual dos dois compensa mais usar
 
 const initialState = { count: 1, valor: 40, valorTotal: 40 };
 
@@ -67,6 +67,15 @@ const TelaServico = () => {
     }
 
     const [data, setData] = useState('');
+
+    const MascHora = createNumberMask({
+        prefix: [''],
+        delimitador: '.',
+        separador: ',',
+        precisão: 4,
+    })
+
+    const [hora, setHora] = useState('');
 
     return (
         <View style={{ flex: 1 }}>
@@ -151,30 +160,72 @@ const TelaServico = () => {
                         Comprar
                     </Text>
                 </TouchableOpacity>
+
                 <BottomSheet
                     visible={visivel}
                     onBackButtonPress={clicou}
                     onBackdropPress={clicou}
                 >
                     <View style={styles.campo}>
-                        <Text style={styles.campotitulo}>Confirmar Serviço</Text>
-                        <Text style={styles.campotexto}>Valor Total: {state.valorTotal},00</Text>
+                        <Text style={styles.campotitulo}>
+                            Confirmar Serviço
+                        </Text>
+
+                        <Text style={styles.campotexto}>
+                            Valor Total: {state.valorTotal},00
+                        </Text>
+
                         <View style={styles.campoformacao}>
-                            <Text style={styles.campotexto}>Data: </Text>
-                            <MaskInput
-                                value={data}
-                                onChangeText={setData}
-                                mask={Masks.DATE_DDMMYYYY}
-                                style={styles.campotexto}
-                                keyboardType='numeric'
-                            />
+                            <Text style={styles.campotexto}>
+                                Data:
+                            </Text>
+
+                            <View style={styles.campoinserir}>
+                                <MaskInput
+                                    value={data}
+                                    onChangeText={setData}
+                                    mask={Masks.DATE_DDMMYYYY}
+                                    style={styles.campotexto}
+                                    keyboardType='numeric'
+                                />
+                            </View>
+
                             {/* <TextInput style={styles.campoinserir} /> */}
+
                         </View>
+
                         <View style={styles.campoformacao}>
-                            <Text style={styles.campotexto}>Hora: </Text>
-                            <TextInput style={styles.campoinserir} />
+
+                            <Text style={styles.campotexto}>
+                                Hora:
+                            </Text>
+
+                            <View style={styles.campoinserir}>
+
+                                <MaskedTextInput
+                                    mask="99:99"
+                                    onChangeText={(text, rawText) => {
+                                        console.log(text);
+                                        console.log(rawText);
+                                    }}
+                                    style={styles.campotexto}
+                                    placeholder='__:__'
+                                    keyboardType='numeric'
+                                />
+
+                            </View>
+
                         </View>
+
+                        <TouchableOpacity style={styles.btnconfirmar}>
+                            <Text style={styles.textobtn}>
+                                Contratar
+                            </Text>
+                        </TouchableOpacity>
+
                     </View>
+
+
                 </BottomSheet>
 
             </ScrollView>
@@ -270,13 +321,21 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         margin: 15
     },
+    btnconfirmar: {
+        width: '90%',
+        backgroundColor: '#9a6b99',
+        padding: 10,
+        borderRadius: 100,
+        margin: 15
+    },
     textobtn: {
         fontWeight: 'bold',
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: 20
     },
     campo: {
-        height: 250,
+        height: 350,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -291,7 +350,11 @@ const styles = StyleSheet.create({
     campotitulo: {
         fontSize: 22,
         margin: 7.5,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        backgroundColor: '#E8D0E8',
+        paddingHorizontal: 50,
+        paddingVertical: 10,
+        borderRadius: 15,
     },
     campotexto: {
         fontSize: 22,
@@ -301,7 +364,7 @@ const styles = StyleSheet.create({
     campoinserir: {
         borderColor: 'black',
         borderWidth: 1,
-        padding: 15,
+        padding: 10,
         borderRadius: 20,
         fontSize: 22
     }

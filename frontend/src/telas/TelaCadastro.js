@@ -35,7 +35,7 @@ const TelaCadastro = ({ navigation }) => {
   const enviarFormulario = async () => {
     try {
       const response = await axios.all([
-          axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
+          axios.post('http://192.168.1.9:3000/cadastrarProfissonal', {
             CPF_CNPJ, 
             Nome, 
             NomeFantasia, 
@@ -46,7 +46,7 @@ const TelaCadastro = ({ navigation }) => {
             AtendimentoDomiciliar, 
             Descricao
           }),
-          axios.post('http://192.168.1.3:3000/cadastrarEndereco', {
+          axios.post('http://192.168.1.9:3000/cadastrarEndereco', {
             Latitude,
             Longitude,
             CEP: cepEnd,
@@ -68,26 +68,6 @@ const TelaCadastro = ({ navigation }) => {
       console.log(erro);
     }
   };
-
-  //Função para cadastrar
-  // const enviarFormulario = async () => {
-  //   try {
-  //     const response = await axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
-  //       CPF_CNPJ, 
-  //       Nome, 
-  //       NomeFantasia, 
-  //       Pronomes, 
-  //       Email, 
-  //       Senha,
-  //       Telefone, 
-  //       AtendimentoDomiciliar, 
-  //       Descricao
-  //     });
-  //     console.log(response.data);
-  //   } catch (erro) {
-  //     console.log(erro);
-  //   }
-  // };
 
   function toggle1() {
     setVisivelPronome((visivelPronome) => !visivelPronome);
@@ -190,22 +170,22 @@ const TelaCadastro = ({ navigation }) => {
   }
 
 
-  const rotaCadastro = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/ListagemDados', {
-        // setCpf: "000",
-        // nome: "000",
-        // sobrenome: "000",
-        // email: "000",
-        // senha: "000",
-        // cepEnd: "000",
+  // const rotaCadastro = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/ListagemDados', {
+  //       // setCpf: "000",
+  //       // nome: "000",
+  //       // sobrenome: "000",
+  //       // email: "000",
+  //       // senha: "000",
+  //       // cepEnd: "000",
         
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     });
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <ScrollView>

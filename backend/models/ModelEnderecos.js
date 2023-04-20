@@ -12,11 +12,11 @@ const modelEnderecos = conexao.define('tbl_Enderecos', {
         autoIncrement: true
     },
     Latitude:{
-        type: sequelize.DECIMAL,
+        type: sequelize.DOUBLE,
         allowNull: false
     },
     Longitude:{
-        type: sequelize.DECIMAL,
+        type: sequelize.DOUBLE,
         allowNull: false
     },
     CEP:{

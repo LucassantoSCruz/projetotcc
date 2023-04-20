@@ -4,6 +4,7 @@ import { BottomSheet } from "react-native-btr";
 import MapView from "react-native-maps";
 import Location from 'expo-location';
 
+import MapaExpo from "./Mapa";
 
 const BarCategoria = () =>{
 
@@ -46,14 +47,15 @@ function alternar() {
           
           <View style={styles.fundomodal}>
             <Text style={styles.textomapa}>Localização</Text>
-              <MapView style={styles.mapa}
+            <MapaExpo/>
+              {/* <MapView style={styles.mapa}
                   initialRegion={{
                     latitude: -23.5113,
                     longitude: -46.8768,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                   }}
-              />
+              /> */}
           </View>
           
         </BottomSheet>

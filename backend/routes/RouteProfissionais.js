@@ -109,7 +109,9 @@ router.get('/ListarProfissionaisNome/:Email', (req, res)=>{
 
     let {Email} = req.params;
 
-    modelProfissionais.findOne({where:{Email}})
+    modelProfissionais.findOne({
+        attributes:['Email', 'Senha'],
+        where:{Email}})
 
     .then(
         (response)=>{

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Platform, Text, View, StyleSheet, FlatList } from 'react-native';
 import * as Location from 'expo-location';
-import MapView, { Marker} from 'react-native-maps'
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import MarcadorPessoal from './EstiloMarcadorMapa';
 import axios from 'axios';
 
@@ -9,6 +9,13 @@ const MapaExpo = () => {
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const [marcadores, setMarcadores] = useState([]);
+
+    /*
+    Criar um estado para os marcadores
+    Chamar informações dos marcadores com o axios
+    Passar informações para uma flatlist
+    Percorrer flatlist e adicionar marcadores
+    */
 
     useEffect(() => {
         (async () => {
@@ -33,7 +40,8 @@ const MapaExpo = () => {
     }
 
     const requestResponse = () => {
-        axios.get('http://10.0.1.101:3000/listarEndereco')
+        axios.get('http://192.168.1.9:3000/listarEndereco')
+        axios.get('http://192.168.1.7:3000/listarEndereco')
         .then(function (response) {
             setMarcadores(response.data)
             //console.log(marcadores.data)

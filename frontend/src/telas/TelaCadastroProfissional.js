@@ -4,11 +4,10 @@ import { BottomSheet } from 'react-native-btr';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
 import axios from 'axios';
-import { value } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 
 const PlaceholderImage = require('../../assets/Perfil.png');
 
-const TelaCadastro = ({ navigation }) => {
+const TelaCadastroProfissional = ({ navigation }) => {
 
   const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
   const [Nome, setNome] = useState(null)
@@ -35,7 +34,7 @@ const TelaCadastro = ({ navigation }) => {
   const enviarFormulario = async () => {
     try {
       const response = await axios.all([
-          axios.post('http://10.0.1.101:3000/cadastrarProfissonal', {
+          axios.post('http://192.168.1.7:3000/cadastrarProfissonal', {
             CPF_CNPJ, 
             Nome, 
             NomeFantasia, 
@@ -46,7 +45,7 @@ const TelaCadastro = ({ navigation }) => {
             AtendimentoDomiciliar, 
             Descricao
           }),
-          axios.post('http://10.0.1.101:3000/cadastrarEndereco', {
+          axios.post('http://192.168.1.7:3000/cadastrarEndereco', {
             Latitude,
             Longitude,
             CEP: cepEnd,
@@ -58,7 +57,7 @@ const TelaCadastro = ({ navigation }) => {
             Complemento
           })
         ]);
-        //console.log(response)
+        // console.log(response)
         // .then(
         //   axios.spread((profissionalRes, enderecoRes) => {
         //     this.profissional = profissionalRes.data
@@ -542,4 +541,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TelaCadastro;
+export default TelaCadastroProfissional;

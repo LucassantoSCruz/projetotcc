@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
 import BoxPerfil from '../componentes/BoxPerfil';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 import axios from 'axios';
-import BoxPerfil from '../componentes/BoxPerfil';
 
 const TelaProfissionais = ({navigation}) => {
 
     const [servicos, setServicos] = useState([])
 
     useEffect(() => {
-        axios.get('http://10.0.1.101:3000/listarServicos')
+        axios.get('http://192.168.1.7:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
+            console.log(servicos.data)
         })
         .catch(function (error) {
             console.log(error);
@@ -25,7 +25,6 @@ const TelaProfissionais = ({navigation}) => {
     * Função pra tratar cada resgistro
     * Flatlist para receber a const servicos
     */
-
     return (
         <View style={{flex: 1}}>
 
@@ -43,7 +42,7 @@ const TelaProfissionais = ({navigation}) => {
                     <View style={styles.view3}>
                         <Text style={styles.texto}>Perfis Favoritos</Text>
                         <TouchableOpacity>
-                            <Text style={styles.texto2}>Ver Todos</Text>
+                            <Text style={styles.texto2}>Ver Todos</Text> 
                         </TouchableOpacity>
                     </View>
 
@@ -75,6 +74,11 @@ const TelaProfissionais = ({navigation}) => {
                     </View>
 
                     <View style={styles.view}>
+                        {/* <FlatList
+                            data={servicos.data}
+                            renderItem={({item}) => <Servico item={item} />}
+                            keyExtractor={item => item.ID_Servico}
+                        /> */}
                         <TouchableOpacity style={styles.boxperfil} onPress={()=>navigation.navigate('PerfilProfissional')}>
                             <BoxPerfil/>
                         </TouchableOpacity>

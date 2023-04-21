@@ -14,7 +14,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [Email, setEmail] = useState(null)
   const [Senha, setSenha] = useState(null)
   const [Telefone, setTelefone] = useState(null)
-  const [AtendimentoDomiciliar, setAtendimentoDomiiliar] = useState(null)
+  const [AtendimentoDomiciliar, setAtendimentoDomiciliar] = useState(null)
   const [PessoaJuridica, setPessoaJuridica] = useState(null)
   const [Descricao, setDescricao] = useState(null)
   const [NomeFantasia, setNomeFantasia] = useState(null)
@@ -27,9 +27,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [Numero, setNumero] = useState(null);
   const [Complemento, setComplemento] = useState(null);
 
-  //Não vão para o back por enquanto
   const [visivelTipoConta, setVisivelTipoConta] = useState(false);
-
+  const [visivelAtDomicilio, setAtDomicilio] = useState(false);
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
@@ -59,12 +58,6 @@ const TelaCadastroProfissional = ({ navigation }) => {
             Complemento
           })
         ]);
-        //console.log(response)
-        // .then(
-        //   axios.spread((profissionalRes, enderecoRes) => {
-        //     this.profissional = profissionalRes.data
-        //     this.endereco = enderecoRes.data
-        // }));
     } catch (erro) {
       console.log(erro);
     }
@@ -75,6 +68,9 @@ const TelaCadastroProfissional = ({ navigation }) => {
   }
   function toggle2() {
     setVisivelTipoConta((visivelTipoConta) => !visivelTipoConta);
+  }
+  function toggleAtDomicilio() {
+    setAtDomicilio((visivelAtDomicilio) => !visivelAtDomicilio)
   }
 
   const [PJ, setPJ] = useState(false);
@@ -163,6 +159,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   const [tipoconta, setTipoconta] = useState("")
   const [Pronomes, setPronomes] = useState("")
+  const [txtAtDomiciliar, setTxtAtDomiciliar] = useState("Realiza atendimento á domicílio?")
 
   //cep
   const getCep = async () => {
@@ -251,6 +248,44 @@ const TelaCadastroProfissional = ({ navigation }) => {
           onChangeText={value => setSenha(value)}
           value={Senha}
         />
+
+        <TouchableOpacity style={styles.botaomodal} onPress={toggleAtDomicilio}>
+          <View >
+            <Text style={styles.titulomodal}>{txtAtDomiciliar}</Text>
+          </View>
+        </TouchableOpacity>
+        <BottomSheet
+          visible={visivelAtDomicilio}
+          onBackButtonPress={toggleAtDomicilio}
+          onBackdropPress={toggleAtDomicilio}
+        >
+          <View style={styles.fundomodal}>
+            <TouchableOpacity style={styles.selecao} onPress={() => {
+              setAtendimentoDomiciliar(false);
+              setTxtAtDomiciliar("Não realizo atendimento á domicílio.")}
+            }>
+              <Text style={styles.textomodal}>
+                Não realizo atendimento á domicílio.
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => {
+              setAtendimentoDomiciliar(true);
+              setTxtAtDomiciliar("Sim, atendimento á domicilio e em meu estabelecimento.")}
+            }>
+              <Text style={styles.textomodal}>
+                Sim, atendimento á domicilio e no estabelecimento.
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => {
+              setAtendimentoDomiciliar(true);
+              setTxtAtDomiciliar("Realizo apenas atendimento á domicílio.")}
+            }>
+              <Text style={styles.textomodal}>
+                Realizo apenas atendimento á domicílio.
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </BottomSheet>
 
         <TextInput style={styles.campo}
           placeholder='Telefone:'

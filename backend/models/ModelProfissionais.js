@@ -23,6 +23,10 @@ const modelProfissionais = conexao.define('tbl_Profissionais', {
         type: sequelize.STRING(20),
         allowNull: true
     },
+    PessoaJuridica: {
+        type: sequelize.BOOLEAN,
+        defaultValue: false
+    },
     Email: {
         type: sequelize.STRING(45),
         allowNull: false

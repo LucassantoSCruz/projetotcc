@@ -15,6 +15,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [Senha, setSenha] = useState(null)
   const [Telefone, setTelefone] = useState(null)
   const [AtendimentoDomiciliar, setAtendimentoDomiiliar] = useState(null)
+  const [PessoaJuridica, setPessoaJuridica] = useState(null)
   const [Descricao, setDescricao] = useState(null)
   const [NomeFantasia, setNomeFantasia] = useState(null)
   const [visivelPronome, setVisivelPronome] = useState(false);  
@@ -27,7 +28,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [Complemento, setComplemento] = useState(null);
 
   //Não vão para o back por enquanto
-  const [visivelCPF, setVisivelCPF] = useState(false);
+  const [visivelTipoConta, setVisivelTipoConta] = useState(false);
 
 
   //Teste para fazer mais de uma requisição com o Axios
@@ -42,7 +43,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
             Email, 
             Senha,
             Telefone, 
-            AtendimentoDomiciliar, 
+            AtendimentoDomiciliar,
+            PessoaJuridica,
             Descricao
           }),
           axios.post('http://192.168.1.7:3000/cadastrarEndereco', {
@@ -57,7 +59,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
             Complemento
           })
         ]);
-        // console.log(response)
+        //console.log(response)
         // .then(
         //   axios.spread((profissionalRes, enderecoRes) => {
         //     this.profissional = profissionalRes.data
@@ -72,31 +74,31 @@ const TelaCadastroProfissional = ({ navigation }) => {
     setVisivelPronome((visivelPronome) => !visivelPronome);
   }
   function toggle2() {
-    setVisivelCPF((visivelCPF) => !visivelCPF);
+    setVisivelTipoConta((visivelTipoConta) => !visivelTipoConta);
   }
 
-  const [profissional, setProfissional] = useState(false);
-  const [cliente, setCliente] = useState(false);
+  const [PJ, setPJ] = useState(false);
+  const [PF, setPF] = useState(false);
 
   useEffect(() => {
-    if (profissional == true) {
-      console.log('Profissional'),
-        setTipoconta('Profissional')
+    if (PJ == true) {
+      setTipoconta('Pessoa Jurídica')
+      setPessoaJuridica(true)
     }
     return () => {
-      setProfissional(false)
+      setPJ(false)
     }
-  }, [profissional])
+  }, [PJ])
 
   useEffect(() => {
-    if (cliente == true) {
-      console.log('Cliente')
-      setTipoconta('Cliente')
+    if (PF == true) {
+      setTipoconta('Pessoa Física')
+      setPessoaJuridica(false)
     }
     return () => {
-      setCliente(false)
+      setPF(false)
     }
-  }, [cliente])
+  }, [PF])
 
   const [eleDele, setEleDele] = useState(false);
   const [elaDela, setElaDela] = useState(false);
@@ -195,9 +197,67 @@ const TelaCadastroProfissional = ({ navigation }) => {
         </Text>
 
         <TextInput style={styles.campo}
-          placeholder='Nome:'
+          placeholder='Nome (obrigatório):'
           onChangeText={value => setNome(value)}
           value={Nome}
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='Nome fantasia:'
+          onChangeText={value => setNomeFantasia(value)}
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='CPF/CNPJ (obrigatório):'
+          keyboardType='numeric'
+          returnKeyType='done'
+          value={CPF_CNPJ}
+          onChangeText={value => setCPF_CNPJ(value)}
+        />
+
+        <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
+          <View >
+            <Text style={styles.titulomodal}>Tipo de Conta (obrigatório): {tipoconta}</Text>
+          </View>
+        </TouchableOpacity>
+        <BottomSheet
+          visible={visivelTipoConta}
+          onBackButtonPress={toggle2}
+          onBackdropPress={toggle2}
+        >
+          <View style={styles.fundomodal}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setPJ(true)}>
+              <Text style={styles.textomodal}>
+                Pessoa Jurídica
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => setPF(true)}>
+              <Text style={styles.textomodal}>
+                Pessoa Física
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </BottomSheet>
+
+        <TextInput style={styles.campo}
+          placeholder='E-mail (obrigatório):'
+          onChangeText={value => setEmail(value)}
+          keyboardType='email-address'
+          value={Email}
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='Crie uma senha (obrigatório):'
+          onChangeText={value => setSenha(value)}
+          value={Senha}
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='Telefone:'
+          onChangeText={value => setTelefone(value)}
+          keyboardType='numeric'
+          returnKeyType='done'
+          value={Telefone}
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
@@ -236,64 +296,6 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
-          <View >
-            <Text style={styles.titulomodal}>Tipo de Conta: {tipoconta}</Text>
-          </View>
-        </TouchableOpacity>
-        <BottomSheet
-          visible={visivelCPF}
-          onBackButtonPress={toggle2}
-          onBackdropPress={toggle2}
-        >
-          <View style={styles.fundomodal}>
-            <TouchableOpacity style={styles.selecao} onPress={() => setProfissional(true)}>
-              <Text style={styles.textomodal}>
-                Profissional - Pessoa Jurídica
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao} onPress={() => setCliente(true)}>
-              <Text style={styles.textomodal}>
-                Cliente - Pessoa Física
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </BottomSheet>
-
-        <TextInput style={styles.campo}
-          placeholder='CPF/CNPJ:'
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={CPF_CNPJ}
-          onChangeText={value => setCPF_CNPJ(value)}
-        />
-
-        <TextInput style={styles.campo}
-          placeholder='Nome fantasia:'
-          onChangeText={value => setNomeFantasia(value)}
-        />
-
-        <TextInput style={styles.campo}
-          placeholder='Telefone:'
-          onChangeText={value => setTelefone(value)}
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={Telefone}
-        />
-
-        <TextInput style={styles.campo}
-          placeholder='E-mail:'
-          onChangeText={value => setEmail(value)}
-          keyboardType='email-address'
-          value={Email}
-        />
-
-        <TextInput style={styles.campo}
-          placeholder='Crie uma senha:'
-          onChangeText={value => setSenha(value)}
-          value={Senha}
-        />
-
         <TextInput style={styles.descricao}
           placeholder='Descrição:'
           editable
@@ -302,7 +304,6 @@ const TelaCadastroProfissional = ({ navigation }) => {
           maxLength={200}
           onChangeText={value => setDescricao(value)}
           value={Descricao}
-
         />
 
         <Text style={styles.titfotodeperfil}>

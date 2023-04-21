@@ -57,7 +57,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
             Complemento
           })
         ]);
-        //console.log(response)
+        // console.log(response)
         // .then(
         //   axios.spread((profissionalRes, enderecoRes) => {
         //     this.profissional = profissionalRes.data

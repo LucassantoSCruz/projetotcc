@@ -1,5 +1,3 @@
-import React from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
@@ -7,9 +5,6 @@ import BoxPerfil from '../componentes/BoxPerfil';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 import axios from 'axios';
-
-const TelaProfissionais = ({navigation}) => {
-
 
 const TelaProfissionais = ({navigation}) => {
 
@@ -130,7 +125,7 @@ const TelaProfissionais = ({navigation}) => {
         </View>
     )
 }
-}
+
 const styles = StyleSheet.create({
     tela1: {
         flex: 1,

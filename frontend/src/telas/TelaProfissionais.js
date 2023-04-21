@@ -5,6 +5,7 @@ import BoxPerfil from '../componentes/BoxPerfil';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 import axios from 'axios';
+import BoxPerfil from '../componentes/BoxPerfil';
 
 const TelaProfissionais = ({navigation}) => {
 

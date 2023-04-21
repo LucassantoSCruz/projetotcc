@@ -13,6 +13,10 @@ const modelServicos = conexao.define('tbl_Servicos', {
         primaryKey: true,
         autoIncrement: true
     },
+    Imagem: {
+        type: sequelize.BLOB,
+        allowNull: true
+    },
     Preco: {
         type: sequelize.DECIMAL(10,2),
         allowNull: false

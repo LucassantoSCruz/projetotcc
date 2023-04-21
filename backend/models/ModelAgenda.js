@@ -14,7 +14,12 @@ const modelAgenda = conexao.define('tbl_Agenda', {
         autoIncrement: true
     },
     Data: {
-        type: sequelize.DATE
+        type: sequelize.DATE,
+        allowNull: false
+    },
+    ValorTotal: {
+        type: sequelize.DECIMAL(10,2),
+        allowNull: false
     }
 }, {
     freezeTableName: true,

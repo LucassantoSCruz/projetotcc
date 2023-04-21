@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
 import BoxPerfil from '../componentes/BoxPerfil';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
+import axios from 'axios';
 
 const TelaProfissionais = ({navigation}) => {
+
+    const [servicos, setServicos] = useState([])
+
+    useEffect(() => {
+        axios.get('http://10.0.1.101:3000/listarServicos')
+        .then(function (response) {
+            setServicos(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }, []);
+
+    /*
+    * Função pra tratar cada resgistro
+    * Flatlist para receber a const servicos
+    */
+
     return (
         <View style={{flex: 1}}>
 

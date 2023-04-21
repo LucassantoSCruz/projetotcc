@@ -4,8 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TelaInicial from './src/telas/TelaInicial';
 import TelaLogin from './src/telas/TelaLogin';
 import TabNavegacao from './src/Rotas';
-import TelaCadastro from './src/telas/TelaCadastro';
-import Mapa from './src/componentes/Mapa'
+import TelaCadastroProfissional from './src/telas/TelaCadastroProfissional';
+import TelaCadastroCliente from './src/telas/TelaCadastroCliente';
+import Mapa from './src/componentes/Mapa';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +16,8 @@ const App = () => {
       <Stack.Navigator initialRouteName="Inicio">
         <Stack.Screen name="Inicio" component={TelaInicial} options={{headerTitleAlign: 'center', title: 'Início'}}/>
         <Stack.Screen name="Login" component={TelaLogin} options={{headerTitleAlign: 'center'}}/>
-        <Stack.Screen name="Cadastro" component={TelaCadastro} options={{headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="CadastroProfissional" component={TelaCadastroProfissional} options={{headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="CadastroCliente" component={TelaCadastroCliente} options={{headerTitleAlign: 'center'}}/>
         <Stack.Screen name="Profissionais" component={TabNavegacao} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>

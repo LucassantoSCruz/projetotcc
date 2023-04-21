@@ -25,14 +25,18 @@ const modelClientes = conexao.define('tbl_Clientes', {
         type: Sequelize.STRING(30),
         allowNull: false
     },
-    Descricao:{
-        type: Sequelize.TEXT,
-        allowNull: true
-    },
     FotoPerfil:{
         type: Sequelize.BLOB,
         allowNull: true
     },
+    Telefone: {
+        type: Sequelize.STRING(30),
+        allowNull: true
+    },
+    Pronomes:{
+        type: Sequelize.STRING(20),
+        allowNull: true
+    }
 }, {
     freezeTableName: true,
     createdAt: 'dataCriacao',

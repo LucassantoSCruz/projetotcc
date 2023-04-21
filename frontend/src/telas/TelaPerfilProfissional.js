@@ -1,8 +1,25 @@
 import * as React from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
+import axios from 'axios';
 
 const TelaPerfilProfissional = ({ navigation }) => {
+
+    const [servicos, setServicos] = useState([])
+
+    //Utilizar rota de listagem com o id do profissional em questão
+
+    useEffect(() => {
+        axios.get('http://192.168.1.7:3000/listarServicos')
+        .then(function (response) {
+            setServicos(response.data)
+            console.log(servicos.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }, []);
+
     return (
         <View>
             <ScrollView>

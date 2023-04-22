@@ -124,7 +124,7 @@ router.get('/ListarProfissionaisNome/:Email', (req, res)=>{
     )
     .catch(
         (erro)=>{
-            return res.status(400).jason({
+            return res.status(400).json({
                 erroStatus:true,
                 mensagemStatus:"Erro ao listar Profissional!",
                 erroObject:erro

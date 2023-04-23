@@ -105,13 +105,15 @@ router.get('/ListarProfissionalCNPJ/:CPF_CNPJ', (req, res)=>{
 });
 
 //Rota de listagem por e-mail
-router.get('/ListarProfissionaisNome/:Email', (req, res)=>{
+router.get('/ListarProfissionaisEmail/:Email/:Senha', (req, res)=>{
 
-    let {Email} = req.params;
+    let {Email, Senha} = req.params;
+    console.log(JSON.stringify(Email))
+    console.log(JSON.stringify(Senha))
 
     modelProfissionais.findOne({
         attributes:['Email', 'Senha'],
-        where:{Email}})
+        where:{Email, Senha}})
 
     .then(
         (response)=>{

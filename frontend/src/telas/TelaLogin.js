@@ -12,7 +12,6 @@ const TelaLogin = ({ navigation }) => {
   // Função que declara se a caixa está visivel ou não
   const [visivel, setVisivel] = useState(false);
 
-  // 
   function toggle() {
     setVisivel((visivel) => !visivel);
   }

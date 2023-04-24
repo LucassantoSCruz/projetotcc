@@ -57,5 +57,44 @@ const modelProfissionais = conexao.define('tbl_Profissionais', {
     updatedAt: 'ultimaModificacao'
 });
 
+//Relacionamentos
+
+//Importações das models
+const modelServicos = require('./ModelServicos');
+const modelAgenda = require('./ModelAgenda');
+const modelClientes = require('./ModelClientes');
+const modelEnderecos = require('./ModelEnderecos');
+
+//Declaração dos relacionamentos
+modelProfissionais.hasMany(modelServicos, {
+    foreignKey: 'FK_Profissionais_Servicos'
+});
+modelServicos.belongsTo(modelProfissionais, {
+    foreignKey: 'FK_Profissionais_Servicos'
+});
+
+modelProfissionais.hasMany(modelAgenda, {
+    foreignKey: 'FK_Profissionais_Agenda'
+});
+modelAgenda.belongsTo(modelProfissionais, {
+    foreignKey: 'FK_Profissionais_Agenda'
+});
+
+modelProfissionais.hasMany(modelEnderecos, {
+    foreignKey: 'FK_Profissionais_Enderecos'
+});
+modelEnderecos.belongsTo(modelProfissionais, {
+    foreignKey: 'FK_Profissionais_Enderecos'
+})
+
+modelProfissionais.belongsToMany(modelClientes, {
+    through: 'perfis_favoritos', 
+    uniqueKey: 'FK_Clientes_Profissionais'
+});
+modelClientes.belongsToMany(modelProfissionais, {
+    through: 'perfis_favoritos', 
+    uniqueKey: 'FK_Profissionais_Clientes'
+});
+
 //Exportação do modelo
 module.exports = modelProfissionais;

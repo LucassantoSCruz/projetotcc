@@ -55,11 +55,13 @@ modelAvaliacoes.belongsTo(modelServicos, {
 
 modelServicos.belongsToMany(modelCategorias, {
     through: 'servicos_categorias',
-    uniqueKey: 'FK_Servicos_Categorias'
+    uniqueKey: 'FK_Servicos_Categorias',
+    timestamps: false
 });
 modelCategorias.belongsToMany(modelServicos, {
     through: 'servicos_categorias',
-    uniqueKey: 'FK_Categorias_Servicos'
+    uniqueKey: 'FK_Categorias_Servicos',
+    timestamps: false
 })
 
 //Exportação do modelo

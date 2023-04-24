@@ -89,11 +89,13 @@ modelEnderecos.belongsTo(modelProfissionais, {
 
 modelProfissionais.belongsToMany(modelClientes, {
     through: 'perfis_favoritos', 
-    uniqueKey: 'FK_Clientes_Profissionais'
+    uniqueKey: 'FK_Clientes_Profissionais',
+    timestamps: false
 });
 modelClientes.belongsToMany(modelProfissionais, {
     through: 'perfis_favoritos', 
-    uniqueKey: 'FK_Profissionais_Clientes'
+    uniqueKey: 'FK_Profissionais_Clientes',
+    timestamps: false
 });
 
 //Exportação do modelo

@@ -10,7 +10,7 @@ const TelaPerfilProfissional = ({ navigation }) => {
     //Utilizar rota de listagem com o id do profissional em questão
 
     useEffect(() => {
-        axios.get('http://192.168.1.7:3000/listarServicos')
+        axios.get('http://10.0.1.57:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
             console.log(servicos.data)

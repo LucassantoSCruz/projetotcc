@@ -5,13 +5,14 @@ import BoxPerfil from '../componentes/BoxPerfil';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 import axios from 'axios';
+import CaixaServico from '../componentes/CaixaSevico';
 
 const TelaProfissionais = ({navigation}) => {
 
     const [servicos, setServicos] = useState([])
 
     useEffect(() => {
-        axios.get('http://192.168.1.7:3000/listarServicos')
+        axios.get('http://10.0.1.57:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
             console.log(servicos.data)
@@ -25,6 +26,17 @@ const TelaProfissionais = ({navigation}) => {
     * Função pra tratar cada resgistro
     * Flatlist para receber a const servicos
     */
+
+    const Campo = ({ campo }) => {
+        return (
+            <View>
+                <Text>
+                    {campo}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <View style={{flex: 1}}>
 
@@ -73,20 +85,23 @@ const TelaProfissionais = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
 
+                    
+
                     <View style={styles.view}>
-                        {/* <FlatList
+                    <FlatList
+                            horizontal={true}
                             data={servicos.data}
-                            renderItem={({item}) => <Servico item={item} />}
+                            renderItem={({item}) => <CaixaServico campo={(item.Titulo)} />}
                             keyExtractor={item => item.ID_Servico}
-                        /> */}
-                        <TouchableOpacity style={styles.boxperfil} onPress={()=>navigation.navigate('PerfilProfissional')}>
+                        />
+                        {/* <TouchableOpacity style={styles.boxperfil} onPress={()=>navigation.navigate('PerfilProfissional')}>
                             <BoxPerfil/>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.boxperfil}>
                             <BoxPerfil/>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
-                    <View style={styles.view}>
+                    {/* <View style={styles.view}>
 
                         <TouchableOpacity style={styles.boxperfil}>
                             <BoxPerfil/>
@@ -118,7 +133,7 @@ const TelaProfissionais = ({navigation}) => {
                             <BoxPerfil/>
                         </TouchableOpacity>
                         
-                    </View>
+                    </View> */}
 
                 </ScrollView>
             </SafeAreaView>

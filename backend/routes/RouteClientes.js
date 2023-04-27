@@ -1,20 +1,12 @@
-/*
-*********************************************************************
-* Este arquivo tem todas as rotas do modelo da tabela de 
-* Clientes
-*********************************************************************
-* CPF, Nome, Email, Senha, Descricao, FotoPerfil
-*/
-
 const express = require('express');
 const modelClientes = require('../models/ModelClientes');
 const router = express.Router();
 
 router.post('/cadastrarCliente', (req, res) => {
             
-    let{CPF, Nome, Email, Senha, Descricao} = req.body;
+    let{CPF, Nome, Email, Senha, Telefone, Pronomes} = req.body;
 
-    modelClientes.create({CPF, Nome, Email, Senha, Descricao})
+    modelClientes.create({CPF, Nome, Email, Senha, Telefone, Pronomes})
         .then(
             ()=>{
                 return res.status(201).json({
@@ -56,10 +48,10 @@ router.get('/listarClientes', (req, res) => {
     
 router.put('/alterarCliente/:CPF',(req, res) => {
 
-        let{CPF, Nome, Email, Senha, Descricao} = req.body;
+        let{CPF, Nome, Email, Senha, Telefone, Pronomes} = req.body;
         
         modelClientes.update(
-            {CPF, Nome, Email, Senha, Descricao},
+            {CPF, Nome, Email, Senha, Telefone, Pronomes},
             {where:{CPF}}
         ).then(
             ()=>{

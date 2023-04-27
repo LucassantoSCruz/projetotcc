@@ -39,6 +39,23 @@ const TelaCriarServico = () => {
     }
 
     const [valor, setValor] = useState(null)
+    const [Preco, setPreco] = useState(null)
+    const  [Titulo, setTitulo] = useState(null)
+    const  [Descricao, setDescricao] = useState(null)
+
+    const enviarFormulario = async () => {
+        axios.post('http://192.168.1.7:3000/cadastrarServico', {
+            Preco,
+            Titulo,
+            Descricao
+        })
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+      };
 
     return (
         <View style={{ flex: 1 }}>

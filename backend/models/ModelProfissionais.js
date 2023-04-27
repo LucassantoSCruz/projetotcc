@@ -23,6 +23,10 @@ const modelProfissionais = conexao.define('tbl_Profissionais', {
         type: sequelize.STRING(20),
         allowNull: true
     },
+    PessoaJuridica: {
+        type: sequelize.BOOLEAN,
+        defaultValue: false
+    },
     Email: {
         type: sequelize.STRING(45),
         allowNull: false
@@ -51,6 +55,47 @@ const modelProfissionais = conexao.define('tbl_Profissionais', {
     freezeTableName: true,
     createdAt: 'dataCriacao',
     updatedAt: 'ultimaModificacao'
+});
+
+//Relacionamentos
+
+//Importações das models
+const modelServicos = require('./ModelServicos');
+const modelAgenda = require('./ModelAgenda');
+const modelClientes = require('./ModelClientes');
+const modelEnderecos = require('./ModelEnderecos');
+
+//Declaração dos relacionamentos
+modelProfissionais.hasMany(modelServicos, {
+    foreignKey: 'FK_Profissionais_Servicos'
+});
+modelServicos.belongsTo(modelProfissionais, {
+    foreignKey: 'FK_Profissionais_Servicos'
+});
+
+modelProfissionais.hasMany(modelAgenda, {
+    foreignKey: 'FK_Profissionais_Agenda'
+});
+modelAgenda.belongsTo(modelProfissionais, {
+    foreignKey: 'FK_Profissionais_Agenda'
+});
+
+modelProfissionais.hasMany(modelEnderecos, {
+    foreignKey: 'FK_Profissionais_Enderecos'
+});
+modelEnderecos.belongsTo(modelProfissionais, {
+    foreignKey: 'FK_Profissionais_Enderecos'
+})
+
+modelProfissionais.belongsToMany(modelClientes, {
+    through: 'perfis_favoritos', 
+    uniqueKey: 'FK_Clientes_Profissionais',
+    timestamps: false
+});
+modelClientes.belongsToMany(modelProfissionais, {
+    through: 'perfis_favoritos', 
+    uniqueKey: 'FK_Profissionais_Clientes',
+    timestamps: false
 });
 
 //Exportação do modelo

@@ -45,7 +45,7 @@ const TelaCriarServico = () => {
     const  [Descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
-        axios.post('http://10.0.1.57:3000/cadastrarServico', {
+        axios.post('http://10.0.1.101:3000/cadastrarServico', {
             Preco,
             Titulo,
             Descricao
@@ -115,7 +115,7 @@ const TelaCriarServico = () => {
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.botao} onPress={enviarFormulario}>
+                <TouchableOpacity style={styles.botao} onPress={ConfirmarServico}>
                     <Text style={styles.textobotao}>
                         Publicar Serviço
                     </Text>

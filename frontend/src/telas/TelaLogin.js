@@ -51,7 +51,7 @@ const TelaLogin = ({ navigation }) => {
 
   const [dados, setDados] = useState([])
 
-  const [dadosRecebidos, setDadosRecebidos] = useState([])
+  const [dadosRecebidos, setDadosRecebidos] = useState(null)
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {

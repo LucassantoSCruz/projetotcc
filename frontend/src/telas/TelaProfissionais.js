@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList} from 'react-native';
+import { StyleSheet, RefreshControl, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList} from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
-import BoxPerfil from '../componentes/BoxPerfil';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 import axios from 'axios';
@@ -13,6 +12,15 @@ const TelaProfissionais = ({navigation}) => {
     const [servicos, setServicos] = useState([])
 
     const [navegar, setNavegar] = useState(false)
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+        setRefreshing(false);
+        }, 2000);
+    }, []);
 
     function botaoClicado(retorno) {
         console.log(retorno)
@@ -29,7 +37,7 @@ const TelaProfissionais = ({navigation}) => {
     },[navegar])
 
     useEffect(() => {
-        axios.get('http://10.0.1.101:3000/listarServicos')
+        axios.get('http://192.168.1.6:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
             console.log(servicos.data)
@@ -52,7 +60,10 @@ const TelaProfissionais = ({navigation}) => {
 
             <BarCategoria/>
                 <SafeAreaView style={styles.tela1}>
-                    <ScrollView style={styles.tela2}>
+                    <ScrollView style={styles.tela2}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                      }>
 
                     <ScrollView horizontal>
                         <Carrosel/>

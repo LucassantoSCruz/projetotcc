@@ -6,10 +6,27 @@ import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 import axios from 'axios';
 import CaixaServico from '../componentes/CaixaSevico';
+import PerfilProfissional from '../telas/TelaPerfilProfissional'
 
 const TelaProfissionais = ({navigation}) => {
 
     const [servicos, setServicos] = useState([])
+
+    const [navegar, setNavegar] = useState(false)
+
+    function botaoClicado(retorno) {
+        console.log(retorno)
+        setNavegar(retorno)
+    }
+
+    useEffect(()=> {
+        navegar === true
+        ? ()=>navigation.push('PerfilProfissional')
+        : console.log("Não naveguei")
+        // return() => {
+        //     setNavegar(false)
+        // } 
+    },[navegar])
 
     useEffect(() => {
         axios.get('http://10.0.1.101:3000/listarServicos')
@@ -27,17 +44,10 @@ const TelaProfissionais = ({navigation}) => {
     * Flatlist para receber a const servicos
     */
 
-    const Campo = ({ campo }) => {
-        return (
-            <View>
-                <Text>
-                    {campo}
-                </Text>
-            </View>
-        )
-    }
-
     return (
+        navegar === true ?
+        <PerfilProfissional quandoClicar={botaoClicado}/>
+        :
         <View style={{flex: 1}}>
 
             <BarCategoria/>
@@ -91,7 +101,7 @@ const TelaProfissionais = ({navigation}) => {
                     <FlatList
                             horizontal={true}
                             data={servicos.data}
-                            renderItem={({item}) => <CaixaServico campo={(item.Titulo)} />}
+                            renderItem={({item}) => <CaixaServico campo={(item.Titulo)} quandoClicar={botaoClicado}/>}
                             keyExtractor={item => item.ID_Servico}
                         />
                         {/* <TouchableOpacity style={styles.boxperfil} onPress={()=>navigation.navigate('PerfilProfissional')}>

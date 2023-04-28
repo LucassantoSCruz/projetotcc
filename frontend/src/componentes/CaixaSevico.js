@@ -1,21 +1,24 @@
 import React from "react";  
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Touchable, TouchableOpacity } from 'react-native';
 
   // criação de um componente
-  CaixaServico = ({ campo }) => {
+  CaixaServico = ( props ) => {
+    const cb = props.quandoClicar;
     return (
-      <View style={styles.fundo}>
-        <View style={styles.fundoimagem}>
-          <Image
-            // source={require('../assets/imagem1.png')}
-            style={styles.imagem} />
+      <TouchableOpacity onPress={()=>cb(true)}>
+        <View style={styles.fundo}>
+          <View style={styles.fundoimagem}>
+            <Image
+              // source={require('../assets/imagem1.png')}
+              style={styles.imagem} />
+          </View>
+          <View style={styles.fundonome}>
+            <Text style={styles.texto}>
+              {props.campo}
+            </Text>
+          </View>
         </View>
-        <View style={styles.fundonome}>
-          <Text style={styles.texto}>
-            {campo}
-          </Text>
-        </View>
-      </View>
+      </TouchableOpacity>
     )
   };
 

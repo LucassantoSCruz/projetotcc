@@ -6,14 +6,14 @@ const cors = require('cors');
 
 //Importação das rotas
 const routeAgenda = require('./routes/RouteAgenda');
-const RouteAvaliacoes = require('./routes/RouteAvaliacoes');
+const routeAvaliacoes = require('./routes/RouteAvaliacoes');
 const routeCategorias = require('./routes/RouteCategorias');
 const routeClientes = require('./routes/RouteClientes');
-const RouteEnderecos = require('./routes/RouteEnderecos');
-//const routeMapa = require('./routes/RouteMapa');
+const routeEnderecos = require('./routes/RouteEnderecos');
+const routeStatus = require('./routes/RouteStatus');
 const routeProfissionais = require('./routes/RouteProfissionais');
 const routeServicos = require('./routes/RouteServicos');
-const RouteServicosSociais = require('./routes/RouteServicosSociais');
+const routeServicosSociais = require('./routes/RouteServicosSociais');
 
 //Tornando o express executável
 const app = express();
@@ -25,14 +25,14 @@ app.use(cors());
 
 //INÍCIO DA UTILIZAÇÃO DAS ROTAS
 app.use('/', routeAgenda);
-app.use('/', RouteAvaliacoes);
+app.use('/', routeAvaliacoes);
 app.use('/', routeCategorias);
 app.use('/', routeClientes);
-app.use('/', RouteEnderecos);
-//app.use('/', routeMapa);
+app.use('/', routeEnderecos);
+app.use('/', routeStatus);
 app.use('/', routeProfissionais);
 app.use('/', routeServicos);
-app.use('/', RouteServicosSociais);
+app.use('/', routeServicosSociais);
 
 //Criação do webserver local
 app.listen(3000, ()=>{

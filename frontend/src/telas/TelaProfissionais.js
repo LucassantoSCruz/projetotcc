@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList} from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
 import BoxPerfil from '../componentes/BoxPerfil';
 import PerfisFav from '../componentes/PerfisFav';
@@ -95,8 +95,6 @@ const TelaProfissionais = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
 
-                    
-
                     <View style={styles.view}>
                     <FlatList
                             horizontal={true}
@@ -104,46 +102,7 @@ const TelaProfissionais = ({navigation}) => {
                             renderItem={({item}) => <CaixaServico campo={(item.Titulo)} quandoClicar={botaoClicado}/>}
                             keyExtractor={item => item.ID_Servico}
                         />
-                        {/* <TouchableOpacity style={styles.boxperfil} onPress={()=>navigation.navigate('PerfilProfissional')}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity> */}
                     </View>
-                    {/* <View style={styles.view}>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                    </View>
-                    <View style={styles.view}>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                    </View>
-                    <View style={styles.view}>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                        
-                    </View> */}
 
                 </ScrollView>
             </SafeAreaView>

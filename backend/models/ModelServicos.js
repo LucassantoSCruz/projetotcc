@@ -35,5 +35,38 @@ const modelServicos = conexao.define('tbl_Servicos', {
     updatedAt: 'ultimaModificacao'
 });
 
+//Relacionamentos
+
+//Importação das models
+const modelAgenda = require('./ModelAgenda');
+const modelAvaliacoes = require('./ModelAvaliacoes')
+const modelCategorias = require('./ModelCategorias');
+
+//Declaração dos relacionamentos
+modelServicos.hasMany(modelAgenda, {
+    foreignKey: 'FK_Servicos_Agenda'
+});
+modelAgenda.belongsTo(modelServicos, {
+    foreignKey: 'FK_Servicos_Agenda'
+});
+
+modelServicos.hasMany(modelAvaliacoes, {
+    foreignKey: 'FK_Servicos_Avaliacoes'
+});
+modelAvaliacoes.belongsTo(modelServicos, {
+    foreignKey: 'FK_Servicos_Avaliacoes'
+});
+
+modelServicos.belongsToMany(modelCategorias, {
+    through: 'servicos_categorias',
+    uniqueKey: 'FK_Servicos_Categorias',
+    timestamps: false
+});
+modelCategorias.belongsToMany(modelServicos, {
+    through: 'servicos_categorias',
+    uniqueKey: 'FK_Categorias_Servicos',
+    timestamps: false
+})
+
 //Exportação do modelo
 module.exports = modelServicos;    

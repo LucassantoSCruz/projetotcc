@@ -29,7 +29,7 @@ function reducer(state, action) {
     }
 }
 
-const TelaServico = () => {
+const TelaServico = ({navigation}) => {
     const [contador, setContador] = useState()
     const [valor, setValor] = useState(40)
     const [botao, setBotao] = useState(false)
@@ -217,7 +217,7 @@ const TelaServico = () => {
 
                         </View>
 
-                        <TouchableOpacity style={styles.btnconfirmar}>
+                        <TouchableOpacity style={styles.btnconfirmar} onPress={()=>navigation.navigate('TelaPagamento')}>
                             <Text style={styles.textobtn}>
                                 Contratar
                             </Text>

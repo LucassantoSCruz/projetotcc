@@ -17,6 +17,7 @@ import TelaComunidadeInfo from './telas/TelaComunidadeInfo';
 import TelaInformacoes from './telas/TelaInformacoes';
 import TelaConfiguracoes from './telas/TelaConfiguracoes';
 import TelaChat from './telas/TelaChat';
+import TelaPagamento from './telas/TelaPagamento';
 
 // Nomes das Telas
 const telaProfissionais = 'Profissionais';
@@ -71,6 +72,7 @@ const RotaProfissional = () => {
         <Stack.Screen name={telaProfissionais} component={TelaProfissionais} options={{ headerTitleAlign: 'center' }} />
         <Stack.Screen name='PerfilProfissional' component={TelaPerfilProfissional} options={{ title: 'Perfil Profissional', headerTitleAlign: 'center' }} />
         <Stack.Screen name='Servico' component={TelaServico} options={{ title: 'Serviço', headerTitleAlign: 'center' }} />
+        <Stack.Screen name='TelaPagamento' component={TelaPagamento}  options={{ title: 'Pagamento', headerTitleAlign: 'center' }}/>
         <Stack.Screen name='TelaInformacoes' component={TelaInformacoes} options={{ title: 'Informações', headerTitleAlign: 'center' }} />
       </Stack.Navigator>
     </NavigationContainer>

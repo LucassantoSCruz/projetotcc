@@ -25,6 +25,7 @@ const TelaLogin = ({ navigation }) => {
     if (profissional == true) {
       console.log('Profissional')
       setTipoconta('Profissional')
+      setRotaLogin('ListarProfissionaisEmail')
     }
     return () => {
       setProfissional(false)
@@ -33,8 +34,9 @@ const TelaLogin = ({ navigation }) => {
 
   useEffect(() => {
     if (pessoal == true) {
-      console.log('Pessoal')
-      setTipoconta('Pessoal')
+      console.log('Cliente')
+      setTipoconta('Cliente')
+      setRotaLogin('ListarClientesEmail')
     }
     return () => {
       setPessoal(false)
@@ -42,6 +44,8 @@ const TelaLogin = ({ navigation }) => {
   }, [pessoal])
 
   const [tipoconta, setTipoconta] = useState('')
+
+  const [rotaLogin, setRotaLogin] = useState('')
 
   const [email, setEmail] = useState(null)
 
@@ -72,7 +76,7 @@ const TelaLogin = ({ navigation }) => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://192.168.10.242:3000/ListarProfissionaisEmail/${dados.Email}/${dados.Senha}`, {
+    axios.get(`http://192.168.1.2:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
       email: dados.Email,
       senha: dados.Senha
     })
@@ -212,12 +216,12 @@ const TelaLogin = ({ navigation }) => {
         <View style={style.fundomodal}>
           <TouchableOpacity style={style.selecao} onPress={() => setProfissional(true)}>
             <Text style={style.textomodal}>
-              Profissional - Pessoa Jurídica
+              Profissional
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={style.selecao} onPress={() => setPessoal(true)}>
             <Text style={style.textomodal}>
-              Pessoal - Pessoa Física
+              Cliente
             </Text>
           </TouchableOpacity>
         </View>

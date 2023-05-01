@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
 import BoxPerfil from '../componentes/BoxPerfil';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 import axios from 'axios';
+import CaixaServico from '../componentes/CaixaServico';
 
 const TelaProfissionais = ({navigation}) => {
 
     const [servicos, setServicos] = useState([])
 
+    const [navegar, setNavegar] = useState(false)
+
     useEffect(() => {
-        axios.get('http://192.168.1.7:3000/listarServicos')
+        axios.get('http://192.168.10.242:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
             console.log(servicos.data)
@@ -20,11 +25,6 @@ const TelaProfissionais = ({navigation}) => {
             console.log(error);
         })
     }, []);
-
-    /*
-    * Função pra tratar cada resgistro
-    * Flatlist para receber a const servicos
-    */
     return (
         <View style={{flex: 1}}>
 
@@ -74,50 +74,12 @@ const TelaProfissionais = ({navigation}) => {
                     </View>
 
                     <View style={styles.view}>
-                        {/* <FlatList
+                    <FlatList
+                            horizontal={true}
                             data={servicos.data}
-                            renderItem={({item}) => <Servico item={item} />}
+                            renderItem={({item}) => <CaixaServico campo={(item.Titulo)} />}
                             keyExtractor={item => item.ID_Servico}
-                        /> */}
-                        <TouchableOpacity style={styles.boxperfil} onPress={()=>navigation.navigate('PerfilProfissional')}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.view}>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                    </View>
-                    <View style={styles.view}>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                    </View>
-                    <View style={styles.view}>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.boxperfil}>
-                            <BoxPerfil/>
-                        </TouchableOpacity>
-                        
+                        />
                     </View>
 
                 </ScrollView>

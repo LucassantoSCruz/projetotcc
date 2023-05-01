@@ -6,6 +6,8 @@ import CurrencyInput from 'react-native-currency-input';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoServico from '../componentes/ImagemPadraoServico';
 
+import axios from 'axios';
+
 const PlaceholderImage = require('../../assets/imagemInicial.png');
 
 const TelaCriarServico = () => {
@@ -33,18 +35,17 @@ const TelaCriarServico = () => {
             },
             {
                 text: 'Publicar',
-                onPress: () => console.log('Publicado')
+                onPress: () => enviarFormulario()
             },
         ])
     }
 
-    const [valor, setValor] = useState(null)
     const [Preco, setPreco] = useState(null)
     const  [Titulo, setTitulo] = useState(null)
     const  [Descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
-        axios.post('http://192.168.1.7:3000/cadastrarServico', {
+        axios.post('http://192.168.1.3:3000/cadastrarServico', {
             Preco,
             Titulo,
             Descricao
@@ -78,6 +79,8 @@ const TelaCriarServico = () => {
                     <TextInput style={styles.nomeservico}
                         placeholder='Digite o nome do serviço'
                         maxLength={35}
+                        value={Titulo}
+                        onChangeText={value => setTitulo(value)}
                     />
                 </View>
 
@@ -91,10 +94,12 @@ const TelaCriarServico = () => {
                         multiline={true}
                         numberOfLines={6}
                         maxLength={300}
+                        onChangeText={value => setDescricao(value)}
+                        value={Descricao}
                     />
                 </View>
 
-                <View style={styles.valor}>
+                <View style={styles.Preco}>
                     <View style={{ flexDirection: 'row', }}>
                         <Text style={styles.preco}>
                             R$
@@ -103,8 +108,8 @@ const TelaCriarServico = () => {
                         <CurrencyInput
                             style={styles.colocarpreco}
                             placeholder='0,00'
-                            value={valor}
-                            onChangeValue={setValor}
+                            value={Preco}
+                            onChangeValue={value => setPreco(value)}
                         />
 
                     </View>
@@ -171,7 +176,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 15
     },
-    valor: {
+    Preco: {
         flexDirection: 'row',
         justifyContent: 'space-between'
     },

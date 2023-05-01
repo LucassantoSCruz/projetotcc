@@ -1,11 +1,3 @@
-/*
-*********************************************************************
-* Este arquivo tem todas as rotas do modelo da tabela de 
-* Agenda 
-*********************************************************************
-* Data
-*/
-
 //Importação do Express, do modelo e do gerenciador de rotas do Express
 const express = require('express');
 const modelAgenda = require('../models/ModelAgenda');

@@ -9,7 +9,7 @@ const PlaceholderImage = require('../../assets/Perfil.png');
 
 const TelaCadastroProfissional = ({ navigation }) => {
 
-  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+  const [ID, setID] = useState(null)
   const [Nome, setNome] = useState(null)
   const [Email, setEmail] = useState(null)
   const [Senha, setSenha] = useState(null)
@@ -34,8 +34,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const enviarFormulario = async () => {
     try {
       const response = await axios.all([
-          axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
-            CPF_CNPJ, 
+          axios.post('http://192.168.1.2:3000/cadastrarProfissonal', {
+            ID, 
             Nome, 
             NomeFantasia, 
             Pronomes, 
@@ -46,7 +46,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
             PessoaJuridica,
             Descricao
           }),
-          axios.post('http://192.168.1.3:3000/cadastrarEndereco', {
+          axios.post('http://192.168.1.2:3000/cadastrarEndereco', {
             Latitude,
             Longitude,
             CEP: cepEnd,
@@ -167,24 +167,6 @@ const TelaCadastroProfissional = ({ navigation }) => {
     setInfo(data);
   }
 
-
-  // const rotaCadastro = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3000/ListagemDados', {
-  //       // setCpf: "000",
-  //       // nome: "000",
-  //       // sobrenome: "000",
-  //       // email: "000",
-  //       // senha: "000",
-  //       // cepEnd: "000",
-        
-  //     });
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -208,8 +190,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
           placeholder='CPF/CNPJ (obrigatório):'
           keyboardType='numeric'
           returnKeyType='done'
-          value={CPF_CNPJ}
-          onChangeText={value => setCPF_CNPJ(value)}
+          value={ID}
+          onChangeText={value => setID(value)}
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>

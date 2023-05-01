@@ -69,71 +69,41 @@ const TelaLogin = ({ navigation }) => {
   }
 
   const Login = () => {
-
-    // console.log("Dados no Login: " + (dados.Email))
-
-    axios.get(`http://192.168.10.242:3000/ListarProfissionaisEmail/${dados.Email}/${dados.Senha}`, {
-      email: dados.Email,
-      senha: dados.Senha
-    })
-
+    axios
+      .get(`http://192.168.10.242:3000/ListarProfissionaisEmail/${dados.Email}/${dados.Senha}`, {
+        email: dados.Email,
+        senha: dados.Senha,
+      })
       .then(function (response) {
-        // console.log('Pesquisa de Usuário: ', dados);
-
-        if (response.status === 200) {
-
-          setDadosRecebidos(response.data.data)
-          // console.log(response.data.data + " RETORNO IF")
-
-        } else {
-
-          console.log(response.data.data.Email + " RETORNO ELSE")
-
+        console.log(response.data)
+        if (response.data.data != null) {
+          if (response.status === 200) {
+            setDadosRecebidos(response.data.data);
+            Alert.alert(
+              "Login Realizado",
+              "Entre no Aplicativo",
+              [
+                {
+                  text: "Cancelar",
+                },
+                {
+                  text: "Entrar",
+                  onPress: () => navigation.navigate("Profissionais"),
+                },
+              ]
+            );
+          } else {
+            console.log(response.data.data.Email + " RETORNO ELSE");
+          }
+        }
+        else {
+          Alert.alert("Usuário não encontrado.")
         }
       })
-
       .catch(function (error) {
-        console.log("Erro: " + error)
-      })
-
-  }
-
-  useEffect(() => {
-    if (botao == true) {
-      Login()
-    }
-    return () => {
-      setBotao(false)
-    }
-  }, [botao])
-
-  useEffect(() => {
-
-    if (dadosRecebidos != null) {
-      Alert.alert(
-        "Login Realizado",
-        "Entre no Aplicativo",
-        [{
-          text: "Cancelar",
-        },
-          {
-          text: "Entrar",
-          onPress: () => navigation.navigate('Profissionais')
-        },]
-      )
-    } else {
-      Alert.alert("Usuário não encontrado.")
-    }
-
-    // dadosRecebidos != null
-    // ? console.log("Sucesso: " + JSON.stringify(dadosRecebidos))
-    // : console.log("Não encontrado")
-
-    // return () => {
-    //   setDadosRecebidos([])
-    // }
-
-  }, [dadosRecebidos])
+        console.log("Erro: " + error);
+      });
+  };
 
   return (
     <View style={style.tela}>

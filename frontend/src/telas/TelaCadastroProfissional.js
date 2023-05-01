@@ -34,7 +34,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const enviarFormulario = async () => {
     try {
       const response = await axios.all([
-          axios.post('http://192.168.1.6:3000/cadastrarProfissonal', {
+          axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
             CPF_CNPJ, 
             Nome, 
             NomeFantasia, 
@@ -46,7 +46,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
             PessoaJuridica,
             Descricao
           }),
-          axios.post('http://192.168.1.6:3000/cadastrarEndereco', {
+          axios.post('http://192.168.1.3:3000/cadastrarEndereco', {
             Latitude,
             Longitude,
             CEP: cepEnd,

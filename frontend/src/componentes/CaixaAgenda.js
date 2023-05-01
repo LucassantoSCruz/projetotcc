@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
-const CaixaAgenda = (item) => {
+const CaixaAgenda = (agendamentos) => {
+    console.log(agendamentos)
     return (
         <View style={styles.container}>
     
@@ -13,13 +14,13 @@ const CaixaAgenda = (item) => {
             <Image style={styles.imagem} source={require('../../assets/images.png')} />
             <View style={styles.texto}>
               <View>
-              <Text style={styles.titulo}>{item.Titulo}</Text>
+              <Text style={styles.titulo}>{agendamentos.item.Titulo}</Text>
               <Text style={styles.titulo}>Unique Beauty</Text>
               </View>
     
               <View style={styles.info}>
               <Text>Quantidade: 1</Text>
-              <Text>Valor: R$40,00</Text>
+              <Text>Valor: R${agendamentos.item.Preco}</Text>
               <Text>Data: 25/04</Text>
               <Text>Horário: 15h</Text>
               <Text>Local: Cabelereira Leila</Text>

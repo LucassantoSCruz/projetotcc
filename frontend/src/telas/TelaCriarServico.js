@@ -45,7 +45,7 @@ const TelaCriarServico = () => {
     const  [Descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
-        axios.post('http://192.168.1.6:3000/cadastrarServico', {
+        axios.post('http://192.168.1.3:3000/cadastrarServico', {
             Preco,
             Titulo,
             Descricao

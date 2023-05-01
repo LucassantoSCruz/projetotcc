@@ -8,10 +8,10 @@ const TelaAgenda = () => {
     const [agendamentos, setAgendamentos] = useState([])
 
     useEffect(() => {
-        axios.get('http://192.168.1.6:3000/listarServicos')
+        axios.get('http://192.168.1.3:3000/listarServicos')
         .then(function (response) {
             setAgendamentos(response.data)
-            console.log(agendamentos.data)
+            //console.log(agendamentos.data)
         })
         .catch(function (error) {
             console.log(error);
@@ -22,7 +22,7 @@ const TelaAgenda = () => {
         <SafeAreaView>
             <FlatList
                 data={agendamentos.data}
-                renderItem={({item}) => <CaixaAgenda item={item.Titulo} />}
+                renderItem={({item}) => <CaixaAgenda item={item} />}
                 // keyExtractor={item => item.id}
             />
         </SafeAreaView>

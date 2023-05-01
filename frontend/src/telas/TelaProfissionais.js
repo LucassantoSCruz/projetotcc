@@ -37,7 +37,7 @@ const TelaProfissionais = ({navigation}) => {
     },[navegar])
 
     useEffect(() => {
-        axios.get('http://192.168.1.6:3000/listarServicos')
+        axios.get('http://192.168.1.3:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
             console.log(servicos.data)
@@ -110,7 +110,7 @@ const TelaProfissionais = ({navigation}) => {
                     <FlatList
                             horizontal={true}
                             data={servicos.data}
-                            renderItem={({item}) => <CaixaServico campo={(item.Titulo)} quandoClicar={botaoClicado}/>}
+                            renderItem={({item}) => <CaixaServico campo={(item)} quandoClicar={botaoClicado}/>}
                             keyExtractor={item => item.ID_Servico}
                         />
                     </View>

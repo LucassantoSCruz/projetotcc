@@ -14,7 +14,7 @@ import { View, Text, StyleSheet, Image, Touchable, TouchableOpacity } from 'reac
           </View>
           <View style={styles.fundonome}>
             <Text style={styles.texto}>
-              {props.campo}
+              {props.campo.Titulo}
             </Text>
           </View>
         </View>

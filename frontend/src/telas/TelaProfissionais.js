@@ -4,8 +4,7 @@ import BarCategoria from '../componentes/BarCategoria';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 import axios from 'axios';
-import CaixaServico from '../componentes/CaixaSevico';
-import PerfilProfissional from '../telas/TelaPerfilProfissional'
+import CaixaServico from '../componentes/CaixaServico';
 
 const TelaProfissionais = ({navigation}) => {
 
@@ -22,20 +21,6 @@ const TelaProfissionais = ({navigation}) => {
         }, 2000);
     }, []);
 
-    function botaoClicado(retorno) {
-        console.log(retorno)
-        setNavegar(retorno)
-    }
-
-    useEffect(()=> {
-        navegar === true
-        ? ()=>navigation.push('PerfilProfissional')
-        : console.log("Não naveguei")
-        // return() => {
-        //     setNavegar(false)
-        // } 
-    },[navegar])
-
     useEffect(() => {
         axios.get('http://192.168.1.3:3000/listarServicos')
         .then(function (response) {
@@ -47,10 +32,6 @@ const TelaProfissionais = ({navigation}) => {
         })
     }, []);
 
-    /*
-    * Função pra tratar cada resgistro
-    * Flatlist para receber a const servicos
-    */
 
     return (
         navegar === true ?
@@ -110,7 +91,7 @@ const TelaProfissionais = ({navigation}) => {
                     <FlatList
                             horizontal={true}
                             data={servicos.data}
-                            renderItem={({item}) => <CaixaServico campo={(item)} quandoClicar={botaoClicado}/>}
+                            renderItem={({item}) => <CaixaServico campo={(item.Titulo)} />}
                             keyExtractor={item => item.ID_Servico}
                         />
                     </View>

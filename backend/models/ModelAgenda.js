@@ -8,16 +8,16 @@ const conexao = require('../database/Database');
 const modelAgenda = conexao.define('tbl_Agenda', {
     
     //Definição dos campos e seus attributos
-    ID_Agendamento: {
+    ID: {
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    Data: {
+    data: {
         type: sequelize.DATE,
         allowNull: false
     },
-    ValorTotal: {
+    valorTotal: {
         type: sequelize.DECIMAL(10,2),
         allowNull: false
     }

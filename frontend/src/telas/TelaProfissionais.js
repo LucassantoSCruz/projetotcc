@@ -16,15 +16,6 @@ const TelaProfissionais = ({navigation}) => {
 
     const [navegar, setNavegar] = useState(false)
 
-    const [refreshing, setRefreshing] = React.useState(false);
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-        setRefreshing(false);
-        }, 2000);
-    }, []);
-
     useEffect(() => {
         axios.get('http://192.168.1.2:3000/listarServicos')
         .then(function (response) {

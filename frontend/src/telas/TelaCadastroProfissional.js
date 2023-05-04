@@ -18,7 +18,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [PessoaJuridica, setPessoaJuridica] = useState(null)
   const [Descricao, setDescricao] = useState(null)
   const [NomeFantasia, setNomeFantasia] = useState(null)
-  const [visivelPronome, setVisivelPronome] = useState(false);  
+  const [visivelPronome, setVisivelPronome] = useState(false);    
   //add o endereço
   const [cepEnd, setCepEnd] = useState(null);
   const [infoCep, setInfo] = useState('');

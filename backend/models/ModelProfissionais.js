@@ -7,7 +7,7 @@ const conexao = require('../database/Database');
 //Criação do modelo
 const modelProfissionais = conexao.define('tbl_Profissionais', {
     //Definição dos campos e de seus atributos
-    CPF_CNPJ: {
+    ID: {
         type: sequelize.STRING(30),
         primaryKey: true
     },

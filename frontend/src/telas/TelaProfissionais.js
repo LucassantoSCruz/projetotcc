@@ -8,15 +8,20 @@ import CaixaServico from '../componentes/CaixaServico';
 
 const TelaProfissionais = ({navigation}) => {
 
+    const idUsuario = navigation.params;
+    
+    console.log(idUsuario)
+
     const [servicos, setServicos] = useState([])
 
     const [navegar, setNavegar] = useState(false)
 
     useEffect(() => {
-        axios.get('http://192.168.1.3:3000/listarServicos')
+        axios.get('http://192.168.1.2:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
             console.log(servicos.data)
+            console.log(idUsuario)
         })
         .catch(function (error) {
             console.log(error);
@@ -32,10 +37,7 @@ const TelaProfissionais = ({navigation}) => {
 
             <BarCategoria/>
                 <SafeAreaView style={styles.tela1}>
-                    <ScrollView style={styles.tela2}
-                    refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                      }>
+                    <ScrollView style={styles.tela2}>
 
                     <ScrollView horizontal>
                         <Carrosel/>

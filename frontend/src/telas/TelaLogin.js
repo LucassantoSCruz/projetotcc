@@ -45,7 +45,11 @@ const TelaLogin = ({ navigation }) => {
 
   const [tipoconta, setTipoconta] = useState('')
 
+  //Estado com a rota para buscar cliente ou profissional 
+  //dependendo do tipo de conta selecionado
   const [rotaLogin, setRotaLogin] = useState('')
+  //Estado com a chave primária do cliente ou profissional
+  const [idUsuario, setIdUsuario] = useState(null)
 
   const [email, setEmail] = useState(null)
 
@@ -88,7 +92,8 @@ const TelaLogin = ({ navigation }) => {
 
           setDadosRecebidos(response.data.data)
           // console.log(response.data.data + " RETORNO IF")
-
+          setIdUsuario(response.data.data.ID)
+          console.log(idUsuario)
         } else {
 
           console.log(response.data.data.Email + " RETORNO ELSE")
@@ -122,7 +127,7 @@ const TelaLogin = ({ navigation }) => {
         },
           {
           text: "Entrar",
-          onPress: () => navigation.navigate('Profissionais')
+          onPress: () => navigation.navigate('Profissionais', {idUsuario})
         },]
       )
     } else {

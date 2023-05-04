@@ -9,7 +9,7 @@ const PlaceholderImage = require('../../assets/Perfil.png');
 
 const TelaCadastroCliente = ({ navigation }) => {
 
-  const [CPF, setCPF] = useState(null)
+  const [ID, setID] = useState(null)
   const [Nome, setNome] = useState(null)
   const [Email, setEmail] = useState(null)
   const [Senha, setSenha] = useState(null)
@@ -18,8 +18,8 @@ const TelaCadastroCliente = ({ navigation }) => {
   const [Pronomes, setPronomes] = useState("")
 
   const enviarFormulario = async () => {
-    axios.post('http://192.168.1.3:3000/cadastrarCliente', {
-        CPF,
+    axios.post('http://192.168.1.2:3000/cadastrarCliente', {
+        ID,
         Nome,
         Email,
         Senha,
@@ -113,8 +113,8 @@ const TelaCadastroCliente = ({ navigation }) => {
           placeholder='CPF:'
           keyboardType='numeric'
           returnKeyType='done'
-          value={CPF}
-          onChangeText={value => setCPF(value)}
+          value={ID}
+          onChangeText={value => setID(value)}
         />
 
         <TextInput style={styles.campo}

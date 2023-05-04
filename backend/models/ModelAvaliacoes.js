@@ -6,27 +6,27 @@ const conexao = require('../database/Database');
 
 const modelAvaliacoes = conexao.define('tbl_Avaliacoes', {
     //Declaração dos campos
-    ID_Avaliacao:{
+    ID:{
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    Nota:{
+    nota:{
         type: sequelize.INTEGER,
         allowNull: false
     },
-    Titulo:{
+    titulo:{
         type: sequelize.STRING(100),
         allowNull: true
     },
-    Descricao:{
+    descricao:{
         type: sequelize.TEXT,
         allowNull: true
     }
 }, {
     freezeTableName: true,
-    createdAt: 'DataCriacao',
-    updatedAt: 'UltimaModificacao'
+    createdAt: 'dataCriacao',
+    updatedAt: 'ultimaModificacao'
 })
 
 //Exportação do modelo

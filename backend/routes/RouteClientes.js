@@ -45,6 +45,37 @@ router.get('/listarClientes', (req, res) => {
             }
         )
 })
+
+//Rota de listagem por e-mail
+router.get('/ListarClientesEmail/:Email/:Senha', (req, res)=>{
+
+    let {Email, Senha} = req.params;
+    console.log(JSON.stringify(Email))
+    console.log(JSON.stringify(Senha))
+
+    modelClientes.findOne({
+        attributes:['Email', 'Senha'],
+        where:{Email, Senha}})
+
+    .then(
+        (response)=>{
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:"Cliente listado com sucesso!",
+                data:response
+            })
+        }
+    )
+    .catch(
+        (erro)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:"Erro ao listar Cliente!",
+                erroObject:erro
+            });
+        }
+    )
+});
     
 router.put('/alterarCliente/:CPF',(req, res) => {
 

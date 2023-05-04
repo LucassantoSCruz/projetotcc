@@ -55,7 +55,7 @@ router.post('/cadastrarServico', (req, res) => {
 router.get('/listarServicos', (req, res) => {
 
     //Ache todos os registros...
-    modelServicos.finAll()
+    modelServicos.findAll()
     .then(
         /*
         *...e então, caso dê certo, retorne este objeto JSON com

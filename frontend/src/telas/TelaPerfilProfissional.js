@@ -3,14 +3,16 @@ import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'rea
 import BoxPerfil from '../componentes/BoxPerfil';
 import axios from 'axios';
 
-const TelaPerfilProfissional = ({ navigation }) => {
+const TelaPerfilProfissional = ( props) => {
 
     const [servicos, setServicos] = useState([])
+
+    const cb = props.quandoClicar;
 
     //Utilizar rota de listagem com o id do profissional em questão
 
     useEffect(() => {
-        axios.get('http://192.168.1.7:3000/listarServicos')
+        axios.get('http://192.168.1.3:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
             console.log(servicos.data)
@@ -36,10 +38,13 @@ const TelaPerfilProfissional = ({ navigation }) => {
                 </View>
                 <View style={styles.botoes}>
                     <TouchableOpacity style={styles.botao1}>
-                        <Text style={styles.texto} onPress={() => navigation.navigate('TelaInformacoes')}>INFORMAÇÕES</Text>
+                        <Text style={styles.texto} onPress={() => cb.navigate('TelaInformacoes')}>INFORMAÇÕES</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.botao2}>
                         <Text style={styles.texto}>CHAT</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.botao2} onPress={()=>cb(false)}>
+                        <Text style={styles.texto}>VOLTAR</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.view2}>

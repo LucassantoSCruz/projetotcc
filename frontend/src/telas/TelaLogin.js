@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+
+import { useForm, Controller } from "react-hook-form";
 
 // Caixa 
 import { BottomSheet } from 'react-native-btr';
+
+// Importação do Axios
+import axios from 'axios'
 
 const TelaLogin = ({ navigation }) => {
 
   // Função que declara se a caixa está visivel ou não
   const [visivel, setVisivel] = useState(false);
 
-  // 
   function toggle() {
     setVisivel((visivel) => !visivel);
   }
 
-
   const [profissional, setProfissional] = useState(false);
-
-
   const [pessoal, setPessoal] = useState(false);
 
   useEffect(() => {
     if (profissional == true) {
       console.log('Profissional')
       setTipoconta('Profissional')
+      setRotaLogin('ListarProfissionaisEmail')
     }
     return () => {
       setProfissional(false)
@@ -32,44 +34,176 @@ const TelaLogin = ({ navigation }) => {
 
   useEffect(() => {
     if (pessoal == true) {
-      console.log('Pessoal')
-      setTipoconta('Pessoal')
+      console.log('Cliente')
+      setTipoconta('Cliente')
+      setRotaLogin('ListarClientesEmail')
     }
     return () => {
       setPessoal(false)
     }
   }, [pessoal])
-  
+
   const [tipoconta, setTipoconta] = useState('')
 
-  //Estados para "capturar" email e senha
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [sucesso, setSucesso] = useState(false); 
+  const [rotaLogin, setRotaLogin] = useState('')
+
+  const [email, setEmail] = useState(null)
+
+  const [senha, setSenha] = useState(null)
+
+  const [botao, setBotao] = useState(false)
+
+  const [dados, setDados] = useState([])
+
+  const [dadosRecebidos, setDadosRecebidos] = useState(null)
+
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      Email: '',
+      Senha: ''
+    }
+  });
+
+  const onSubmit = data => {
+
+    // console.log("Dados no onSubmit: " + (data.Email));
+    setDados(data)
+    Login()
+
+  }
+
+  const Login = () => {
+
+    // console.log("Dados no Login: " + (dados.Email))
+
+    axios.get(`http://192.168.1.2:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+      email: dados.Email,
+      senha: dados.Senha
+    })
+
+      .then(function (response) {
+        // console.log('Pesquisa de Usuário: ', dados);
+
+        if (response.status === 200) {
+
+          setDadosRecebidos(response.data.data)
+          // console.log(response.data.data + " RETORNO IF")
+
+        } else {
+
+          console.log(response.data.data.Email + " RETORNO ELSE")
+
+        }
+      })
+
+      .catch(function (error) {
+        console.log("Erro: " + error)
+      })
+
+  }
+
+  useEffect(() => {
+    if (botao == true) {
+      Login()
+    }
+    return () => {
+      setBotao(false)
+    }
+  }, [botao])
+
+  useEffect(() => {
+
+    if (dadosRecebidos != null) {
+      Alert.alert(
+        "Login Realizado",
+        "Entre no Aplicativo",
+        [{
+          text: "Cancelar",
+        },
+          {
+          text: "Entrar",
+          onPress: () => navigation.navigate('Profissionais')
+        },]
+      )
+    } else {
+      Alert.alert("Usuário não encontrado.")
+    }
+
+    // dadosRecebidos != null
+    // ? console.log("Sucesso: " + JSON.stringify(dadosRecebidos))
+    // : console.log("Não encontrado")
+
+    // return () => {
+    //   setDadosRecebidos([])
+    // }
+
+  }, [dadosRecebidos])
 
   return (
-    <View style={styles.view}>
+    <View style={style.tela}>
 
-      <Text style={styles.titulo}>
+      <Text style={style.titulo}>
         Login
       </Text>
 
-      <TextInput
-        style={styles.caixadetexto}
-        placeholder="Usuário" 
-        value={email}
-        onChangeText={setEmail}/>
+      {errors.Email &&
+        <Text style={style.texto}>
+          Campo de Email incorreto.
+        </Text>
+      }
 
-      <TextInput
-        style={styles.caixadetexto}
-        placeholder="Senha" 
-        value={senha}
-        onChangeText={setSenha}
-        />
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: 'Digite um Email válido'
+          }
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
 
-      <TouchableOpacity style={styles.botaomodal} onPress={toggle}>
+          <TextInput
+            style={style.caixadetexto}
+            placeholder="Digite seu Email"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+
+        )}
+        name="Email"
+      />
+
+      {errors.Senha &&
+        <Text style={style.texto}>
+          Campo de Senha incorreto.
+        </Text>
+      }
+
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+          minLength: 6,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+
+          <TextInput
+            style={style.caixadetexto}
+            placeholder="Digite sua Senha"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+
+        )}
+        name="Senha"
+      />
+
+      <TouchableOpacity style={style.botaomodal} onPress={toggle}>
         <View>
-          <Text style={styles.titulomodal}>
+          <Text style={style.titulomodal}>
             Tipo de conta: {tipoconta}
           </Text>
         </View>
@@ -79,40 +213,44 @@ const TelaLogin = ({ navigation }) => {
         onBackButtonPress={toggle}
         onBackdropPress={toggle}
       >
-        <View style={styles.fundomodal}>
-          <TouchableOpacity style={styles.selecao} onPress={()=>setProfissional(true)}>
-            <Text style={styles.textomodal}>
-              Profissional - Pessoa Jurídica
+        <View style={style.fundomodal}>
+          <TouchableOpacity style={style.selecao} onPress={() => setProfissional(true)}>
+            <Text style={style.textomodal}>
+              Profissional
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.selecao} onPress={()=>setPessoal(true)}>
-            <Text style={styles.textomodal}>
-              Pessoal - Pessoa Física
+          <TouchableOpacity style={style.selecao} onPress={() => setPessoal(true)}>
+            <Text style={style.textomodal}>
+              Cliente
             </Text>
           </TouchableOpacity>
         </View>
       </BottomSheet>
 
-      <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Profissionais')}>
-        <Text style={styles.textobotao}>
+      <TouchableOpacity style={style.botao} onPress={handleSubmit(onSubmit)} >
+        <Text style={style.textobotao}>
           Entrar
         </Text>
       </TouchableOpacity>
     </View>
-  )
+  );
 }
 
-const styles = StyleSheet.create({
-  view: {
+const style = StyleSheet.create({
+  tela: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   titulo: {
     fontSize: 30,
     marginBottom: 30,
     fontWeight: 'bold',
     color: 'black'
+  },
+  texto: {
+    fontSize: 14,
+    color: 'red'
   },
   caixadetexto: {
     width: '80%',

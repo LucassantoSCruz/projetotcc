@@ -105,13 +105,15 @@ router.get('/ListarProfissionalCNPJ/:CPF_CNPJ', (req, res)=>{
 });
 
 //Rota de listagem por e-mail
-router.get('/ListarProfissionaisNome/:Email', (req, res)=>{
+router.get('/ListarProfissionaisEmail/:Email/:Senha', (req, res)=>{
 
-    let {Email} = req.params;
+    let {Email, Senha} = req.params;
+    console.log(JSON.stringify(Email))
+    console.log(JSON.stringify(Senha))
 
     modelProfissionais.findOne({
         attributes:['Email', 'Senha'],
-        where:{Email}})
+        where:{Email, Senha}})
 
     .then(
         (response)=>{
@@ -124,7 +126,7 @@ router.get('/ListarProfissionaisNome/:Email', (req, res)=>{
     )
     .catch(
         (erro)=>{
-            return res.status(400).jason({
+            return res.status(400).json({
                 erroStatus:true,
                 mensagemStatus:"Erro ao listar Profissional!",
                 erroObject:erro

@@ -6,7 +6,7 @@ const conexao = require('../database/Database');
 
 //Criação do modelo da tabela
 const modelCategorias = conexao.define('tbl_Categorias',{
-    ID_Categoria: {
+    ID: {
         type: sequelize.INTEGER,
         primaryKey:true,
         autoIncrement:true

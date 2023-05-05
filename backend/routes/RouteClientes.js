@@ -15,10 +15,11 @@ router.post('/cadastrarCliente', (req, res) => {
                 })
             }
         ).catch(
-            (error) => {
+            (erro) => {
                 return res.status(400).json({
                     erroStatus: true,
-                    mensagemStatus: "Erro ao cadastrar"
+                    mensagemStatus: "Erro ao cadastrar",
+                    erroObject: erro
                 });
             }
         )

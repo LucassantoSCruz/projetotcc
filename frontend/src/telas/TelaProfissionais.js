@@ -17,7 +17,7 @@ const TelaProfissionais = ({navigation}) => {
     const [navegar, setNavegar] = useState(false)
 
     useEffect(() => {
-        axios.get('http://192.168.1.2:3000/listarServicos')
+        axios.get('http://10.0.1.101:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
             console.log(servicos.data)

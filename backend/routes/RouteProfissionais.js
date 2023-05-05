@@ -17,14 +17,11 @@ const router = express.Router();
 router.post('/cadastrarProfissonal', (req, res) => {
     console.log(req.body);
     
-    //Declaração das variáveis que irão representar os campos da tabela
     let {ID, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao} = req.body;
 
-    //Crie estes campos...
     modelProfissionais.create(
         {ID, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao}
     ).then(
-        //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{
             return res.status(201).json({
                 erroStatus: false,
@@ -32,10 +29,6 @@ router.post('/cadastrarProfissonal', (req, res) => {
             })
         }
     ).catch(
-        /*
-        * ...caso "pegue" um erro, envie este arquivo JSON com o status HTTP e
-        * o objeto de erro
-        */
        (erro) => {
         return res.status(201).json({
             erroStatus: true,

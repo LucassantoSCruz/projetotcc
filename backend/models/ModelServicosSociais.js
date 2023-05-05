@@ -6,20 +6,20 @@ const conexao = require('../database/Database');
 
 const modelServicosSociais = conexao.define('tbl_ServicosSociais', {
     //Declaração dos campos
-    ID_ServicoSocial:{
+    ID:{
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    Data:{
+    data:{
         type: sequelize.DATE,
         allowNull: false
     },
-    Titulo:{
-        type: sequelize.STRING,
+    titulo:{
+        type: sequelize.STRING(100),
         allowNull: false
     },
-    Descricao:{
+    descricao:{
         type: sequelize.TEXT,
         allowNull: true
     }

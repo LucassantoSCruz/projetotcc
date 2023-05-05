@@ -3,12 +3,12 @@ const conexao = require('../database/Database');
 
 //Criação do modelo da tabela
 const modelStatus = conexao.define('tbl_status',{
-    ID_Status: {
+    ID: {
         type: sequelize.INTEGER,
         primaryKey:true,
         autoIncrement:true
     },
-    Nome:{
+    titulo:{
         type:sequelize.STRING(45),
         allowNull:false
     }

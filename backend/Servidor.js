@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-//conexao.sync({ force : true }); 
+//conexao.sync({ force : true });
 
 //INÍCIO DA UTILIZAÇÃO DAS ROTAS
 app.use('/', routeAgenda);

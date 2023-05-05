@@ -19,7 +19,7 @@ const conexao = new sequelize(
         host: 'localhost',
         dialect: 'mysql',
         timezone: '-03:00',
-        port: '3307'
+        port: '3306'
     }
 );
 

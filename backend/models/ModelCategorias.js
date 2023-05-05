@@ -11,7 +11,7 @@ const modelCategorias = conexao.define('tbl_Categorias',{
         primaryKey:true,
         autoIncrement:true
     },
-    Nome:{
+    nome:{
         type:sequelize.STRING(45),
         allowNull:false
     }
@@ -19,6 +19,17 @@ const modelCategorias = conexao.define('tbl_Categorias',{
     freezeTableName: true,
     createdAt: false,
     updatedAt: false
+});
+
+//Relacionamentos
+
+const modelServicos = require('./ModelServicos')
+
+modelCategorias.hasMany(modelServicos, {
+    foreignKey: 'FK_Categorias_Servicos'
+});
+modelServicos.belongsTo(modelCategorias, {
+    foreignKey: 'FK_Categorias_Servicos'
 });
 
 //Exportação do modelo

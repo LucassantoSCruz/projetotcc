@@ -1,124 +1,128 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import * as Location from 'expo-location'
-import cadastro from '../telas/TelaCadastro'
+import React, { useState, useEffect } from 'react';
+import { Platform, Text, View, StyleSheet, FlatList } from 'react-native';
+import * as Location from 'expo-location';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import MarcadorPessoal from './EstiloMarcadorMapa';
+import axios from 'axios';
 
-const Mapa = () => {
+const MapaExpo = () => {
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+    const [marcadores, setMarcadores] = useState([]);
 
-    //definição de tipagem de estado
-    const [location, setLocation] = useState<LocationObject | null>(null);
-
-    const mapRef = useRef<MapView>(null);
-
-    const [ coordenadas, setCoordenadas ] = useState({latitude:0, longitude:0})
-
-    const [errorMsg,  setErrorMsg ] = useState(null);
-
-    
-    async function requestLocationPermissions(){
-        
-        //estado de permissão
-        const { granted } = await requestBackgroundPermissionsAsync();
-    
-        if(granted){
-            const currentPosition = await getCurrentPositionAsync();
-            setLocation(currentPosition);
-            
-            //usando a localização atual do usuario, imprimida no console
-            console.log("Localização atual =>", currentPosition)
-        }
-    }
+    /*
+    Criar um estado para os marcadores
+    Chamar informações dos marcadores com o axios
+    Passar informações para uma flatlist
+    Percorrer flatlist e adicionar marcadores
+    */
 
     useEffect(() => {
-        requestLocationPermissions();
-        //codigo add com o gpt
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
-            if(status !== 'granted'){
-                setErrorMsg('Deu errro na permissão')
+            if (status !== 'granted') {
+                setErrorMsg('A permissão para acessar o local foi negada.');
                 return;
             }
-
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
-        })()
+            console.log(location.coords)
+        })();
+        requestResponse();
     }, []);
 
-    //mapa com as configuraçõe do video
-    useEffect(() => {
-        watchPositionAsync({
-            accuracy: LocationAccuracy.Highest,
-            timeInterval: 1000,
-            distanceInterval: 1
-        }, (response) =>{
+    let text = 'Buscando localização..';
 
-            console.log("Nova localização", response) //-> Dados capturados em real time
-            setLocation(response);
-            mapRef.current?.animateCamera({
-                pitch: 10,//coloca o mapa em angulos diferentes
-                center: response.coords,
+    if (errorMsg) {
+        text = errorMsg;
+    } else if (location) {
+        text = JSON.stringify(location);
+    }
 
-            })
-        });
-    }, []);
+    const requestResponse = () => {
+        axios.get('http://192.168.1.9:3000/listarEndereco')
+        axios.get('http://192.168.1.3:3000/listarEndereco')
+        .then(function (response) {
+            setMarcadores(response.data)
+            //console.log(marcadores.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
 
+    const Marcador = ({item}) => (
+        // console.log("Resposta Marcador: ", item)
+        // <View>
+        //     <Text>
+        //         {item.Latitude}
+        //     </Text>
+        // </View>
+            <Marker
+                coordinate={
+                    {
+                        latitude: item.Latitude, 
+                        longitude: item.Longitude
+                    }
+                }
+            />
+    );
 
-    //obtendo as coordenadas do endereco
-    //geocoder ta no Back-End, é uma biblioteca do Node.js
-    const coordenadasEnd = async (endereco) =>{
-        const res = await geocoder.geocode(endereco);
-        const {latitude, longitude} = res[0];
-        setCoordenadas({latitude, longitude})
-    };
-
-    return(
-
-        <View style = {styles.container}>
-
-        { 
-            location ? ( 
+    return (
+        <View style={styles.tela}>
+            {/* <Text>{text}</Text> */}
+            {
+                location &&
                 <MapView
-                    ref={mapRef}
-                    style={styles.mapa}
-                    initialRegion={{ 
+                    style={{ width: 350, height: 300}}
+                    initialRegion={{
                         latitude: location.coords.latitude,
                         longitude: location.coords.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421
-                }}
-                >
-                    <MapView.Marker
-                        coordinate={{
-                            latitude:  coordenadas.latitude ,
-                            longitude: coordenadas.longitude,
+                        latitudeDelta: 0.00922,
+                        longitudeDelta: 0.00421
                     }}
-                    title={endereco}
-                />
+                >
+
+                    <Marker
+                        coordinate={{
+                            latitude: location.coords.latitude,
+                            longitude: location.coords.longitude,
+                        }}
+                    >
+                        <MarcadorPessoal/> 
+                    </Marker>
+
+                    <FlatList
+                        data={marcadores.data}
+                        renderItem={({item}) => <Marcador item={item}/>}
+                        keyExtractor={item => item.ID_Endereco}
+                    />
+
+                    {/* {marcadores.data.map((marcadores, index) => (
+                        <Marker
+                        key={index}
+                        coordinate={{
+                            latitude: marcadores.data.Latitude,
+                            longitude: marcadores.data.Longitude,
+                        }}
+                        title={marcadores.data.CEP}
+                        >
+                            <MarcadorPessoal/>
+                        </Marker>
+                    ))} */}
                 </MapView>
-            ): ( 
-                <Text> Procurando...</Text>
-            )}    
+            }
         </View>
     );
-};
-    
+}
 
-//estilo
 const styles = StyleSheet.create({
-    container: {
-      flex: 0.075,
-      backgroundColor: '#ffffff',
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-evenly"
-    },
-    mapa:{
-        flex: 2,
-        width: '100%',
-        height: '75%',
-        justifyContent: 'flex-start'
-    }
-});
 
-export default Mapa;
+    tela: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})
+
+export default MapaExpo

@@ -1,26 +1,25 @@
-//Importação do Express, do modelo e do gerenciador de rotas do Express
 const express = require('express');
-const modelAgenda = require('../models/ModelAgenda');
+const modelStatus = require('../models/ModelStatus');
 const router = express.Router();
 
-//INÍCIO DAS ROTAS DE CRUD TABELA DE AGENDAMENTOS
+//INÍCIO DAS ROTAS DE CRUD TABELA DE CATEGORIAS
 
 //Rota de cadastro
-router.post('/cadastrarAgendamento', (req, res) => {
+router.post('/cadastrarStatus', (req, res) => {
     console.log(req.body);
     
     //Declaração das variáveis que irão representar os campos da tabela
-    let {Data} = req.body;
+    let {Nome} = req.body;
 
     //Crie estes campos...
-    modelAgenda.create(
-        {Data}
+    modelStatus.create(
+        {Nome}
     ).then(
         //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{
             return res.status(201).json({
                 erroStatus: false,
-                mensagemStatus: "Agendamento cadastrado com sucesso!"
+                mensagemStatus: "Cadastrado com sucesso!"
             })
         }
     ).catch(
@@ -31,7 +30,7 @@ router.post('/cadastrarAgendamento', (req, res) => {
        (erro) => {
         return res.status(201).json({
             erroStatus: true,
-            mensagemStatus: "Erro ao cadastrar agendamento",
+            mensagemStatus: "Erro ao cadastrar",
             erroObject: erro
         })
        }
@@ -39,10 +38,10 @@ router.post('/cadastrarAgendamento', (req, res) => {
 });
 
 //Rota de listagem
-router.get('/listagemAgendamentos', (req, res) => {
+router.get('/listarStatus', (req, res) => {
 
     //Procure todos os campos e registros desta tabela...
-    modelAgenda.findAll()
+    modelStatus.findAll()
     .then(
         /*
         *...e então, caso dê certo, envie este arquivo JSON 
@@ -51,8 +50,8 @@ router.get('/listagemAgendamentos', (req, res) => {
         (response) => {
             return res.status(200).json({
                 erroStatus: false,
-                mensagemStatus: 'Agendamentos listados com sucesso!',
-                data: response
+                mensagemStatus: 'Listados com sucesso!',
+                Nome: response
             })        
         }
     ).catch(
@@ -63,7 +62,7 @@ router.get('/listagemAgendamentos', (req, res) => {
         (erro) => {
             return res.status(400).json({
                 erroStatus: true,
-                mensagemStatus: 'Erro ao listar os Agendamentos',
+                mensagemStatus: 'Erro ao listar',
                 erroObject: erro
             })
         }
@@ -71,26 +70,26 @@ router.get('/listagemAgendamentos', (req, res) => {
 });
 
 //Rota de Alteração
-router.put('/alterarAgendamento', (req, res) =>{
+router.put('/alterarStatus', (req, res) =>{
 
-    let {Data} = req.body;
+    let {ID_Status, Nome} = req.body;
 
-    modelAgenda.update(
-        {Data},
-        {where:{ID_ServicoAgendado}}
+    modelStatus.update(
+        {ID_Status, Nome},
+        {where:{ID_Status}}
 
     ).then(
         () => {
             return res.status(200).json({
                 erroStatus:false,
-                mensagemStatus:'Agendamento alterado com sucesso!'
+                mensagemStatus:'Alterado com sucesso!'
             })
         }
     ).catch(
         (error)=>{
             return res.status(400).json({
                 erroStatus:true,
-                mensagemStatus:'Erro ao alterar Agendamento',
+                mensagemStatus:'Erro ao alterar',
                 errorObject:error
             })
         }
@@ -99,33 +98,33 @@ router.put('/alterarAgendamento', (req, res) =>{
 })
 
 //Rota de Exclusão
-router.delete('/excluirAgendamento:ID_ServicoAgendado', (req, res)=>{
+router.delete('/excluirStatus:ID_Status', (req, res)=>{
 
     console.log(req.params);
 
-    let {ID_ServicoAgendado} = req.params;
+    let {ID_Status} = req.params;
 
-    modelAgenda.destroy(
-        {where:{ID_ServicoAgendado}}
+    modelStatus.destroy(
+        {where:{ID_Status}}
     ).then(
         () => {
             return res.status(200).json({
                 erroStatus:false,
-                mensagemStatus:'Agendamento excluido'
+                mensagemStatus:'Excluido'
             })
         }
     ).catch(
         (error)=>{
             return res.status(400).json({
                 erroStatus:true,
-                mensagemStatus:'Erro ao excluir Agendamento',
+                mensagemStatus:'Erro ao excluir',
                 errorObject:error
             })
         }
     )
 })
 
-//FIM DAS ROTAS DE CRUD TABELA DE AGENDAMENTOS
+//FIM DAS ROTAS DE CRUD TABELA DE CATEGORIAS
 
 //Exportação das rotas
 module.exports = router;

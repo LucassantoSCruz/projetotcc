@@ -1,7 +1,15 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import { BottomSheet } from 'react-native-btr';
 
 const TelaInicial = ({navigation}) => {
+
+    const [visivelTipoConta, setVisivelTipoConta] = useState(false);
+
+    function toggleTipoConta() {
+        setVisivelTipoConta((visivelTipoConta) => !visivelTipoConta);
+    }
+
     return(
         <View style={styles.view}>
             <Text style={styles.titulo1}>
@@ -15,9 +23,27 @@ const TelaInicial = ({navigation}) => {
             <Text style={styles.legenda}>
                 O aplicativo que acaba com a sua feiura
             </Text>
-            <TouchableOpacity style={styles.botao1} onPress={()=>navigation.navigate('Cadastro')}>
+            <TouchableOpacity style={styles.botao1} onPress={toggleTipoConta}>
                 <Text style={styles.textobotao}>Cadastrar-se</Text>
             </TouchableOpacity>
+            <BottomSheet
+                visible={visivelTipoConta}
+                onBackButtonPress={toggleTipoConta}
+                onBackdropPress={toggleTipoConta}
+            >
+                <View style={styles.fundomodal}>
+                    <TouchableOpacity style={styles.selecao} onPress={() => navigation.navigate('CadastroProfissional')}>
+                    <Text style={styles.textomodal}>
+                        Conta Profissional
+                    </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.selecao} onPress={() => navigation.navigate('CadastroCliente')}>
+                    <Text style={styles.textomodal}>
+                        Conta Cliente
+                    </Text>
+                    </TouchableOpacity>
+                </View>
+            </BottomSheet>
             <TouchableOpacity style={styles.botao2} onPress={()=>navigation.navigate('Login')}>
                 <Text style={styles.textobotao}>Fazer Login</Text>
             </TouchableOpacity>
@@ -67,6 +93,26 @@ const styles = StyleSheet.create({
       color: '#9A6B99',
       fontWeight: 'bold',
       fontSize: 50
+  },
+  fundomodal: {
+    backgroundColor: "#fff",
+    height: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  selecao: {
+    width: '90%',
+  },
+  textomodal: {
+    textAlign: 'center',
+    fontSize: 20,
+    margin: 10,
+    backgroundColor: '#d0a3ce',
+    color: 'white',
+    padding: 10,
+    borderRadius: 50
   },
   legenda: {
       color: '#9A6B99',

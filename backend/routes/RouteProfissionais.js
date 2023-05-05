@@ -18,11 +18,11 @@ router.post('/cadastrarProfissonal', (req, res) => {
     console.log(req.body);
     
     //Declaração das variáveis que irão representar os campos da tabela
-    let {CPF_CNPJ, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao} = req.body;
+    let {CPF_CNPJ, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao} = req.body;
 
     //Crie estes campos...
     modelProfissionais.create(
-        {CPF_CNPJ, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao}
+        {CPF_CNPJ, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao}
     ).then(
         //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{
@@ -138,10 +138,10 @@ router.get('/ListarProfissionaisEmail/:Email/:Senha', (req, res)=>{
 //Rota de Alteração
 router.put('/alterarProfissionais', (req, res) =>{
 
-    let {CPF_CNPJ, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao} = req.body;
+    let {CPF_CNPJ, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao} = req.body;
 
     modelProfissionais.update(
-        {CPF_CNPJ, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao},
+        {CPF_CNPJ, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao},
         {where:{ IDProfissional}}
 
     ).then(

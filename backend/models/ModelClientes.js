@@ -25,19 +25,46 @@ const modelClientes = conexao.define('tbl_Clientes', {
         type: Sequelize.STRING(30),
         allowNull: false
     },
-    Descricao:{
-        type: Sequelize.TEXT,
-        allowNull: true
-    },
     FotoPerfil:{
         type: Sequelize.BLOB,
         allowNull: true
     },
+    Telefone: {
+        type: Sequelize.STRING(30),
+        allowNull: true
+    },
+    Pronomes:{
+        type: Sequelize.STRING(20),
+        allowNull: true
+    }
 }, {
     freezeTableName: true,
     createdAt: 'dataCriacao',
     updatedAt: 'ultimaModificacao'
 });
+
+//Relacionamentos
+
+//Importação das models
+const modelAgenda = require('./ModelAgenda');
+const modelAvaliacoes = require('./ModelAvaliacoes');
+
+//Declaração dos relacionamentos
+modelClientes.hasMany(modelAgenda, {
+    foreignKey: 'FK_Clientes_Agenda'
+});
+modelAgenda.belongsTo(modelClientes, {
+    foreignKey: 'FK_Clientes_Agenda'
+});
+
+modelClientes.hasMany(modelAvaliacoes, {
+    foreignKey: 'FK_Clientes_Avaliacoes'
+});
+modelAvaliacoes.belongsTo(modelAvaliacoes, {
+    foreignKey: 'FK_Clientes_Avaliacoes'
+});
+
+
 
 //Exportação do modelo
 module.exports = modelClientes;

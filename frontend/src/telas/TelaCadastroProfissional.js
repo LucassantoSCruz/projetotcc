@@ -4,21 +4,21 @@ import { BottomSheet } from 'react-native-btr';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
 import axios from 'axios';
-import { value } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 
 const PlaceholderImage = require('../../assets/Perfil.png');
 
-const TelaCadastro = ({ navigation }) => {
+const TelaCadastroProfissional = ({ navigation }) => {
 
   const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
   const [Nome, setNome] = useState(null)
   const [Email, setEmail] = useState(null)
   const [Senha, setSenha] = useState(null)
   const [Telefone, setTelefone] = useState(null)
-  const [AtendimentoDomiciliar, setAtendimentoDomiiliar] = useState(null)
+  const [AtendimentoDomiciliar, setAtendimentoDomiciliar] = useState(null)
+  const [PessoaJuridica, setPessoaJuridica] = useState(null)
   const [Descricao, setDescricao] = useState(null)
   const [NomeFantasia, setNomeFantasia] = useState(null)
-  const [visivelPronome, setVisivelPronome] = useState(false);
+  const [visivelPronome, setVisivelPronome] = useState(false);    
   //add o endereço
   const [cepEnd, setCepEnd] = useState(null);
   const [infoCep, setInfo] = useState('');
@@ -27,97 +27,74 @@ const TelaCadastro = ({ navigation }) => {
   const [Numero, setNumero] = useState(null);
   const [Complemento, setComplemento] = useState(null);
 
-  //Não vão para o back por enquanto
-  const [visivelCPF, setVisivelCPF] = useState(false);
+  const [visivelTipoConta, setVisivelTipoConta] = useState(false);
+  const [visivelAtDomicilio, setAtDomicilio] = useState(false);
 
-
-  //Teste para afazer mais de uma requisição com o Axios
+  //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
     try {
       const response = await axios.all([
-        axios.post('http://192.168.10.242:3000/cadastrarProfissonal', {
-          CPF_CNPJ,
-          Nome,
-          NomeFantasia,
-          Pronomes,
-          Email,
-          Senha,
-          Telefone,
-          AtendimentoDomiciliar,
-          Descricao
-        }),
-        axios.post('http://192.168.10.242:3000/cadastrarEndereco', {
-          Latitude,
-          Longitude,
-          CEP: cepEnd,
-          UF: infoCep.uf,
-          LocalidadeCidade: infoCep.localidade,
-          Logradouro: infoCep.logradouro,
-          Bairro: infoCep.bairro,
-          Numero,
-          Complemento
-        })
-      ]);
-      //console.log(response)
-      // .then(
-      //   axios.spread((profissionalRes, enderecoRes) => {
-      //     this.profissional = profissionalRes.data
-      //     this.endereco = enderecoRes.data
-      // }));
+          axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
+            CPF_CNPJ, 
+            Nome, 
+            NomeFantasia, 
+            Pronomes, 
+            Email, 
+            Senha,
+            Telefone, 
+            AtendimentoDomiciliar,
+            PessoaJuridica,
+            Descricao
+          }),
+          axios.post('http://192.168.1.3:3000/cadastrarEndereco', {
+            Latitude,
+            Longitude,
+            CEP: cepEnd,
+            UF: infoCep.uf,
+            LocalidadeCidade: infoCep.localidade,
+            Logradouro: infoCep.logradouro,
+            Bairro: infoCep.bairro,
+            Numero,
+            Complemento
+          })
+        ]);
     } catch (erro) {
       console.log(erro);
     }
   };
 
-  //Função para cadastrar
-  // const enviarFormulario = async () => {
-  //   try {
-  //     const response = await axios.post('http://192.168.10.242:3000/cadastrarProfissonal', {
-  //       CPF_CNPJ, 
-  //       Nome, 
-  //       NomeFantasia, 
-  //       Pronomes, 
-  //       Email, 
-  //       Senha,
-  //       Telefone, 
-  //       AtendimentoDomiciliar, 
-  //       Descricao
-  //     });
-  //     console.log(response.data);
-  //   } catch (erro) {
-  //     console.log(erro);
-  //   }
-  // };
-
   function toggle1() {
     setVisivelPronome((visivelPronome) => !visivelPronome);
   }
   function toggle2() {
-    setVisivelCPF((visivelCPF) => !visivelCPF);
+    setVisivelTipoConta((visivelTipoConta) => !visivelTipoConta);
+  }
+  function toggleAtDomicilio() {
+    setAtDomicilio((visivelAtDomicilio) => !visivelAtDomicilio)
   }
 
-  const [profissional, setProfissional] = useState(false);
-  const [cliente, setCliente] = useState(false);
+  const [PJ, setPJ] = useState(false);
+  const [PF, setPF] = useState(false);
 
   useEffect(() => {
-    if (profissional == true) {
-      console.log('Profissional'),
-        setTipoconta('Profissional')
+    if (PJ == true) {
+      setTipoconta('Pessoa Jurídica')
+      setPessoaJuridica(true)
     }
     return () => {
-      setProfissional(false)
+      setPJ(false)
     }
-  }, [profissional])
+  }, [PJ])
 
   useEffect(() => {
-    if (cliente == true) {
-      console.log('Cliente')
-      setTipoconta('Cliente')
+    if (PF == true) {
+      setTipoconta('Pessoa Física')
+      setPessoaJuridica(false)
     }
     return () => {
-      setCliente(false)
+      setPF(false)
     }
-  }, [cliente])
+  }, [PF])
 
   const [eleDele, setEleDele] = useState(false);
   const [elaDela, setElaDela] = useState(false);
@@ -182,6 +159,7 @@ const TelaCadastro = ({ navigation }) => {
 
   const [tipoconta, setTipoconta] = useState("")
   const [Pronomes, setPronomes] = useState("")
+  const [txtAtDomiciliar, setTxtAtDomiciliar] = useState("Realiza atendimento á domicílio?")
 
   //cep
   const getCep = async () => {
@@ -190,22 +168,22 @@ const TelaCadastro = ({ navigation }) => {
   }
 
 
-  const rotaCadastro = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/ListagemDados', {
-        // setCpf: "000",
-        // nome: "000",
-        // sobrenome: "000",
-        // email: "000",
-        // senha: "000",
-        // cepEnd: "000",
-
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const rotaCadastro = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/ListagemDados', {
+  //       // setCpf: "000",
+  //       // nome: "000",
+  //       // sobrenome: "000",
+  //       // email: "000",
+  //       // senha: "000",
+  //       // cepEnd: "000",
+        
+  //     });
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <ScrollView>
@@ -216,9 +194,105 @@ const TelaCadastro = ({ navigation }) => {
         </Text>
 
         <TextInput style={styles.campo}
-          placeholder='Nome:'
+          placeholder='Nome (obrigatório):'
           onChangeText={value => setNome(value)}
           value={Nome}
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='Nome fantasia:'
+          onChangeText={value => setNomeFantasia(value)}
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='CPF/CNPJ (obrigatório):'
+          keyboardType='numeric'
+          returnKeyType='done'
+          value={CPF_CNPJ}
+          onChangeText={value => setCPF_CNPJ(value)}
+        />
+
+        <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
+          <View >
+            <Text style={styles.titulomodal}>Tipo de Conta (obrigatório): {tipoconta}</Text>
+          </View>
+        </TouchableOpacity>
+        <BottomSheet
+          visible={visivelTipoConta}
+          onBackButtonPress={toggle2}
+          onBackdropPress={toggle2}
+        >
+          <View style={styles.fundomodal}>
+            <TouchableOpacity style={styles.selecao} onPress={() => setPJ(true)}>
+              <Text style={styles.textomodal}>
+                Pessoa Jurídica
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => setPF(true)}>
+              <Text style={styles.textomodal}>
+                Pessoa Física
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </BottomSheet>
+
+        <TextInput style={styles.campo}
+          placeholder='E-mail (obrigatório):'
+          onChangeText={value => setEmail(value)}
+          keyboardType='email-address'
+          value={Email}
+        />
+
+        <TextInput style={styles.campo}
+          placeholder='Crie uma senha (obrigatório):'
+          onChangeText={value => setSenha(value)}
+          value={Senha}
+        />
+
+        <TouchableOpacity style={styles.botaomodal} onPress={toggleAtDomicilio}>
+          <View >
+            <Text style={styles.titulomodal}>{txtAtDomiciliar}</Text>
+          </View>
+        </TouchableOpacity>
+        <BottomSheet
+          visible={visivelAtDomicilio}
+          onBackButtonPress={toggleAtDomicilio}
+          onBackdropPress={toggleAtDomicilio}
+        >
+          <View style={styles.fundomodal}>
+            <TouchableOpacity style={styles.selecao} onPress={() => {
+              setAtendimentoDomiciliar(false);
+              setTxtAtDomiciliar("Não realizo atendimento á domicílio.")}
+            }>
+              <Text style={styles.textomodal}>
+                Não realizo atendimento á domicílio.
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => {
+              setAtendimentoDomiciliar(true);
+              setTxtAtDomiciliar("Sim, atendimento á domicilio e em meu estabelecimento.")}
+            }>
+              <Text style={styles.textomodal}>
+                Sim, atendimento á domicilio e no estabelecimento.
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.selecao} onPress={() => {
+              setAtendimentoDomiciliar(true);
+              setTxtAtDomiciliar("Realizo apenas atendimento á domicílio.")}
+            }>
+              <Text style={styles.textomodal}>
+                Realizo apenas atendimento á domicílio.
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </BottomSheet>
+
+        <TextInput style={styles.campo}
+          placeholder='Telefone:'
+          onChangeText={value => setTelefone(value)}
+          keyboardType='numeric'
+          returnKeyType='done'
+          value={Telefone}
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
@@ -233,7 +307,7 @@ const TelaCadastro = ({ navigation }) => {
           onBackButtonPress={toggle1}
           onBackdropPress={toggle1}
         >
-          <View style={styles.fundomodalpronome}>
+          <View style={styles.fundomodal}>
             <TouchableOpacity style={styles.selecao} onPress={() => setElaDela(true)}>
               <Text style={styles.textomodal}>
                 Ela/Dela
@@ -257,64 +331,6 @@ const TelaCadastro = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
-          <View >
-            <Text style={styles.titulomodal}>Tipo de Conta: {tipoconta}</Text>
-          </View>
-        </TouchableOpacity>
-        <BottomSheet
-          visible={visivelCPF}
-          onBackButtonPress={toggle2}
-          onBackdropPress={toggle2}
-        >
-          <View style={styles.fundomodal}>
-            <TouchableOpacity style={styles.selecao} onPress={() => setProfissional(true)}>
-              <Text style={styles.textomodal}>
-                Profissional - Pessoa Jurídica
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.selecao} onPress={() => setCliente(true)}>
-              <Text style={styles.textomodal}>
-                Cliente - Pessoa Física
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </BottomSheet>
-
-        <TextInput style={styles.campo}
-          placeholder='CPF/CNPJ:'
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={CPF_CNPJ}
-          onChangeText={value => setCPF_CNPJ(value)}
-        />
-
-        <TextInput style={styles.campo}
-          placeholder='Nome fantasia:'
-          onChangeText={value => setNomeFantasia(value)}
-        />
-
-        <TextInput style={styles.campo}
-          placeholder='Telefone:'
-          onChangeText={value => setTelefone(value)}
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={Telefone}
-        />
-
-        <TextInput style={styles.campo}
-          placeholder='E-mail:'
-          onChangeText={value => setEmail(value)}
-          keyboardType='email-address'
-          value={Email}
-        />
-
-        <TextInput style={styles.campo}
-          placeholder='Crie uma senha:'
-          onChangeText={value => setSenha(value)}
-          value={Senha}
-        />
-
         <TextInput style={styles.descricao}
           placeholder='Descrição:'
           editable
@@ -323,7 +339,6 @@ const TelaCadastro = ({ navigation }) => {
           maxLength={200}
           onChangeText={value => setDescricao(value)}
           value={Descricao}
-
         />
 
         <Text style={styles.titfotodeperfil}>
@@ -345,20 +360,18 @@ const TelaCadastro = ({ navigation }) => {
           Local do Estabelecimento
         </Text>
 
-        <View style={styles.alinhamentocep}>
-          <TextInput
-            style={styles.campocep}
-            placeholder='CEP:'
-            value={cepEnd}
-            onChangeText={text => setCepEnd(text)}
-          />
+        <TextInput
+          style={styles.campo}
+          placeholder='CEP:'
+          value={cepEnd}
+          onChangeText={text => setCepEnd(text)}
+        />
 
-          <TouchableOpacity style={styles.botaocep} onPress={getCep}>
-            <Text style={styles.textocep}>
-              Buscar
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.botaofoto} onPress={getCep}>
+          <Text style={styles.txtbtn}>
+            Salvar Endereço
+          </Text>
+        </TouchableOpacity>
 
         {/* TextInput para colocar a latitude e longitude manualmente enquanto
           não temos a api para salvá-los automaticamente - qualquer coisa podemos
@@ -546,14 +559,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
-  fundomodalpronome: {
-    backgroundColor: "#fff",
-    height: 300,
-    justifyContent: "center",
-    alignItems: "center",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
   selecao: {
     width: '90%',
   },
@@ -569,37 +574,7 @@ const styles = StyleSheet.create({
   fotodeperfil: {
     height: 150,
     width: 150
-  },
-  alinhamentocep: {
-    flexDirection: 'row'
-  },
-  campocep: {
-    width: '51%',
-    height: 50,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 15,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    marginHorizontal: '2%'
-  },
-  botaocep: {
-    width: '25%',
-    height: 50,
-    backgroundColor: '#D0A3CE',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 2,
-    borderRadius: 10,
-    marginBottom: 15,
-    marginHorizontal: '2%'
-  },
-  textocep: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 20
   }
 });
 
-export default TelaCadastro;
+export default TelaCadastroProfissional;

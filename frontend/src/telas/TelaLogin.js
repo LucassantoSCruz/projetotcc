@@ -9,6 +9,8 @@ import { BottomSheet } from 'react-native-btr';
 // Importação do Axios
 import axios from 'axios'
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const TelaLogin = ({ navigation }) => {
 
   // Função que declara se a caixa está visivel ou não
@@ -51,6 +53,8 @@ const TelaLogin = ({ navigation }) => {
 
   const [senha, setSenha] = useState(null)
 
+  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+
   const [botao, setBotao] = useState(false)
 
   const [dados, setDados] = useState([])
@@ -72,17 +76,26 @@ const TelaLogin = ({ navigation }) => {
 
   }
 
+  const Navegacao = () => {
+    navigation.navigate("Profissionais"),
+    salvarDados()
+  }
+
   const Login = () => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://192.168.1.2:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
-      email: dados.Email,
-      senha: dados.Senha
+    axios.get(`http://10.0.1.29:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+      Email: dados.Email,
+      Senha: dados.Senha
     })
 
       .then(function (response) {
-        console.log(response.data)
+
+        console.log(response.data.data.CPF_CNPJ)
+        setCPF_CNPJ(response.data.data.CPF_CNPJ)
+        console.log("CPF_CNPJ do usuário: " + CPF_CNPJ)
+
         if (response.data.data != null) {
           if (response.status === 200) {
             setDadosRecebidos(response.data.data);
@@ -95,7 +108,7 @@ const TelaLogin = ({ navigation }) => {
                 },
                 {
                   text: "Entrar",
-                  onPress: () => navigation.navigate("Profissionais"),
+                  onPress: Navegacao
                 },
               ]
             );
@@ -111,6 +124,15 @@ const TelaLogin = ({ navigation }) => {
         console.log("Erro: " + error);
       });
   };
+
+  const salvarDados = async () => {
+    try {
+      await AsyncStorage.setItem('CPF_CNPJ', JSON.stringify(CPF_CNPJ));
+      console.log('Valor salvo com sucesso!');
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <View style={style.tela}>

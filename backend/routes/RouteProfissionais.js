@@ -112,7 +112,7 @@ router.get('/ListarProfissionaisEmail/:Email/:Senha', (req, res)=>{
     console.log(JSON.stringify(Senha))
 
     modelProfissionais.findOne({
-        attributes:['Email', 'Senha'],
+        attributes:['CPF_CNPJ','Email', 'Senha'],
         where:{Email, Senha}})
 
     .then(

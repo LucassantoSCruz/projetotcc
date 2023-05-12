@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 
 import CurrencyInput from 'react-native-currency-input';
@@ -8,10 +8,32 @@ import ImagemPadraoServico from '../componentes/ImagemPadraoServico';
 
 import axios from 'axios';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const PlaceholderImage = require('../../assets/imagemInicial.png');
 
 const TelaCriarServico = () => {
+
     const [imagemSelecionada, setImagemSelecionada] = useState(null);
+
+    const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+
+    useEffect(() => {
+        const obterDados = async () => {
+          try {
+            const valor = await AsyncStorage.getItem('CPF_CNPJ');
+            if (valor !== null) {
+              const CPF_CNPJ = JSON.parse(valor);
+              setCPF_CNPJ(CPF_CNPJ);
+              console.log("Dados passados para tela de Criar Serviço: " + (CPF_CNPJ))
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        obterDados();
+      }, []);
+
 
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -45,7 +67,7 @@ const TelaCriarServico = () => {
     const  [Descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
-        axios.post('http://10.0.1.29:3000/cadastrarServico', {
+        axios.post('http://10.0.1.103:3000/cadastrarServico', {
             Preco,
             Titulo,
             Descricao

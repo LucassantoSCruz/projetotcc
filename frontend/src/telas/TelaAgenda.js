@@ -8,7 +8,7 @@ const TelaAgenda = () => {
     const [agendamentos, setAgendamentos] = useState([])
 
     useEffect(() => {
-        axios.get('http://10.0.1.29:3000/listarServicos')
+        axios.get('http://10.0.1.103:3000/listarServicos')
         .then(function (response) {
             setAgendamentos(response.data)
             //console.log(agendamentos.data)

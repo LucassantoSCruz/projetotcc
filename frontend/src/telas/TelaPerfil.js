@@ -1,19 +1,69 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import axios from 'axios';
 
 const TelaPerfil = ({ navigation }) => {
+
+    const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+
+    const [dadosPerfil, setDadosPerfil] = useState(null)
+
+    const [nome, setNome] = useState(null)
+
+    const [Descricao, setDescricao] = useState(null)
+
+    const [Pronomes, setPronomes] = useState(null)
+
+    useEffect(() => {
+        const obterDados = async () => {
+          try {
+            const valor = await AsyncStorage.getItem('CPF_CNPJ');
+            if (valor !== null) {
+              const CPF_CNPJ = JSON.parse(valor);
+              setCPF_CNPJ(CPF_CNPJ);
+              console.log("Dados passados para tela de perfil: " + JSON.stringify(CPF_CNPJ))
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        obterDados();
+      }, []);
+
+      useEffect(() => {
+        axios.get(`http://10.0.1.103:3000/ListarProfissionalCNPJ/${CPF_CNPJ}`)
+            .then(function (response) {
+
+                console.log(response.data.data)
+
+                setNome(response.data.data.NomeFantasia)
+                console.log("Nome do Usuário " + nome)
+
+                setDescricao(response.data.data.Descricao)
+                console.log("Legenda do Usuário " + Descricao)
+
+                setPronomes(response.data.data.Pronomes)
+                console.log("Pronome do Usuário " + Pronomes)
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }, []);
+
     return (
         <View>
             <ScrollView>
                 <View style={styles.view}>
                     <View style={styles.esquerda}>
-                        <Text style={styles.pronome}>Pronome: Elx</Text>
-                        <Text style={styles.nome}>Nome do Perfil</Text>
+                        <Text style={styles.pronome}>{Pronomes}</Text>
+                        <Text style={styles.nome}>{nome}</Text>
                         <View style={styles.linha} />
-                        <Text style={styles.legenda}>Legenda</Text>
+                        <Text style={styles.legenda}>{Descricao}</Text>
                     </View>
                     <View style={styles.direita}>
                         <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} />

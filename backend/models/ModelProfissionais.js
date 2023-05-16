@@ -43,7 +43,7 @@ const modelProfissionais = conexao.define('tbl_Profissionais', {
         type: sequelize.BOOLEAN,
         defaultValue: false
     },
-    escricao: {
+    descricao: {
         type: sequelize.TEXT,
         allowNull: true
     },

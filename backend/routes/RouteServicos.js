@@ -20,11 +20,11 @@ router.post('/cadastrarServico', (req, res) => {
     console.log(req.body);
 
     //Declaração das variáveis que irão representar os campos da tabela
-    let {Preco, Titulo, Descricao, FK_Profissionais_Servicos} = req.body;
+    let {preco, titulo, descricao, FK_Profissionais_Servicos} = req.body;
 
     //Crie estes campos...
     modelServicos.create(
-        {Preco, Titulo, Descricao, FK_Profissionais_Servicos}
+        {preco, titulo, descricao, FK_Profissionais_Servicos}
     ).then(
         /*
         *...e então, caso dê certo, retorne este objeto JSON com o 
@@ -83,11 +83,11 @@ router.get('/listarServicos', (req, res) => {
     )
 });
 
-router.get('/listarServicosFK/:id_Usuario', (req, res) => {
+router.get('/listarServicosFK/:CPF_CNPJ', (req, res) => {
     
-    let {id_Usuario} = req.params;
+    let {CPF_CNPJ} = req.params;
 
-    modelServicos.findOne({where: { FK_Profissionais_Servicos: id_Usuario }})
+    modelServicos.findAll({where: { FK_Profissionais_Servicos : CPF_CNPJ }})
     .then(
        (response) => {
         return res.status(200).json({
@@ -109,10 +109,10 @@ router.get('/listarServicosFK/:id_Usuario', (req, res) => {
 
 router.put('/alterarServicos', (req, res) =>{
 
-    let { Preco, Titulo, Descricao } = req.body;
+    let {preco, titulo, descricao, FK_Profissionais_Servicos} = req.body;
 
     modelServicos.update(
-        { Preco, Titulo, Descricao},
+        {preco, titulo, descricao, FK_Profissionais_Servicos},
         {where:{  ID_Servico }}
 
     ).then(

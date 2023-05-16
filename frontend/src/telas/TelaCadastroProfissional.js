@@ -9,15 +9,15 @@ const PlaceholderImage = require('../../assets/Perfil.png');
 
 const TelaCadastroProfissional = ({ navigation }) => {
 
-  const [ID, setID] = useState(null)
-  const [Nome, setNome] = useState(null)
-  const [Email, setEmail] = useState(null)
-  const [Senha, setSenha] = useState(null)
-  const [Telefone, setTelefone] = useState(null)
-  const [AtendimentoDomiciliar, setAtendimentoDomiciliar] = useState(null)
-  const [PessoaJuridica, setPessoaJuridica] = useState(null)
-  const [Descricao, setDescricao] = useState(null)
-  const [NomeFantasia, setNomeFantasia] = useState(null)
+  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+  const [nome, setNome] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [senha, setSenha] = useState(null)
+  const [telefone, setTelefone] = useState(null)
+  const [atendimentoDomiciliar, setAtendimentoDomiciliar] = useState(null)
+  const [pessoaJuridica, setPessoaJuridica] = useState(null)
+  const [descricao, setDescricao] = useState(null)
+  const [nomeFantasia, setNomeFantasia] = useState(null)
   const [visivelPronome, setVisivelPronome] = useState(false);    
   //add o endereço
   const [cepEnd, setCepEnd] = useState(null);
@@ -34,19 +34,19 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const enviarFormulario = async () => {
     try {
       const response = await axios.all([
-          axios.post('http://10.0.1.101:3000/cadastrarProfissonal', {
+          axios.post('http://192.168.1.9:3000/cadastrarProfissonal', {
             CPF_CNPJ, 
-            Nome, 
-            NomeFantasia, 
-            Pronomes, 
-            Email, 
-            Senha,
-            Telefone, 
-            AtendimentoDomiciliar,
-            PessoaJuridica,
-            Descricao
+            nome, 
+            nomeFantasia, 
+            pronomes, 
+            email, 
+            senha,
+            telefone, 
+            atendimentoDomiciliar,
+            pessoaJuridica,
+            descricao
           }),
-          axios.post('http://10.0.1.101:3000/cadastrarEndereco', {
+          axios.post('http://192.168.1.9:3000/cadastrarEndereco', {
             Latitude,
             Longitude,
             CEP: cepEnd,
@@ -159,7 +159,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
   };
 
   const [tipoconta, setTipoconta] = useState("")
-  const [Pronomes, setPronomes] = useState("")
+  const [pronomes, setPronomes] = useState("")
   const [txtAtDomiciliar, setTxtAtDomiciliar] = useState("Realiza atendimento á domicílio?")
 
   //cep
@@ -179,7 +179,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
         <TextInput style={styles.campo}
           placeholder='Nome (obrigatório):'
           onChangeText={value => setNome(value)}
-          value={Nome}
+          value={nome}
         />
 
         <TextInput style={styles.campo}
@@ -191,8 +191,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
           placeholder='CPF/CNPJ (obrigatório):'
           keyboardType='numeric'
           returnKeyType='done'
-          value={ID}
-          onChangeText={value => setID(value)}
+          value={CPF_CNPJ}
+          onChangeText={value => setCPF_CNPJ(value)}
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
@@ -223,13 +223,13 @@ const TelaCadastroProfissional = ({ navigation }) => {
           placeholder='E-mail (obrigatório):'
           onChangeText={value => setEmail(value)}
           keyboardType='email-address'
-          value={Email}
+          value={email}
         />
 
         <TextInput style={styles.campo}
           placeholder='Crie uma senha (obrigatório):'
           onChangeText={value => setSenha(value)}
-          value={Senha}
+          value={senha}
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggleAtDomicilio}>
@@ -275,13 +275,13 @@ const TelaCadastroProfissional = ({ navigation }) => {
           onChangeText={value => setTelefone(value)}
           keyboardType='numeric'
           returnKeyType='done'
-          value={Telefone}
+          value={telefone}
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
           <View>
             <Text style={styles.titulomodal}>
-              Pronome: {Pronomes}
+              Pronome: {pronomes}
             </Text>
           </View>
         </TouchableOpacity>
@@ -321,7 +321,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
           numberOfLines={6}
           maxLength={200}
           onChangeText={value => setDescricao(value)}
-          value={Descricao}
+          value={descricao}
         />
 
         <Text style={styles.titfotodeperfil}>

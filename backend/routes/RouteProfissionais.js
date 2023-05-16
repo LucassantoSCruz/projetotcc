@@ -17,10 +17,10 @@ const router = express.Router();
 router.post('/cadastrarProfissonal', (req, res) => {
     console.log(req.body);
     
-    let {ID, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao} = req.body;
+    let {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao} = req.body;
 
     modelProfissionais.create(
-        {ID, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao}
+        {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao}
     ).then(
         ()=>{
             return res.status(201).json({
@@ -72,11 +72,11 @@ router.get('/listagemProfissionais', (req, res) => {
 });
 
 //Rota de listagem por CNPJ
-router.get('/ListarProfissionalCNPJ/:ID', (req, res)=>{
+router.get('/ListarProfissionalCNPJ/:CPF_CNPJ', (req, res)=>{
     
-    let {ID} = req.params;
+    let {CPF_CNPJ} = req.params;
 
-    modelProfissionais.findByPk(ID)
+    modelProfissionais.findByPk(CPF_CNPJ)
     .then(
         (response)=>{
             return res.status(200).json({
@@ -98,15 +98,15 @@ router.get('/ListarProfissionalCNPJ/:ID', (req, res)=>{
 });
 
 //Rota de listagem por e-mail
-router.get('/ListarProfissionaisEmail/:Email/:Senha', (req, res)=>{
+router.get('/ListarProfissionaisEmail/:email/:senha', (req, res)=>{
 
-    let {Email, Senha} = req.params;
-    console.log(JSON.stringify(Email))
-    console.log(JSON.stringify(Senha))
+    let {email, senha} = req.params;
+    console.log(JSON.stringify(email))
+    console.log(JSON.stringify(senha))
 
     modelProfissionais.findOne({
         attributes:['CPF_CNPJ','Email', 'Senha'],
-        where:{Email, Senha}})
+        where:{email, senha}})
 
     .then(
         (response)=>{
@@ -131,11 +131,11 @@ router.get('/ListarProfissionaisEmail/:Email/:Senha', (req, res)=>{
 //Rota de Alteração
 router.put('/alterarProfissionais', (req, res) =>{
 
-    let {ID, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao} = req.body;
+    let {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao} = req.body;
 
     modelProfissionais.update(
-        {ID, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao},
-        {where:{ IDProfissional}}
+        {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao},
+        {where:{ CPF_CNPJ}}
 
     ).then(
         () => {
@@ -157,14 +157,14 @@ router.put('/alterarProfissionais', (req, res) =>{
 })
 
 //Rota de Exclusão
-router.delete('/excluirProfissionais:ID', (req, res)=>{
+router.delete('/excluirProfissionais:CPF_CNPJ', (req, res)=>{
 
     console.log(req.params);
 
-    let {ID} = req.params;
+    let {CPF_CNPJ} = req.params;
 
     modelProfissionais.destroy(
-        {where:{ID}}
+        {where:{CPF_CNPJ}}
     ).then(
         () => {
             return res.status(200).json({

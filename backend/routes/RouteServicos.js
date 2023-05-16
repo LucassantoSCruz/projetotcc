@@ -20,11 +20,11 @@ router.post('/cadastrarServico', (req, res) => {
     console.log(req.body);
 
     //Declaração das variáveis que irão representar os campos da tabela
-    let {Preco, Titulo, Descricao} = req.body;
+    let {Preco, Titulo, Descricao, FK_Profissionais_Servicos} = req.body;
 
     //Crie estes campos...
     modelServicos.create(
-        {Preco, Titulo, Descricao}
+        {Preco, Titulo, Descricao, FK_Profissionais_Servicos}
     ).then(
         /*
         *...e então, caso dê certo, retorne este objeto JSON com o 
@@ -82,6 +82,30 @@ router.get('/listarServicos', (req, res) => {
        }
     )
 });
+
+router.get('/listarServicosFK/:id_Usuario', (req, res) => {
+    
+    let {id_Usuario} = req.params;
+
+    modelServicos.findOne({where: { FK_Profissionais_Servicos: id_Usuario }})
+    .then(
+       (response) => {
+        return res.status(200).json({
+            erroStatus: false,
+            mensagemStatus: 'Serviços listados com sucesso!',
+            data: response
+        })
+       }
+    ).catch(
+       (erro) => {
+            return res.status(400).json({
+                erroStatus: true,
+                mensagemStatus: 'Erro ao listar os clientes',
+                erroObject: erro
+            })
+       }
+    )
+})
 
 router.put('/alterarServicos', (req, res) =>{
 

@@ -19,7 +19,7 @@ const TelaCadastroCliente = ({ navigation }) => {
 
   const enviarFormulario = async () => {
     axios.post('http://10.0.1.101:3000/cadastrarCliente', {
-        ID,
+        CPF,
         Nome,
         Email,
         Senha,

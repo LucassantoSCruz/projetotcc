@@ -9,6 +9,8 @@ import { BottomSheet } from 'react-native-btr';
 // Importação do Axios
 import axios from 'axios'
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const TelaLogin = ({ navigation }) => {
 
   // Função que declara se a caixa está visivel ou não
@@ -55,6 +57,8 @@ const TelaLogin = ({ navigation }) => {
 
   const [senha, setSenha] = useState(null)
 
+  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+
   const [botao, setBotao] = useState(false)
 
   const [dados, setDados] = useState([])
@@ -76,73 +80,63 @@ const TelaLogin = ({ navigation }) => {
 
   }
 
+  const Navegacao = () => {
+    navigation.navigate("Profissionais"),
+    salvarDados()
+  }
+
   const Login = () => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
     axios.get(`http://10.0.1.101:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
-      email: dados.Email,
-      senha: dados.Senha
+      Email: dados.Email,
+      Senha: dados.Senha
     })
 
       .then(function (response) {
-        // console.log('Pesquisa de Usuário: ', dados);
 
-        if (response.status === 200) {
+        console.log(response.data.data.CPF_CNPJ)
+        setCPF_CNPJ(response.data.data.CPF_CNPJ)
+        console.log("CPF_CNPJ do usuário: " + CPF_CNPJ)
 
-          setDadosRecebidos(response.data.data)
-          // console.log(response.data.data + " RETORNO IF")
-          setIdUsuario(response.data.data.ID)
-          console.log(idUsuario)
-        } else {
-
-          console.log(response.data.data.Email + " RETORNO ELSE")
-
+        if (response.data.data != null) {
+          if (response.status === 200) {
+            setDadosRecebidos(response.data.data);
+            Alert.alert(
+              "Login Realizado",
+              "Entre no Aplicativo",
+              [
+                {
+                  text: "Cancelar",
+                },
+                {
+                  text: "Entrar",
+                  onPress: Navegacao
+                },
+              ]
+            );
+          } else {
+            console.log(response.data.data.Email + " RETORNO ELSE");
+          }
+        }
+        else {
+          Alert.alert("Usuário não encontrado.")
         }
       })
-
       .catch(function (error) {
-        console.log("Erro: " + error)
-      })
+        console.log("Erro: " + error);
+      });
+  };
 
+  const salvarDados = async () => {
+    try {
+      await AsyncStorage.setItem('CPF_CNPJ', JSON.stringify(CPF_CNPJ));
+      console.log('Valor salvo com sucesso!');
+    } catch (error) {
+      console.error(error);
+    }
   }
-
-  useEffect(() => {
-    if (botao == true) {
-      Login()
-    }
-    return () => {
-      setBotao(false)
-    }
-  }, [botao])
-
-  useEffect(() => {
-
-    if (dadosRecebidos != null) {
-      Alert.alert(
-        "Login Realizado",
-        "Entre no Aplicativo",
-        [{
-          text: "Cancelar",
-        },
-          {
-          text: "Entrar",
-          onPress: () => navigation.navigate('Profissionais', {idUsuario})
-        },]
-      )
-    } else {
-      Alert.alert("Usuário não encontrado.")
-    }
-
-    // dadosRecebidos != null
-    // ? console.log("Sucesso: " + JSON.stringify(dadosRecebidos))
-    // : console.log("Não encontrado")
-
-    // return () => {
-    //   setDadosRecebidos([])
-    // }
-
-  }, [dadosRecebidos])
 
   return (
     <View style={style.tela}>

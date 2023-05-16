@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
-const TelaPerfilProfissional = ( props) => {
+const TelaPerfilProfissional = () => {
 
     const [servicos, setServicos] = useState([])
 
-    const cb = props.quandoClicar;
+    const navigation = useNavigation()
 
     //Utilizar rota de listagem com o id do profissional em questão
-
     useEffect(() => {
         axios.get('http://10.0.1.101:3000/listarServicos')
         .then(function (response) {
@@ -42,9 +42,6 @@ const TelaPerfilProfissional = ( props) => {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.botao2}>
                         <Text style={styles.texto}>CHAT</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.botao2} onPress={()=>cb(false)}>
-                        <Text style={styles.texto}>VOLTAR</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.view2}>

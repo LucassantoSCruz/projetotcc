@@ -9,22 +9,22 @@ const PlaceholderImage = require('../../assets/Perfil.png');
 
 const TelaCadastroCliente = ({ navigation }) => {
 
-  const [ID, setID] = useState(null)
-  const [Nome, setNome] = useState(null)
-  const [Email, setEmail] = useState(null)
-  const [Senha, setSenha] = useState(null)
-  const [Telefone, setTelefone] = useState(null)
+  const [CPF, setCPF] = useState(null)
+  const [nome, setNome] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [senha, setSenha] = useState(null)
+  const [telefone, setTelefone] = useState(null)
   const [visivelPronome, setVisivelPronome] = useState(false);
-  const [Pronomes, setPronomes] = useState("")
+  const [pronomes, setPronomes] = useState("")
 
   const enviarFormulario = async () => {
     axios.post('http://192.168.1.9:3000/cadastrarCliente', {
         CPF,
-        Nome,
-        Email,
-        Senha,
-        Telefone,
-        Pronomes
+        nome,
+        email,
+        senha,
+        telefone,
+        pronomes
       })
       .then(function (response) {
         console.log(response.data);
@@ -106,28 +106,28 @@ const TelaCadastroCliente = ({ navigation }) => {
         <TextInput style={styles.campo}
           placeholder='Nome:'
           onChangeText={value => setNome(value)}
-          value={Nome}
+          value={nome}
         />
 
         <TextInput style={styles.campo}
           placeholder='CPF:'
           keyboardType='numeric'
           returnKeyType='done'
-          value={ID}
-          onChangeText={value => setID(value)}
+          value={CPF}
+          onChangeText={value => setCPF(value)}
         />
 
         <TextInput style={styles.campo}
           placeholder='E-mail:'
           onChangeText={value => setEmail(value)}
           keyboardType='email-address'
-          value={Email}
+          value={email}
         />
 
         <TextInput style={styles.campo}
           placeholder='Crie uma senha:'
           onChangeText={value => setSenha(value)}
-          value={Senha}
+          value={senha}
         />
 
         <TextInput style={styles.campo}
@@ -135,13 +135,13 @@ const TelaCadastroCliente = ({ navigation }) => {
           onChangeText={value => setTelefone(value)}
           keyboardType='numeric'
           returnKeyType='done'
-          value={Telefone}
+          value={telefone}
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={togglePronomes}>
           <View>
             <Text style={styles.titulomodal}>
-              Pronome: {Pronomes}
+              Pronome: {pronomes}
             </Text>
           </View>
         </TouchableOpacity>

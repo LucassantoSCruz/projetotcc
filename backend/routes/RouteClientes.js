@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.post('/cadastrarCliente', (req, res) => {
             
-    let{ID, Nome, Email, Senha, Telefone, Pronomes} = req.body;
+    let{CPF, nome, email, senha, telefone, pronomes} = req.body;
 
-    modelClientes.create({ID, Nome, Email, Senha, Telefone, Pronomes})
+    modelClientes.create({CPF, nome, email, senha, telefone, pronomes})
         .then(
             ()=>{
                 return res.status(201).json({
@@ -48,15 +48,15 @@ router.get('/listarClientes', (req, res) => {
 })
 
 //Rota de listagem por e-mail
-router.get('/ListarClientesEmail/:Email/:Senha', (req, res)=>{
+router.get('/ListarClientesEmail/:email/:senha', (req, res)=>{
 
-    let {Email, Senha} = req.params;
-    console.log(JSON.stringify(Email))
-    console.log(JSON.stringify(Senha))
+    let {email, senha} = req.params;
+    console.log(JSON.stringify(email))
+    console.log(JSON.stringify(senha))
 
     modelClientes.findOne({
-        attributes:['Email', 'Senha'],
-        where:{Email, Senha}})
+        attributes:['email', 'senha'],
+        where:{email, senha}})
 
     .then(
         (response)=>{
@@ -78,13 +78,13 @@ router.get('/ListarClientesEmail/:Email/:Senha', (req, res)=>{
     )
 });
     
-router.put('/alterarCliente/:ID',(req, res) => {
+router.put('/alterarCliente/:CPF',(req, res) => {
 
-        let{ID, Nome, Email, Senha, Telefone, Pronomes} = req.body;
+        let{CPF, nome, email, senha, telefone, pronomes} = req.body;
         
         modelClientes.update(
-            {ID, Nome, Email, Senha, Telefone, Pronomes},
-            {where:{ID}}
+            {CPF, nome, email, senha, telefone, pronomes},
+            {where:{CPF}}
         ).then(
             ()=>{
                 return res.staus(200).json({
@@ -103,12 +103,12 @@ router.put('/alterarCliente/:ID',(req, res) => {
         )
 })
 
-router.delete('/excluirCliente/:ID',(req, res) => {
-        let{ID} = req.params;
-        modelClientes.findByPk(ID)
+router.delete('/excluirCliente/:CPF',(req, res) => {
+        let{CPF} = req.params;
+        modelClientes.findByPk(CPF)
             .then((clientes) => {
                 if(clientes){
-                    modelClientes.destroy({where:{ID}})
+                    modelClientes.destroy({where:{CPF}})
                     .then(()=>{
                         return res.status(200).json({
                             erroStatus:false,

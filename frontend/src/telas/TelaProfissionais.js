@@ -18,7 +18,7 @@ const TelaProfissionais = ({ navigation }) => {
     const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
 
     useEffect(() => {
-        axios.get('http://10.0.1.103:3000/listarServicos')
+        axios.get('http://10.0.1.48:3000/listarServicos')
             .then(function (response) {
                 setServicos(response.data)
                 console.log(servicos.data)

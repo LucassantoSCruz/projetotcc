@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -35,7 +35,7 @@ const TelaPerfil = ({ navigation }) => {
       }, []);
 
       useEffect(() => {
-        axios.get(`http://10.0.1.103:3000/ListarProfissionalCNPJ/${CPF_CNPJ}`)
+        axios.get(`http://10.0.1.48:3000/ListarProfissionalCNPJ/${CPF_CNPJ}`)
             .then(function (response) {
 
                 console.log(response.data.data)
@@ -80,22 +80,13 @@ const TelaPerfil = ({ navigation }) => {
                         <Text style={styles.texto}>NOVO</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.view2}>
+                {/* <View style={styles.view2}>
                     <BoxPerfil />
                     <BoxPerfil />
-                </View>
-                <View style={styles.view2}>
-                    <BoxPerfil />
-                    <BoxPerfil />
-                </View>
-                <View style={styles.view2}>
-                    <BoxPerfil />
-                    <BoxPerfil />
-                </View>
-                <View style={styles.view2}>
-                    <BoxPerfil />
-                    <BoxPerfil />
-                </View>
+                </View> */}
+                <FlatList
+                    horizontal={true}
+                />
             </ScrollView>
         </View>
     );

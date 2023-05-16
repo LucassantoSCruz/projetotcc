@@ -16,16 +16,16 @@ const TelaCriarServico = () => {
 
     const [imagemSelecionada, setImagemSelecionada] = useState(null);
 
-    const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+    const [FK_Profissionais_Servicos, setFK_Profissionais_Servicos] = useState(null)
 
     useEffect(() => {
         const obterDados = async () => {
           try {
             const valor = await AsyncStorage.getItem('CPF_CNPJ');
             if (valor !== null) {
-              const CPF_CNPJ = JSON.parse(valor);
-              setCPF_CNPJ(CPF_CNPJ);
-              console.log("Dados passados para tela de Criar Serviço: " + (CPF_CNPJ))
+              const FK_Profissionais_Servicos = JSON.parse(valor);
+              setFK_Profissionais_Servicos(FK_Profissionais_Servicos);
+              console.log("Dados passados para tela de Criar Serviço: " + (FK_Profissionais_Servicos))
             }
           } catch (error) {
             console.error(error);
@@ -67,10 +67,11 @@ const TelaCriarServico = () => {
     const  [Descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
-        axios.post('http://10.0.1.103:3000/cadastrarServico', {
+        axios.post('http://10.0.1.48:3000/cadastrarServico', {
             Preco,
             Titulo,
-            Descricao
+            Descricao,
+            FK_Profissionais_Servicos
         })
         .then(function (response) {
             console.log(response.data);

@@ -20,11 +20,11 @@ router.post('/cadastrarServico', (req, res) => {
     console.log(req.body);
 
     //Declaração das variáveis que irão representar os campos da tabela
-    let {Preco, Titulo, Descricao} = req.body;
+    let {Preco, Titulo, Descricao, FK_Profissionais_Servicos} = req.body;
 
     //Crie estes campos...
     modelServicos.create(
-        {Preco, Titulo, Descricao}
+        {Preco, Titulo, Descricao, FK_Profissionais_Servicos}
     ).then(
         /*
         *...e então, caso dê certo, retorne este objeto JSON com o 

@@ -6,45 +6,45 @@ const conexao = require('../database/Database');
 
 const modelEnderecos = conexao.define('tbl_Enderecos', {
     //Declaração do campos
-    ID_Endereco:{
+    ID:{
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    Latitude:{
+    latitude:{
         type: sequelize.DOUBLE,
         allowNull: false
     },
-    Longitude:{
+    longitude:{
         type: sequelize.DOUBLE,
         allowNull: false
     },
-    CEP:{
-        type: sequelize.STRING,
+    cep:{
+        type: sequelize.STRING(25),
         allowNull: false
     },
-    UF:{
-        type: sequelize.STRING,
+    uf:{
+        type: sequelize.STRING(5),
         allowNull: true
     },
-    LocalidadeCidade:{
-        type: sequelize.STRING,
+    localidadeCidade:{
+        type: sequelize.STRING(50),
         allowNull: true
     },
-    Logradouro:{
-        type: sequelize.STRING,
+    logradouro:{
+        type: sequelize.STRING(100),
         allowNull: true
     },
-    Bairro:{
-        type: sequelize.STRING,
+    bairro:{
+        type: sequelize.STRING(100),
         allowNull: true
     },
-    Numero:{
-        type: sequelize.STRING,
-        allowNull: true
+    numero:{
+        type: sequelize.STRING(10),
+        allowNull: false
     },
-    Complemento:{
-        type: sequelize.STRING,
+    complemento:{
+        type: sequelize.STRING(100),
         allowNull: true
     },
     

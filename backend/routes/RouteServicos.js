@@ -83,6 +83,30 @@ router.get('/listarServicos', (req, res) => {
     )
 });
 
+router.get('/listarServicosFK/:id_Usuario', (req, res) => {
+    
+    let {id_Usuario} = req.params;
+
+    modelServicos.findOne({where: { FK_Profissionais_Servicos: id_Usuario }})
+    .then(
+       (response) => {
+        return res.status(200).json({
+            erroStatus: false,
+            mensagemStatus: 'Serviços listados com sucesso!',
+            data: response
+        })
+       }
+    ).catch(
+       (erro) => {
+            return res.status(400).json({
+                erroStatus: true,
+                mensagemStatus: 'Erro ao listar os clientes',
+                erroObject: erro
+            })
+       }
+    )
+})
+
 router.put('/alterarServicos', (req, res) =>{
 
     let { Preco, Titulo, Descricao } = req.body;

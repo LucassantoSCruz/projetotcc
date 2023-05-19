@@ -3,7 +3,7 @@
 * Este arquivo tem todas as rotas do modelo da tabela de 
 * Profissionais 
 *********************************************************************
-* CPF_CNPJ, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao, FotoPerfil
+* ID, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao, FotoPerfil
 */
 
 //Importação do Express, do modelo e do gerenciador de rotas do Express
@@ -17,14 +17,11 @@ const router = express.Router();
 router.post('/cadastrarProfissonal', (req, res) => {
     console.log(req.body);
     
-    //Declaração das variáveis que irão representar os campos da tabela
-    let {CPF_CNPJ, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao} = req.body;
+    let {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao} = req.body;
 
-    //Crie estes campos...
     modelProfissionais.create(
-        {CPF_CNPJ, Nome, NomeFantasia, Pronomes, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao}
+        {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao}
     ).then(
-        //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{
             return res.status(201).json({
                 erroStatus: false,
@@ -32,10 +29,6 @@ router.post('/cadastrarProfissonal', (req, res) => {
             })
         }
     ).catch(
-        /*
-        * ...caso "pegue" um erro, envie este arquivo JSON com o status HTTP e
-        * o objeto de erro
-        */
        (erro) => {
         return res.status(201).json({
             erroStatus: true,
@@ -105,15 +98,15 @@ router.get('/ListarProfissionalCNPJ/:CPF_CNPJ', (req, res)=>{
 });
 
 //Rota de listagem por e-mail
-router.get('/ListarProfissionaisEmail/:Email/:Senha', (req, res)=>{
+router.get('/ListarProfissionaisEmail/:email/:senha', (req, res)=>{
 
-    let {Email, Senha} = req.params;
-    console.log(JSON.stringify(Email))
-    console.log(JSON.stringify(Senha))
+    let {email, senha} = req.params;
+    console.log(JSON.stringify(email))
+    console.log(JSON.stringify(senha))
 
     modelProfissionais.findOne({
-        attributes:['Email', 'Senha'],
-        where:{Email, Senha}})
+        attributes:['CPF_CNPJ','Email', 'Senha'],
+        where:{email, senha}})
 
     .then(
         (response)=>{
@@ -138,11 +131,11 @@ router.get('/ListarProfissionaisEmail/:Email/:Senha', (req, res)=>{
 //Rota de Alteração
 router.put('/alterarProfissionais', (req, res) =>{
 
-    let {CPF_CNPJ, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao} = req.body;
+    let {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao} = req.body;
 
     modelProfissionais.update(
-        {CPF_CNPJ, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, PessoaJuridica, Descricao},
-        {where:{ IDProfissional}}
+        {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao},
+        {where:{ CPF_CNPJ}}
 
     ).then(
         () => {

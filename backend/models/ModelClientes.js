@@ -13,27 +13,27 @@ const modelClientes = conexao.define('tbl_Clientes', {
         primaryKey: true,
         allowNull:false
     },
-    Nome:{
+    nome:{
         type: Sequelize.STRING(100),
         allowNull: false
     },
-    Email:{
+    email:{
         type: Sequelize.STRING(45),
         allowNull: false
     },
-    Senha:{
+    senha:{
         type: Sequelize.STRING(30),
         allowNull: false
     },
-    FotoPerfil:{
+    fotoPerfil:{
         type: Sequelize.BLOB,
         allowNull: true
     },
-    Telefone: {
+    telefone: {
         type: Sequelize.STRING(30),
         allowNull: true
     },
-    Pronomes:{
+    pronomes:{
         type: Sequelize.STRING(20),
         allowNull: true
     }

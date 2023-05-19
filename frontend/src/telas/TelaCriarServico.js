@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 
 import CurrencyInput from 'react-native-currency-input';
@@ -8,10 +8,32 @@ import ImagemPadraoServico from '../componentes/ImagemPadraoServico';
 
 import axios from 'axios';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const PlaceholderImage = require('../../assets/imagemInicial.png');
 
 const TelaCriarServico = () => {
+
     const [imagemSelecionada, setImagemSelecionada] = useState(null);
+
+    const [FK_Profissionais_Servicos, setFK_Profissionais_Servicos] = useState(null)
+
+    useEffect(() => {
+        const obterDados = async () => {
+          try {
+            const valor = await AsyncStorage.getItem('CPF_CNPJ');
+            if (valor !== null) {
+              const FK_Profissionais_Servicos = JSON.parse(valor);
+              setFK_Profissionais_Servicos(FK_Profissionais_Servicos);
+              console.log("Dados passados para tela de Criar Serviço: " + (FK_Profissionais_Servicos))
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        obterDados();
+      }, []);
+
 
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -40,15 +62,16 @@ const TelaCriarServico = () => {
         ])
     }
 
-    const [Preco, setPreco] = useState(null)
-    const  [Titulo, setTitulo] = useState(null)
-    const  [Descricao, setDescricao] = useState(null)
+    const [preco, setPreco] = useState(null)
+    const  [titulo, setTitulo] = useState(null)
+    const  [descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
-        axios.post('http://192.168.1.3:3000/cadastrarServico', {
-            Preco,
-            Titulo,
-            Descricao
+        axios.post('http://192.168.1.9:3000/cadastrarServico', {
+            preco,
+            titulo,
+            descricao,
+            FK_Profissionais_Servicos
         })
         .then(function (response) {
             console.log(response.data);
@@ -79,7 +102,7 @@ const TelaCriarServico = () => {
                     <TextInput style={styles.nomeservico}
                         placeholder='Digite o nome do serviço'
                         maxLength={35}
-                        value={Titulo}
+                        value={titulo}
                         onChangeText={value => setTitulo(value)}
                     />
                 </View>
@@ -95,7 +118,7 @@ const TelaCriarServico = () => {
                         numberOfLines={6}
                         maxLength={300}
                         onChangeText={value => setDescricao(value)}
-                        value={Descricao}
+                        value={descricao}
                     />
                 </View>
 
@@ -108,7 +131,7 @@ const TelaCriarServico = () => {
                         <CurrencyInput
                             style={styles.colocarpreco}
                             placeholder='0,00'
-                            value={Preco}
+                            value={preco}
                             onChangeValue={value => setPreco(value)}
                         />
 

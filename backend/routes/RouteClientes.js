@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.post('/cadastrarCliente', (req, res) => {
             
-    let{CPF, Nome, Email, Senha, Telefone, Pronomes} = req.body;
+    let{CPF, nome, email, senha, telefone, pronomes} = req.body;
 
-    modelClientes.create({CPF, Nome, Email, Senha, Telefone, Pronomes})
+    modelClientes.create({CPF, nome, email, senha, telefone, pronomes})
         .then(
             ()=>{
                 return res.status(201).json({
@@ -15,10 +15,11 @@ router.post('/cadastrarCliente', (req, res) => {
                 })
             }
         ).catch(
-            (error) => {
+            (erro) => {
                 return res.status(400).json({
                     erroStatus: true,
-                    mensagemStatus: "Erro ao cadastrar"
+                    mensagemStatus: "Erro ao cadastrar",
+                    erroObject: erro
                 });
             }
         )
@@ -47,15 +48,15 @@ router.get('/listarClientes', (req, res) => {
 })
 
 //Rota de listagem por e-mail
-router.get('/ListarClientesEmail/:Email/:Senha', (req, res)=>{
+router.get('/ListarClientesEmail/:email/:senha', (req, res)=>{
 
-    let {Email, Senha} = req.params;
-    console.log(JSON.stringify(Email))
-    console.log(JSON.stringify(Senha))
+    let {email, senha} = req.params;
+    console.log(JSON.stringify(email))
+    console.log(JSON.stringify(senha))
 
     modelClientes.findOne({
-        attributes:['Email', 'Senha'],
-        where:{Email, Senha}})
+        attributes:['email', 'senha'],
+        where:{email, senha}})
 
     .then(
         (response)=>{
@@ -79,10 +80,10 @@ router.get('/ListarClientesEmail/:Email/:Senha', (req, res)=>{
     
 router.put('/alterarCliente/:CPF',(req, res) => {
 
-        let{CPF, Nome, Email, Senha, Telefone, Pronomes} = req.body;
+        let{CPF, nome, email, senha, telefone, pronomes} = req.body;
         
         modelClientes.update(
-            {CPF, Nome, Email, Senha, Telefone, Pronomes},
+            {CPF, nome, email, senha, telefone, pronomes},
             {where:{CPF}}
         ).then(
             ()=>{

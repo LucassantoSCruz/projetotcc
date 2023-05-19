@@ -11,43 +11,43 @@ const modelProfissionais = conexao.define('tbl_Profissionais', {
         type: sequelize.STRING(30),
         primaryKey: true
     },
-    Nome:{
+    nome:{
         type: sequelize.STRING(100),
         allowNull: false
     },
-    NomeFantasia:{
+    nomeFantasia:{
         type: sequelize.STRING(100),
         allowNull: true
     },
-    Pronomes:{
+    pronomes:{
         type: sequelize.STRING(20),
         allowNull: true
     },
-    PessoaJuridica: {
+    pessoaJuridica: {
         type: sequelize.BOOLEAN,
         defaultValue: false
     },
-    Email: {
+    email: {
         type: sequelize.STRING(45),
         allowNull: false
     },
-    Senha: {
+    senha: {
         type: sequelize.STRING(30),
         allowNull: false
     },
-    Telefone: {
+    telefone: {
         type: sequelize.STRING(30),
         allowNull: true
     },
-    AtendimentoDomiciliar: {
+    atendimentoDomiciliar: {
         type: sequelize.BOOLEAN,
         defaultValue: false
     },
-    Descricao: {
+    descricao: {
         type: sequelize.TEXT,
         allowNull: true
     },
-    FotoPerfil: {
+    fotoPerfil: {
         type: sequelize.BLOB,
         allowNull: true
     },

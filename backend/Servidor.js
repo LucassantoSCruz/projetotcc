@@ -13,7 +13,6 @@ const routeEnderecos = require('./routes/RouteEnderecos');
 const routeStatus = require('./routes/RouteStatus');
 const routeProfissionais = require('./routes/RouteProfissionais');
 const routeServicos = require('./routes/RouteServicos');
-const routeServicosSociais = require('./routes/RouteServicosSociais');
 
 //Tornando o express executável
 const app = express();
@@ -21,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-//conexao.sync({ force : true }); 
+//conexao.sync({ force : true });
 
 //INÍCIO DA UTILIZAÇÃO DAS ROTAS
 app.use('/', routeAgenda);
@@ -32,7 +31,6 @@ app.use('/', routeEnderecos);
 app.use('/', routeStatus);
 app.use('/', routeProfissionais);
 app.use('/', routeServicos);
-app.use('/', routeServicosSociais);
 
 //Criação do webserver local
 app.listen(3000, ()=>{

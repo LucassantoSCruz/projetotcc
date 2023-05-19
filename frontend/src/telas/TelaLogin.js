@@ -9,6 +9,8 @@ import { BottomSheet } from 'react-native-btr';
 // Importação do Axios
 import axios from 'axios'
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const TelaLogin = ({ navigation }) => {
 
   // Função que declara se a caixa está visivel ou não
@@ -45,11 +47,17 @@ const TelaLogin = ({ navigation }) => {
 
   const [tipoconta, setTipoconta] = useState('')
 
+  //Estado com a rota para buscar cliente ou profissional 
+  //dependendo do tipo de conta selecionado
   const [rotaLogin, setRotaLogin] = useState('')
+  //Estado com a chave primária do cliente ou profissional
+  const [idUsuario, setIdUsuario] = useState(null)
 
   const [email, setEmail] = useState(null)
 
   const [senha, setSenha] = useState(null)
+
+  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
 
   const [botao, setBotao] = useState(false)
 
@@ -72,72 +80,63 @@ const TelaLogin = ({ navigation }) => {
 
   }
 
+  const Navegacao = () => {
+    navigation.navigate("Profissionais"),
+    salvarDados()
+  }
+
   const Login = () => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://192.168.1.2:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
-      email: dados.Email,
-      senha: dados.Senha
+    axios.get(`http://192.168.1.9:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+      Email: dados.Email,
+      Senha: dados.Senha
     })
 
       .then(function (response) {
-        // console.log('Pesquisa de Usuário: ', dados);
 
-        if (response.status === 200) {
+        console.log(response.data.data.CPF_CNPJ)
+        setCPF_CNPJ(response.data.data.CPF_CNPJ)
+        console.log("CPF_CNPJ do usuário: " + CPF_CNPJ)
 
-          setDadosRecebidos(response.data.data)
-          // console.log(response.data.data + " RETORNO IF")
-
-        } else {
-
-          console.log(response.data.data.Email + " RETORNO ELSE")
-
+        if (response.data.data != null) {
+          if (response.status === 200) {
+            setDadosRecebidos(response.data.data);
+            Alert.alert(
+              "Login Realizado",
+              "Entre no Aplicativo",
+              [
+                {
+                  text: "Cancelar",
+                },
+                {
+                  text: "Entrar",
+                  onPress: Navegacao
+                },
+              ]
+            );
+          } else {
+            console.log(response.data.data.Email + " RETORNO ELSE");
+          }
+        }
+        else {
+          Alert.alert("Usuário não encontrado.")
         }
       })
-
       .catch(function (error) {
-        console.log("Erro: " + error)
-      })
+        console.log("Erro: " + error);
+      });
+  };
 
+  const salvarDados = async () => {
+    try {
+      await AsyncStorage.setItem('CPF_CNPJ', JSON.stringify(CPF_CNPJ));
+      console.log('Valor salvo com sucesso!');
+    } catch (error) {
+      console.error(error);
+    }
   }
-
-  useEffect(() => {
-    if (botao == true) {
-      Login()
-    }
-    return () => {
-      setBotao(false)
-    }
-  }, [botao])
-
-  useEffect(() => {
-
-    if (dadosRecebidos != null) {
-      Alert.alert(
-        "Login Realizado",
-        "Entre no Aplicativo",
-        [{
-          text: "Cancelar",
-        },
-          {
-          text: "Entrar",
-          onPress: () => navigation.navigate('Profissionais')
-        },]
-      )
-    } else {
-      Alert.alert("Usuário não encontrado.")
-    }
-
-    // dadosRecebidos != null
-    // ? console.log("Sucesso: " + JSON.stringify(dadosRecebidos))
-    // : console.log("Não encontrado")
-
-    // return () => {
-    //   setDadosRecebidos([])
-    // }
-
-  }, [dadosRecebidos])
 
   return (
     <View style={style.tela}>
@@ -185,7 +184,7 @@ const TelaLogin = ({ navigation }) => {
         control={control}
         rules={{
           required: true,
-          minLength: 6,
+          minLength: 2,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
 

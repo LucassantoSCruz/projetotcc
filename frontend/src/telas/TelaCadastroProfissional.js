@@ -7,6 +7,8 @@ import axios from 'axios';
 
 const PlaceholderImage = require('../../assets/Perfil.png');
 
+import { useForm, Controller } from 'react-hook-form';
+
 const TelaCadastroProfissional = ({ navigation }) => {
 
   const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
@@ -34,30 +36,30 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const enviarFormulario = async () => {
     try {
       const response = await axios.all([
-          axios.post('http://10.0.1.48:3000/cadastrarProfissonal', {
-            CPF_CNPJ, 
-            Nome, 
-            NomeFantasia, 
-            Pronomes, 
-            Email, 
-            Senha,
-            Telefone, 
-            AtendimentoDomiciliar,
-            PessoaJuridica,
-            Descricao
-          }),
-          axios.post('http://10.0.1.48:3000/cadastrarEndereco', {
-            Latitude,
-            Longitude,
-            CEP: cepEnd,
-            UF: infoCep.uf,
-            LocalidadeCidade: infoCep.localidade,
-            Logradouro: infoCep.logradouro,
-            Bairro: infoCep.bairro,
-            Numero,
-            Complemento
-          })
-        ]);
+        axios.post('http://10.0.1.103:3000/cadastrarProfissonal', {
+          CPF_CNPJ: dados.CPF_CNPJ,
+          Nome: dados.Nome,
+          NomeFantasia: dados.NomeFantasia,
+          Pronomes: Pronomes,
+          Email: dados.Email,
+          Senha: dados.Senha,
+          Telefone: dados.Telefone,
+          AtendimentoDomiciliar: AtendimentoDomiciliar,
+          PessoaJuridica: PessoaJuridica,
+          Descricao: dados.Descricao
+        }),
+        axios.post('http://10.0.1.103:3000/cadastrarEndereco', {
+          Latitude,
+          Longitude,
+          CEP: cepEnd,
+          UF: infoCep.uf,
+          LocalidadeCidade: infoCep.localidade,
+          Logradouro: infoCep.logradouro,
+          Bairro: infoCep.bairro,
+          Numero,
+          Complemento
+        })
+      ]);
     } catch (erro) {
       console.log(erro);
     }
@@ -167,7 +169,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
     setInfo(data);
   }
 
-
+  const [dados, setDados] = useState([])
   // const rotaCadastro = async () => {
   //   try {
   //     const response = await axios.get('http://localhost:3000/ListagemDados', {
@@ -177,13 +179,38 @@ const TelaCadastroProfissional = ({ navigation }) => {
   //       // email: "000",
   //       // senha: "000",
   //       // cepEnd: "000",
-        
+
   //     });
   //     console.log(response.data);
   //   } catch (error) {
   //     console.error(error);
   //   }
   // };
+
+  const onSubmit = data => {
+
+    console.log(data)
+    setDados(data)
+    enviarFormulario()
+  
+  };
+
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      Nome: '',
+      NomeFantasia: '',
+      CPF_CNPJ: '',
+      Email: '',
+      Senha: '',
+      Telefone: '',
+      Descricao: '',
+      CEP: '',
+      Latitude: '',
+      Longitude: '',
+      Numero: '',
+      Complemento: ''
+    }
+  })
 
   return (
     <ScrollView>
@@ -193,23 +220,73 @@ const TelaCadastroProfissional = ({ navigation }) => {
           Cadastre-se
         </Text>
 
-        <TextInput style={styles.campo}
-          placeholder='Nome (obrigatório):'
-          onChangeText={value => setNome(value)}
-          value={Nome}
+        {errors.Nome && <Text style={styles.textoerro}>Digite seu nome!</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 3
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput
+              style={styles.campo}
+              placeholder='Nome (obrigatório):'
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+
+          )}
+          name='Nome'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='Nome fantasia:'
-          onChangeText={value => setNomeFantasia(value)}
+        {errors.NomeFantasia && <Text style={styles.textoerro}>Digite seu nome!</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 3
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput
+              style={styles.campo}
+              placeholder='Nome fantasia:'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+
+          )}
+          name='NomeFantasia'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='CPF/CNPJ (obrigatório):'
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={CPF_CNPJ}
-          onChangeText={value => setCPF_CNPJ(value)}
+        {errors.CPF_CNPJ && <Text style={styles.textoerro}>Digite seu cpf!</Text>}
+
+        <Controller
+          control={control}
+          rules={{
+            minLength: 11,
+            maxLength: 14,
+            required: true
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput
+              style={styles.campo}
+              placeholder='CPF/CNPJ (obrigatório):'
+              keyboardType='numeric'
+              returnKeyType='done'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+
+          )}
+          name='CPF_CNPJ'
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
@@ -236,17 +313,44 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        <TextInput style={styles.campo}
-          placeholder='E-mail (obrigatório):'
-          onChangeText={value => setEmail(value)}
-          keyboardType='email-address'
-          value={Email}
+        {errors.Email && <Text style={styles.textoerro}>Digite seu e-mail!</Text>}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Digite um E-mail válido'
+            }
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={styles.campo}
+              placeholder='E-mail (obrigatório):'
+              keyboardType='email-address'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name='Email'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='Crie uma senha (obrigatório):'
-          onChangeText={value => setSenha(value)}
-          value={Senha}
+        {errors.Senha && <Text style={styles.textoerro}>Digite sua senha!</Text>}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 6
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={styles.campo}
+              placeholder='Crie uma senha (obrigatório):'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name='Senha'
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggleAtDomicilio}>
@@ -259,10 +363,11 @@ const TelaCadastroProfissional = ({ navigation }) => {
           onBackButtonPress={toggleAtDomicilio}
           onBackdropPress={toggleAtDomicilio}
         >
-          <View style={styles.fundomodal}>
+          <View style={styles.fundomodaldomicilio}>
             <TouchableOpacity style={styles.selecao} onPress={() => {
               setAtendimentoDomiciliar(false);
-              setTxtAtDomiciliar("Não realizo atendimento á domicílio.")}
+              setTxtAtDomiciliar("Não realizo atendimento á domicílio.")
+            }
             }>
               <Text style={styles.textomodal}>
                 Não realizo atendimento á domicílio.
@@ -270,7 +375,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.selecao} onPress={() => {
               setAtendimentoDomiciliar(true);
-              setTxtAtDomiciliar("Sim, atendimento á domicilio e em meu estabelecimento.")}
+              setTxtAtDomiciliar("Sim, atendimento á domicilio e em meu estabelecimento.")
+            }
             }>
               <Text style={styles.textomodal}>
                 Sim, atendimento á domicilio e no estabelecimento.
@@ -278,7 +384,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.selecao} onPress={() => {
               setAtendimentoDomiciliar(true);
-              setTxtAtDomiciliar("Realizo apenas atendimento á domicílio.")}
+              setTxtAtDomiciliar("Realizo apenas atendimento á domicílio.")
+            }
             }>
               <Text style={styles.textomodal}>
                 Realizo apenas atendimento á domicílio.
@@ -287,12 +394,24 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        <TextInput style={styles.campo}
-          placeholder='Telefone:'
-          onChangeText={value => setTelefone(value)}
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={Telefone}
+        {errors.Telefone && <Text style={styles.textoerro}>Digite seu telefone!</Text>}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 8
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={styles.campo}
+              placeholder='Telefone:'
+              keyboardType='numeric'
+              returnKeyType='done'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name='Telefone'
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
@@ -307,7 +426,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
           onBackButtonPress={toggle1}
           onBackdropPress={toggle1}
         >
-          <View style={styles.fundomodal}>
+          <View style={styles.fundomodalpronome}>
             <TouchableOpacity style={styles.selecao} onPress={() => setElaDela(true)}>
               <Text style={styles.textomodal}>
                 Ela/Dela
@@ -331,14 +450,26 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        <TextInput style={styles.descricao}
-          placeholder='Descrição:'
-          editable
-          multiline
-          numberOfLines={6}
-          maxLength={200}
-          onChangeText={value => setDescricao(value)}
-          value={Descricao}
+        {errors.Descricao && <Text style={styles.textoerro}>Adicione uma breve descrição!</Text>}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 3
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={styles.descricao}
+              placeholder='Descrição:'
+              editable
+              multiline
+              numberOfLines={6}
+              maxLength={200}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name='Descricao'
         />
 
         <Text style={styles.titfotodeperfil}>
@@ -360,35 +491,66 @@ const TelaCadastroProfissional = ({ navigation }) => {
           Local do Estabelecimento
         </Text>
 
-        <View style={styles.alinhamentocep}>
-          <TextInput
-            style={styles.campocep}
-            placeholder='CEP:'
-            value={cepEnd}
-            onChangeText={text => setCepEnd(text)}
-          />
 
-          <TouchableOpacity style={styles.botaocep} onPress={getCep}>
-            <Text style={styles.textocep}>
-              Buscar
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {errors.CEP && <Text style={styles.textoerro}>Digite seu CEP!</Text>}
+        <Controller
+          control={control}
+          rules={{
+            required: false,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.campo}
+              placeholder='CEP:'
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
+          name='CEP'
+        />
+
+        <TouchableOpacity style={styles.botaofoto} onPress={getCep}>
+          <Text style={styles.txtbtn}>
+            Salvar Endereço
+          </Text>
+        </TouchableOpacity>
 
         {/* TextInput para colocar a latitude e longitude manualmente enquanto
           não temos a api para salvá-los automaticamente - qualquer coisa podemos
           tirá-los do banco */}
-        <TextInput
-          style={styles.campo}
-          placeholder='Latitude:'
-          value={Latitude}
-          onChangeText={value => setLatitude(value)}
+        <Controller
+          control={control}
+          rules={{
+            required: false,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.campo}
+              placeholder='Latitude:'
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
+          name='Latitude'
         />
-        <TextInput
-          style={styles.campo}
-          placeholder='Longitude:'
-          value={Longitude}
-          onChangeText={value => setLongitude(value)}
+
+        <Controller
+          control={control}
+          rules={{
+            required: false,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.campo}
+              placeholder='Logitude:'
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
+          name='Longitude'
         />
 
         <TextInput
@@ -411,20 +573,42 @@ const TelaCadastroProfissional = ({ navigation }) => {
           placeholder='Estado:'
           value={infoCep.uf}
         />
-        <TextInput
-          style={styles.campo}
-          placeholder='Numero:'
-          value={Numero}
-          onChangeText={text => setNumero(text)}
-        />
-        <TextInput
-          style={styles.campo}
-          placeholder='Complemento:'
-          value={Complemento}
-          onChangeText={text => setComplemento(text)}
+
+        <Controller
+          control={control}
+          rules={{
+            required: false,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.campo}
+              placeholder='Numero:'
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
+          name='Numero'
         />
 
-        <TouchableOpacity style={styles.botao} onPress={enviarFormulario}>
+        <Controller
+          control={control}
+          rules={{
+            required: false,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.campo}
+              placeholder='Complemento:'
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
+          name='Latitude'
+        />
+
+        <TouchableOpacity style={styles.botao} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.txtbtn} >
             Cadastrar
           </Text>
@@ -555,6 +739,22 @@ const styles = StyleSheet.create({
   },
   fundomodal: {
     backgroundColor: "#fff",
+    height: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  fundomodaldomicilio: {
+    backgroundColor: "#fff",
+    height: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  fundomodalpronome: {
+    backgroundColor: "#fff",
     height: 300,
     justifyContent: "center",
     alignItems: "center",
@@ -577,35 +777,9 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150
   },
-  alinhamentocep: {
-    flexDirection: 'row'
-  },
-  campocep: {
-    width: '51%',
-    height: 50,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 15,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    marginHorizontal: '2%'
-  },
-  botaocep: {
-    width: '25%',
-    height: 50,
-    backgroundColor: '#D0A3CE',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 2,
-    borderRadius: 10,
-    marginBottom: 15,
-    marginHorizontal: '2%'
-  },
-  textocep: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 20
+  textoerro: {
+    fontSize: 14,
+    color: 'red'
   }
 });
 

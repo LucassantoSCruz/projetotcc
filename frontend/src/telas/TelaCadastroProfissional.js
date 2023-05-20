@@ -38,15 +38,15 @@ const TelaCadastroProfissional = ({ navigation }) => {
       const response = await axios.all([
         axios.post('http://192.168.10.242:3000/cadastrarProfissonal', {
           CPF_CNPJ: dados.CPF_CNPJ,
-          Nome: dados.Nome,
-          NomeFantasia: dados.NomeFantasia,
-          Pronomes: Pronomes,
-          Email: dados.Email,
-          Senha: dados.Senha,
-          Telefone: dados.Telefone,
-          AtendimentoDomiciliar: AtendimentoDomiciliar,
-          PessoaJuridica: PessoaJuridica,
-          Descricao: dados.Descricao
+          nome: dados.Nome,
+          nomeFantasia: dados.NomeFantasia,
+          pronomes: pronomes,
+          email: dados.Email,
+          senha: dados.Senha,
+          telefone: dados.Telefone,
+          atendimentoDomiciliar: AtendimentoDomiciliar,
+          pessoaJuridica: PessoaJuridica,
+          descricao: dados.Descricao
         }),
         axios.post('http://192.168.10.242:3000/cadastrarEndereco', {
           Latitude,
@@ -220,7 +220,14 @@ const TelaCadastroProfissional = ({ navigation }) => {
           Cadastre-se
         </Text>
 
-        {errors.Nome && <Text style={styles.textoerro}>Digite seu nome!</Text>}
+        {errors.Nome &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Nome incorreto
+            </Text>
+          </View>
+        }
 
         <Controller
           control={control}
@@ -242,7 +249,14 @@ const TelaCadastroProfissional = ({ navigation }) => {
           name='Nome'
         />
 
-        {errors.NomeFantasia && <Text style={styles.textoerro}>Digite seu nome!</Text>}
+        {errors.NomeFantasia &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Nome Fantasia incorreto
+            </Text>
+          </View>
+        }
 
         <Controller
           control={control}
@@ -264,7 +278,14 @@ const TelaCadastroProfissional = ({ navigation }) => {
           name='NomeFantasia'
         />
 
-        {errors.CPF_CNPJ && <Text style={styles.textoerro}>Digite seu cpf!</Text>}
+        {errors.CPF_CNPJ &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de CPF/CNPJ incorreto
+            </Text>
+          </View>
+        }
 
         <Controller
           control={control}
@@ -313,7 +334,15 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        {errors.Email && <Text style={styles.textoerro}>Digite seu e-mail!</Text>}
+        {errors.Email &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Email incorreto
+            </Text>
+          </View>
+        }
+
         <Controller
           control={control}
           rules={{
@@ -335,7 +364,15 @@ const TelaCadastroProfissional = ({ navigation }) => {
           name='Email'
         />
 
-        {errors.Senha && <Text style={styles.textoerro}>Digite sua senha!</Text>}
+        {errors.Senha &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Senha incorreto
+            </Text>
+          </View>
+        }
+
         <Controller
           control={control}
           rules={{
@@ -394,7 +431,15 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        {errors.Telefone && <Text style={styles.textoerro}>Digite seu telefone!</Text>}
+        {errors.Telefone &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Telefone incorreto
+            </Text>
+          </View>
+        }
+
         <Controller
           control={control}
           rules={{
@@ -450,7 +495,15 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        {errors.Descricao && <Text style={styles.textoerro}>Adicione uma breve descrição!</Text>}
+        {errors.Descricao &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Descrição incorreto
+            </Text>
+          </View>
+        }
+
         <Controller
           control={control}
           rules={{
@@ -758,7 +811,25 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20
-  }
+  },
+  caixaerro: {
+    justifyContent: 'center',
+    alignItems: "center",
+    padding: 5,
+    backgroundColor: 'grey',
+    flexDirection: 'row',
+    borderRadius: 50,
+    margin: 2
+  },
+  textoerro: {
+    fontSize: 14,
+    color: 'white',
+    marginHorizontal: 5
+  },
+  imagemerro: {
+    width: 20,
+    height: 20,
+  },
 });
 
 export default TelaCadastroProfissional;

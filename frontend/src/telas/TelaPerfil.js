@@ -38,7 +38,7 @@ const TelaPerfil = ({ navigation }) => {
       }, []);
 
       useEffect(() => {
-        axios.get(`http://192.168.1.9:3000/ListarProfissionalCNPJ/${CPF_CNPJ}`)
+        axios.get(`http://192.168.10.242:3000/ListarProfissionalCNPJ/${CPF_CNPJ}`)
             .then(function (response) {
 
                 console.log(response.data.data)
@@ -57,7 +57,7 @@ const TelaPerfil = ({ navigation }) => {
                 console.log(error);
             })
 
-            axios.get(`http://192.168.1.9:3000/listarServicosFK/${CPF_CNPJ}`)
+            axios.get(`http://192.168.10.242:3000/listarServicosFK/${CPF_CNPJ}`)
             .then(function (response) {
                 setServicos(response.data.data)
                 console.log(servicos)

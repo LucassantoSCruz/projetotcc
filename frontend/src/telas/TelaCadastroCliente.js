@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
@@ -21,11 +21,11 @@ const TelaCadastroCliente = ({ navigation }) => {
   const enviarFormulario = async () => {
     axios.post('http://192.168.10.242:3000/cadastrarCliente', {
       CPF: dados.CPF,
-      Nome: dados.Nome,
-      Email: dados.Email,
-      Senha: dados.Senha,
-      Telefone: dados.Telefone,
-      Pronomes
+      nome: dados.Nome,
+      email: dados.Email,
+      senha: dados.Senha,
+      telefone: dados.Telefone,
+      pronomes: Pronomes
     })
       .then(function (response) {
         console.log(response.data);
@@ -125,7 +125,14 @@ const TelaCadastroCliente = ({ navigation }) => {
           Cadastre-se
         </Text>
 
-        {errors.Nome && <Text>Digite seu Nome!</Text>}
+        {errors.Nome &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Nome incorreto
+            </Text>
+          </View>
+        }
 
         <Controller
           control={control}
@@ -145,7 +152,14 @@ const TelaCadastroCliente = ({ navigation }) => {
           name='Nome'
         />
 
-        {errors.CPF && <Text>Digite seu CPF!</Text>}
+        {errors.CPF &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de CPF incorreto
+            </Text>
+          </View>
+        }
 
         <Controller
           control={control}
@@ -166,7 +180,14 @@ const TelaCadastroCliente = ({ navigation }) => {
           name='CPF'
         />
 
-        {errors.Email && <Text>Digite seu e-mail!</Text>}
+        {errors.Email &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Email incorreto
+            </Text>
+          </View>
+        }
 
         <Controller
           control={control}
@@ -191,7 +212,14 @@ const TelaCadastroCliente = ({ navigation }) => {
           name='Email'
         />
 
-        {errors.Senha && <Text>Digite uma senha</Text>}
+        {errors.Senha &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Senha incorreto
+            </Text>
+          </View>
+        }
 
         <Controller
           control={control}
@@ -212,7 +240,14 @@ const TelaCadastroCliente = ({ navigation }) => {
           name='Senha'
         />
 
-        {errors.Telefone && <Text>Digite seu telefone!</Text>}
+        {errors.Telefone &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Telefone incorreto
+            </Text>
+          </View>
+        }
 
         <Controller
           control={control}
@@ -237,7 +272,7 @@ const TelaCadastroCliente = ({ navigation }) => {
         <TouchableOpacity style={styles.botaomodal} onPress={togglePronomes}>
           <View>
             <Text style={styles.titulomodal}>
-              Pronome: {pronomes}
+              Pronome: {Pronomes}
             </Text>
           </View>
         </TouchableOpacity>
@@ -437,7 +472,25 @@ const styles = StyleSheet.create({
   fotodeperfil: {
     height: 150,
     width: 150
-  }
+  },
+  caixaerro: {
+    justifyContent: 'center',
+    alignItems: "center",
+    padding: 5,
+    backgroundColor: 'grey',
+    flexDirection: 'row',
+    borderRadius: 50,
+    margin: 2
+  },
+  textoerro: {
+    fontSize: 14,
+    color: 'white',
+    marginHorizontal: 5
+  },
+  imagemerro: {
+    width: 20,
+    height: 20,
+  },
 });
 
 export default TelaCadastroCliente;

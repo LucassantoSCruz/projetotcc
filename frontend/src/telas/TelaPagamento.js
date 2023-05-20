@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput, ScrollView } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput, ScrollView, Alert } from "react-native";
 
-const TelaPagamento = () => {
+const TelaPagamento = ({ navigation }) => {
 
     const [mostraCartao, setMostraCartao] = useState(false)
     const [clicou, setClicou] = useState(0)
@@ -17,6 +17,18 @@ const TelaPagamento = () => {
                 setMostraCartao(false)
             )
     }, [clicou])
+
+    const ConfirmarServico = () => {
+        Alert.alert("Tem certeza que deseja contratar este Serviço?", 'Acompanhe as atualizações sobre ele na Agenda', [
+            {
+                text: 'Cancelar',
+                onPress: () => console.log('Serviço Cancelado')
+            },
+            {
+                text: 'Contratar'
+            },
+        ])
+    }
 
 
     const FormCartao = () => {
@@ -45,7 +57,7 @@ const TelaPagamento = () => {
                     placeholder="000"
                 />
                 <View>
-                    <TouchableOpacity style={styles.bntcon}>
+                    <TouchableOpacity style={styles.bntcon} onPress={ConfirmarServico}>
                         <Text style={styles.confirmar}>Confirmar</Text>
                     </TouchableOpacity>
                 </View>

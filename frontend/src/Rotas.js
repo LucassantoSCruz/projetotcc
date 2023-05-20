@@ -56,7 +56,7 @@ const Rotas = () => {
 
         <Tab.Screen name={telaProfissionais} component={RotaProfissional} options={{ headerTitleAlign: 'center', headerShown: false }} />
         <Tab.Screen name={telaComunidade} component={RotaComunidade} options={{ headerTitleAlign: 'center', headerShown: false }} />
-        <Tab.Screen name={telaAgenda} component={TelaAgenda} options={{ headerTitleAlign: 'center' }} />
+        <Tab.Screen name={telaAgenda} component={RotaAgenda} options={{ headerTitleAlign: 'center' }} />
         <Tab.Screen name={telaPerfil} component={RotaPerfil} options={{ headerTitleAlign: 'center', headerShown: false }} />
       </Tab.Navigator>
     </NavigationContainer>
@@ -98,6 +98,16 @@ const RotaComunidade = () => {
       <Stack.Navigator>
         <Stack.Screen name={telaComunidade} component={TelaComunidade} options={{ headerTitleAlign: 'center' }} />
         <Stack.Screen name='TelaComunidadeInfo' component={TelaComunidadeInfo} options={{ headerTitleAlign: 'center' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+const RotaAgenda = () => {
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator>
+        <Stack.Screen name="TelaAgenda" component={TelaAgenda} options={{ headerTitleAlign: 'center', headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

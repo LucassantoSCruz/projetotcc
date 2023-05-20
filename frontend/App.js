@@ -16,8 +16,8 @@ const App = () => {
       <Stack.Navigator initialRouteName="Inicio">
         <Stack.Screen name="Inicio" component={TelaInicial} options={{headerTitleAlign: 'center', title: 'Início'}}/>
         <Stack.Screen name="Login" component={TelaLogin} options={{headerTitleAlign: 'center'}}/>
-        <Stack.Screen name="CadastroProfissional" component={TelaCadastroProfissional} options={{headerTitleAlign: 'center'}}/>
-        <Stack.Screen name="CadastroCliente" component={TelaCadastroCliente} options={{headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="CadastroProfissional" component={TelaCadastroProfissional} options={{headerTitleAlign: 'center', title: 'Cadastro de Profissionais'}}/>
+        <Stack.Screen name="CadastroCliente" component={TelaCadastroCliente} options={{headerTitleAlign: 'center', title: 'Cadastro de Clientes' }}/>
         <Stack.Screen name="Profissionais" component={TabNavegacao} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>

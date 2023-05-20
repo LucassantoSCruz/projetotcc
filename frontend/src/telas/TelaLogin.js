@@ -89,16 +89,24 @@ const TelaLogin = ({ navigation }) => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://192.168.1.9:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+    axios.get(`http://10.0.1.101:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
       Email: dados.Email,
       Senha: dados.Senha
     })
 
       .then(function (response) {
 
-        console.log(response.data.data.CPF_CNPJ)
-        setCPF_CNPJ(response.data.data.CPF_CNPJ)
-        console.log("CPF_CNPJ do usuário: " + CPF_CNPJ)
+        if(tipoconta == 'Profissional') {
+
+          setIdUsuario(response.data.data.CPF_CNPJ)
+          console.log("ID do usuário Profissional: " + idUsuario)
+
+        } else{
+
+          console.log('Dados do usuário: ' + response)
+          // setIdUsuario(response.data.data.CPF)
+          // console.log("ID do usuário Cliente: " + idUsuario)
+        }
 
         if (response.data.data != null) {
           if (response.status === 200) {
@@ -130,11 +138,20 @@ const TelaLogin = ({ navigation }) => {
   };
 
   const salvarDados = async () => {
-    try {
-      await AsyncStorage.setItem('CPF_CNPJ', JSON.stringify(CPF_CNPJ));
-      console.log('Valor salvo com sucesso!');
-    } catch (error) {
-      console.error(error);
+    if(tipoconta == 'Profissional') {
+      try {
+        await AsyncStorage.setItem('idUsuario', JSON.stringify(CPF_CNPJ));
+        console.log('Valor salvo com sucesso!');
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        await AsyncStorage.setItem('idUsuario', JSON.stringify(CPF));
+        console.log('Valor salvo com sucesso!');
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 

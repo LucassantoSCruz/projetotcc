@@ -10,19 +10,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const TelaProfissionais = ({ navigation }) => {
-
-    const idUsuario = navigation.params;
     
-    console.log(idUsuario)
-
     const [servicos, setServicos] = useState([])
 
     const [navegar, setNavegar] = useState(false)
 
-    const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+    const [idUsuario, setidUsuario] = useState(null)
 
     useEffect(() => {
-        axios.get('http://192.168.1.9:3000/listarServicos')
+        axios.get('http://10.0.1.101:3000/listarServicos')
             .then(function (response) {
                 setServicos(response.data)
                 console.log(servicos.data)
@@ -35,11 +31,11 @@ const TelaProfissionais = ({ navigation }) => {
     useEffect(() => {
         const obterDados = async () => {
           try {
-            const valor = await AsyncStorage.getItem('CPF_CNPJ');
+            const valor = await AsyncStorage.getItem('idUsuario');
             if (valor !== null) {
-              const CPF_CNPJ = JSON.parse(valor);
-              setCPF_CNPJ(CPF_CNPJ);
-              console.log("Dados passados para tela: " + JSON.stringify(CPF_CNPJ))
+              const idUsuario = JSON.parse(valor);
+              setidUsuario(idUsuario);
+              console.log("Dados passados para tela: " + JSON.stringify(idUsuario))
             }
           } catch (error) {
             console.error(error);

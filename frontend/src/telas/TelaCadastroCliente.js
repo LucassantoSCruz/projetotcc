@@ -237,7 +237,7 @@ const TelaCadastroCliente = ({ navigation }) => {
         <TouchableOpacity style={styles.botaomodal} onPress={togglePronomes}>
           <View>
             <Text style={styles.titulomodal}>
-              Pronome: {Pronomes}
+              Pronome: {pronomes}
             </Text>
           </View>
         </TouchableOpacity>

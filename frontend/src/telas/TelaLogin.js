@@ -47,7 +47,11 @@ const TelaLogin = ({ navigation }) => {
 
   const [tipoconta, setTipoconta] = useState('')
 
+  //Estado com a rota para buscar cliente ou profissional 
+  //dependendo do tipo de conta selecionado
   const [rotaLogin, setRotaLogin] = useState('')
+  //Estado com a chave primária do cliente ou profissional
+  const [idUsuario, setIdUsuario] = useState(null)
 
   const [email, setEmail] = useState(null)
 
@@ -85,7 +89,7 @@ const TelaLogin = ({ navigation }) => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://10.0.1.48:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+    axios.get(`http://192.168.1.9:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
       Email: dados.Email,
       Senha: dados.Senha
     })
@@ -180,7 +184,7 @@ const TelaLogin = ({ navigation }) => {
         control={control}
         rules={{
           required: true,
-          minLength: 6,
+          minLength: 2,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
 

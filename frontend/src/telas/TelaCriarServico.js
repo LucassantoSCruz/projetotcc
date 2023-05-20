@@ -62,15 +62,15 @@ const TelaCriarServico = () => {
         ])
     }
 
-    const [Preco, setPreco] = useState(null)
-    const  [Titulo, setTitulo] = useState(null)
-    const  [Descricao, setDescricao] = useState(null)
+    const [preco, setPreco] = useState(null)
+    const  [titulo, setTitulo] = useState(null)
+    const  [descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
-        axios.post('http://10.0.1.48:3000/cadastrarServico', {
-            Preco,
-            Titulo,
-            Descricao,
+        axios.post('http://192.168.1.9:3000/cadastrarServico', {
+            preco,
+            titulo,
+            descricao,
             FK_Profissionais_Servicos
         })
         .then(function (response) {
@@ -102,7 +102,7 @@ const TelaCriarServico = () => {
                     <TextInput style={styles.nomeservico}
                         placeholder='Digite o nome do serviço'
                         maxLength={35}
-                        value={Titulo}
+                        value={titulo}
                         onChangeText={value => setTitulo(value)}
                     />
                 </View>
@@ -118,7 +118,7 @@ const TelaCriarServico = () => {
                         numberOfLines={6}
                         maxLength={300}
                         onChangeText={value => setDescricao(value)}
-                        value={Descricao}
+                        value={descricao}
                     />
                 </View>
 
@@ -131,7 +131,7 @@ const TelaCriarServico = () => {
                         <CurrencyInput
                             style={styles.colocarpreco}
                             placeholder='0,00'
-                            value={Preco}
+                            value={preco}
                             onChangeValue={value => setPreco(value)}
                         />
 

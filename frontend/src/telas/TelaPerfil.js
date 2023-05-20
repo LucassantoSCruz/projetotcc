@@ -5,6 +5,7 @@ import BoxPerfil from '../componentes/BoxPerfil';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios';
+import CaixaServico from '../componentes/CaixaServico';
 
 const TelaPerfil = ({ navigation }) => {
 
@@ -16,7 +17,9 @@ const TelaPerfil = ({ navigation }) => {
 
     const [Descricao, setDescricao] = useState(null)
 
-    const [Pronomes, setPronomes] = useState(null)
+    const [pronomes, setPronomes] = useState(null)
+
+    const [servicos, setServicos] = useState([])
 
     useEffect(() => {
         const obterDados = async () => {
@@ -25,7 +28,7 @@ const TelaPerfil = ({ navigation }) => {
             if (valor !== null) {
               const CPF_CNPJ = JSON.parse(valor);
               setCPF_CNPJ(CPF_CNPJ);
-              console.log("Dados passados para tela de perfil: " + JSON.stringify(CPF_CNPJ))
+              console.log("Dados passados para tela de perfil: " + CPF_CNPJ)
             }
           } catch (error) {
             console.error(error);
@@ -35,23 +38,32 @@ const TelaPerfil = ({ navigation }) => {
       }, []);
 
       useEffect(() => {
-        axios.get(`http://10.0.1.48:3000/ListarProfissionalCNPJ/${CPF_CNPJ}`)
+        axios.get(`http://192.168.1.9:3000/ListarProfissionalCNPJ/${CPF_CNPJ}`)
             .then(function (response) {
 
                 console.log(response.data.data)
 
-                setNome(response.data.data.NomeFantasia)
+                setNome(response.data.data.nomeFantasia)
                 console.log("Nome do Usuário " + nome)
 
-                setDescricao(response.data.data.Descricao)
+                setDescricao(response.data.data.descricao)
                 console.log("Legenda do Usuário " + Descricao)
 
-                setPronomes(response.data.data.Pronomes)
-                console.log("Pronome do Usuário " + Pronomes)
+                setPronomes(response.data.data.pronomes)
+                console.log("Pronome do Usuário " + pronomes)
 
             })
             .catch(function (error) {
                 console.log(error);
+            })
+
+            axios.get(`http://192.168.1.9:3000/listarServicosFK/${CPF_CNPJ}`)
+            .then(function (response) {
+                setServicos(response.data.data)
+                console.log(servicos)
+            })
+            .catch(function (error) {
+                console.log(error)
             })
     }, []);
 
@@ -60,7 +72,7 @@ const TelaPerfil = ({ navigation }) => {
             <ScrollView>
                 <View style={styles.view}>
                     <View style={styles.esquerda}>
-                        <Text style={styles.pronome}>{Pronomes}</Text>
+                        <Text style={styles.pronome}>{pronomes}</Text>
                         <Text style={styles.nome}>{nome}</Text>
                         <View style={styles.linha} />
                         <Text style={styles.legenda}>{Descricao}</Text>
@@ -84,9 +96,13 @@ const TelaPerfil = ({ navigation }) => {
                     <BoxPerfil />
                     <BoxPerfil />
                 </View> */}
-                <FlatList
-                    horizontal={true}
-                />
+                <View style={styles.view2}>
+                    <FlatList
+                        horizontal={true}
+                        data={servicos}
+                        renderItem={({ item }) => <CaixaServico campo={(item.titulo)} />}
+                    />
+                </View>
             </ScrollView>
         </View>
     );

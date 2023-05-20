@@ -8,24 +8,24 @@ const conexao = require('../database/Database');
 const modelServicos = conexao.define('tbl_Servicos', {
     
     //Definição dos campos e seus attributos
-    ID_Servico:{
+    ID:{
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    Imagem: {
+    imagem: {
         type: sequelize.BLOB,
         allowNull: true
     },
-    Preco: {
+    preco: {
         type: sequelize.DECIMAL(10,2),
         allowNull: false
     },
-    Titulo: {
+    titulo: {
         type: sequelize.STRING(100),
-        allowNull: true
+        allowNull: false
     },
-    Descricao: {
+    descricao: {
         type: sequelize.TEXT,
         allowNull: true
     }

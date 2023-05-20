@@ -11,6 +11,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TelaProfissionais = ({ navigation }) => {
 
+    const idUsuario = navigation.params;
+    
+    console.log(idUsuario)
+
     const [servicos, setServicos] = useState([])
 
     const [navegar, setNavegar] = useState(false)
@@ -18,7 +22,7 @@ const TelaProfissionais = ({ navigation }) => {
     const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
 
     useEffect(() => {
-        axios.get('http://10.0.1.48:3000/listarServicos')
+        axios.get('http://192.168.1.9:3000/listarServicos')
             .then(function (response) {
                 setServicos(response.data)
                 console.log(servicos.data)
@@ -96,7 +100,7 @@ const TelaProfissionais = ({ navigation }) => {
                         <FlatList
                             horizontal={true}
                             data={servicos.data}
-                            renderItem={({ item }) => <CaixaServico campo={(item.Titulo)} />}
+                            renderItem={({ item }) => <CaixaServico campo={(item.titulo)} />}
                             keyExtractor={item => item.ID_Servico}
                         />
                     </View>

@@ -160,7 +160,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
   };
 
   const [tipoconta, setTipoconta] = useState("")
-  const [Pronomes, setPronomes] = useState("")
+  const [pronomes, setPronomes] = useState("")
   const [txtAtDomiciliar, setTxtAtDomiciliar] = useState("Realiza atendimento á domicílio?")
 
   //cep
@@ -417,7 +417,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
           <View>
             <Text style={styles.titulomodal}>
-              Pronome: {Pronomes}
+              Pronome: {pronomes}
             </Text>
           </View>
         </TouchableOpacity>

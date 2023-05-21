@@ -1,16 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";  
+import React from 'react';
 import { View, Text, StyleSheet, Image, Touchable, TouchableOpacity } from 'react-native';
 
   // criação de um componente
-  const CaixaServico = ({ campo }) => {
+  const CaixaServico = ( item ) => {
 
     // const cb = props.quandoClicar;
 
     const navigation = useNavigation()
 
     const Pressionar = () => {
-      navigation.navigate('PerfilProfissional')
+      console.log('Serviço clicado: '+ item.item.FK_Profissionais_Servicos)
+      const fkServico = item.item.FK_Profissionais_Servicos
+      console.log(fkServico)
+      navigation.navigate('PerfilProfissional', {fkServico})
     }
 
     return (
@@ -23,7 +26,7 @@ import { View, Text, StyleSheet, Image, Touchable, TouchableOpacity } from 'reac
           </View>
           <View style={styles.fundonome}>
             <Text style={styles.texto}>
-              {campo}
+            {item.item.titulo}
             </Text>
           </View>
         </View>

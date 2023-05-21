@@ -11,9 +11,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TelaProfissionais = ({ navigation }) => {
 
-    const idUsuario = navigation.params;
-    
-    console.log(idUsuario)
+    const [idUsuario, setIdUsuario] = useState(null)
+
+    const [tipoconta, setTipoconta] = useState('')
 
     const [servicos, setServicos] = useState([])
 
@@ -22,7 +22,7 @@ const TelaProfissionais = ({ navigation }) => {
     const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
 
     useEffect(() => {
-        axios.get('http://192.168.1.9:3000/listarServicos')
+        axios.get('http://192.168.1.6:3000/listarServicos')
             .then(function (response) {
                 setServicos(response.data)
                 console.log(servicos.data)
@@ -35,11 +35,21 @@ const TelaProfissionais = ({ navigation }) => {
     useEffect(() => {
         const obterDados = async () => {
           try {
-            const valor = await AsyncStorage.getItem('CPF_CNPJ');
+            const valor = await AsyncStorage.getItem('idUsuario');
             if (valor !== null) {
-              const CPF_CNPJ = JSON.parse(valor);
-              setCPF_CNPJ(CPF_CNPJ);
-              console.log("Dados passados para tela: " + JSON.stringify(CPF_CNPJ))
+              const idUsuario = JSON.parse(valor);
+              setIdUsuario(idUsuario);
+              console.log("Dados passados para tela: " + JSON.stringify(idUsuario))
+            }
+          } catch (error) {
+            console.error(error);
+          }
+          try {
+            const valor = await AsyncStorage.getItem('tipoconta');
+            if (valor !== null) {
+              const tipoconta = JSON.parse(valor);
+              setTipoconta(tipoconta);
+              console.log("Tipo de conta: " + JSON.stringify(tipoconta))
             }
           } catch (error) {
             console.error(error);
@@ -100,7 +110,7 @@ const TelaProfissionais = ({ navigation }) => {
                         <FlatList
                             horizontal={true}
                             data={servicos.data}
-                            renderItem={({ item }) => <CaixaServico campo={(item.titulo)} />}
+                            renderItem={({ item }) => <CaixaServico item={item} />}
                             keyExtractor={item => item.ID_Servico}
                         />
                     </View>

@@ -1,36 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import CaixaServico from '../componentes/CaixaServico';
 
 const TelaPerfilProfissional = () => {
 
+    const route = useRoute();
+    const [fkServico, setFkServico] = useState(null)
     const [servicos, setServicos] = useState([])
-
     const navigation = useNavigation()
+    const[nome, setNome] = useState(null)
+    const[Descricao, setDescricao,] = useState(null)
+    const[pronomes, setPronomes] = useState(null)
 
     //Utilizar rota de listagem com o id do profissional em questão
     useEffect(() => {
-        axios.get('http://192.168.1.9:3000/listarServicos')
-        .then(function (response) {
-            setServicos(response.data)
-            console.log(servicos.data)
+        axios.get(`http://192.168.1.6:3000/ListarProfissionalCNPJ/${fkServico}`)
+        .then( function (response) {
+            console.log(response.data.data)
+            setNome(response.data.data.nomeFantasia)
+            setDescricao(response.data.data.descricao)
+            setPronomes(response.data.data.pronomes)
+        }).catch( function (error){
+            console.log(error)
         })
-        .catch(function (error) {
-            console.log(error);
+
+        axios.get(`http://192.168.1.6:3000/listarServicosFK/${fkServico}`)
+        .then(function (response){
+            //console.log(response.data.data)
+            setServicos(JSON.stringify(response.data.data))
+            console.log('Serviços recebidos: ' + JSON.stringify(servicos))
+        }).catch(function (error){
+            console.log(error)
         })
     }, []);
+    
+    useEffect(() => {
+        setFkServico(route.params.fkServico)
+        console.log('FK salva: ' + fkServico)
+        salvarDados()
+    }, []);
+
+    const salvarDados = async () => {
+        try {
+            await AsyncStorage.setItem('fkServico', JSON.stringify(route.params.fkServico))
+            console.log('FK salva com sucesso!')
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <View>
             <ScrollView>
                 <View style={styles.view}>
                     <View style={styles.esquerda}>
-                        <Text style={styles.pronome}>Pronome: Elx</Text>
-                        <Text style={styles.nome}>Nome do Perfil</Text>
+                        <Text style={styles.pronome}>{pronomes}</Text>
+                        <Text style={styles.nome}>{nome}</Text>
                         <View style={styles.linha} />
-                        <Text style={styles.legenda}>Legenda</Text>
+                        <Text style={styles.legenda}>{Descricao}</Text>
                     </View>
                     <View style={styles.direita}>
                         <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} />
@@ -56,25 +87,11 @@ const TelaPerfilProfissional = () => {
 
                 </View>
                 <View style={styles.view2}>
-
-                    <TouchableOpacity style={styles.boxperfil}>
-                        <BoxPerfil />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.boxperfil}>
-                        <BoxPerfil />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.view2}>
-
-                    <TouchableOpacity style={styles.boxperfil}>
-                        <BoxPerfil />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.boxperfil}>
-                        <BoxPerfil />
-                    </TouchableOpacity>
-
+                {/* <FlatList
+                        horizontal={true}
+                        data={servicos}
+                        renderItem={({ item }) => <BoxPerfil item={(item)} />}
+                    /> */}
                 </View>
             </ScrollView>
         </View>

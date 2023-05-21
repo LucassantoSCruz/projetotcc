@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Image, StyleSheet, Text } from 'react-native'
 
-const BoxPerfil = ({item}) => {
+const BoxPerfil = (item) => {
+
+    console.log('Itens do box Perfil: '+item)
     return (
         <View style={styles.caixa}>
             <View style={styles.caixa2}>

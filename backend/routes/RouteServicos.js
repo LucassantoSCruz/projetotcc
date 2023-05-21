@@ -100,7 +100,7 @@ router.get('/listarServicosFK/:CPF_CNPJ', (req, res) => {
        (erro) => {
             return res.status(400).json({
                 erroStatus: true,
-                mensagemStatus: 'Erro ao listar os clientes',
+                mensagemStatus: 'Erro ao listar os serviços',
                 erroObject: erro
             })
        }

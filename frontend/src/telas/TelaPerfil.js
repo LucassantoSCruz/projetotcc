@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +10,10 @@ import CaixaServico from '../componentes/CaixaServico';
 const TelaPerfil = ({ navigation }) => {
 
     const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
+
+    const [idUsuario, setIdUsuario] = useState(null)
+
+    const [tipoconta, setTipoconta] = useState('')
 
     const [dadosPerfil, setDadosPerfil] = useState(null)
 
@@ -24,11 +28,21 @@ const TelaPerfil = ({ navigation }) => {
     useEffect(() => {
         const obterDados = async () => {
           try {
-            const valor = await AsyncStorage.getItem('CPF_CNPJ');
+            const valor = await AsyncStorage.getItem('idUsuario');
             if (valor !== null) {
-              const CPF_CNPJ = JSON.parse(valor);
-              setCPF_CNPJ(CPF_CNPJ);
-              console.log("Dados passados para tela de perfil: " + CPF_CNPJ)
+              const idUsuario = JSON.parse(valor);
+              setIdUsuario(idUsuario);
+              console.log("Dados passados para tela de perfil: " + idUsuario)
+            }
+          } catch (error) {
+            console.error(error);
+          }
+          try {
+            const valor = await AsyncStorage.getItem('tipoconta');
+            if (valor !== null) {
+              const tipoconta = JSON.parse(valor);
+              setTipoconta(tipoconta);
+              console.log("Tipo de conta: " + JSON.stringify(tipoconta))
             }
           } catch (error) {
             console.error(error);
@@ -38,7 +52,9 @@ const TelaPerfil = ({ navigation }) => {
       }, []);
 
       useEffect(() => {
-        axios.get(`http://192.168.1.9:3000/ListarProfissionalCNPJ/${CPF_CNPJ}`)
+
+        if(tipoconta == 'Profissional') {
+            axios.get(`http://192.168.1.6:3000/ListarProfissionalCNPJ/${idUsuario}`)
             .then(function (response) {
 
                 console.log(response.data.data)
@@ -57,7 +73,7 @@ const TelaPerfil = ({ navigation }) => {
                 console.log(error);
             })
 
-            axios.get(`http://192.168.1.9:3000/listarServicosFK/${CPF_CNPJ}`)
+            axios.get(`http://192.168.1.6:3000/listarServicosFK/${idUsuario}`)
             .then(function (response) {
                 setServicos(response.data.data)
                 console.log(servicos)
@@ -65,6 +81,10 @@ const TelaPerfil = ({ navigation }) => {
             .catch(function (error) {
                 console.log(error)
             })
+        } 
+        else {
+            console.log('Não é possível ver os serviços de uma conta cliente')
+        }
     }, []);
 
     return (
@@ -100,7 +120,7 @@ const TelaPerfil = ({ navigation }) => {
                     <FlatList
                         horizontal={true}
                         data={servicos}
-                        renderItem={({ item }) => <CaixaServico campo={(item.titulo)} />}
+                        renderItem={({ item }) => <CaixaServico item={(item)} />}
                     />
                 </View>
             </ScrollView>

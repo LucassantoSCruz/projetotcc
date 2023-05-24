@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CaixaServico from '../componentes/CaixaServico';
+import BoxPerfilEstatico from '../componentes/BoxPerfilEstatico';
 
 const TelaPerfilProfissional = () => {
 
@@ -12,13 +13,13 @@ const TelaPerfilProfissional = () => {
     const [fkServico, setFkServico] = useState(null)
     const [servicos, setServicos] = useState([])
     const navigation = useNavigation()
-    const[nome, setNome] = useState(null)
-    const[Descricao, setDescricao,] = useState(null)
-    const[pronomes, setPronomes] = useState(null)
+    const [nome, setNome] = useState(null)
+    const [Descricao, setDescricao,] = useState(null)
+    const [pronomes, setPronomes] = useState(null)
 
     //Utilizar rota de listagem com o id do profissional em questão
     useEffect(() => {
-        axios.get(`http://192.168.1.6:3000/ListarProfissionalCNPJ/${fkServico}`)
+        axios.get(`http://192.168.1.3:3000/ListarProfissionalCNPJ/${fkServico}`)
         .then( function (response) {
             console.log(response.data.data)
             setNome(response.data.data.nomeFantasia)
@@ -28,10 +29,10 @@ const TelaPerfilProfissional = () => {
             console.log(error)
         })
 
-        axios.get(`http://192.168.1.6:3000/listarServicosFK/${fkServico}`)
+        axios.get(`http://192.168.1.3:3000/listarServicosFK/${fkServico}`)
         .then(function (response){
-            //console.log(response.data.data)
-            setServicos(JSON.stringify(response.data.data))
+            //console.log('Resposta recebida: ' + JSON.stringify(response.data.data))
+            setServicos(response.data.data)
             console.log('Serviços recebidos: ' + JSON.stringify(servicos))
         }).catch(function (error){
             console.log(error)
@@ -47,7 +48,7 @@ const TelaPerfilProfissional = () => {
     const salvarDados = async () => {
         try {
             await AsyncStorage.setItem('fkServico', JSON.stringify(route.params.fkServico))
-            console.log('FK salva com sucesso!')
+            //console.log('FK salva com sucesso!')
         } catch (error) {
             console.log(error)
         }
@@ -78,20 +79,21 @@ const TelaPerfilProfissional = () => {
                 <View style={styles.view2}>
 
                     <TouchableOpacity style={styles.boxperfil} onPress={() => navigation.navigate('Servico')}>
-                        <BoxPerfil />
+                        <BoxPerfilEstatico />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.boxperfil}>
-                        <BoxPerfil />
+                        <BoxPerfilEstatico />
                     </TouchableOpacity>
 
                 </View>
                 <View style={styles.view2}>
-                {/* <FlatList
+                <FlatList
                         horizontal={true}
                         data={servicos}
-                        renderItem={({ item }) => <BoxPerfil item={(item)} />}
-                    /> */}
+                        renderItem={({ item }) => <BoxPerfil item={item} />}
+                        keyExtractor={item => item.ID_Servico}
+                    />
                 </View>
             </ScrollView>
         </View>

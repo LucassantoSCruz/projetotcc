@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import React, { useEffect, useState, useReducer } from 'react';
 import { BottomSheet } from 'react-native-btr';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import MaskInput, { Masks, createNumberMask } from 'react-native-mask-input';
 import { MaskedTextInput } from 'react-native-mask-text';  // esse é outro componente para máscarar o valor inserido, vou conferir ainda qual dos dois compensa mais usar
 
@@ -30,6 +31,11 @@ function reducer(state, action) {
 }
 
 const TelaServico = ({navigation}) => {
+
+    const route = useRoute()
+
+    const [idServico, setIdServico] = useState(null)
+
     const [contador, setContador] = useState()
     const [valor, setValor] = useState(40)
     const [botao, setBotao] = useState(false)
@@ -39,6 +45,12 @@ const TelaServico = ({navigation}) => {
     useEffect(() => {
         setValor(state.valorTotal)
     }, [state])
+
+    useEffect(() => {
+        // console.log('ID do serviço passado para a tela: ' + route.params.idServico)
+        setIdServico(route.params.idServico)
+        console.log('ID salvo do serviço: ' + idServico)
+    })
 
     // useEffect(()=>{
     //     if (botao == true) {

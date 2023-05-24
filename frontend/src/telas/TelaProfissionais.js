@@ -17,15 +17,11 @@ const TelaProfissionais = ({ navigation }) => {
 
     const [servicos, setServicos] = useState([])
 
-    const [navegar, setNavegar] = useState(false)
-
-    const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
-
     useEffect(() => {
-        axios.get('http://192.168.1.6:3000/listarServicos')
+        axios.get('http://192.168.1.3:3000/listarServicos')
             .then(function (response) {
                 setServicos(response.data)
-                console.log(servicos.data)
+                console.log('Serviços recebidos: ' + JSON.stringify(servicos.data))
             })
             .catch(function (error) {
                 console.log(error);
@@ -111,7 +107,7 @@ const TelaProfissionais = ({ navigation }) => {
                             horizontal={true}
                             data={servicos.data}
                             renderItem={({ item }) => <CaixaServico item={item} />}
-                            keyExtractor={item => item.ID_Servico}
+                            keyExtractor={item => item.ID}
                         />
                     </View>
 

@@ -40,7 +40,7 @@ const TelaServico = ({navigation}) => {
           // Lógica para buscar os dados atualizados
           setValor(state.valorTotal)
           setIdServico(route.params.idServico)
-
+          listarInfoServico()
           
           setRefreshing(false); 
         }, 2000);

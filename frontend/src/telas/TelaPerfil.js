@@ -1,13 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, StyleSheet, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
+import { Text, View, Image, RefreshControl, StyleSheet, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import axios from 'axios';
 import CaixaServico from '../componentes/CaixaServico';
 
 const TelaPerfil = ({ navigation }) => {
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchData = () => {
+        setTimeout(() => {
+          // Lógica para buscar os dados atualizados
+          obterDados();
+          listarDadosPerfil();
+          
+          setRefreshing(false); 
+        }, 2000);
+    };
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchData();
+    };
 
     const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
 
@@ -26,33 +41,34 @@ const TelaPerfil = ({ navigation }) => {
     const [servicos, setServicos] = useState([])
 
     useEffect(() => {
-        const obterDados = async () => {
-          try {
-            const valor = await AsyncStorage.getItem('idUsuario');
-            if (valor !== null) {
-              const idUsuario = JSON.parse(valor);
-              setIdUsuario(idUsuario);
-              console.log("Dados passados para tela de perfil: " + idUsuario)
-            }
-          } catch (error) {
-            console.error(error);
-          }
-          try {
-            const valor = await AsyncStorage.getItem('tipoconta');
-            if (valor !== null) {
-              const tipoconta = JSON.parse(valor);
-              setTipoconta(tipoconta);
-              console.log("Tipo de conta: " + JSON.stringify(tipoconta))
-            }
-          } catch (error) {
-            console.error(error);
-          }
-        };
         obterDados();
-      }, []);
+        listarDadosPerfil();
+    }, []);
 
-      useEffect(() => {
+    const obterDados = async () => {
+        try {
+          const valor = await AsyncStorage.getItem('idUsuario');
+          if (valor !== null) {
+            const idUsuario = JSON.parse(valor);
+            setIdUsuario(idUsuario);
+            console.log("Dados passados para tela de perfil: " + idUsuario)
+          }
+        } catch (error) {
+          console.error(error);
+        }
+        try {
+          const valor = await AsyncStorage.getItem('tipoconta');
+          if (valor !== null) {
+            const tipoconta = JSON.parse(valor);
+            setTipoconta(tipoconta);
+            console.log("Tipo de conta: " + JSON.stringify(tipoconta))
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
 
+      const listarDadosPerfil = () => {
         if(tipoconta == 'Profissional') {
             axios.get(`http://192.168.1.3:3000/ListarProfissionalCNPJ/${idUsuario}`)
             .then(function (response) {
@@ -85,11 +101,11 @@ const TelaPerfil = ({ navigation }) => {
         else {
             console.log('Não é possível ver os serviços de uma conta cliente')
         }
-    }, []);
+      }
 
     return (
         <View>
-            <ScrollView>
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
                 <View style={styles.view}>
                     <View style={styles.esquerda}>
                         <Text style={styles.pronome}>{pronomes}</Text>

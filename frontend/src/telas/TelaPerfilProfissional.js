@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, Image, RefreshControl, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -9,6 +9,25 @@ import BoxPerfilEstatico from '../componentes/BoxPerfilEstatico';
 
 const TelaPerfilProfissional = () => {
 
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchData = () => {
+        setTimeout(() => {
+          // Lógica para buscar os dados atualizados
+            setFkServico(route.params.fkServico)
+            salvarDados()
+            listarServicosProfissional()
+            listarInfoProfissional()
+            
+            setRefreshing(false); 
+        }, 2000);
+    };
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchData();
+    };
+
     const route = useRoute();
     const [fkServico, setFkServico] = useState(null)
     const [servicos, setServicos] = useState([])
@@ -17,8 +36,15 @@ const TelaPerfilProfissional = () => {
     const [Descricao, setDescricao,] = useState(null)
     const [pronomes, setPronomes] = useState(null)
 
-    //Utilizar rota de listagem com o id do profissional em questão
     useEffect(() => {
+        setFkServico(route.params.fkServico)
+        console.log('FK salva: ' + fkServico)
+        salvarDados()
+        listarServicosProfissional()
+        listarInfoProfissional()
+    }, []);
+
+    const listarInfoProfissional = () =>{
         axios.get(`http://192.168.1.3:3000/ListarProfissionalCNPJ/${fkServico}`)
         .then( function (response) {
             console.log(response.data.data)
@@ -28,7 +54,9 @@ const TelaPerfilProfissional = () => {
         }).catch( function (error){
             console.log(error)
         })
+    }
 
+    const listarServicosProfissional = () => {
         axios.get(`http://192.168.1.3:3000/listarServicosFK/${fkServico}`)
         .then(function (response){
             //console.log('Resposta recebida: ' + JSON.stringify(response.data.data))
@@ -37,13 +65,7 @@ const TelaPerfilProfissional = () => {
         }).catch(function (error){
             console.log(error)
         })
-    }, []);
-    
-    useEffect(() => {
-        setFkServico(route.params.fkServico)
-        console.log('FK salva: ' + fkServico)
-        salvarDados()
-    }, []);
+    }
 
     const salvarDados = async () => {
         try {
@@ -56,7 +78,8 @@ const TelaPerfilProfissional = () => {
 
     return (
         <View>
-            <ScrollView>
+            <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
                 <View style={styles.view}>
                     <View style={styles.esquerda}>
                         <Text style={styles.pronome}>{pronomes}</Text>
@@ -76,7 +99,7 @@ const TelaPerfilProfissional = () => {
                         <Text style={styles.texto}>CHAT</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.view2}>
+                {/* <View style={styles.view2}>
 
                     <TouchableOpacity style={styles.boxperfil} onPress={() => navigation.navigate('Servico')}>
                         <BoxPerfilEstatico />
@@ -86,13 +109,13 @@ const TelaPerfilProfissional = () => {
                         <BoxPerfilEstatico />
                     </TouchableOpacity>
 
-                </View>
+                </View> */}
                 <View style={styles.view2}>
                 <FlatList
                         horizontal={true}
                         data={servicos}
                         renderItem={({ item }) => <BoxPerfil item={item} />}
-                        keyExtractor={item => item.ID_Servico}
+                        keyExtractor={item => item.ID}
                     />
                 </View>
             </ScrollView>

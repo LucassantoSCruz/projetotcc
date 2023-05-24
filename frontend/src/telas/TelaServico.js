@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, RefreshControl, TouchableOpacity, TextInput } from 'react-native';
 import React, { useEffect, useState, useReducer } from 'react';
 import { BottomSheet } from 'react-native-btr';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import MaskInput, { Masks, createNumberMask } from 'react-native-mask-input';
 import { MaskedTextInput } from 'react-native-mask-text';  // esse é outro componente para máscarar o valor inserido, vou conferir ainda qual dos dois compensa mais usar
+import axios from 'axios';
 
 const initialState = { count: 1, valor: 40, valorTotal: 40 };
 
@@ -32,9 +33,30 @@ function reducer(state, action) {
 
 const TelaServico = ({navigation}) => {
 
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchData = () => {
+        setTimeout(() => {
+          // Lógica para buscar os dados atualizados
+          setValor(state.valorTotal)
+          setIdServico(route.params.idServico)
+
+          
+          setRefreshing(false); 
+        }, 2000);
+    };
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchData();
+    };
+
     const route = useRoute()
 
     const [idServico, setIdServico] = useState(null)
+    const [titulo, setTitulo] = useState(null)
+    const [descricao, setDescricao] = useState(null)
+    const [preco, setPreco] = useState(null)
 
     const [contador, setContador] = useState()
     const [valor, setValor] = useState(40)
@@ -44,13 +66,14 @@ const TelaServico = ({navigation}) => {
 
     useEffect(() => {
         setValor(state.valorTotal)
-    }, [state])
 
-    useEffect(() => {
         // console.log('ID do serviço passado para a tela: ' + route.params.idServico)
         setIdServico(route.params.idServico)
         console.log('ID salvo do serviço: ' + idServico)
-    })
+
+        listarInfoServico()
+
+    }, [state])
 
     // useEffect(()=>{
     //     if (botao == true) {
@@ -89,16 +112,30 @@ const TelaServico = ({navigation}) => {
 
     const [hora, setHora] = useState('');
 
+    const listarInfoServico = () => {
+        axios.get(`http://192.168.1.3:3000/listarServicosID/${idServico}`)
+        .then(function (response){
+            //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
+            setTitulo(response.data.data.titulo)
+            setDescricao(response.data.data.descricao)
+            setPreco(response.data.data.preco)
+            
+        })
+        .catch(function (error){
+            console.log(error)
+        })
+    }
+
     return (
         <View style={{ flex: 1 }}>
-            <ScrollView>
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
                 <View style={styles.container}>
                     <Image style={styles.imagem} source={require('../../assets/imagem1.png')} />
                 </View>
 
                 <View>
                     <Text style={styles.titulo1}>
-                        Corte Simples
+                        {titulo}
                     </Text>
                 </View>
 
@@ -133,7 +170,7 @@ const TelaServico = ({navigation}) => {
                         Descrição
                     </Text>
                     <Text style={styles.texto}>
-                        Um corte simples e acabou minha criatividade!
+                        {descricao}
                     </Text>
                 </View>
 

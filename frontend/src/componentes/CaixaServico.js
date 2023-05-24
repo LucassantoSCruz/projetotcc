@@ -21,7 +21,7 @@ import { View, Text, StyleSheet, Image, Touchable, TouchableOpacity } from 'reac
         <View style={styles.fundo}>
           <View style={styles.fundoimagem}>
             <Image
-              // source={require('../assets/imagem1.png')}
+              //source={require('../assets/imagem1.png')}
               style={styles.imagem} />
           </View>
           <View style={styles.fundonome}>

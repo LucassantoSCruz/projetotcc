@@ -11,11 +11,7 @@ const modelClientes = conexao.define('tbl_Clientes', {
     CPF:{
         type: Sequelize.STRING(30),
         primaryKey: true,
-        autoIncrement: true
-    },
-    CPF: {
-        type: Sequelize.STRING(30),
-        unique: true
+        allowNull:false
     },
     nome:{
         type: Sequelize.STRING(100),

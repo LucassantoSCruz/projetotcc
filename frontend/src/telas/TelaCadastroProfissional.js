@@ -4,7 +4,7 @@ import { BottomSheet } from 'react-native-btr';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
 import axios from 'axios';
-
+import { useRoute } from '@react-navigation/native';
 const PlaceholderImage = require('../../assets/Perfil.png');
 
 const TelaCadastroProfissional = ({ navigation }) => {
@@ -27,7 +27,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
-    axios.post('http://192.168.1.3:3000/cadastrarProfissonal', {
+    axios.post('http://192.168.1.2:3000/cadastrarProfissonal', {
       CPF_CNPJ, 
       nome, 
       nomeFantasia, 
@@ -42,7 +42,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
     .then(function (response) {
       console.log(response.data);
       if(cadEndereco){
-        navigation.navigate('CadastroEndereco')
+        navigation.navigate('CadastroEndereco', {CPF_CNPJ})
       }else{
         navigation.navigate('Login')
       }
@@ -95,6 +95,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
     if (eleDele == true) {
       console.log('Ele/Dele'),
         setPronomes('Ele/Dele')
+        setTxtPronomes('Ele/Dele')
     }
     return () => {
       setEleDele(false)
@@ -105,6 +106,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
     if (elaDela == true) {
       console.log('Ela/Dela')
       setPronomes('Ela/Dela')
+      setTxtPronomes('Ela/Dela')
     }
     return () => {
       setElaDela(false)
@@ -115,6 +117,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
     if (eluDelu == true) {
       console.log('Elu/Delu')
       setPronomes('Elu/Delu')
+      setTxtPronomes('Elu/Delu')
     }
     return () => {
       setEluDelu(false)
@@ -124,7 +127,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
   useEffect(() => {
     if (naoDizer == true) {
       console.log('Prefere não dizer')
-      setPronomes('Prefere não dizer')
+      setTxtPronomes('Prefere não dizer')
+      setPronomes(null)
     }
     return () => {
       setNaoDizer(false)
@@ -149,6 +153,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   const [tipoconta, setTipoconta] = useState("")
   const [pronomes, setPronomes] = useState("")
+  const [txtPronomes, setTxtPronomes] = useState("")
   const [txtAtDomiciliar, setTxtAtDomiciliar] = useState("Realiza atendimento á domicílio?")
 
   return (
@@ -241,7 +246,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
               setCadEndereco(true)}
             }>
               <Text style={styles.textomodal}>
-                Sim, atendimento á domicilio e no estabelecimento.
+                Sim, atendimento á domicilio e estabelecimento.
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.selecao} onPress={() => {
@@ -250,7 +255,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
               setCadEndereco(false)}
             }>
               <Text style={styles.textomodal}>
-                Realizo apenas atendimento á domicílio.
+                Sim, apenas atendimento á domicílio.
               </Text>
             </TouchableOpacity>
           </View>
@@ -267,7 +272,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
           <View>
             <Text style={styles.titulomodal}>
-              Pronome: {pronomes}
+              Pronome: {txtPronomes}
             </Text>
           </View>
         </TouchableOpacity>

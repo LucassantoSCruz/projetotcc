@@ -129,13 +129,14 @@ router.get('/ListarProfissionaisEmail/:email/:senha', (req, res)=>{
 });
 
 //Rota de Alteração
-router.put('/alterarProfissionais', (req, res) =>{
+router.put('/alterarProfissionais/:CPF_CNPJ', (req, res) =>{
 
-    let {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao} = req.body;
+    let {FK_Profissionais_Enderecos, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao} = req.body;
+    let CPF_CNPJ = req.params.CPF_CNPJ;
 
     modelProfissionais.update(
-        {CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao},
-        {where:{ CPF_CNPJ}}
+        {FK_Profissionais_Enderecos, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao},
+        {where:{CPF_CNPJ}}
 
     ).then(
         () => {

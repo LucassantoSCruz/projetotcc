@@ -1,12 +1,3 @@
-/*
-*********************************************************************
-* Este arquivo tem todas as rotas do modelo da tabela de 
-* Endereços 
-*********************************************************************
-* Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento
-*/
-
-//Importação do Express, do modelo e do gerenciador de rotas do Express
 const express = require('express');
 const modelEnderecos = require('../models/ModelEnderecos');
 const router = express.Router();
@@ -17,25 +8,19 @@ const router = express.Router();
 router.post('/cadastrarEndereco', (req, res) => {
     console.log(req.body);
     
-    //Declaração das variáveis que irão representar os campos da tabela
-    let {Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento} = req.body;
+    let {latitude, longitude, cep, uf, localidadeCidade, logradouro, bairro, numero, complemento} = req.body;
 
-    //Crie estes campos...
     modelEnderecos.create(
-        {Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento}
+        {latitude, longitude, cep, uf, localidadeCidade, logradouro, bairro, numero, complemento}
     ).then(
-        //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
-        ()=>{
+        (registro)=>{
             return res.status(201).json({
                 erroStatus: false,
-                mensagemStatus: "Cadastrado com sucesso!"
+                mensagemStatus: "Cadastrado com sucesso!",
+                ID_Endereco: registro.ID
             })
         }
     ).catch(
-        /*
-        * ...caso "pegue" um erro, envie este arquivo JSON com o status HTTP e
-        * o objeto de erro
-        */
        (erro) => {
         return res.status(201).json({
             erroStatus: true,
@@ -78,13 +63,38 @@ router.get('/listarEndereco', (req, res) => {
     )
 });
 
+router.get('/ListarEnderecoID/:ID', (req, res)=>{
+    
+    let {ID} = req.params;
+
+    modelEnderecos.findByPk(ID)
+    .then(
+        (response)=>{
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:"Endereço listado com sucesso!",
+                data: response
+            })
+        }
+    )
+    .catch(
+        (erro)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:"Erro ao listar Endereço!",
+                erroObject:erro
+            });
+        }
+    )
+});
+
 //Rota de Alteração
 router.put('/alterarEndereco', (req, res) =>{
 
-    let {Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento} = req.body;
+    let {latitude, longitude, cep, uf, localidadeCidade, logradouro, bairro, numero, complemento} = req.body;
 
     modelEnderecos.update(
-        {Latitude, Longitude, CEP, UF, LocalidadeCidade, Logradouro, Bairro, Numero, Complemento},
+        {latitude, longitude, cep, uf, localidadeCidade, logradouro, bairro, numero, complemento},
         {where:{ ID_Endereco}}
 
     ).then(

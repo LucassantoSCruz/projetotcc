@@ -1,32 +1,55 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import axios from 'axios';
+import { useRoute } from '@react-navigation/native';
 
 const TelaCadastroEndereco = ({ navigation }) => {
 
   const [cepEnd, setCepEnd] = useState(null);
   const [infoCep, setInfo] = useState('');
-  const [Latitude, setLatitude] = useState(null);
-  const [Longitude, setLongitude] = useState(null);
-  const [Numero, setNumero] = useState(null);
-  const [Complemento, setComplemento] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [numero, setNumero] = useState(null);
+  const [complemento, setComplemento] = useState(null);
+
+  const route = useRoute();
+  const [FK_Profissionais_Enderecos, setFK_Profissionais_Enderecos] = useState(null)
+  const [idProfissional, setIdProfissional] = useState(null)
+
+  useEffect(() => {
+    setIdProfissional(route.params.CPF_CNPJ)
+    console.log('FK salva: '+ idProfissional)
+  }, [])
 
   const enviarFormulario = async () => {
-    axios.post('http://192.168.1.3:3000/cadastrarEndereco', {
-        Latitude,
-        Longitude,
-        CEP: cepEnd,
-        UF: infoCep.uf,
-        LocalidadeCidade: infoCep.localidade,
-        Logradouro: infoCep.logradouro,
-        Bairro: infoCep.bairro,
-        Numero,
-        Complemento
+    axios.post('http://192.168.1.2:3000/cadastrarEndereco', {
+        latitude,
+        longitude,
+        cep: cepEnd,
+        uf: infoCep.uf,
+        localidadeCidade: infoCep.localidade,
+        logradouro: infoCep.logradouro,
+        bairro: infoCep.bairro,
+        numero,
+        complemento
     })
     .then(function (response) {
-      console.log(response.data);
+      console.log('ID do serviço cadastrado: '+ response.data.ID_Endereco)
+      const ID_Servico = response.data.ID_Endereco
+      console.log("Constante com ID: " + ID_Servico)
+
+      axios.put(`http://192.168.1.2:3000/alterarProfissionais/${idProfissional}`, {
+        FK_Profissionais_Enderecos : ID_Servico
+      })
+      .then(function (response){
+        console.log(response.data)
+        navigation.navigate('Login')
+      })
+      .catch(function (erro){
+        console.log(erro)
+      })
     })
-    .catch (function (response) {
+    .catch (function (erro) {
       console.log(erro);
     })
   };
@@ -40,10 +63,6 @@ const TelaCadastroEndereco = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-
-        <Text style={styles.titulo}>
-          Cadastre seu Endereço
-        </Text>
 
         <Text style={styles.tituloestabelecimento}>
           Local do Estabelecimento
@@ -69,14 +88,14 @@ const TelaCadastroEndereco = ({ navigation }) => {
           tirá-los do banco */}
         <TextInput
           style={styles.campo}
-          placeholder='Latitude:'
-          value={Latitude}
+          placeholder='latitude:'
+          value={latitude}
           onChangeText={value => setLatitude(value)}
         />
         <TextInput
           style={styles.campo}
-          placeholder='Longitude:'
-          value={Longitude}
+          placeholder='longitude:'
+          value={longitude}
           onChangeText={value => setLongitude(value)}
         />
 
@@ -102,14 +121,14 @@ const TelaCadastroEndereco = ({ navigation }) => {
         />
         <TextInput
           style={styles.campo}
-          placeholder='Numero:'
-          value={Numero}
+          placeholder='numero:'
+          value={numero}
           onChangeText={text => setNumero(text)}
         />
         <TextInput
           style={styles.campo}
-          placeholder='Complemento:'
-          value={Complemento}
+          placeholder='complemento:'
+          value={complemento}
           onChangeText={text => setComplemento(text)}
         />
 

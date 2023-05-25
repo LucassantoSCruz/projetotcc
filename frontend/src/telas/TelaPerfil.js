@@ -25,19 +25,12 @@ const TelaPerfil = ({ navigation }) => {
     };
 
     const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
-
     const [idUsuario, setIdUsuario] = useState(null)
-
     const [tipoconta, setTipoconta] = useState('')
-
     const [dadosPerfil, setDadosPerfil] = useState(null)
-
     const [nome, setNome] = useState(null)
-
     const [Descricao, setDescricao] = useState(null)
-
     const [pronomes, setPronomes] = useState(null)
-
     const [servicos, setServicos] = useState([])
 
     useEffect(() => {
@@ -74,16 +67,9 @@ const TelaPerfil = ({ navigation }) => {
             .then(function (response) {
 
                 console.log(response.data.data)
-
                 setNome(response.data.data.nomeFantasia)
-                console.log("Nome do Usuário " + nome)
-
                 setDescricao(response.data.data.descricao)
-                console.log("Legenda do Usuário " + Descricao)
-
                 setPronomes(response.data.data.pronomes)
-                console.log("Pronome do Usuário " + pronomes)
-
             })
             .catch(function (error) {
                 console.log(error);
@@ -136,7 +122,7 @@ const TelaPerfil = ({ navigation }) => {
                     <FlatList
                         horizontal={true}
                         data={servicos}
-                        renderItem={({ item }) => <CaixaServico item={(item)} />}
+                        renderItem={({ item }) => <BoxPerfil item={(item)} />}
                     />
                 </View>
             </ScrollView>

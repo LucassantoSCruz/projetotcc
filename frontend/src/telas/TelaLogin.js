@@ -95,17 +95,14 @@ const TelaLogin = ({ navigation }) => {
     })
 
       .then(function (response) {
-
-        if(tipoconta == 'Profissional') {
-
+        if(tipoconta == 'Profissional'){
+          console.log(response.data.data.CPF_CNPJ)
           setIdUsuario(response.data.data.CPF_CNPJ)
-          console.log("ID do usuário Profissional: " + idUsuario)
-
+          console.log("CPF_CNPJ do usuário Profissional: " + idUsuario)
         } else{
-
-          console.log('Dados do usuário: ' + response)
-          // setIdUsuario(response.data.data.CPF)
-          // console.log("ID do usuário Cliente: " + idUsuario)
+            console.log(response.data.data.CPF)
+            setIdUsuario(response.data.data.CPF)
+            console.log("CPF_CNPJ do usuário Profissional: " + idUsuario)
         }
 
         if (response.data.data != null) {
@@ -138,20 +135,16 @@ const TelaLogin = ({ navigation }) => {
   };
 
   const salvarDados = async () => {
-    if(tipoconta == 'Profissional') {
-      try {
-        await AsyncStorage.setItem('idUsuario', JSON.stringify(CPF_CNPJ));
-        console.log('Valor salvo com sucesso!');
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      try {
-        await AsyncStorage.setItem('idUsuario', JSON.stringify(CPF));
-        console.log('Valor salvo com sucesso!');
-      } catch (error) {
-        console.error(error);
-      }
+    try {
+      await AsyncStorage.setItem('idUsuario', JSON.stringify(idUsuario));
+      console.log('Valor salvo com sucesso!');
+    } catch (error) {
+      console.error(error);
+    }
+    try {
+      await AsyncStorage.setItem('tipoconta', JSON.stringify(tipoconta));
+    } catch (error) {
+      console.error(error);
     }
   }
 

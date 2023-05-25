@@ -8,8 +8,8 @@ const conexao = require('../database/Database');
 //Criação do modelo
 const modelClientes = conexao.define('tbl_Clientes', {
     //Definição de cada campo e seus atributos
-    ID: {
-        type: Sequelize.INTEGER,
+    CPF:{
+        type: Sequelize.STRING(30),
         primaryKey: true,
         autoIncrement: true
     },

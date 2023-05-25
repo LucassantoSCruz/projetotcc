@@ -76,12 +76,44 @@ router.get('/listarServicos', (req, res) => {
        (erro) => {
             return res.status(400).json({
                 erroStatus: true,
-                mensagemStatus: 'Erro ao listar os clientes',
+                mensagemStatus: 'Erro ao listar os serviços',
                 erroObject: erro
             })
        }
     )
 });
+
+router.get('/listarServicosID/:ID', (req, res) => {
+    
+    let {ID} = req.params;
+
+    modelServicos.findByPk(ID)
+    .then(
+        /*
+        *...e então, caso dê certo, retorne este objeto JSON com
+        * o status HTTP e a listagem...
+        */
+       (response) => {
+        return res.status(200).json({
+            erroStatus: false,
+            mensagemStatus: 'Serviços listados com sucesso!',
+            data: response
+        })
+       }
+    ).catch(
+        /*
+        *...caso "pegue" um erro, retorne este objeto JSON com o 
+        * status HTTP e o objeto do erro
+        */
+       (erro) => {
+            return res.status(400).json({
+                erroStatus: true,
+                mensagemStatus: 'Erro ao listar os serviços',
+                erroObject: erro
+            })
+       }
+    )
+})
 
 router.get('/listarServicosFK/:CPF_CNPJ', (req, res) => {
     
@@ -100,7 +132,7 @@ router.get('/listarServicosFK/:CPF_CNPJ', (req, res) => {
        (erro) => {
             return res.status(400).json({
                 erroStatus: true,
-                mensagemStatus: 'Erro ao listar os clientes',
+                mensagemStatus: 'Erro ao listar os serviços',
                 erroObject: erro
             })
        }

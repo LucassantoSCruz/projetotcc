@@ -21,7 +21,7 @@ const TelaCriarServico = () => {
     useEffect(() => {
         const obterDados = async () => {
           try {
-            const valor = await AsyncStorage.getItem('CPF_CNPJ');
+            const valor = await AsyncStorage.getItem('idUsuario');
             if (valor !== null) {
               const FK_Profissionais_Servicos = JSON.parse(valor);
               setFK_Profissionais_Servicos(FK_Profissionais_Servicos);
@@ -67,7 +67,7 @@ const TelaCriarServico = () => {
     const  [descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
-        axios.post('http://192.168.1.9:3000/cadastrarServico', {
+        axios.post('http://10.0.1.101:3000/cadastrarServico', {
             preco,
             titulo,
             descricao,

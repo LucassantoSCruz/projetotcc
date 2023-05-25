@@ -80,12 +80,12 @@ modelAgenda.belongsTo(modelProfissionais, {
     foreignKey: 'FK_Profissionais_Agenda'
 });
 
-modelProfissionais.hasMany(modelEnderecos, {
+modelEnderecos.hasMany(modelProfissionais, {
     foreignKey: 'FK_Profissionais_Enderecos'
 });
-modelEnderecos.belongsTo(modelProfissionais, {
+modelProfissionais.belongsTo(modelEnderecos, {
     foreignKey: 'FK_Profissionais_Enderecos'
-})
+});
 
 modelProfissionais.belongsToMany(modelClientes, {
     through: 'perfis_favoritos', 

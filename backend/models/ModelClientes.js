@@ -9,7 +9,7 @@ const conexao = require('../database/Database');
 const modelClientes = conexao.define('tbl_Clientes', {
     //Definição de cada campo e seus atributos
     CPF:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(30),
         primaryKey: true,
         allowNull:false
     },

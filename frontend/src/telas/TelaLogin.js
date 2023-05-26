@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 
 import { useForm, Controller } from "react-hook-form";
 
@@ -82,14 +82,14 @@ const TelaLogin = ({ navigation }) => {
 
   const Navegacao = () => {
     navigation.navigate("Profissionais"),
-    salvarDados()
+      salvarDados()
   }
 
   const Login = () => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://10.0.1.103:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+    axios.get(`http://192.168.10.242:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
       Email: dados.Email,
       Senha: dados.Senha
     })
@@ -156,9 +156,12 @@ const TelaLogin = ({ navigation }) => {
       </Text>
 
       {errors.Email &&
-        <Text style={style.texto}>
-          Campo de Email incorreto.
-        </Text>
+        <View style={style.caixaerro}>
+          <Image style={style.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+          <Text style={style.textoerro}>
+            Campo de Email incorreto
+          </Text>
+        </View>
       }
 
       <Controller
@@ -185,9 +188,12 @@ const TelaLogin = ({ navigation }) => {
       />
 
       {errors.Senha &&
-        <Text style={style.texto}>
-          Campo de Senha incorreto.
-        </Text>
+        <View style={style.caixaerro}>
+          <Image style={style.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+          <Text style={style.textoerro}>
+            Campo de Senha incorreto
+          </Text>
+        </View>
       }
 
       <Controller
@@ -257,9 +263,23 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black'
   },
-  texto: {
+  caixaerro: {
+    justifyContent: 'center',
+    alignItems: "center",
+    padding: 5,
+    backgroundColor: 'grey',
+    flexDirection: 'row',
+    borderRadius: 50,
+    margin: 2
+  },
+  textoerro: {
     fontSize: 14,
-    color: 'red'
+    color: 'white',
+    marginHorizontal: 5
+  },
+  imagemerro: {
+    width: 20,
+    height: 20,
   },
   caixadetexto: {
     width: '80%',

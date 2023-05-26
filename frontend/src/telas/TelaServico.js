@@ -102,7 +102,7 @@ const TelaServico = ({navigation}) => {
     const [hora, setHora] = useState('');
 
     const listarInfoServico = () => {
-        axios.get(`http://10.0.1.103:3000/listarServicosID/${idServico}`)
+        axios.get(`http://192.168.10.242:3000/listarServicosID/${idServico}`)
         .then(function (response){
             //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
@@ -9,23 +10,23 @@ const PlaceholderImage = require('../../assets/Perfil.png');
 
 const TelaCadastroCliente = ({ navigation }) => {
 
-  const [CPF, setCPF] = useState(null)
-  const [nome, setNome] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [senha, setSenha] = useState(null)
-  const [telefone, setTelefone] = useState(null)
+  // const [CPF, setCPF] = useState(null)
+  // const [Nome, setNome] = useState(null)
+  // const [Email, setEmail] = useState(null)
+  // const [Senha, setSenha] = useState(null)
+  // const [Telefone, setTelefone] = useState(null)
   const [visivelPronome, setVisivelPronome] = useState(false);
-  const [pronomes, setPronomes] = useState("")
+  const [Pronomes, setPronomes] = useState("")
 
   const enviarFormulario = async () => {
-    axios.post('http://10.0.1.103:3000/cadastrarCliente', {
-        CPF,
-        nome,
-        email,
-        senha,
-        telefone,
-        pronomes
-      })
+    axios.post('http://192.168.10.242:3000/cadastrarCliente', {
+      CPF: dados.CPF,
+      nome: dados.Nome,
+      email: dados.Email,
+      senha: dados.Senha,
+      telefone: dados.Telefone,
+      pronomes: Pronomes
+    })
       .then(function (response) {
         console.log(response.data);
       })
@@ -40,12 +41,14 @@ const TelaCadastroCliente = ({ navigation }) => {
 
   const [eleDele, setEleDele] = useState(false);
   const [elaDela, setElaDela] = useState(false);
-  const [eluDelu, setEluDelu] = useState(false)
-  const [naoDizer, setNaoDizer] = useState(false)
+  const [eluDelu, setEluDelu] = useState(false);
+  const [naoDizer, setNaoDizer] = useState(false);
+
+  const [dados, setDados] = useState([])
 
   useEffect(() => {
     if (eleDele == true) {
-        setPronomes('Ele/Dele')
+      setPronomes('Ele/Dele')
     }
     return () => {
       setEleDele(false)
@@ -95,6 +98,25 @@ const TelaCadastroCliente = ({ navigation }) => {
     }
   };
 
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      CPF: '',
+      Nome: '',
+      Email: '',
+      Senha: '',
+      Telefone: ''
+    }
+  })
+
+  const onSubmit = data => {
+
+    console.log(data);
+    setDados(data);
+
+    enviarFormulario()
+
+  }
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -102,46 +124,155 @@ const TelaCadastroCliente = ({ navigation }) => {
         <Text style={styles.titulo}>
           Cadastre-se
         </Text>
-        
-        <TextInput style={styles.campo}
-          placeholder='Nome:'
-          onChangeText={value => setNome(value)}
-          value={nome}
+
+        {errors.Nome &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Nome incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput style={styles.campo}
+              placeholder='Nome:'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+
+          )}
+          name='Nome'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='CPF:'
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={CPF}
-          onChangeText={value => setCPF(value)}
+        {errors.CPF &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de CPF incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 11
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput style={styles.campo}
+              placeholder='CPF:'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+
+          )}
+          name='CPF'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='E-mail:'
-          onChangeText={value => setEmail(value)}
-          keyboardType='email-address'
-          value={email}
+        {errors.Email &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Email incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Digite um Email válido'
+            }
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput style={styles.campo}
+              placeholder='E-mail:'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              keyboardType='email-address'
+              value={value}
+            />
+
+          )}
+          name='Email'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='Crie uma senha:'
-          onChangeText={value => setSenha(value)}
-          value={senha}
+        {errors.Senha &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Senha incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 6
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput style={styles.campo}
+              placeholder='Crie uma senha:'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+
+          )}
+          name='Senha'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='Telefone:'
-          onChangeText={value => setTelefone(value)}
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={telefone}
+        {errors.Telefone &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Telefone incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput style={styles.campo}
+              placeholder='Telefone:'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              keyboardType='numeric'
+              returnKeyType='done'
+              value={value}
+            />
+
+          )}
+          name='Telefone'
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={togglePronomes}>
           <View>
             <Text style={styles.titulomodal}>
-              Pronome: {pronomes}
+              Pronome: {Pronomes}
             </Text>
           </View>
         </TouchableOpacity>
@@ -189,7 +320,7 @@ const TelaCadastroCliente = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={enviarFormulario}>
+        <TouchableOpacity style={styles.botao} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.txtbtn} >
             Cadastrar
           </Text>
@@ -320,7 +451,7 @@ const styles = StyleSheet.create({
   },
   fundomodal: {
     backgroundColor: "#fff",
-    height: 250,
+    height: 300,
     justifyContent: "center",
     alignItems: "center",
     borderTopLeftRadius: 20,
@@ -341,7 +472,25 @@ const styles = StyleSheet.create({
   fotodeperfil: {
     height: 150,
     width: 150
-  }
+  },
+  caixaerro: {
+    justifyContent: 'center',
+    alignItems: "center",
+    padding: 5,
+    backgroundColor: 'grey',
+    flexDirection: 'row',
+    borderRadius: 50,
+    margin: 2
+  },
+  textoerro: {
+    fontSize: 14,
+    color: 'white',
+    marginHorizontal: 5
+  },
+  imagemerro: {
+    width: 20,
+    height: 20,
+  },
 });
 
 export default TelaCadastroCliente;

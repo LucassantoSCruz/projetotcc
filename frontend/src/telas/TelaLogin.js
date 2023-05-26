@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 
+// Importação do hook-form
 import { useForm, Controller } from "react-hook-form";
 
-// Caixa 
+// Importação da Caixa 
 import { BottomSheet } from 'react-native-btr';
 
 // Importação do Axios
 import axios from 'axios'
 
+// Importação do AsyncStorage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TelaLogin = ({ navigation }) => {
@@ -82,6 +84,7 @@ const TelaLogin = ({ navigation }) => {
 
   const Navegacao = () => {
     navigation.navigate("Profissionais"),
+    
       salvarDados()
   }
 
@@ -89,7 +92,7 @@ const TelaLogin = ({ navigation }) => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://192.168.10.242:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+    axios.get(`http://10.0.1.32:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
       Email: dados.Email,
       Senha: dados.Senha
     })

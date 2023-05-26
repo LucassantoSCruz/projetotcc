@@ -11,11 +11,11 @@ const TelaPerfil = ({ navigation }) => {
 
     const fetchData = () => {
         setTimeout(() => {
-          // Lógica para buscar os dados atualizados
-          obterDados();
-          listarDadosPerfil();
-          
-          setRefreshing(false); 
+            // Lógica para buscar os dados atualizados
+            obterDados();
+            listarDadosPerfil();
+
+            setRefreshing(false);
         }, 2000);
     };
 
@@ -40,54 +40,70 @@ const TelaPerfil = ({ navigation }) => {
 
     const obterDados = async () => {
         try {
-          const valor = await AsyncStorage.getItem('idUsuario');
-          if (valor !== null) {
-            const idUsuario = JSON.parse(valor);
-            setIdUsuario(idUsuario);
-            console.log("Dados passados para tela de perfil: " + idUsuario)
-          }
+            const valor = await AsyncStorage.getItem('idUsuario');
+            if (valor !== null) {
+                const idUsuario = JSON.parse(valor);
+                setIdUsuario(idUsuario);
+                console.log("Dados passados para tela de perfil: " + idUsuario)
+            }
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
         try {
-          const valor = await AsyncStorage.getItem('tipoconta');
-          if (valor !== null) {
-            const tipoconta = JSON.parse(valor);
-            setTipoconta(tipoconta);
-            console.log("Tipo de conta: " + JSON.stringify(tipoconta))
-          }
+            const valor = await AsyncStorage.getItem('tipoconta');
+            if (valor !== null) {
+                const tipoconta = JSON.parse(valor);
+                setTipoconta(tipoconta);
+                console.log("Tipo de conta: " + JSON.stringify(tipoconta))
+            }
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
+    };
 
-      const listarDadosPerfil = () => {
-        if(tipoconta == 'Profissional') {
-            axios.get(`http://192.168.10.242:3000/ListarProfissionalCNPJ/${idUsuario}`)
-            .then(function (response) {
+    const listarDadosPerfil = () => {
+        if (tipoconta == 'Profissional') {
+            axios.get(`http://10.0.1.32:3000/ListarProfissionalCNPJ/${idUsuario}`)
+                .then(function (response) {
 
-                console.log(response.data.data)
-                setNome(response.data.data.nomeFantasia)
-                setDescricao(response.data.data.descricao)
-                setPronomes(response.data.data.pronomes)
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+                    console.log(response.data.data)
+                    setNome(response.data.data.nomeFantasia)
+                    setDescricao(response.data.data.descricao)
+                    setPronomes(response.data.data.pronomes)
 
-            axios.get(`http://192.168.10.242:3000/listarServicosFK/${idUsuario}`)
-            .then(function (response) {
-                setServicos(response.data.data)
-                console.log(servicos)
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
-        } 
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+
+            axios.get(`http://10.0.1.32:3000/listarServicosFK/${idUsuario}`)
+                .then(function (response) {
+                    setServicos(response.data.data)
+                    console.log(servicos)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        }
         else {
             console.log('Não é possível ver os serviços de uma conta cliente')
+
         }
-      }
+    }
+
+
+    return (
+        <View>
+            {
+                tipoconta == "Profissional"
+                    ? <TelaPerfilP /> : <TelaPerfilC />
+            }
+        </View>
+    )
+
+};
+
+const TelaPerfilP = () => {
 
     return (
         <View>
@@ -128,6 +144,60 @@ const TelaPerfil = ({ navigation }) => {
             </ScrollView>
         </View>
     );
+};
+
+const TelaPerfilC = () => {
+
+    return (
+
+        <View style={styles.container}>
+            <View style={styles.view}>
+                <View style={styles.esquerda}>
+                    <Text style={styles.pronome}>Pronome: Elx</Text>
+                    <Text style={styles.nome}>Nome do Perfil</Text>
+                    <View style={styles.linha} />
+                </View>
+
+
+                <View style={styles.direita}>
+                    <Image style={styles.fotodeperfil} source={require('../../assets/Perfil.png')} />
+                </View>
+            </View>
+
+            <TouchableOpacity style={styles.selecao}>
+                <Text style={styles.opcoes}>Minhas Informações</Text>
+                {/* <Image style={styles.seta} source={require('../../assets/Seta.png')} /> */}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.selecao}>
+                <Text style={styles.opcoes}>Perfis Favoritos</Text>
+                {/* <Image style={styles.seta} source={require('../../assets/Seta.png')} /> */}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.selecao}>
+                <Text style={styles.opcoes}>Configurações</Text>
+                {/* <Image style={styles.seta} source={require('../../assets/Seta.png')} /> */}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.selecao}>
+                <Text style={styles.opcoes}>Opção Quatro</Text>
+                {/* <Image style={styles.seta} source={require('../../assets/Seta.png')} /> */}
+            </TouchableOpacity>
+
+
+            <TouchableOpacity style={styles.selecao}>
+                <Text style={styles.opcoes}>Opção Cinco</Text>
+                {/* <Image style={styles.seta} source={require('../../assets/Seta.png')} /> */}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.selecao}>
+                <Text style={styles.opcoes}>Sair do Aplicativo</Text>
+                {/* <Image style={styles.seta} source={require('../../assets/Seta.png')} /> */}
+            </TouchableOpacity>
+
+        </View>
+
+    )
 };
 
 const styles = StyleSheet.create({

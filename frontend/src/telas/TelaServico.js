@@ -75,17 +75,6 @@ const TelaServico = ({navigation}) => {
 
     }, [state])
 
-    // useEffect(()=>{
-    //     if (botao == true) {
-    //         incrementar
-    //         setBotao(false)
-    //     }
-    //     else {
-    //         decrementar
-    //         setBotao(true)
-    //     }
-    // },[botao])
-
     function incrementar() {
         setContador(contador + 1)
         //setValor(contador * valor)

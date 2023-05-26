@@ -21,7 +21,7 @@ const TelaCriarServico = () => {
     useEffect(() => {
         const obterDados = async () => {
           try {
-            const valor = await AsyncStorage.getItem('CPF_CNPJ');
+            const valor = await AsyncStorage.getItem('idUsuario');
             if (valor !== null) {
               const FK_Profissionais_Servicos = JSON.parse(valor);
               setFK_Profissionais_Servicos(FK_Profissionais_Servicos);

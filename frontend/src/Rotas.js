@@ -18,6 +18,7 @@ import TelaInformacoes from './telas/TelaInformacoes';
 import TelaConfiguracoes from './telas/TelaConfiguracoes';
 import TelaChat from './telas/TelaChat';
 import TelaPagamento from './telas/TelaPagamento';
+import TelaPerfilCliente from './telas/TelaPerfilCliente';
 
 // Nomes das Telas
 const telaProfissionais = 'Profissionais';

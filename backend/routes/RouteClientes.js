@@ -55,7 +55,7 @@ router.get('/ListarClientesEmail/:email/:senha', (req, res)=>{
     console.log(JSON.stringify(senha))
 
     modelClientes.findOne({
-        attributes:['email', 'senha'],
+        attributes:['CPF', 'email', 'senha'],
         where:{email, senha}})
 
     .then(

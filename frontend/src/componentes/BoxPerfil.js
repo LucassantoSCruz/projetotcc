@@ -1,20 +1,35 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Image, StyleSheet, Text } from 'react-native'
+import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
-const BoxPerfil = ({item}) => {
+const BoxPerfil = (item) => {
+
+    //console.log('Itens do box Perfil: '+ JSON.stringify(item.item.titulo))
+
+    const navigation = useNavigation()
+
+    const Pressionar = () => {
+        console.log('Info do serviço clicado: ' + JSON.stringify(item.item))
+        const idServico = item.item.ID 
+        // console.log('ID salvo: ' + idServico)
+        navigation.navigate('Servico', {idServico})
+    }
+
     return (
-        <View style={styles.caixa}>
-            <View style={styles.caixa2}>
-                <Image
-                source={require('../../assets/imagem1.png')}
-                style={styles.imagem}/>
+        <TouchableOpacity onPress={Pressionar} >
+            <View style={styles.caixa}>
+                <View style={styles.caixa2}>
+                    <Image
+                    source={require('../../assets/imagem1.png')}
+                    style={styles.imagem}/>
+                </View>
+                <View style={styles.view}>
+                <Text style={styles.text}>
+                    {item.item.titulo}
+                </Text>
+                </View>
             </View>
-            <View style={styles.view}>
-            <Text style={styles.text}>
-                Exemplo de Serviço
-            </Text>
-            </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

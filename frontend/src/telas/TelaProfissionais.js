@@ -1,59 +1,85 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { StyleSheet, RefreshControl, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
 import PerfisFav from '../componentes/PerfisFav';
 import Carrosel from '../componentes/Carrosel';
 import axios from 'axios';
 import CaixaServico from '../componentes/CaixaServico';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 const TelaProfissionais = ({ navigation }) => {
 
-    const idUsuario = navigation.params;
-    
-    console.log(idUsuario)
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchData = () => {
+        setTimeout(() => {
+          // Lógica para buscar os dados atualizados
+          listarServicos();
+          obterDados();
+          
+          setRefreshing(false); 
+        }, 2000);
+    };
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchData();
+    };
+
+    const [idUsuario, setIdUsuario] = useState(null)
+
+    const [tipoconta, setTipoconta] = useState('')
 
     const [servicos, setServicos] = useState([])
 
-    const [navegar, setNavegar] = useState(false)
-
-    const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
-
     useEffect(() => {
-        axios.get('http://192.168.10.242:3000/listarServicos')
-            .then(function (response) {
-                setServicos(response.data)
-                console.log(servicos.data)
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        listarServicos();
+        obterDados();
     }, []);
 
-    useEffect(() => {
-        const obterDados = async () => {
-          try {
-            const valor = await AsyncStorage.getItem('CPF_CNPJ');
-            if (valor !== null) {
-              const CPF_CNPJ = JSON.parse(valor);
-              setCPF_CNPJ(CPF_CNPJ);
-              console.log("Dados passados para tela: " + JSON.stringify(CPF_CNPJ))
-            }
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        obterDados();
-      }, []);
+    const listarServicos = () => {
+        axios.get('http://192.168.10.242:3000/listarServicos')
+        .then(function (response) {
+            setServicos(response.data)
+            console.log('Serviços recebidos: ' + JSON.stringify(servicos.data))
+        })
+        .catch(function (error) {
+            console.log(error);
+        }) 
+    }
+
+    const obterDados = async () => {
+        try {
+        const valor = await AsyncStorage.getItem('idUsuario');
+        if (valor !== null) {
+            const idUsuario = JSON.parse(valor);
+            setIdUsuario(idUsuario);
+            console.log("Dados passados para tela: " + JSON.stringify(idUsuario))
+        }
+        } catch (error) {
+        console.error(error);
+        }
+
+        try {
+        const valor = await AsyncStorage.getItem('tipoconta');
+        if (valor !== null) {
+            const tipoconta = JSON.parse(valor);
+            setTipoconta(tipoconta);
+            console.log("Tipo de conta: " + JSON.stringify(tipoconta))
+        }
+        } catch (error) {
+        console.error(error);
+        }
+    };
+    
 
     return (
         <View style={{ flex: 1 }}>
 
             <BarCategoria />
             <SafeAreaView style={styles.tela1}>
-                <ScrollView style={styles.tela2}>
+                <ScrollView style={styles.tela2}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
 
                     <ScrollView horizontal>
                         <Carrosel />
@@ -100,7 +126,7 @@ const TelaProfissionais = ({ navigation }) => {
                         <FlatList
                             horizontal={true}
                             data={servicos.data}
-                            renderItem={({ item }) => <CaixaServico campo={(item.titulo)} />}
+                            renderItem={({ item }) => <CaixaServico item={item} />}
                             keyExtractor={item => item.ID}
                         />
                     </View>

@@ -27,7 +27,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
-    axios.post('http://10.0.1.101:3000/cadastrarProfissonal', {
+    axios.post('http://10.0.1.103:3000/cadastrarProfissonal', {
       CPF_CNPJ, 
       nome, 
       nomeFantasia, 
@@ -193,7 +193,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
           onBackButtonPress={toggle2}
           onBackdropPress={toggle2}
         >
-          <View style={styles.fundomodal}>
+          <View style={styles.fundomodaltipodeconta}>
             <TouchableOpacity style={styles.selecao} onPress={() => setPJ(true)}>
               <Text style={styles.textomodal}>
                 Pessoa Jurídica
@@ -462,6 +462,14 @@ const styles = StyleSheet.create({
   fundomodal: {
     backgroundColor: "#fff",
     height: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  fundomodaltipodeconta: {
+    backgroundColor: "#fff",
+    height: 150,
     justifyContent: "center",
     alignItems: "center",
     borderTopLeftRadius: 20,

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   fundomodal: {
     backgroundColor: "#fff",
-    height: 250,
+    height: 150,
     justifyContent: "center",
     alignItems: "center",
     borderTopLeftRadius: 20,

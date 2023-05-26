@@ -89,7 +89,7 @@ const TelaLogin = ({ navigation }) => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://192.168.1.2:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+    axios.get(`http://10.0.1.101:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
       Email: dados.Email,
       Senha: dados.Senha
     })

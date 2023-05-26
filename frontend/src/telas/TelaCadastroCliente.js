@@ -472,6 +472,7 @@ const styles = StyleSheet.create({
   fotodeperfil: {
     height: 150,
     width: 150
+  },
   caixaerro: {
     justifyContent: 'center',
     alignItems: "center",

@@ -57,7 +57,7 @@ const TelaPerfilProfissional = () => {
     }
 
     const listarServicosProfissional = () => {
-        axios.get(`http://10.0.1.103:3000/listarServicosFK/${fkServico}`)
+        axios.get(`http://192.168.10.242:3000/listarServicosFK/${fkServico}`)
         .then(function (response){
             //console.log('Resposta recebida: ' + JSON.stringify(response.data.data))
             setServicos(response.data.data)

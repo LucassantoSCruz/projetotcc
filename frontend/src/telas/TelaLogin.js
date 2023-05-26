@@ -89,7 +89,7 @@ const TelaLogin = ({ navigation }) => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://10.0.1.101:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+    axios.get(`http://10.0.1.103:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
       Email: dados.Email,
       Senha: dados.Senha
     })
@@ -300,7 +300,7 @@ const style = StyleSheet.create({
   },
   fundomodal: {
     backgroundColor: "#fff",
-    height: 250,
+    height: 150,
     justifyContent: "center",
     alignItems: "center",
     borderTopLeftRadius: 20,

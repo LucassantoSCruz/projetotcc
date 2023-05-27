@@ -57,40 +57,39 @@ const TelaPerfilCliente = () => {
 }
 
 const styles = StyleSheet.create({
-
-    view: {
+    Perfilview: {
         flexDirection: 'row',
         marginTop: 15,
     },
 
-    esquerda: {
+    Perfilesquerda: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
 
-    direita: {
+    Perfildireita: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
 
-    container: {
+    Perfilcontainer: {
         flex: 1,
         backgroundColor: '#f4e8f2',
     },
 
-    titulo: {
+    Perfiltitulo: {
         fontSize: 30,
         fontWeight: '500',
         marginBottom: 30
     },
 
-    campo: {
+    Perfilcampo: {
         flexDirection: 'row',
     },
 
-    fotodeperfil: {
+    Perfilfotodeperfil: {
         width: 100,
         height: 100,
         borderColor: 'black',
@@ -99,16 +98,16 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
 
-    opcoes: {
+    Perfilopcoes: {
         fontSize: 22,
     },
 
-    seta: {
+    Perfilseta: {
         width: 30,
         height: 30,
     },
 
-    pronome: {
+    Perfilpronome: {
         width: '90%',
         fontSize: 15,
         fontWeight: 'bold',
@@ -120,20 +119,20 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
 
-    nome: {
+    Perfilnome: {
         fontSize: 25,
         fontWeight: 'bold',
         marginBottom: 10,
     },
 
-    linha: {
+    Perfillinha: {
         backgroundColor: 'black',
         marginBottom: 10,
         width: '85%',
         height: 2
     },
 
-    selecao: {
+    Perfilselecao: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',

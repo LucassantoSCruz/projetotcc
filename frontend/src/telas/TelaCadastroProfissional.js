@@ -11,7 +11,6 @@ import { useForm, Controller } from 'react-hook-form';
 
 const TelaCadastroProfissional = ({ navigation }) => {
 
-  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
   const [nome, setNome] = useState(null)
   const [email, setEmail] = useState(null)
   const [senha, setSenha] = useState(null)
@@ -29,17 +28,17 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
-    axios.post('http://192.168.10.242:3000/cadastrarProfissonal', {
-      CPF_CNPJ, 
-      nome, 
-      nomeFantasia, 
+    axios.post('http://10.0.3.207:3000/cadastrarProfissonal', {
+      CPF_CNPJ: dados.CPF_CNPJ, 
+      nome: dados.Nome, 
+      nomeFantasia: dados.NomeFantasia, 
       pronomes, 
-      email, 
-      senha,
-      telefone, 
+      email: dados.Email, 
+      senha: dados.Senha,
+      telefone: dados.Telefone, 
       atendimentoDomiciliar,
       pessoaJuridica,
-      descricao
+      descricao: dados.Descricao
     })
     .then(function (response) {
       console.log(response.data);
@@ -157,6 +156,28 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [pronomes, setPronomes] = useState("")
   const [txtPronomes, setTxtPronomes] = useState("")
   const [txtAtDomiciliar, setTxtAtDomiciliar] = useState("Realiza atendimento á domicílio?")
+
+  const [dados, setDados] = useState(null)
+
+  const onSubmit = data => {
+
+    console.log(data)
+    setDados(data)
+    enviarFormulario()
+
+  };
+
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      Nome: '',
+      NomeFantasia: '',
+      CPF_CNPJ: '',
+      Email: '',
+      Senha: '',
+      Telefone: '',
+      Descricao: '',
+    }
+  })
 
   return (
     <ScrollView>
@@ -486,7 +507,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={enviarFormulario}>
+        <TouchableOpacity style={styles.botao} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.txtbtn} >
             Cadastrar
           </Text>

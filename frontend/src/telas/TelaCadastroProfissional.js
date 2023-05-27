@@ -11,7 +11,6 @@ import { useForm, Controller } from 'react-hook-form';
 
 const TelaCadastroProfissional = ({ navigation }) => {
 
-  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
   const [nome, setNome] = useState(null)
   const [email, setEmail] = useState(null)
   const [senha, setSenha] = useState(null)
@@ -29,7 +28,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
-    axios.post('http://10.0.1.32:3000/cadastrarProfissonal', {
+    axios.post('http://10.0.3.207:3000/cadastrarProfissonal', {
       CPF_CNPJ: dados.CPF_CNPJ, 
       nome: dados.Nome, 
       nomeFantasia: dados.NomeFantasia, 

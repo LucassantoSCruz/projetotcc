@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, RefreshControl, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
 import PerfisFav from '../componentes/PerfisFav';
@@ -13,11 +13,11 @@ const TelaProfissionais = ({ navigation }) => {
 
     const fetchData = () => {
         setTimeout(() => {
-          // Lógica para buscar os dados atualizados
-          listarServicos();
-          obterDados();
-          
-          setRefreshing(false); 
+            // Lógica para buscar os dados atualizados
+            listarServicos();
+            obterDados();
+
+            setRefreshing(false);
         }, 2000);
     };
 
@@ -39,39 +39,39 @@ const TelaProfissionais = ({ navigation }) => {
 
     const listarServicos = () => {
         axios.get('http://192.168.10.242:3000/listarServicos')
-        .then(function (response) {
-            setServicos(response.data)
-            console.log('Serviços recebidos: ' + JSON.stringify(servicos.data))
-        })
-        .catch(function (error) {
-            console.log(error);
-        }) 
+            .then(function (response) {
+                setServicos(response.data)
+                console.log('Serviços recebidos: ' + JSON.stringify(servicos.data))
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
     }
 
     const obterDados = async () => {
         try {
-        const valor = await AsyncStorage.getItem('idUsuario');
-        if (valor !== null) {
-            const idUsuario = JSON.parse(valor);
-            setIdUsuario(idUsuario);
-            console.log("Dados passados para tela: " + JSON.stringify(idUsuario))
-        }
+            const valor = await AsyncStorage.getItem('idUsuario');
+            if (valor !== null) {
+                const idUsuario = JSON.parse(valor);
+                setIdUsuario(idUsuario);
+                console.log("Dados passados para tela: " + JSON.stringify(idUsuario))
+            }
         } catch (error) {
-        console.error(error);
+            console.error(error);
         }
 
         try {
-        const valor = await AsyncStorage.getItem('tipoconta');
-        if (valor !== null) {
-            const tipoconta = JSON.parse(valor);
-            setTipoconta(tipoconta);
-            console.log("Tipo de conta: " + JSON.stringify(tipoconta))
-        }
+            const valor = await AsyncStorage.getItem('tipoconta');
+            if (valor !== null) {
+                const tipoconta = JSON.parse(valor);
+                setTipoconta(tipoconta);
+                console.log("Tipo de conta: " + JSON.stringify(tipoconta))
+            }
         } catch (error) {
-        console.error(error);
+            console.error(error);
         }
     };
-    
+
 
     return (
         <View style={{ flex: 1 }}>
@@ -122,13 +122,17 @@ const TelaProfissionais = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.view}>
-                        <FlatList
-                            horizontal={true}
-                            data={servicos.data}
-                            renderItem={({ item }) => <CaixaServico item={item} />}
-                            keyExtractor={item => item.ID}
-                        />
+                    <View>
+                        <ScrollView horizontal={true} contentContainerStyle={{flex: 1}}>
+                            <FlatList
+                                horizontal={false}
+                                data={servicos.data}
+                                numColumns={2}
+                                renderItem={({ item }) => <CaixaServico item={item} />}
+                                keyExtractor={item => item.ID}
+                                contentContainerStyle={{flex: 1}}
+                            />
+                        </ScrollView>
                     </View>
 
                 </ScrollView>
@@ -159,10 +163,6 @@ const styles = StyleSheet.create({
     textodestaque: {
         fontWeight: 'bold',
         fontSize: 20,
-    },
-    view: {
-        flexDirection: "row",
-        justifyContent: 'space-evenly'
     },
     view2: {
         flexDirection: 'row'

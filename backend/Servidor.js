@@ -13,6 +13,7 @@ const routeEnderecos = require('./routes/RouteEnderecos');
 const routeStatus = require('./routes/RouteStatus');
 const routeProfissionais = require('./routes/RouteProfissionais');
 const routeServicos = require('./routes/RouteServicos');
+const routePerfisFavoritos = require('./routes/RoutePerfisFavoritos');
 
 //Tornando o express executável
 const app = express();
@@ -31,6 +32,7 @@ app.use('/', routeEnderecos);
 app.use('/', routeStatus);
 app.use('/', routeProfissionais);
 app.use('/', routeServicos);
+app.use('/', routePerfisFavoritos);
 
 //Criação do webserver local
 app.listen(3000, ()=>{

@@ -45,7 +45,7 @@ const TelaPerfilProfissional = () => {
     }, []);
 
     const listarInfoProfissional = () => {
-        axios.get(`http://10.0.1.56:3000/ListarProfissionalCNPJ/${fkServico}`)
+        axios.get(`http://10.0.1.103:3000/ListarProfissionalCNPJ/${fkServico}`)
             .then(function (response) {
                 console.log(response.data.data)
                 setNome(response.data.data.nomeFantasia)
@@ -57,7 +57,7 @@ const TelaPerfilProfissional = () => {
     }
 
     const listarServicosProfissional = () => {
-        axios.get(`http://10.0.1.56:3000/listarServicosFK/${fkServico}`)
+        axios.get(`http://10.0.1.103:3000/listarServicosFK/${fkServico}`)
             .then(function (response) {
                 //console.log('Resposta recebida: ' + JSON.stringify(response.data.data))
                 setServicos(response.data.data)
@@ -76,6 +76,25 @@ const TelaPerfilProfissional = () => {
         }
     }
 
+    const [idUsuario, setIdUsuario] = useState(null)
+
+    const obterDados = async () => {
+        try {
+            const valor = await AsyncStorage.getItem('idUsuario');
+            if (valor !== null) {
+                const idUsuario = JSON.parse(valor);
+                setIdUsuario(idUsuario);
+                console.log("Dados passados para tela: " + JSON.stringify(idUsuario))
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        obterDados()
+    }, [])
+
     const [favoritar, setFavoritar] = useState(false)
 
     const botaoFavoritar = () => {
@@ -85,7 +104,24 @@ const TelaPerfilProfissional = () => {
         } else {
             setFavoritar(true)
             console.log('favoritado')
+            console.log('Perfil do Profissional: ' + fkServico)
+            console.log('Perfil do Cliente: ' + idUsuario)
+            FavoritarPerfil()
         }
+    }
+
+    const FavoritarPerfil = () => {
+        axios.post('http://10.0.1.103:3000/cadastrarPerfilFavorito',
+            {
+                FK_Profissionais_Clientes: fkServico,
+                FK_Clientes_Profissionais: idUsuario
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
     }
 
     return (
@@ -107,8 +143,8 @@ const TelaPerfilProfissional = () => {
                                         <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritar.png')} />
                                     </TouchableOpacity>
                                     : <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
-                                    <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritarselecionado.png')} />
-                                </TouchableOpacity>
+                                        <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritarselecionado.png')} />
+                                    </TouchableOpacity>
                             }
                         </ImageBackground>
                     </View>

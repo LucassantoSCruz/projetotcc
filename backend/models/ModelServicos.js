@@ -35,5 +35,13 @@ const modelServicos = conexao.define('tbl_Servicos', {
     updatedAt: 'ultimaModificacao'
 });
 
+const modelAgenda = require('./ModelAgenda')
+
+modelServicos.hasMany(modelAgenda, {
+    foreignKey: 'FK_Servicos_Agenda'
+});
+modelAgenda.belongsTo(modelServicos, {
+    foreignKey: 'FK_Servicos_Agenda'
+});
 //Exportação do modelo
 module.exports = modelServicos;    

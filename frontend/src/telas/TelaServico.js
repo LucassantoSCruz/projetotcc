@@ -34,6 +34,34 @@ function reducer(state, action) {
 const TelaServico = ({navigation}) => {
 
     const [refreshing, setRefreshing] = useState(false);
+    const route = useRoute()
+    const [idServico, setIdServico] = useState(null)
+    const [titulo, setTitulo] = useState(null)
+    const [descricao, setDescricao] = useState(null)
+    const [preco, setPreco] = useState(null)
+    const [contador, setContador] = useState()
+    const [valor, setValor] = useState(40)
+    const [botao, setBotao] = useState(false)
+    //const [valorTotal, setvalorTotal] = useState(0)
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [visivel, setVisivel] = useState(false);
+    const [data, setData] = useState('');
+    const [hora, setHora] = useState('');
+    const [FK_Profissionais_Servicos, setFK_Profissionais_Servicos] = useState(null);
+    const [idUsuario, setIdUsuario] = useState(null);
+
+    const obterDados = async () => {
+        try {
+            const valor = await AsyncStorage.getItem('idUsuario');
+            if (valor !== null) {
+                const idUsuario = JSON.parse(valor);
+                setIdUsuario(idUsuario);
+                console.log("Dados passados para tela: " + JSON.stringify(idUsuario))
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const fetchData = () => {
         setTimeout(() => {
@@ -51,28 +79,18 @@ const TelaServico = ({navigation}) => {
         fetchData();
     };
 
-    const route = useRoute()
-
-    const [idServico, setIdServico] = useState(null)
-    const [titulo, setTitulo] = useState(null)
-    const [descricao, setDescricao] = useState(null)
-    const [preco, setPreco] = useState(null)
-
-    const [contador, setContador] = useState()
-    const [valor, setValor] = useState(40)
-    const [botao, setBotao] = useState(false)
-    //const [valorTotal, setvalorTotal] = useState(0)
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const listarAgendamento = () => {
+        console.log('ID do serviço: ' + idServico)
+        console.log('CPF_CNPJ do profissional: ' + FK_Profissionais_Servicos)
+        console.log('CPF do cliente: ' + idUsuario)
+    }
 
     useEffect(() => {
-        setValor(state.valorTotal)
-
+        //setValor(state.valorTotal)
         // console.log('ID do serviço passado para a tela: ' + route.params.idServico)
         setIdServico(route.params.idServico)
-        console.log('ID salvo do serviço: ' + idServico)
 
         listarInfoServico()
-
     }, [state])
 
     function incrementar() {
@@ -84,13 +102,9 @@ const TelaServico = ({navigation}) => {
         setContador(contador - 1)
     }
 
-    const [visivel, setVisivel] = useState(false);
-
     function clicou() {
         setVisivel((visivel) => !visivel)
     }
-
-    const [data, setData] = useState('');
 
     const MascHora = createNumberMask({
         prefix: [''],
@@ -99,16 +113,14 @@ const TelaServico = ({navigation}) => {
         precisão: 4,
     })
 
-    const [hora, setHora] = useState('');
-
     const listarInfoServico = () => {
-        axios.get(`http://10.0.1.56:3000/listarServicosID/${idServico}`)
+        axios.get(`http://10.0.1.101:3000/listarServicosID/${idServico}`)
         .then(function (response){
             //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)
             setDescricao(response.data.data.descricao)
             setPreco(response.data.data.preco)
-            
+            setFK_Profissionais_Servicos(response.data.data.FK_Profissionais_Servicos)
         })
         .catch(function (error){
             console.log(error)
@@ -163,7 +175,7 @@ const TelaServico = ({navigation}) => {
                     </Text>
                 </View>
 
-                <View style={styles.incr}>
+                {/* <View style={styles.incr}>
 
                     <TouchableOpacity onPress={() => { dispatch({ type: "decrement" }); console.log(state.count); console.log(state.valorTotal) }}>
                         <Image style={styles.mais} source={require('../../assets/botaomenos.png')} />
@@ -177,20 +189,20 @@ const TelaServico = ({navigation}) => {
                         <Image style={styles.mais} source={require('../../assets/botaomais.png')} />
                     </TouchableOpacity>
 
-                </View>
+                </View> */}
 
                 <View style={styles.valor}>
                     <View>
                         <Text style={styles.preco}>
-                            R${state.valor},00
+                            R${preco}
                         </Text>
                     </View>
 
-                    <View>
+                    {/* <View>
                         <Text style={styles.precototal}>
                             R${state.valorTotal},00
                         </Text>
-                    </View>
+                    </View> */}
                 </View>
 
                 <TouchableOpacity style={styles.btn} onPress={clicou}>

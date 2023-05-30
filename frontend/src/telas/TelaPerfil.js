@@ -64,7 +64,7 @@ const TelaPerfil = ({ navigation }) => {
 
     const listarDadosPerfil = () => {
         if (tipoconta == 'Profissional') {
-            axios.get(`http://10.0.1.56:3000/ListarProfissionalCNPJ/${idUsuario}`)
+            axios.get(`http://10.0.1.101:3000/ListarProfissionalCNPJ/${idUsuario}`)
                 .then(function (response) {
 
                     console.log(response.data.data)
@@ -77,7 +77,7 @@ const TelaPerfil = ({ navigation }) => {
                     console.log(error);
                 })
 
-            axios.get(`http://10.0.1.56:3000/listarServicosFK/${idUsuario}`)
+            axios.get(`http://10.0.1.101:3000/listarServicosFK/${idUsuario}`)
                 .then(function (response) {
                     setServicos(response.data.data)
                     console.log(servicos)
@@ -162,7 +162,7 @@ const TelaPerfilP = () => {
 
     const listarDadosPerfil = () => {
         if (tipoconta == 'Profissional') {
-            axios.get(`http://10.0.1.56:3000/ListarProfissionalCNPJ/${idUsuario}`)
+            axios.get(`http://10.0.1.101:3000/ListarProfissionalCNPJ/${idUsuario}`)
                 .then(function (response) {
 
                     console.log(response.data.data)
@@ -175,7 +175,7 @@ const TelaPerfilP = () => {
                     console.log(error);
                 })
 
-            axios.get(`http://10.0.1.56:3000/listarServicosFK/${idUsuario}`)
+            axios.get(`http://10.0.1.101:3000/listarServicosFK/${idUsuario}`)
                 .then(function (response) {
                     setServicos(response.data.data)
                     console.log(servicos)
@@ -272,7 +272,7 @@ const TelaPerfilC = () => {
     };
 
     const listarDadosPerfilCliente = () => {
-        axios.get(`http://10.0.1.56:3000/listarClienteCPF/${idUsuario}`)
+        axios.get(`http://10.0.1.101:3000/listarClienteCPF/${idUsuario}`)
             .then(function (response) {
 
                 console.log(response.data.data)

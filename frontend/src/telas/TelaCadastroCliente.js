@@ -19,7 +19,7 @@ const TelaCadastroCliente = ({ navigation }) => {
   const [Pronomes, setPronomes] = useState("")
 
   const enviarFormulario = async () => {
-    axios.post('http://10.0.1.56:3000/cadastrarCliente', {
+    axios.post('http://10.0.1.101:3000/cadastrarCliente', {
       CPF: dados.CPF,
       nome: dados.Nome,
       email: dados.Email,

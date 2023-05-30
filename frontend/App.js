@@ -14,7 +14,7 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Profissionais">
+      <Stack.Navigator initialRouteName="Inicio">
         <Stack.Screen name="Inicio" component={TelaInicial} options={{headerTitleAlign: 'center', title: 'Início'}}/>
         <Stack.Screen name="Login" component={TelaLogin} options={{headerTitleAlign: 'center'}}/>
         <Stack.Screen name="CadastroProfissional" component={TelaCadastroProfissional} options={{headerTitleAlign: 'center', headerTitle: 'Cadastro de Profissional'}}/>

@@ -29,7 +29,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
-    axios.post('http://192.168.10.242:3000/cadastrarProfissonal', {
+    axios.post('http://10.0.1.56:3000/cadastrarProfissonal', {
       CPF_CNPJ: dados.CPF_CNPJ, 
       nome: dados.Nome, 
       nomeFantasia: dados.NomeFantasia, 

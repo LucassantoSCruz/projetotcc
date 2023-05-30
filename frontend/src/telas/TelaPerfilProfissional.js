@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Image, RefreshControl, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, Image, ImageBackground, RefreshControl, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -13,13 +13,13 @@ const TelaPerfilProfissional = () => {
 
     const fetchData = () => {
         setTimeout(() => {
-          // Lógica para buscar os dados atualizados
+            // Lógica para buscar os dados atualizados
             setFkServico(route.params.fkServico)
             salvarDados()
             listarServicosProfissional()
             listarInfoProfissional()
-            
-            setRefreshing(false); 
+
+            setRefreshing(false);
         }, 2000);
     };
 
@@ -44,27 +44,27 @@ const TelaPerfilProfissional = () => {
         listarInfoProfissional()
     }, []);
 
-    const listarInfoProfissional = () =>{
-        axios.get(`http://192.168.10.242:3000/ListarProfissionalCNPJ/${fkServico}`)
-        .then( function (response) {
-            console.log(response.data.data)
-            setNome(response.data.data.nomeFantasia)
-            setDescricao(response.data.data.descricao)
-            setPronomes(response.data.data.pronomes)
-        }).catch( function (error){
-            console.log(error)
-        })
+    const listarInfoProfissional = () => {
+        axios.get(`http://10.0.1.56:3000/ListarProfissionalCNPJ/${fkServico}`)
+            .then(function (response) {
+                console.log(response.data.data)
+                setNome(response.data.data.nomeFantasia)
+                setDescricao(response.data.data.descricao)
+                setPronomes(response.data.data.pronomes)
+            }).catch(function (error) {
+                console.log(error)
+            })
     }
 
     const listarServicosProfissional = () => {
-        axios.get(`http://192.168.10.242:3000/listarServicosFK/${fkServico}`)
-        .then(function (response){
-            //console.log('Resposta recebida: ' + JSON.stringify(response.data.data))
-            setServicos(response.data.data)
-            console.log('Serviços recebidos: ' + JSON.stringify(servicos))
-        }).catch(function (error){
-            console.log(error)
-        })
+        axios.get(`http://10.0.1.56:3000/listarServicosFK/${fkServico}`)
+            .then(function (response) {
+                //console.log('Resposta recebida: ' + JSON.stringify(response.data.data))
+                setServicos(response.data.data)
+                console.log('Serviços recebidos: ' + JSON.stringify(servicos))
+            }).catch(function (error) {
+                console.log(error)
+            })
     }
 
     const salvarDados = async () => {
@@ -76,10 +76,22 @@ const TelaPerfilProfissional = () => {
         }
     }
 
+    const [favoritar, setFavoritar] = useState(false)
+
+    const botaoFavoritar = () => {
+        if (favoritar) {
+            setFavoritar(false),
+                console.log('DESfavoritado')
+        } else {
+            setFavoritar(true)
+            console.log('favoritado')
+        }
+    }
+
     return (
         <View>
             <ScrollView refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+                <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
                 <View style={styles.view}>
                     <View style={styles.esquerda}>
                         <Text style={styles.pronome}>{pronomes}</Text>
@@ -88,7 +100,17 @@ const TelaPerfilProfissional = () => {
                         <Text style={styles.legenda}>{Descricao}</Text>
                     </View>
                     <View style={styles.direita}>
-                        <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} />
+                        <ImageBackground style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} >
+                            {
+                                favoritar == false
+                                    ? <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
+                                        <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritar.png')} />
+                                    </TouchableOpacity>
+                                    : <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
+                                    <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritarselecionado.png')} />
+                                </TouchableOpacity>
+                            }
+                        </ImageBackground>
                     </View>
                 </View>
                 <View style={styles.botoes}>
@@ -111,15 +133,19 @@ const TelaPerfilProfissional = () => {
 
                 </View> */}
                 <View style={styles.view2}>
-                <FlatList
-                        horizontal={true}
-                        data={servicos}
-                        renderItem={({ item }) => <BoxPerfil item={item} />}
-                        keyExtractor={item => item.ID}
-                    />
+                    <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
+                        <FlatList
+                            horizontal={false}
+                            data={servicos}
+                            numColumns={2}
+                            renderItem={({ item }) => <BoxPerfil item={item} />}
+                            keyExtractor={item => item.ID}
+                            contentContainerStyle={{ flex: 1 }}
+                        />
+                    </ScrollView>
                 </View>
             </ScrollView>
-        </View>
+        </View >
     );
 };
 
@@ -176,6 +202,15 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1,
         borderRadius: 100,
+    },
+    botaofavoritar: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0
+    },
+    botaofavoritarimagem: {
+        width: 50,
+        height: 50
     },
     botoes: {
         flexDirection: 'row',

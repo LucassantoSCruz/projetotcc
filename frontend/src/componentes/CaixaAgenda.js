@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 const CaixaAgenda = (agendamentos) => {
-  console.log(agendamentos)
+  console.log('Componente CaixaAgenda: '+ JSON.stringify(agendamentos))
   return (
     <View style={styles.container}>
 

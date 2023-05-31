@@ -21,7 +21,7 @@ const CaixaAgenda = (agendamentos) => {
               <View style={styles.info}>
                 <Text>Quantidade: 1</Text>
                 <Text>Valor: R${agendamentos.item.Preco}</Text>
-                <Text>Data: 25/04</Text>
+                <Text>Data: {agendamentos.item.data}</Text>
                 <Text>Horário: 15h</Text>
                 <Text>Local: Cabelereira Leila</Text>
               </View>

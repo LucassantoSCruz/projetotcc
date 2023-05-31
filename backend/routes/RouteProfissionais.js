@@ -142,7 +142,7 @@ router.put('/alterarProfissionais/:CPF_CNPJ', (req, res) =>{
         () => {
             return res.status(200).json({
                 erroStatus:false,
-                mensagemStatus:'Cliente alterado com sucesso!'
+                mensagemStatus:'Profissional alterado com sucesso!'
             })
         }
     ).catch(

@@ -5,6 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import MaskInput, { Masks, createNumberMask } from 'react-native-mask-input';
 import { MaskedTextInput } from 'react-native-mask-text';  // esse é outro componente para máscarar o valor inserido, vou conferir ainda qual dos dois compensa mais usar
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = { count: 1, valor: 40, valorTotal: 40 };
 
@@ -34,14 +35,33 @@ function reducer(state, action) {
 const TelaServico = ({navigation}) => {
 
     const [refreshing, setRefreshing] = useState(false);
+    const route = useRoute()
+    const [idServico, setIdServico] = useState(null)
+    const [titulo, setTitulo] = useState(null)
+    const [descricao, setDescricao] = useState(null)
+    const [preco, setPreco] = useState(null)
+    const [contador, setContador] = useState()
+    const [valor, setValor] = useState(40)
+    const [botao, setBotao] = useState(false)
+    //const [valorTotal, setvalorTotal] = useState(0)
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [visivel, setVisivel] = useState(false);
+    const [data, setData] = useState('');
+    const [hora, setHora] = useState('');
+    // Campos para inserção do agendamento
+    const [FK_Clientes_Agenda, setFK_Clientes_Agenda] = useState(null)
+    const [FK_Profissionais_Agenda, setFK_Profissionais_Agenda] = useState(null)
+    const [FK_Status_Agenda, setFK_Status_Agenda] = useState(null)
+    const [FK_Servicos_Agenda, setFK_Servicos_Agenda] = useState(null)
+    const [horario, setHorario] = useState(null)
+    const [valorTotal, setValorTotal] = useState(null)
 
     const fetchData = () => {
         setTimeout(() => {
           // Lógica para buscar os dados atualizados
-          setValor(state.valorTotal)
+          //setValor(state.valorTotal)
           setIdServico(route.params.idServico)
           listarInfoServico()
-          
           setRefreshing(false); 
         }, 2000);
     };
@@ -51,46 +71,25 @@ const TelaServico = ({navigation}) => {
         fetchData();
     };
 
-    const route = useRoute()
-
-    const [idServico, setIdServico] = useState(null)
-    const [titulo, setTitulo] = useState(null)
-    const [descricao, setDescricao] = useState(null)
-    const [preco, setPreco] = useState(null)
-
-    const [contador, setContador] = useState()
-    const [valor, setValor] = useState(40)
-    const [botao, setBotao] = useState(false)
-    //const [valorTotal, setvalorTotal] = useState(0)
-    const [state, dispatch] = useReducer(reducer, initialState);
-
     useEffect(() => {
-        setValor(state.valorTotal)
-
-        // console.log('ID do serviço passado para a tela: ' + route.params.idServico)
+        //setValor(state.valorTotal)
         setIdServico(route.params.idServico)
-        console.log('ID salvo do serviço: ' + idServico)
-
         listarInfoServico()
-
+        obterDados()
     }, [state])
 
-    function incrementar() {
-        setContador(contador + 1)
-        //setValor(contador * valor)
-    }
+    // function incrementar() {
+    //     setContador(contador + 1)
+    //     //setValor(contador * valor)
+    // }
 
-    function decrementar() {
-        setContador(contador - 1)
-    }
-
-    const [visivel, setVisivel] = useState(false);
+    // function decrementar() {
+    //     setContador(contador - 1)
+    // }
 
     function clicou() {
         setVisivel((visivel) => !visivel)
     }
-
-    const [data, setData] = useState('');
 
     const MascHora = createNumberMask({
         prefix: [''],
@@ -99,21 +98,39 @@ const TelaServico = ({navigation}) => {
         precisão: 4,
     })
 
-    const [hora, setHora] = useState('');
-
     const listarInfoServico = () => {
-        axios.get(`http://10.0.3.207:3000/listarServicosID/${idServico}`)
+        axios.get(`http://192.168.1.2:3000/listarServicosID/${idServico}`)
         .then(function (response){
             //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)
             setDescricao(response.data.data.descricao)
             setPreco(response.data.data.preco)
-            
+            setFK_Profissionais_Agenda(response.data.data.FK_Profissionais_Servicos)
+            setFK_Servicos_Agenda(response.data.data.ID)
         })
         .catch(function (error){
             console.log(error)
         })
     }
+
+    const enviarAgendamento = () => {
+        console.log('CPF ou CNPJ do Profissional: ' + FK_Profissionais_Agenda)
+        console.log('ID do Serviço: '+ FK_Servicos_Agenda)
+        console.log('ID do Cliente: ' + FK_Clientes_Agenda)
+        navigation.navigate('TelaPagamento')
+    }
+
+    const obterDados = async () => {
+        try {
+            const valor = await AsyncStorage.getItem('idUsuario');
+            if (valor !== null) {
+                const idUsuario = JSON.parse(valor);
+                setFK_Clientes_Agenda(idUsuario);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <View style={{ flex: 1 }}>
@@ -163,7 +180,7 @@ const TelaServico = ({navigation}) => {
                     </Text>
                 </View>
 
-                <View style={styles.incr}>
+                {/* <View style={styles.incr}>
 
                     <TouchableOpacity onPress={() => { dispatch({ type: "decrement" }); console.log(state.count); console.log(state.valorTotal) }}>
                         <Image style={styles.mais} source={require('../../assets/botaomenos.png')} />
@@ -177,20 +194,20 @@ const TelaServico = ({navigation}) => {
                         <Image style={styles.mais} source={require('../../assets/botaomais.png')} />
                     </TouchableOpacity>
 
-                </View>
+                </View> */}
 
                 <View style={styles.valor}>
                     <View>
                         <Text style={styles.preco}>
-                            R${state.valor},00
+                            R${preco}
                         </Text>
                     </View>
 
-                    <View>
+                    {/* <View>
                         <Text style={styles.precototal}>
                             R${state.valorTotal},00
                         </Text>
-                    </View>
+                    </View> */}
                 </View>
 
                 <TouchableOpacity style={styles.btn} onPress={clicou}>
@@ -209,9 +226,9 @@ const TelaServico = ({navigation}) => {
                             Confirmar Serviço
                         </Text>
 
-                        <Text style={styles.campotexto}>
+                        {/* <Text style={styles.campotexto}>
                             Valor Total: {state.valorTotal},00
-                        </Text>
+                        </Text> */}
 
                         <View style={styles.campoformacao}>
                             <Text style={styles.campotexto}>
@@ -255,7 +272,7 @@ const TelaServico = ({navigation}) => {
 
                         </View>
 
-                        <TouchableOpacity style={styles.btnconfirmar} onPress={()=>navigation.navigate('TelaPagamento')}>
+                        <TouchableOpacity style={styles.btnconfirmar} onPress={() => enviarAgendamento()}>
                             <Text style={styles.textobtn}>
                                 Contratar
                             </Text>

@@ -71,9 +71,17 @@ const TelaServico = ({navigation}) => {
         fetchData();
     };
 
+    const listarAgendamento = () => {
+        console.log('ID do serviço: ' + idServico)
+        console.log('CPF_CNPJ do profissional: ' + FK_Profissionais_Servicos)
+        console.log('CPF do cliente: ' + idUsuario)
+    }
+
     useEffect(() => {
         //setValor(state.valorTotal)
+        // console.log('ID do serviço passado para a tela: ' + route.params.idServico)
         setIdServico(route.params.idServico)
+
         listarInfoServico()
         obterDados()
     }, [state])
@@ -83,9 +91,9 @@ const TelaServico = ({navigation}) => {
     //     //setValor(contador * valor)
     // }
 
-    // function decrementar() {
-    //     setContador(contador - 1)
-    // }
+    function decrementar() {
+        setContador(contador - 1)
+    }
 
     function clicou() {
         setVisivel((visivel) => !visivel)

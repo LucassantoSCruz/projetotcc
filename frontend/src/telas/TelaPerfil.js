@@ -234,41 +234,94 @@ const TelaPerfilP = () => {
 };
 
 const TelaPerfilC = () => {
+
+    const [idUsuario, setIdUsuario] = useState(null)
+
+    const [nomeCliente, setNomeCliente] = useState(null)
+    const [pronomesCliente, setPronomesCliente] = useState(null)
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        setTimeout(() => {
+
+            obterDados();
+            listarDadosPerfilCliente();
+
+            setRefreshing(false);
+        }, 2000);
+    }
+
+    useEffect(() => {
+        obterDados();
+        listarDadosPerfilCliente();
+    }, []);
+
+    const obterDados = async () => {
+        try {
+            const valor = await AsyncStorage.getItem('idUsuario');
+            if (valor !== null) {
+                const idUsuario = JSON.parse(valor);
+                setIdUsuario(idUsuario);
+                console.log("Dados passados para tela de perfil: " + idUsuario)
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const listarDadosPerfilCliente = () => {
+        axios.get(`http://10.0.1.101:3000/listarClienteCPF/${idUsuario}`)
+            .then(function (response) {
+
+                console.log(response.data.data)
+
+                setNomeCliente(response.data.data.nome)
+                setPronomesCliente(response.data.data.pronomes)
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
     return (
         <View>
-            <View style={styles.Perfilview}>
-                <View style={styles.Perfilesquerda}>
-                    <Text style={styles.Perfilpronome}>Pronome: Elx</Text>
-                    <Text style={styles.Perfilnome}>Nome do Perfil</Text>
-                    <View style={styles.Perfillinha} />
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+                <View style={styles.Perfilview}>
+                    <View style={styles.Perfilesquerda}>
+                        <Text style={styles.Perfilpronome}>{pronomesCliente}</Text>
+                        <Text style={styles.Perfilnome}>{nomeCliente}</Text>
+                        <View style={styles.Perfillinha} />
+                    </View>
+
+
+                    <View style={styles.Perfildireita}>
+                        <Image style={styles.fotodeperfil} source={require('../../assets/Perfil.png')} />
+                    </View>
                 </View>
 
+                <TouchableOpacity style={styles.Perfilselecao}>
+                    <Text style={styles.Perfilopcoes}>Minhas Informações</Text>
+                    <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
+                </TouchableOpacity>
 
-                <View style={styles.Perfildireita}>
-                    <Image style={styles.fotodeperfil} source={require('../../assets/Perfil.png')} />
-                </View>
-            </View>
+                <TouchableOpacity style={styles.Perfilselecao}>
+                    <Text style={styles.Perfilopcoes}>Perfis Favoritos</Text>
+                    <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.Perfilselecao}>
-                <Text style={styles.Perfilopcoes}>Minhas Informações</Text>
-                <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.Perfilselecao}>
+                    <Text style={styles.Perfilopcoes}>Configurações</Text>
+                    <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.Perfilselecao}>
-                <Text style={styles.Perfilopcoes}>Perfis Favoritos</Text>
-                <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.Perfilselecao}>
-                <Text style={styles.Perfilopcoes}>Configurações</Text>
-                <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.Perfilselecao}>
-                <Text style={styles.Perfilopcoes}>Sair do Aplicativo</Text>
-                <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
-            </TouchableOpacity>
-
+                <TouchableOpacity style={styles.Perfilselecao}>
+                    <Text style={styles.Perfilopcoes}>Sair do Aplicativo</Text>
+                    <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
+                </TouchableOpacity>
+            </ScrollView>
         </View>
 
     )
@@ -410,15 +463,15 @@ const styles = StyleSheet.create({
         height: 30,
     },
     Perfilpronome: {
-        width: '90%',
-        fontSize: 15,
+        width: '85%',
+        fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
         color: 'white',
         backgroundColor: '#B987B8',
-        padding: 4,
+        padding: 5,
         borderRadius: 20,
-        marginBottom: 5,
+        marginBottom: 10,
     },
     Perfilnome: {
         fontSize: 25,

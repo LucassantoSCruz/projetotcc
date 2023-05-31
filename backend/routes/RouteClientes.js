@@ -47,6 +47,31 @@ router.get('/listarClientes', (req, res) => {
         )
 })
 
+router.get('/listarClienteCPF/:CPF', (req, res)=> {
+
+    let {CPF} = req.params;
+
+    modelClientes.findByPk(CPF)
+    .then(
+        (response)=>{
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:"Cliente listado com sucesso!",
+                data: response
+            })
+        }
+    )
+    .catch(
+        (erro)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:"Erro ao listar Cliente!",
+                erroObject:erro
+            });
+        }
+    )
+});
+
 //Rota de listagem por e-mail
 router.get('/ListarClientesEmail/:email/:senha', (req, res)=>{
 

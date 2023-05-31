@@ -1,14 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, FlatList, Text, View, TouchableOpacity, Image, SafeAreaView} from 'react-native';
+import { StyleSheet, RefreshControl, FlatList, Text, View, TouchableOpacity, Image, SafeAreaView, ScrollView} from 'react-native';
 import CaixaAgenda from '../componentes/CaixaAgenda';
 import axios from 'axios';
 
 const TelaAgenda = () => {
 
     const [agendamentos, setAgendamentos] = useState([])
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchData = () => {
+        setTimeout(() => {
+            // Lógica para buscar os dados atualizados
+            infoAgendamentos()
+
+            setRefreshing(false);
+        }, 2000);
+    };
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchData();
+    };
 
     useEffect(() => {
-        axios.get('http://192.168.1.2:3000/listarServicos')
+        infoAgendamentos()
+    }, []);
+
+    const infoAgendamentos = () => {
+      axios.get('http://192.168.1.11:3000/listagemAgendamentos')
         .then(function (response) {
             setAgendamentos(response.data)
             //console.log(agendamentos.data)
@@ -16,15 +35,27 @@ const TelaAgenda = () => {
         .catch(function (error) {
             console.log(error);
         })
-    }, []);
+    }
+
+    const infoProfissionais = () => {
+
+    }
+
+    const infoServicos = () => {
+
+    }
 
     return (
         <SafeAreaView>
+          <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
             <FlatList
+                horizontal={false}
                 data={agendamentos.data}
                 renderItem={({item}) => <CaixaAgenda item={item} />}
                 // keyExtractor={item => item.id}
             />
+          </ScrollView>
+          
         </SafeAreaView>
       );
 }

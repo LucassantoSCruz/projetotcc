@@ -17,9 +17,9 @@ const modelAgenda = conexao.define('tbl_Agenda', {
         type: sequelize.DATE,
         allowNull: false
     },
-    valorTotal: {
-        type: sequelize.DECIMAL(10,2),
-        allowNull: false
+    FK_Status_Agenda: {
+        type: sequelize.INTEGER,
+        defaultValue: 1
     }
 }, {
     freezeTableName: true,

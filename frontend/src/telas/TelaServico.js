@@ -46,15 +46,15 @@ const TelaServico = ({navigation}) => {
     //const [valorTotal, setvalorTotal] = useState(0)
     const [state, dispatch] = useReducer(reducer, initialState);
     const [visivel, setVisivel] = useState(false);
-    const [data, setData] = useState('');
-    const [hora, setHora] = useState('');
     // Campos para inserção do agendamento
-    const [FK_Clientes_Agenda, setFK_Clientes_Agenda] = useState(null)
-    const [FK_Profissionais_Agenda, setFK_Profissionais_Agenda] = useState(null)
-    const [FK_Status_Agenda, setFK_Status_Agenda] = useState(null)
-    const [FK_Servicos_Agenda, setFK_Servicos_Agenda] = useState(null)
-    const [horario, setHorario] = useState(null)
-    const [valorTotal, setValorTotal] = useState(null)
+    const [FK_Clientes_Agenda, setFK_Clientes_Agenda] = useState(null);
+    const [FK_Profissionais_Agenda, setFK_Profissionais_Agenda] = useState(null);
+    const [FK_Servicos_Agenda, setFK_Servicos_Agenda] = useState(null);
+    const [data, setData] = useState('');
+    const [horario, setHorario] = useState(null);
+    const [agendamento, setAgendamento] = useState(null)
+    const [hora, setHora] = useState('');
+    const [valorTotal, setValorTotal] = useState(null);
 
     const fetchData = () => {
         setTimeout(() => {
@@ -70,12 +70,6 @@ const TelaServico = ({navigation}) => {
         setRefreshing(true);
         fetchData();
     };
-
-    const listarAgendamento = () => {
-        console.log('ID do serviço: ' + idServico)
-        console.log('CPF_CNPJ do profissional: ' + FK_Profissionais_Servicos)
-        console.log('CPF do cliente: ' + idUsuario)
-    }
 
     useEffect(() => {
         //setValor(state.valorTotal)
@@ -107,7 +101,7 @@ const TelaServico = ({navigation}) => {
     })
 
     const listarInfoServico = () => {
-        axios.get(`http://192.168.1.2:3000/listarServicosID/${idServico}`)
+        axios.get(`http://192.168.1.11:3000/listarServicosID/${idServico}`)
         .then(function (response){
             //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)
@@ -125,7 +119,23 @@ const TelaServico = ({navigation}) => {
         console.log('CPF ou CNPJ do Profissional: ' + FK_Profissionais_Agenda)
         console.log('ID do Serviço: '+ FK_Servicos_Agenda)
         console.log('ID do Cliente: ' + FK_Clientes_Agenda)
-        navigation.navigate('TelaPagamento')
+        console.log('Data do agendamento: ' + data)
+        console.log('Horário do agendamento: ' + horario)
+        console.log('Datetime do agendamento: ' + agendamento)
+
+        axios.post('http://192.168.1.11:3000/cadastrarAgendamento', {
+            data: agendamento, 
+            FK_Servicos_Agenda, 
+            FK_Clientes_Agenda, 
+            FK_Profissionais_Agenda
+        })
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+            navigation.navigate('TelaPagamento')
+        })
+        .catch (function (erro) {
+            console.log(erro);
+        })
     }
 
     const obterDados = async () => {
@@ -269,7 +279,9 @@ const TelaServico = ({navigation}) => {
                                     mask="99:99"
                                     onChangeText={(text, rawText) => {
                                         console.log(text);
-                                        console.log(rawText);
+                                        setHorario(text)
+                                        setAgendamento(data + ' ' + horario)
+                                        // console.log(rawText);
                                     }}
                                     style={styles.campotexto}
                                     placeholder='__:__'

@@ -9,14 +9,11 @@ const router = express.Router();
 router.post('/cadastrarAgendamento', (req, res) => {
     console.log(req.body);
     
-    //Declaração das variáveis que irão representar os campos da tabela
-    let {Data} = req.body;
+    let {data, FK_Servicos_Agenda, FK_Clientes_Agenda, FK_Profissionais_Agenda} = req.body;
 
-    //Crie estes campos...
     modelAgenda.create(
-        {Data}
+        {data, FK_Servicos_Agenda, FK_Clientes_Agenda, FK_Profissionais_Agenda}
     ).then(
-        //...e então, caso dê certo, retorne este objeto JSON com o status HTTP...
         ()=>{
             return res.status(201).json({
                 erroStatus: false,
@@ -24,10 +21,6 @@ router.post('/cadastrarAgendamento', (req, res) => {
             })
         }
     ).catch(
-        /*
-        * ...caso "pegue" um erro, envie este arquivo JSON com o status HTTP e
-        * o objeto de erro
-        */
        (erro) => {
         return res.status(201).json({
             erroStatus: true,
@@ -41,13 +34,8 @@ router.post('/cadastrarAgendamento', (req, res) => {
 //Rota de listagem
 router.get('/listagemAgendamentos', (req, res) => {
 
-    //Procure todos os campos e registros desta tabela...
     modelAgenda.findAll()
     .then(
-        /*
-        *...e então, caso dê certo, envie este arquivo JSON 
-        *com o status HTTP e a listagem...
-        */
         (response) => {
             return res.status(200).json({
                 erroStatus: false,
@@ -56,10 +44,6 @@ router.get('/listagemAgendamentos', (req, res) => {
             })        
         }
     ).catch(
-        /*
-        *...caso "pegue" um erro, retorne este objeto JSON com o 
-        *status HTTP e o objeto de erro
-        */
         (erro) => {
             return res.status(400).json({
                 erroStatus: true,
@@ -71,13 +55,13 @@ router.get('/listagemAgendamentos', (req, res) => {
 });
 
 //Rota de Alteração
-router.put('/alterarAgendamento', (req, res) =>{
+router.put('/alterarAgendamento/:ID', (req, res) =>{
 
-    let {Data} = req.body;
+    let {data, FK_Servicos_Agenda, FK_Clientes_Agenda, FK_Profissionais_Agenda} = req.body;
 
     modelAgenda.update(
-        {Data},
-        {where:{ID_ServicoAgendado}}
+        {data, FK_Servicos_Agenda, FK_Clientes_Agenda, FK_Profissionais_Agenda},
+        {where:{ID}}
 
     ).then(
         () => {
@@ -99,14 +83,14 @@ router.put('/alterarAgendamento', (req, res) =>{
 })
 
 //Rota de Exclusão
-router.delete('/excluirAgendamento:ID_ServicoAgendado', (req, res)=>{
+router.delete('/excluirAgendamento:ID', (req, res)=>{
 
     console.log(req.params);
 
-    let {ID_ServicoAgendado} = req.params;
+    let {ID} = req.params;
 
     modelAgenda.destroy(
-        {where:{ID_ServicoAgendado}}
+        {where:{ID}}
     ).then(
         () => {
             return res.status(200).json({

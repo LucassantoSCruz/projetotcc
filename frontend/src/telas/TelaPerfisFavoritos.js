@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from 'react-native'
 
 const perfisFavoritos = () => {
-    axios.get(`http://10.0.1.29:3000/listarPerfisFavoritos/${FK_Clientes_Profissionais}`)
+    axios.get(`http://10.0.1.57:3000/listarPerfisFavoritos/${FK_Clientes_Profissionais}`)
 }
 
 const TelaPerfisFavoritados = () => {

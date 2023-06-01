@@ -22,7 +22,7 @@ const TelaCadastroEndereco = ({ navigation }) => {
   }, [])
 
   const enviarFormulario = async () => {
-    axios.post('http://192.168.1.8:3000/cadastrarEndereco', {
+    axios.post('http://10.0.1.57:3000/cadastrarEndereco', {
         latitude,
         longitude,
         cep: cepEnd,
@@ -38,7 +38,7 @@ const TelaCadastroEndereco = ({ navigation }) => {
       const ID_Servico = response.data.ID_Endereco
       console.log("Constante com ID: " + ID_Servico)
 
-      axios.put(`http://192.168.1.8:3000/alterarProfissionais/${idProfissional}`, {
+      axios.put(`http://10.0.1.57:3000/alterarProfissionais/${idProfissional}`, {
         FK_Profissionais_Enderecos : ID_Servico
       })
       .then(function (response){

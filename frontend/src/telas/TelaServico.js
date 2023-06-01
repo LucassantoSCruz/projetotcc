@@ -23,7 +23,6 @@ const TelaServico = ({navigation}) => {
     const [data, setData] = useState('');
     const [horario, setHorario] = useState(null);
     const [agendamento, setAgendamento] = useState(null)
-    const [hora, setHora] = useState('');
     const [valorTotal, setValorTotal] = useState(null);
 
     const fetchData = () => {
@@ -56,7 +55,7 @@ const TelaServico = ({navigation}) => {
     })
 
     const listarInfoServico = (idServico) => {
-        axios.get(`http://192.168.1.8:3000/listarServicosID/${idServico}`)
+        axios.get(`http://10.0.1.57:3000/listarServicosID/${idServico}`)
         .then(function (response){
             setTitulo(response.data.data.titulo)
             setDescricao(response.data.data.descricao)
@@ -70,7 +69,7 @@ const TelaServico = ({navigation}) => {
     }
 
     const enviarAgendamento = () => {
-        axios.post('http://192.168.1.8:3000/cadastrarAgendamento', {
+        axios.post('http://10.0.1.57:3000/cadastrarAgendamento', {
             data: agendamento, 
             FK_Servicos_Agenda, 
             FK_Clientes_Agenda, 
@@ -194,7 +193,7 @@ const TelaServico = ({navigation}) => {
 
                             <View style={styles.campoinserir}>
 
-                                <MaskedTextInput
+                            <MaskedTextInput
                                     mask="99:99"
                                     onChangeText={(text, rawText) => {
                                         console.log(text);

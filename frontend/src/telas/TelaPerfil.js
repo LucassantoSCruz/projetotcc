@@ -105,7 +105,7 @@ const TelaPerfilP = () => {
 
     const listarDadosPerfil = () => {
         if (tipoconta == 'Profissional') {
-            axios.get(`http://192.168.1.8:3000/ListarPerfilProfissional/${idUsuario}`)
+            axios.get(`http://10.0.1.57:3000/ListarPerfilProfissional/${idUsuario}`)
             .then(function (response) {
                 setServicos(response.data.data.tbl_Servicos)
                 setNome(response.data.data.nome)
@@ -161,17 +161,15 @@ const TelaPerfilP = () => {
 
 const TelaPerfilC = () => {
 
+    const navigation = useNavigation();
     const [idUsuario, setIdUsuario] = useState(null)
-
     const [nomeCliente, setNomeCliente] = useState(null)
     const [pronomesCliente, setPronomesCliente] = useState(null)
-
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = () => {
         setRefreshing(true);
         setTimeout(() => {
-
             obterDados();
             listarDadosPerfilCliente();
 
@@ -198,7 +196,7 @@ const TelaPerfilC = () => {
     };
 
     const listarDadosPerfilCliente = () => {
-        axios.get(`http://10.0.1.101:3000/listarClienteCPF/${idUsuario}`)
+        axios.get(`http://10.0.1.57:3000/listarClienteCPF/${idUsuario}`)
             .then(function (response) {
 
                 console.log(response.data.data)
@@ -211,8 +209,6 @@ const TelaPerfilC = () => {
                 console.log(error);
             })
     }
-
-    const navigation = useNavigation();
 
     return (
         <View>

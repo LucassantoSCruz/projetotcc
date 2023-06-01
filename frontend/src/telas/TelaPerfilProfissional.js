@@ -19,13 +19,14 @@ const TelaPerfilProfissional = () => {
     const [nome, setNome] = useState(null)
     const [descricao, setDescricao,] = useState(null)
     const [pronomes, setPronomes] = useState(null)
-    
+    const [idUsuario, setIdUsuario] = useState(null)
 
     const fetchData = () => {
         setTimeout(() => {
             // Lógica para buscar os dados atualizados
-            // setIdProfissional(route.params.fkServico)
+            setIdProfissional(route.params.fkServico)
             listarPerfilProfissional(route.params.fkServico)
+            obterDados()
             setRefreshing(false);
         }, 2000);
     };
@@ -36,12 +37,13 @@ const TelaPerfilProfissional = () => {
     };
 
     useEffect(() => {
-        // setIdProfissional(route.params.fkServico)
+        setIdProfissional(route.params.fkServico)
         listarPerfilProfissional(route.params.fkServico)
+        obterDados()
     }, []);
 
     const listarPerfilProfissional = (idProfissional) => {
-        axios.get(`http://192.168.1.8:3000/ListarPerfilProfissional/${idProfissional}`)
+        axios.get(`http://10.0.1.57:3000/ListarPerfilProfissional/${idProfissional}`)
         .then(function (response) {
             setPerfil(response.data.data)
             setServicos(response.data.data.tbl_Servicos)
@@ -60,16 +62,16 @@ const TelaPerfilProfissional = () => {
         } else {
             setFavoritar(true)
             console.log('favoritado')
-            console.log('Perfil do Profissional: ' + fkServico)
+            console.log('Perfil do Profissional: ' + idProfissional)
             console.log('Perfil do Cliente: ' + idUsuario)
             FavoritarPerfil()
         }
     }
 
     const FavoritarPerfil = () => {
-        axios.post('http://10.0.1.29:3000/cadastrarPerfilFavorito',
+        axios.post('http://10.0.1.57:3000/cadastrarPerfilFavorito',
             {
-                FK_Profissionais_Clientes: fkServico,
+                FK_Profissionais_Clientes: idProfissional,
                 FK_Clientes_Profissionais: idUsuario
             })
             .then(function (response) {
@@ -78,6 +80,19 @@ const TelaPerfilProfissional = () => {
             .catch(function (error) {
                 console.error(error);
             });
+    }
+
+    const obterDados = async () => {
+        try {
+            const valor = await AsyncStorage.getItem('idUsuario');
+            if (valor !== null) {
+                const idUsuario = JSON.parse(valor);
+                setIdUsuario(idUsuario);
+                console.log("Dados passados para tela: " + JSON.stringify(idUsuario))
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

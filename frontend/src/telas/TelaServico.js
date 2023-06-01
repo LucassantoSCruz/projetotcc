@@ -101,7 +101,7 @@ const TelaServico = ({navigation}) => {
     })
 
     const listarInfoServico = () => {
-        axios.get(`http://192.168.1.11:3000/listarServicosID/${idServico}`)
+        axios.get(`http://192.168.1.8:3000/listarServicosID/${idServico}`)
         .then(function (response){
             //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)
@@ -123,7 +123,7 @@ const TelaServico = ({navigation}) => {
         console.log('Horário do agendamento: ' + horario)
         console.log('Datetime do agendamento: ' + agendamento)
 
-        axios.post('http://192.168.1.11:3000/cadastrarAgendamento', {
+        axios.post('http://192.168.1.8:3000/cadastrarAgendamento', {
             data: agendamento, 
             FK_Servicos_Agenda, 
             FK_Clientes_Agenda, 

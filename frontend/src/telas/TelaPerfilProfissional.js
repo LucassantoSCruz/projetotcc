@@ -9,16 +9,23 @@ import BoxPerfilEstatico from '../componentes/BoxPerfilEstatico';
 
 const TelaPerfilProfissional = () => {
 
+    const navigation = useNavigation()
+    const route = useRoute();
     const [refreshing, setRefreshing] = useState(false);
+    const [idProfissional, setIdProfissional] = useState(null)
+    const [perfil, setPerfil] = useState(null)
+    const [favoritar, setFavoritar] = useState(false)
+    const [servicos, setServicos] = useState(null)
+    const [nome, setNome] = useState(null)
+    const [descricao, setDescricao,] = useState(null)
+    const [pronomes, setPronomes] = useState(null)
+    
 
     const fetchData = () => {
         setTimeout(() => {
             // Lógica para buscar os dados atualizados
-            setFkServico(route.params.fkServico)
-            salvarDados()
-            listarServicosProfissional()
-            listarInfoProfissional()
-
+            // setIdProfissional(route.params.fkServico)
+            listarPerfilProfissional(route.params.fkServico)
             setRefreshing(false);
         }, 2000);
     };
@@ -28,55 +35,23 @@ const TelaPerfilProfissional = () => {
         fetchData();
     };
 
-    const route = useRoute();
-    const [fkServico, setFkServico] = useState(null)
-    const [servicos, setServicos] = useState([])
-    const navigation = useNavigation()
-    const [nome, setNome] = useState(null)
-    const [Descricao, setDescricao,] = useState(null)
-    const [pronomes, setPronomes] = useState(null)
-
     useEffect(() => {
-        setFkServico(route.params.fkServico)
-        console.log('FK salva: ' + fkServico)
-        salvarDados()
-        listarServicosProfissional()
-        listarInfoProfissional()
+        // setIdProfissional(route.params.fkServico)
+        listarPerfilProfissional(route.params.fkServico)
     }, []);
 
-    const listarInfoProfissional = () =>{
-        axios.get(`http://192.168.1.11:3000/ListarProfissionalCNPJ/${fkServico}`)
-        .then( function (response) {
-            console.log(response.data.data)
-            setNome(response.data.data.nomeFantasia)
+    const listarPerfilProfissional = (idProfissional) => {
+        axios.get(`http://192.168.1.8:3000/ListarPerfilProfissional/${idProfissional}`)
+        .then(function (response) {
+            setPerfil(response.data.data)
+            setServicos(response.data.data.tbl_Servicos)
+            setNome(response.data.data.nome)
             setDescricao(response.data.data.descricao)
             setPronomes(response.data.data.pronomes)
-        }).catch( function (error){
+        }).catch(function (error) {
             console.log(error)
         })
     }
-
-    const listarServicosProfissional = () => {
-        axios.get(`http://192.168.1.11:3000/listarServicosFK/${fkServico}`)
-        .then(function (response){
-            //console.log('Resposta recebida: ' + JSON.stringify(response.data.data))
-            setServicos(response.data.data)
-            console.log('Serviços recebidos: ' + JSON.stringify(servicos))
-        }).catch(function (error){
-            console.log(error)
-        })
-    }
-
-    const salvarDados = async () => {
-        try {
-            await AsyncStorage.setItem('fkServico', JSON.stringify(route.params.fkServico))
-            //console.log('FK salva com sucesso!')
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const [favoritar, setFavoritar] = useState(false)
 
     const botaoFavoritar = () => {
         if (favoritar) {
@@ -97,7 +72,7 @@ const TelaPerfilProfissional = () => {
                         <Text style={styles.pronome}>{pronomes}</Text>
                         <Text style={styles.nome}>{nome}</Text>
                         <View style={styles.linha} />
-                        <Text style={styles.legenda}>{Descricao}</Text>
+                        <Text style={styles.legenda}>{descricao}</Text>
                     </View>
                     <View style={styles.direita}>
                         <ImageBackground style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} >
@@ -107,8 +82,8 @@ const TelaPerfilProfissional = () => {
                                         <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritar.png')} />
                                     </TouchableOpacity>
                                     : <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
-                                    <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritarselecionado.png')} />
-                                </TouchableOpacity>
+                                        <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritarselecionado.png')} />
+                                    </TouchableOpacity>
                             }
                         </ImageBackground>
                     </View>
@@ -121,17 +96,6 @@ const TelaPerfilProfissional = () => {
                         <Text style={styles.texto}>CHAT</Text>
                     </TouchableOpacity>
                 </View>
-                {/* <View style={styles.view2}>
-
-                    <TouchableOpacity style={styles.boxperfil} onPress={() => navigation.navigate('Servico')}>
-                        <BoxPerfilEstatico />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.boxperfil}>
-                        <BoxPerfilEstatico />
-                    </TouchableOpacity>
-
-                </View> */}
                 <View style={styles.view2}>
                     <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
                         <FlatList

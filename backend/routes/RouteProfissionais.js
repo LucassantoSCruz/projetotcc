@@ -9,6 +9,7 @@
 //Importação do Express, do modelo e do gerenciador de rotas do Express
 const express = require('express');
 const modelProfissionais = require('../models/ModelProfissionais');
+const modelServicos = require('../models/ModelServicos');
 const router = express.Router();
 
 //INÍCIO DAS ROTAS DE CRUD TABELA DE PROFISSIONAIS
@@ -127,6 +128,52 @@ router.get('/ListarProfissionaisEmail/:email/:senha', (req, res)=>{
         }
     )
 });
+
+router.get('/ListarTodaInfoProfissionais', (req, res) => {
+    modelProfissionais.findAll({ include: { all: true, nested: true } })
+    .then(
+        (response) => {
+            return res.status(200).json({
+                erroStatus: false,
+                mensagemStatus: "Profissionais e informações listados com sucesso!",
+                data: response
+            })
+        }
+    )
+    .catch(
+        (erro) => {
+            return res.status(400).json({
+                erroStatus: true,
+                mensagemStatus: "Erro ao listar Profissionais e Informações!",
+                erroObject: erro
+            });
+        }
+    )
+})
+
+router.get('/ListarPerfilProfissional/:CPF_CNPJ', (req, res)=>{
+    let {CPF_CNPJ} = req.params;
+
+    modelProfissionais.findByPk(CPF_CNPJ,{include: modelServicos})
+    .then(
+        (response)=>{
+            return res.status(200).json({
+                erroStatus:false,
+                mensagemStatus:"Perfil Profissional listado com sucesso!",
+                data: response
+            })
+        }
+    )
+    .catch(
+        (erro)=>{
+            return res.status(400).json({
+                erroStatus:true,
+                mensagemStatus:"Erro ao listar Perfil Profissional!",
+                erroObject:erro
+            });
+        }
+    )
+})
 
 //Rota de Alteração
 router.put('/alterarProfissionais/:CPF_CNPJ', (req, res) =>{

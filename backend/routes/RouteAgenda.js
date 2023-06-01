@@ -54,6 +54,28 @@ router.get('/listagemAgendamentos', (req, res) => {
     )
 });
 
+router.get('/ListarTodaInfoAgendamentos', (req, res) => {
+    modelAgenda.findAll({ include: { all: true, nested: true } })
+    .then(
+        (response) => {
+            return res.status(200).json({
+                erroStatus: false,
+                mensagemStatus: "Agendamentos e informações listados com sucesso!",
+                data: response
+            })
+        }
+    )
+    .catch(
+        (erro) => {
+            return res.status(400).json({
+                erroStatus: true,
+                mensagemStatus: "Erro ao listar Agendamentos e Informações!",
+                erroObject: erro
+            });
+        }
+    )
+})
+
 //Rota de Alteração
 router.put('/alterarAgendamento/:ID', (req, res) =>{
 

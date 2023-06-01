@@ -70,7 +70,7 @@ const TelaAgenda = () => {
   }, []);
 
   const infoAgendamentos = () => {
-    axios.get('http://192.168.1.11:3000/listagemAgendamentos')
+    axios.get('http://192.168.1.8:3000/listagemAgendamentos')
     .then(function (response) {
       setAgendamentos(response.data)
 
@@ -82,7 +82,7 @@ const TelaAgenda = () => {
   }
 
   const infoProfissionais = () => {
-    axios.get(`http://192.168.1.11:3000/ListarProfissionalCNPJ/${agendamentos.item.FK_Profissionais_Agenda}`)
+    axios.get(`http://192.168.1.8:3000/ListarProfissionalCNPJ/${agendamentos.item.FK_Profissionais_Agenda}`)
     .then(function (response) {
       setProfissionais(response.data)
 

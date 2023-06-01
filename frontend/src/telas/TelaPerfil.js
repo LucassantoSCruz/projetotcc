@@ -64,7 +64,7 @@ const TelaPerfil = ({ navigation }) => {
 
     const listarDadosPerfil = () => {
         if (tipoconta == 'Profissional') {
-            axios.get(`http://10.0.1.103:3000/ListarProfissionalCNPJ/${idUsuario}`)
+            axios.get(`http://10.0.1.29:3000/ListarProfissionalCNPJ/${idUsuario}`)
                 .then(function (response) {
 
                     console.log(response.data.data)
@@ -77,7 +77,7 @@ const TelaPerfil = ({ navigation }) => {
                     console.log(error);
                 })
 
-            axios.get(`http://10.0.1.103:3000/listarServicosFK/${idUsuario}`)
+            axios.get(`http://10.0.1.29:3000/listarServicosFK/${idUsuario}`)
                 .then(function (response) {
                     setServicos(response.data.data)
                     console.log(servicos)
@@ -162,7 +162,7 @@ const TelaPerfilP = () => {
 
     const listarDadosPerfil = () => {
         if (tipoconta == 'Profissional') {
-            axios.get(`http://10.0.1.103:3000/ListarProfissionalCNPJ/${idUsuario}`)
+            axios.get(`http://10.0.1.29:3000/ListarProfissionalCNPJ/${idUsuario}`)
                 .then(function (response) {
 
                     console.log(response.data.data)
@@ -175,7 +175,7 @@ const TelaPerfilP = () => {
                     console.log(error);
                 })
 
-            axios.get(`http://10.0.1.103:3000/listarServicosFK/${idUsuario}`)
+            axios.get(`http://10.0.1.29:3000/listarServicosFK/${idUsuario}`)
                 .then(function (response) {
                     setServicos(response.data.data)
                     console.log(servicos)
@@ -272,7 +272,7 @@ const TelaPerfilC = () => {
     };
 
     const listarDadosPerfilCliente = () => {
-        axios.get(`http://10.0.1.103:3000/listarClienteCPF/${idUsuario}`)
+        axios.get(`http://10.0.1.29:3000/listarClienteCPF/${idUsuario}`)
             .then(function (response) {
 
                 console.log(response.data.data)
@@ -285,6 +285,8 @@ const TelaPerfilC = () => {
                 console.log(error);
             })
     }
+
+    const navigation = useNavigation();
 
     return (
         <View>
@@ -307,8 +309,8 @@ const TelaPerfilC = () => {
                     <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.Perfilselecao}>
-                    <Text style={styles.Perfilopcoes}>Perfis Favoritos</Text>
+                <TouchableOpacity style={styles.Perfilselecao} onPress={ ()=> navigation.navigate('TelaPerfisFavoritados')}>
+                    <Text style={styles.Perfilopcoes} >Perfis Favoritos</Text>
                     <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
                 </TouchableOpacity>
 

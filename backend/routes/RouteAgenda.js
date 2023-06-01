@@ -54,6 +54,28 @@ router.get('/listagemAgendamentos', (req, res) => {
     )
 });
 
+router.get('/ListarTodaInfoAgenda', (req, res) => {
+    modelAgenda.findAll({ include: { all: true, nested: true } })
+    .then(
+        (response) => {
+            return res.status(200).json({
+                erroStatus: false,
+                mensagemStatus: "Agendamentos listados com sucesso!",
+                data: response
+            })
+        }
+    )
+    .catch(
+        (erro) => {
+            return res.status(400).json({
+                erroStatus: true,
+                mensagemStatus: "Erro ao listar Agendamentos",
+                erroObject: erro
+            });
+        }
+    )
+})
+
 router.get('/ListarTodaInfoAgendamentos', (req, res) => {
     modelAgenda.findAll({ include: { all: true, nested: true } })
     .then(

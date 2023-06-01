@@ -11,6 +11,26 @@ const TelaAgenda = () => {
   const [profissionais, setProfissionais] = useState(null)
   const [servicos, setServicos] = useState(null)
   const [clientes, setClientes] = useState(null)
+
+  const fetchData = () => {
+    setTimeout(() => {
+      // Lógica para buscar os dados atualizados
+      infoAgendamentos()
+      //obterDados()
+
+      setRefreshing(false);
+    }, 2000);
+  };
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchData();
+  };
+
+  useEffect(() => {
+    infoAgendamentos()
+    //obterDados()
+  }, []);
   
   // const obterDados = async () => {
   //   try {
@@ -49,67 +69,24 @@ const TelaAgenda = () => {
   //   }
   // };
 
-  const fetchData = () => {
-    setTimeout(() => {
-      // Lógica para buscar os dados atualizados
-      infoAgendamentos()
-      //obterDados()
-
-      setRefreshing(false);
-    }, 2000);
-  };
-
-  const handleRefresh = () => {
-    setRefreshing(true);
-    fetchData();
-  };
-
-  useEffect(() => {
-    infoAgendamentos()
-    //obterDados()
-  }, []);
-
   const infoAgendamentos = () => {
-    axios.get('http://192.168.1.8:3000/listagemAgendamentos')
+    axios.get(`http://192.168.1.8:3000/ListarTodaInfoAgenda`)
     .then(function (response) {
-      setAgendamentos(response.data)
-
-      console.log('Agendamentos recuperados: ' + JSON.stringify(agendamentos.data))
+        console.log('Agendamentos Listados: ' + JSON.stringify(response.data.data))
+    }).catch(function (error) {
+        console.log(error)
     })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
-
-  const infoProfissionais = () => {
-    axios.get(`http://192.168.1.8:3000/ListarProfissionalCNPJ/${agendamentos.item.FK_Profissionais_Agenda}`)
-    .then(function (response) {
-      setProfissionais(response.data)
-
-      console.log('Profissional recuperado: ' + JSON.stringify(profissionais))
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
-
-  const infoServicos = () => {
-    axios.get(``)
-  }
-
-  const infoClientes = () => {
-    axios.get(``)
   }
 
   return (
     <SafeAreaView>
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
-        <FlatList
+        {/* <FlatList
           horizontal={false}
           data={agendamentos.data}
           renderItem={({item}) => <CaixaAgenda item={item} />}
           // keyExtractor={item => item.id}
-        />
+        /> */}
       </ScrollView>  
     </SafeAreaView>
   );

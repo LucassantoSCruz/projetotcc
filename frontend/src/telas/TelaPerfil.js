@@ -212,6 +212,8 @@ const TelaPerfilC = () => {
             })
     }
 
+    const navigation = useNavigation();
+
     return (
         <View>
             <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
@@ -233,8 +235,8 @@ const TelaPerfilC = () => {
                     <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.Perfilselecao}>
-                    <Text style={styles.Perfilopcoes}>Perfis Favoritos</Text>
+                <TouchableOpacity style={styles.Perfilselecao} onPress={ ()=> navigation.navigate('TelaPerfisFavoritados')}>
+                    <Text style={styles.Perfilopcoes} >Perfis Favoritos</Text>
                     <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
                 </TouchableOpacity>
 

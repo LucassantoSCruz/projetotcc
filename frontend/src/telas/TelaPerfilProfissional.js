@@ -60,7 +60,24 @@ const TelaPerfilProfissional = () => {
         } else {
             setFavoritar(true)
             console.log('favoritado')
+            console.log('Perfil do Profissional: ' + fkServico)
+            console.log('Perfil do Cliente: ' + idUsuario)
+            FavoritarPerfil()
         }
+    }
+
+    const FavoritarPerfil = () => {
+        axios.post('http://10.0.1.29:3000/cadastrarPerfilFavorito',
+            {
+                FK_Profissionais_Clientes: fkServico,
+                FK_Clientes_Profissionais: idUsuario
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
     }
 
     return (

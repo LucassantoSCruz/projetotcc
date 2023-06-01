@@ -3,40 +3,16 @@ import { Text, View, Image, RefreshControl, StyleSheet, TouchableOpacity, Scroll
 import BoxPerfil from '../componentes/BoxPerfil';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import CaixaServico from '../componentes/CaixaServico';
 import { useNavigation } from '@react-navigation/native';
 
 const TelaPerfil = ({ navigation }) => {
 
-    const [refreshing, setRefreshing] = useState(false);
-
-    const fetchData = () => {
-        setTimeout(() => {
-            // Lógica para buscar os dados atualizados
-            obterDados();
-            listarDadosPerfil();
-
-            setRefreshing(false);
-        }, 2000);
-    };
-
-    const handleRefresh = () => {
-        setRefreshing(true);
-        fetchData();
-    };
-
-    const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
     const [idUsuario, setIdUsuario] = useState(null)
     const [tipoconta, setTipoconta] = useState('')
-    const [dadosPerfil, setDadosPerfil] = useState(null)
-    const [nome, setNome] = useState(null)
-    const [Descricao, setDescricao] = useState(null)
-    const [pronomes, setPronomes] = useState(null)
-    const [servicos, setServicos] = useState([])
+
 
     useEffect(() => {
         obterDados();
-        listarDadosPerfil();
     }, []);
 
     const obterDados = async () => {
@@ -61,37 +37,6 @@ const TelaPerfil = ({ navigation }) => {
             console.error(error);
         }
     };
-
-    const listarDadosPerfil = () => {
-        if (tipoconta == 'Profissional') {
-            axios.get(`http://192.168.1.8:3000/ListarProfissionalCNPJ/${idUsuario}`)
-                .then(function (response) {
-
-                    console.log(response.data.data)
-                    setNome(response.data.data.nomeFantasia)
-                    setDescricao(response.data.data.descricao)
-                    setPronomes(response.data.data.pronomes)
-
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-
-            axios.get(`http://192.168.1.8:3000/listarServicosFK/${idUsuario}`)
-                .then(function (response) {
-                    setServicos(response.data.data)
-                    console.log(servicos)
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })
-        }
-        else {
-            console.log('Não é possível ver os serviços de uma conta cliente')
-
-        }
-    }
-
 
     return (
         <View>
@@ -101,12 +46,18 @@ const TelaPerfil = ({ navigation }) => {
             }
         </View>
     )
-
 };
 
 const TelaPerfilP = () => {
 
     const [refreshing, setRefreshing] = useState(false);
+    const [idUsuario, setIdUsuario] = useState(null)
+    const [tipoconta, setTipoconta] = useState('')
+    const [nome, setNome] = useState(null)
+    const [descricao, setDescricao] = useState(null)
+    const [pronomes, setPronomes] = useState(null)
+    const [servicos, setServicos] = useState([])
+    const navigation = useNavigation();
 
     const fetchData = () => {
         setTimeout(() => {
@@ -122,15 +73,6 @@ const TelaPerfilP = () => {
         setRefreshing(true);
         fetchData();
     };
-
-    const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
-    const [idUsuario, setIdUsuario] = useState(null)
-    const [tipoconta, setTipoconta] = useState('')
-    const [dadosPerfil, setDadosPerfil] = useState(null)
-    const [nome, setNome] = useState(null)
-    const [Descricao, setDescricao] = useState(null)
-    const [pronomes, setPronomes] = useState(null)
-    const [servicos, setServicos] = useState([])
 
     useEffect(() => {
         obterDados();
@@ -148,6 +90,7 @@ const TelaPerfilP = () => {
         } catch (error) {
             console.error(error);
         }
+
         try {
             const valor = await AsyncStorage.getItem('tipoconta');
             if (valor !== null) {
@@ -162,35 +105,21 @@ const TelaPerfilP = () => {
 
     const listarDadosPerfil = () => {
         if (tipoconta == 'Profissional') {
-            axios.get(`http://192.168.1.8:3000/ListarProfissionalCNPJ/${idUsuario}`)
-                .then(function (response) {
-
-                    console.log(response.data.data)
-                    setNome(response.data.data.nomeFantasia)
-                    setDescricao(response.data.data.descricao)
-                    setPronomes(response.data.data.pronomes)
-
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-
-            axios.get(`http://192.168.1.8:3000/listarServicosFK/${idUsuario}`)
-                .then(function (response) {
-                    setServicos(response.data.data)
-                    console.log(servicos)
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })
-        }
+            axios.get(`http://192.168.1.8:3000/ListarPerfilProfissional/${idUsuario}`)
+            .then(function (response) {
+                setServicos(response.data.data.tbl_Servicos)
+                setNome(response.data.data.nome)
+                setDescricao(response.data.data.descricao)
+                setPronomes(response.data.data.pronomes)
+            }).catch(function (error) {
+                console.log(error)
+            })
+            }
         else {
             console.log('Não é possível ver os serviços de uma conta cliente')
 
         }
     }
-
-    const navigation = useNavigation();
 
     return (
         <View>
@@ -200,7 +129,7 @@ const TelaPerfilP = () => {
                         <Text style={styles.pronome}>{pronomes}</Text>
                         <Text style={styles.nome}>{nome}</Text>
                         <View style={styles.linha} />
-                        <Text style={styles.legenda}>{Descricao}</Text>
+                        <Text style={styles.legenda}>{descricao}</Text>
                     </View>
                     <View style={styles.direita}>
                         <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} />
@@ -217,10 +146,7 @@ const TelaPerfilP = () => {
                         <Text style={styles.texto}>NOVO</Text>
                     </TouchableOpacity>
                 </View>
-                {/* <View style={styles.view2}>
-                    <BoxPerfil />
-                    <BoxPerfil />
-                </View> */}
+
                 <View style={styles.view2}>
                     <FlatList
                         horizontal={true}

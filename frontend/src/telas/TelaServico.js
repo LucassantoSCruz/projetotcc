@@ -7,44 +7,14 @@ import { MaskedTextInput } from 'react-native-mask-text';  // esse é outro comp
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const initialState = { count: 1, valor: 40, valorTotal: 40 };
-
-function reducer(state, action) {
-    switch (action.type) {
-        case "increment":
-            return {
-                count: state.count + 1,
-                valor: state.valor,
-                valorTotal: (state.count + 1) * state.valor
-            };
-        case "decrement":
-            return {
-                count: state.count - 1,
-                valor: state.valor,
-                valorTotal: (state.count - 1) * state.valor
-            };
-        case "reset":
-            return { count: 1 };
-        case "final":
-            return { count: action.valorTotal };
-        default:
-            throw new Error();
-    }
-}
-
 const TelaServico = ({navigation}) => {
 
+    const route = useRoute()   
     const [refreshing, setRefreshing] = useState(false);
-    const route = useRoute()
     const [idServico, setIdServico] = useState(null)
     const [titulo, setTitulo] = useState(null)
     const [descricao, setDescricao] = useState(null)
     const [preco, setPreco] = useState(null)
-    const [contador, setContador] = useState()
-    const [valor, setValor] = useState(40)
-    const [botao, setBotao] = useState(false)
-    //const [valorTotal, setvalorTotal] = useState(0)
-    const [state, dispatch] = useReducer(reducer, initialState);
     const [visivel, setVisivel] = useState(false);
     // Campos para inserção do agendamento
     const [FK_Clientes_Agenda, setFK_Clientes_Agenda] = useState(null);
@@ -59,9 +29,7 @@ const TelaServico = ({navigation}) => {
     const fetchData = () => {
         setTimeout(() => {
           // Lógica para buscar os dados atualizados
-          //setValor(state.valorTotal)
-          setIdServico(route.params.idServico)
-          listarInfoServico()
+          listarInfoServico(route.params.idServico)
           setRefreshing(false); 
         }, 2000);
     };
@@ -72,22 +40,9 @@ const TelaServico = ({navigation}) => {
     };
 
     useEffect(() => {
-        //setValor(state.valorTotal)
-        // console.log('ID do serviço passado para a tela: ' + route.params.idServico)
-        setIdServico(route.params.idServico)
-
-        listarInfoServico()
+        listarInfoServico(route.params.idServico)
         obterDados()
-    }, [state])
-
-    // function incrementar() {
-    //     setContador(contador + 1)
-    //     //setValor(contador * valor)
-    // }
-
-    function decrementar() {
-        setContador(contador - 1)
-    }
+    }, [])
 
     function clicou() {
         setVisivel((visivel) => !visivel)
@@ -100,10 +55,9 @@ const TelaServico = ({navigation}) => {
         precisão: 4,
     })
 
-    const listarInfoServico = () => {
+    const listarInfoServico = (idServico) => {
         axios.get(`http://192.168.1.8:3000/listarServicosID/${idServico}`)
         .then(function (response){
-            //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)
             setDescricao(response.data.data.descricao)
             setPreco(response.data.data.preco)
@@ -116,13 +70,6 @@ const TelaServico = ({navigation}) => {
     }
 
     const enviarAgendamento = () => {
-        console.log('CPF ou CNPJ do Profissional: ' + FK_Profissionais_Agenda)
-        console.log('ID do Serviço: '+ FK_Servicos_Agenda)
-        console.log('ID do Cliente: ' + FK_Clientes_Agenda)
-        console.log('Data do agendamento: ' + data)
-        console.log('Horário do agendamento: ' + horario)
-        console.log('Datetime do agendamento: ' + agendamento)
-
         axios.post('http://192.168.1.8:3000/cadastrarAgendamento', {
             data: agendamento, 
             FK_Servicos_Agenda, 
@@ -198,34 +145,12 @@ const TelaServico = ({navigation}) => {
                     </Text>
                 </View>
 
-                {/* <View style={styles.incr}>
-
-                    <TouchableOpacity onPress={() => { dispatch({ type: "decrement" }); console.log(state.count); console.log(state.valorTotal) }}>
-                        <Image style={styles.mais} source={require('../../assets/botaomenos.png')} />
-                    </TouchableOpacity>
-
-                    <Text style={styles.cont}>
-                        {state.count}
-                    </Text>
-
-                    <TouchableOpacity onPress={() => { dispatch({ type: "increment" }); console.log(state.count); console.log(state.valorTotal) }}>
-                        <Image style={styles.mais} source={require('../../assets/botaomais.png')} />
-                    </TouchableOpacity>
-
-                </View> */}
-
                 <View style={styles.valor}>
                     <View>
                         <Text style={styles.preco}>
                             R${preco}
                         </Text>
                     </View>
-
-                    {/* <View>
-                        <Text style={styles.precototal}>
-                            R${state.valorTotal},00
-                        </Text>
-                    </View> */}
                 </View>
 
                 <TouchableOpacity style={styles.btn} onPress={clicou}>
@@ -244,10 +169,6 @@ const TelaServico = ({navigation}) => {
                             Confirmar Serviço
                         </Text>
 
-                        {/* <Text style={styles.campotexto}>
-                            Valor Total: {state.valorTotal},00
-                        </Text> */}
-
                         <View style={styles.campoformacao}>
                             <Text style={styles.campotexto}>
                                 Data:
@@ -262,8 +183,6 @@ const TelaServico = ({navigation}) => {
                                     keyboardType='numeric'
                                 />
                             </View>
-
-                            {/* <TextInput style={styles.campoinserir} /> */}
 
                         </View>
 

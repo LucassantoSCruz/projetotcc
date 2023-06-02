@@ -38,7 +38,7 @@ const TelaProfissionais = ({ navigation }) => {
     }, []);
 
     const listarServicos = () => {
-        axios.get('http://10.0.1.56:3000/listarServicos')
+        axios.get('http://10.0.1.29:3000/listarServicos')
         .then(function (response) {
             setServicos(response.data)
             console.log('Serviços recebidos: ' + JSON.stringify(servicos.data))

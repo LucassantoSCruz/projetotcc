@@ -64,11 +64,8 @@ router.get('/listarPerfisFavoritos/:FK_Clientes_Profissionais', (req, res) => {
         {
             where: {
                 FK_Clientes_Profissionais: FK_Clientes_Profissionais
-            },
-            include: [{
-              model: modelProfissionais
-            }]
-          }
+            }
+        }
     )
         .then(
             (response) => {

@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //conexao.sync({ force : true });
+
 const sincronizar = () => {
     modelStatus.bulkCreate([
         { titulo: 'Solicitado' },

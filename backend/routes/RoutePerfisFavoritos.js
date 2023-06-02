@@ -1,6 +1,7 @@
 //Importação do Express, do modelo e do gerenciador de rotas do Express
 const express = require('express');
 const modelPerfisFavoritos = require('../models/ModelPerfisFavoritos');
+const modelProfissionais = require('../models/ModelProfissionais')
 const router = express.Router();
 
 //INÍCIO DAS ROTAS DE CRUD TABELA DE AVALIAÇÕES
@@ -59,11 +60,16 @@ router.get('/listarPerfisFavoritos/:FK_Clientes_Profissionais', (req, res) => {
 
     let { FK_Clientes_Profissionais } = req.params;
 
-    modelPerfisFavoritos.findAll({
-        where: {
-            FK_Clientes_Profissionais: FK_Clientes_Profissionais
-        }
-    })
+    modelPerfisFavoritos.findAll(
+        {
+            where: {
+                FK_Clientes_Profissionais: FK_Clientes_Profissionais
+            },
+            include: [{
+              model: modelProfissionais
+            }]
+          }
+    )
         .then(
             (response) => {
                 return res.status(200).json({

@@ -15,7 +15,7 @@ const TelaAgenda = () => {
   const fetchData = () => {
     setTimeout(() => {
       // Lógica para buscar os dados atualizados
-      infoAgendamentos()
+      // infoAgendamentos()
       //obterDados()
 
       setRefreshing(false);
@@ -70,7 +70,7 @@ const TelaAgenda = () => {
   // };
 
   const infoAgendamentos = () => {
-    axios.get(`http://10.0.1.57:3000/ListarTodaInfoAgenda`)
+    axios.get(`http://10.0.1.57:3000/ListarTodaInfoAgendamentos`)
     .then(function (response) {
         console.log('Agendamentos Listados: ' + JSON.stringify(response.data.data))
     }).catch(function (error) {
@@ -80,7 +80,8 @@ const TelaAgenda = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+      <ScrollView refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
         {/* <FlatList
           horizontal={false}
           data={agendamentos.data}

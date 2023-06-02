@@ -1,6 +1,9 @@
 //Importação do Express, do modelo e do gerenciador de rotas do Express
 const express = require('express');
 const modelAgenda = require('../models/ModelAgenda');
+const modelProfissionais = require('../models/ModelProfissionais');
+const modelServicos = require('../models/ModelServicos');
+const modelStatus = require('../models/ModelStatus')
 const router = express.Router();
 
 //INÍCIO DAS ROTAS DE CRUD TABELA DE AGENDAMENTOS
@@ -55,7 +58,7 @@ router.get('/listagemAgendamentos', (req, res) => {
 });
 
 router.get('/ListarTodaInfoAgenda', (req, res) => {
-    modelAgenda.findAll({ include: { all: true, nested: true } })
+    modelAgenda.findAll()
     .then(
         (response) => {
             return res.status(200).json({
@@ -77,7 +80,7 @@ router.get('/ListarTodaInfoAgenda', (req, res) => {
 })
 
 router.get('/ListarTodaInfoAgendamentos', (req, res) => {
-    modelAgenda.findAll({ include: { all: true, nested: true } })
+    modelAgenda.findAll({ include:{ all: true}})
     .then(
         (response) => {
             return res.status(200).json({

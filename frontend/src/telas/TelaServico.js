@@ -199,6 +199,7 @@ const TelaServico = ({navigation}) => {
                                         console.log(text);
                                         setHorario(text)
                                         setAgendamento(data + ' ' + horario)
+                                        console.log(agendamento)
                                         // console.log(rawText);
                                     }}
                                     style={styles.campotexto}

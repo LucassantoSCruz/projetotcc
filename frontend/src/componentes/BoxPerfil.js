@@ -10,58 +10,62 @@ const BoxPerfil = (item) => {
 
     const Pressionar = () => {
         console.log('Info do serviço clicado: ' + JSON.stringify(item.item))
-        const idServico = item.item.ID 
+        const idServico = item.item.ID
         // console.log('ID salvo: ' + idServico)
-        navigation.navigate('Servico', {idServico})
+        navigation.navigate('Servico', { idServico })
     }
 
     return (
         <TouchableOpacity onPress={Pressionar} >
-            <View style={styles.caixa}>
-                <View style={styles.caixa2}>
+            <View style={styles.fundo}>
+                <View style={styles.fundoimagem}>
                     <Image
-                    source={require('../../assets/imagem1.png')}
-                    style={styles.imagem}/>
+                        source={require('../../assets/imagem1.png')}
+                        style={styles.imagem} />
                 </View>
-                <View style={styles.view}>
-                <Text style={styles.text}>
-                    {item.item.titulo}
-                </Text>
+                <View style={styles.fundonome}>
+                    <Text style={styles.texto}>
+                        {item.item.titulo}
+                    </Text>
                 </View>
             </View>
         </TouchableOpacity>
     )
-}
+};
 
 const styles = StyleSheet.create({
-    view: {
+    textocampo: {
+        fontSize: 32,
+    },
+    fundonome: {
         height: 75,
         borderRadius: 14,
         backgroundColor: '#9a6b99',
     },
-    caixa: {
+    fundo: {
         borderColor: "black",
         borderWidth: 1,
         borderRadius: 15,
+        marginHorizontal: 16,
         flex: 1,
-        marginLeft: 7.5,
-        marginRight: 7.5,
-        marginBottom: 15
+        marginBottom: 15,
+        width: '95%',
+        flexGrow: 1
     },
     imagem: {
         width: 150,
         height: 150,
         resizeMode: 'contain',
     },
-    caixa2: {
+    fundoimagem: {
         alignItems: 'center'
     },
-    text: {
-        margin: 10,
+    texto: {
+        padding: 10,
         fontWeight: 'bold',
         fontSize: 18,
         color: 'white'
-    }
+    },
 })
 
 export default BoxPerfil

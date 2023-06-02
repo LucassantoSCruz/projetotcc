@@ -7,12 +7,14 @@ import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
 const PlaceholderImage = require('../../assets/Perfil.png');
 
+import { useForm, Controller } from 'react-hook-form';
+
 const TelaCadastroProfissional = ({ navigation }) => {
 
-  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
   const [nome, setNome] = useState(null)
   const [email, setEmail] = useState(null)
   const [senha, setSenha] = useState(null)
+  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
   const [telefone, setTelefone] = useState(null)
   const [atendimentoDomiciliar, setAtendimentoDomiciliar] = useState(null)
   const [pessoaJuridica, setPessoaJuridica] = useState(null)
@@ -27,20 +29,20 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
-    axios.post('http://10.0.1.103:3000/cadastrarProfissonal', {
-      CPF_CNPJ, 
-      nome, 
-      nomeFantasia, 
+    axios.post('http://10.0.1.57:3000/cadastrarProfissonal', {
+      CPF_CNPJ: dados.CPF_CNPJ, 
+      nome: dados.Nome, 
+      nomeFantasia: dados.NomeFantasia, 
       pronomes, 
-      email, 
-      senha,
-      telefone, 
+      email: dados.Email, 
+      senha: dados.Senha,
+      telefone: dados.Telefone, 
       atendimentoDomiciliar,
       pessoaJuridica,
-      descricao
+      descricao: dados.Descricao
     })
     .then(function (response) {
-      console.log(response.data);
+      console.log(JSON.stringify(response.data));
       if(cadEndereco){
         navigation.navigate('CadastroEndereco', {CPF_CNPJ})
       }else{
@@ -156,6 +158,28 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [txtPronomes, setTxtPronomes] = useState("")
   const [txtAtDomiciliar, setTxtAtDomiciliar] = useState("Realiza atendimento á domicílio?")
 
+  const [dados, setDados] = useState(null)
+
+  const onSubmit = data => {
+
+    console.log(data)
+    setDados(data)
+    enviarFormulario()
+
+  };
+
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      Nome: '',
+      NomeFantasia: '',
+      CPF_CNPJ: '',
+      Email: '',
+      Senha: '',
+      Telefone: '',
+      Descricao: '',
+    }
+  })
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -164,23 +188,94 @@ const TelaCadastroProfissional = ({ navigation }) => {
           Cadastre-se
         </Text>
 
-        <TextInput style={styles.campo}
-          placeholder='Nome (obrigatório):'
-          onChangeText={value => setNome(value)}
-          value={nome}
+        {errors.Nome &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Nome incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 3
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput
+              style={styles.campo}
+              placeholder='Nome (obrigatório):'
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+
+          )}
+          name='Nome'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='Nome fantasia:'
-          onChangeText={value => setNomeFantasia(value)}
+        {errors.NomeFantasia &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Nome Fantasia incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 3
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput
+              style={styles.campo}
+              placeholder='Nome fantasia:'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+
+          )}
+          name='NomeFantasia'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='CPF/CNPJ (obrigatório):'
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={CPF_CNPJ}
-          onChangeText={value => setCPF_CNPJ(value)}
+        {errors.CPF_CNPJ &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de CPF/CNPJ incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            minLength: 11,
+            maxLength: 14,
+            required: true
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+
+            <TextInput
+              style={styles.campo}
+              placeholder='CPF/CNPJ (obrigatório):'
+              keyboardType='numeric'
+              returnKeyType='done'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+
+          )}
+          name='CPF_CNPJ'
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle2}>
@@ -207,17 +302,60 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        <TextInput style={styles.campo}
-          placeholder='E-mail (obrigatório):'
-          onChangeText={value => setEmail(value)}
-          keyboardType='email-address'
-          value={email}
+        {errors.Email &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Email incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Digite um E-mail válido'
+            }
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={styles.campo}
+              placeholder='E-mail (obrigatório):'
+              keyboardType='email-address'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name='Email'
         />
 
-        <TextInput style={styles.campo}
-          placeholder='Crie uma senha (obrigatório):'
-          onChangeText={value => setSenha(value)}
-          value={senha}
+        {errors.Senha &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Senha incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 6
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={styles.campo}
+              placeholder='Crie uma senha (obrigatório):'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name='Senha'
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggleAtDomicilio}>
@@ -230,7 +368,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
           onBackButtonPress={toggleAtDomicilio}
           onBackdropPress={toggleAtDomicilio}
         >
-          <View style={styles.fundomodal}>
+          <View style={styles.fundomodaldomicilio}>
             <TouchableOpacity style={styles.selecao} onPress={() => {
               setAtendimentoDomiciliar(false);
               setTxtAtDomiciliar("Não realizo atendimento á domicílio.")
@@ -261,12 +399,32 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        <TextInput style={styles.campo}
-          placeholder='Telefone:'
-          onChangeText={value => setTelefone(value)}
-          keyboardType='numeric'
-          returnKeyType='done'
-          value={telefone}
+        {errors.Telefone &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Telefone incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 8
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={styles.campo}
+              placeholder='Telefone:'
+              keyboardType='numeric'
+              returnKeyType='done'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name='Telefone'
         />
 
         <TouchableOpacity style={styles.botaomodal} onPress={toggle1}>
@@ -281,7 +439,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
           onBackButtonPress={toggle1}
           onBackdropPress={toggle1}
         >
-          <View style={styles.fundomodal}>
+          <View style={styles.fundomodalpronome}>
             <TouchableOpacity style={styles.selecao} onPress={() => setElaDela(true)}>
               <Text style={styles.textomodal}>
                 Ela/Dela
@@ -305,14 +463,34 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </View>
         </BottomSheet>
 
-        <TextInput style={styles.descricao}
-          placeholder='Descrição:'
-          editable
-          multiline
-          numberOfLines={6}
-          maxLength={200}
-          onChangeText={value => setDescricao(value)}
-          value={descricao}
+        {errors.Descricao &&
+          <View style={styles.caixaerro}>
+            <Image style={styles.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
+            <Text style={styles.textoerro}>
+              Campo de Descrição incorreto
+            </Text>
+          </View>
+        }
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 3
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={styles.descricao}
+              placeholder='Descrição:'
+              editable
+              multiline
+              numberOfLines={6}
+              maxLength={200}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name='Descricao'
         />
 
         <Text style={styles.titfotodeperfil}>
@@ -330,7 +508,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={enviarFormulario}>
+        <TouchableOpacity style={styles.botao} onPress={handleSubmit(onSubmit)}>
           <Text style={styles.txtbtn} >
             Cadastrar
           </Text>
@@ -459,7 +637,23 @@ const styles = StyleSheet.create({
   titulomodal: {
     color: '#666666'
   },
-  fundomodal: {
+  fundomodalconta: {
+    backgroundColor: "#fff",
+    height: 150,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  fundomodaldomicilio: {
+    backgroundColor: "#fff",
+    height: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  fundomodalpronome: {
     backgroundColor: "#fff",
     height: 300,
     justifyContent: "center",
@@ -491,6 +685,10 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150
   },
+  textoerro: {
+    fontSize: 14,
+    color: 'red'
+  },
   alinhamentocep: {
     flexDirection: 'row'
   },
@@ -520,7 +718,25 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20
-  }
+  },
+  caixaerro: {
+    justifyContent: 'center',
+    alignItems: "center",
+    padding: 5,
+    backgroundColor: 'grey',
+    flexDirection: 'row',
+    borderRadius: 50,
+    margin: 2
+  },
+  textoerro: {
+    fontSize: 14,
+    color: 'white',
+    marginHorizontal: 5
+  },
+  imagemerro: {
+    width: 20,
+    height: 20,
+  },
 });
 
 export default TelaCadastroProfissional;

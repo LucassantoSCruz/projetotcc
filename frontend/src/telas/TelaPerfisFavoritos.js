@@ -1,11 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet } from 'react-native'
-
-const perfisFavoritos = () => {
-    axios.get(`http://10.0.1.57:3000/listarPerfisFavoritos/${FK_Clientes_Profissionais}`)
-}
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TelaPerfisFavoritados = () => {
+
+    const [idUsuario, setIdUsuario] = useState(null)
+
+const obterDados = async () => {
+    try {
+        const valor = await AsyncStorage.getItem('idUsuario');
+        if (valor !== null) {
+            const idUsuario = JSON.parse(valor);
+            setIdUsuario(idUsuario);
+            console.log("Dados passados para tela de perfil: " + idUsuario)
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const perfisFavoritos = () => {
+    axios.get(`http://10.0.1.56:3000/listarPerfisFavoritos/${idUsuario}`)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+
+}
+
+useEffect(() => {
+    obterDados(),
+        perfisFavoritos()
+})
+
     return (
         <View style={style.tela}>
             <Text>

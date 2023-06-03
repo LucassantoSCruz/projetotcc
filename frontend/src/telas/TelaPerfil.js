@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
+
 import { Text, View, Image, RefreshControl, StyleSheet, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
+
 import BoxPerfil from '../componentes/BoxPerfil';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import axios from 'axios';
+
 import { useNavigation } from '@react-navigation/native';
 
 const TelaPerfil = ({ navigation }) => {
@@ -105,7 +110,7 @@ const TelaPerfilP = () => {
 
     const listarDadosPerfil = () => {
         if (tipoconta == 'Profissional') {
-            axios.get(`http://10.0.1.29:3000/ListarPerfilProfissional/${idUsuario}`)
+            axios.get(`http://10.0.1.103:3000/ListarPerfilProfissional/${idUsuario}`)
             .then(function (response) {
                 setServicos(response.data.data.tbl_Servicos)
                 setNome(response.data.data.nome)
@@ -196,7 +201,7 @@ const TelaPerfilC = () => {
     };
 
     const listarDadosPerfilCliente = () => {
-        axios.get(`http://10.0.1.29:3000/listarClienteCPF/${idUsuario}`)
+        axios.get(`http://10.0.1.103:3000/listarClienteCPF/${idUsuario}`)
             .then(function (response) {
 
                 console.log(response.data.data)

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, ScrollView, RefreshControl } from 'react-native'
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CaixaFavorito from "../componentes/CaixaFavoritos";
 
 const TelaPerfisFavoritados = () => {
 
@@ -88,6 +89,7 @@ const TelaPerfisFavoritados = () => {
                 <Text>
                     Nome do Profissional: {nomeProfissional}
                 </Text>
+                <CaixaFavorito/>
             </ScrollView>
         </View>
     )
@@ -95,9 +97,7 @@ const TelaPerfisFavoritados = () => {
 
 const style = StyleSheet.create({
     tela: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        flex: 1
     }
 })
 

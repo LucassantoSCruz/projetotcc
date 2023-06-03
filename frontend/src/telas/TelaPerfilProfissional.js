@@ -43,7 +43,7 @@ const TelaPerfilProfissional = () => {
     }, []);
 
     const listarPerfilProfissional = (idProfissional) => {
-        axios.get(`http://10.0.1.56:3000/ListarPerfilProfissional/${idProfissional}`)
+        axios.get(`http://10.0.1.96:3000/ListarPerfilProfissional/${idProfissional}`)
         .then(function (response) {
             setPerfil(response.data.data)
             setServicos(response.data.data.tbl_Servicos)
@@ -69,13 +69,13 @@ const TelaPerfilProfissional = () => {
     }
 
     const FavoritarPerfil = () => {
-        axios.post('http://10.0.1.56:3000/cadastrarPerfilFavorito',
+        axios.post('http://10.0.1.96:3000/cadastrarPerfilFavorito',
             {
                 FK_Profissionais_Clientes: idProfissional,
                 FK_Clientes_Profissionais: idUsuario
             })
             .then(function (response) {
-                console.log(response);
+                console.log(response.data);
             })
             .catch(function (error) {
                 console.error(error);

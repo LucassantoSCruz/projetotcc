@@ -4,32 +4,24 @@ import { BottomSheet } from 'react-native-btr';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
 import axios from 'axios';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 const PlaceholderImage = require('../../assets/Perfil.png');
 
 import { useForm, Controller } from 'react-hook-form';
 
 const TelaCadastroProfissional = ({ navigation }) => {
 
-  const [nome, setNome] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [senha, setSenha] = useState(null)
-  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
-  const [telefone, setTelefone] = useState(null)
+  // const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
   const [atendimentoDomiciliar, setAtendimentoDomiciliar] = useState(null)
   const [pessoaJuridica, setPessoaJuridica] = useState(null)
-  const [descricao, setDescricao] = useState(null)
-  const [nomeFantasia, setNomeFantasia] = useState(null)
   const [visivelPronome, setVisivelPronome] = useState(false);
-
   const [cadEndereco, setCadEndereco] = useState(false)
-
   const [visivelTipoConta, setVisivelTipoConta] = useState(false);
   const [visivelAtDomicilio, setAtDomicilio] = useState(false);
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
-    axios.post('http://10.0.1.56:3000/cadastrarProfissonal', {
+    axios.post('http://10.0.1.96:3000/cadastrarProfissonal', {
       CPF_CNPJ: dados.CPF_CNPJ, 
       nome: dados.Nome, 
       nomeFantasia: dados.NomeFantasia, 
@@ -44,11 +36,13 @@ const TelaCadastroProfissional = ({ navigation }) => {
     .then(function (response) {
       console.log(JSON.stringify(response.data));
       if(cadEndereco){
+        console.log(dados.CPF_CNPJ)
+        // setCPF_CNPJ(dados.CPF_CNPJ)
+        const CPF_CNPJ = dados.CPF_CNPJ
         navigation.navigate('CadastroEndereco', {CPF_CNPJ})
       }else{
         navigation.navigate('Login')
       }
-      
     })
     .catch (function (erro) {
       console.log(erro);

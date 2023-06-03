@@ -70,7 +70,7 @@ const TelaAgenda = () => {
   // };
 
   const infoAgendamentos = () => {
-    axios.get(`http://10.0.1.57:3000/ListarTodaInfoAgendamentos`)
+    axios.get(`http://10.0.1.96:3000/ListarTodaInfoAgendamentos`)
     .then(function (response) {
         console.log('Agendamentos Listados: ' + JSON.stringify(response.data.data))
     }).catch(function (error) {

@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import axios from 'axios';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const TelaCadastroEndereco = ({ navigation }) => {
 
+  const route = useRoute();
   const [cepEnd, setCepEnd] = useState(null);
   const [infoCep, setInfo] = useState('');
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [numero, setNumero] = useState(null);
   const [complemento, setComplemento] = useState(null);
-
-  const route = useRoute();
+  
   const [FK_Profissionais_Enderecos, setFK_Profissionais_Enderecos] = useState(null)
   const [idProfissional, setIdProfissional] = useState(null)
 
   useEffect(() => {
-    setIdProfissional(route.params.CPF_CNPJ)
-    console.log('FK salva: '+ idProfissional)
+    //setIdProfissional(route.params.CPF_CNPJ)
+    console.log('Params: ' + route.params.CPF_CNPJ)
+    //console.log('FK salva: '+ idProfissional)
   }, [])
 
   const enviarFormulario = async () => {
-    axios.post('http://10.0.1.56:3000/cadastrarEndereco', {
+    axios.post('http://10.0.1.96:3000/cadastrarEndereco', {
         latitude,
         longitude,
         cep: cepEnd,
@@ -38,7 +39,7 @@ const TelaCadastroEndereco = ({ navigation }) => {
       const ID_Servico = response.data.ID_Endereco
       console.log("Constante com ID: " + ID_Servico)
 
-      axios.put(`http://10.0.1.56:3000/alterarProfissionais/${idProfissional}`, {
+      axios.put(`http://10.0.1.96:3000/alterarProfissionais/${route.params.CPF_CNPJ}`, {
         FK_Profissionais_Enderecos : ID_Servico
       })
       .then(function (response){

@@ -21,7 +21,7 @@ const obterDados = async () => {
 };
 
 const perfisFavoritos = () => {
-    axios.get(`http://10.0.1.56:3000/listarPerfisFavoritos/${idUsuario}`)
+    axios.get(`http://10.0.1.96:3000/listarPerfisFavoritos/${idUsuario}`)
         .then(function (response) {
             console.log(response);
         })

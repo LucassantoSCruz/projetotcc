@@ -1,15 +1,18 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 
-const CaixaFavorito = () => {
+const CaixaFavorito = ({ campo }) => {
+
+    console.log(campo)
+
     return(
         <View style={style.tela}>
             <Image style={style.imagem} source={require('../../assets/imagem5.png')}/>
             <Text style={style.pronome}>
-                Ela/Dela
+                Pronome: {campo}
             </Text>
             <Text>
-                Nome
+                Nome:
             </Text>
         </View>
     )

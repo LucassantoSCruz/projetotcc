@@ -88,7 +88,7 @@ const RotaPerfil = () => {
         <Stack.Screen name='TelaCriarServico' component={TelaCriarServico} options={{ title: 'Criar Serviço', headerTitleAlign: 'center' }} />
         <Stack.Screen name='TelaConfiguracoes' component={TelaConfiguracoes} options={{ title: 'Configuracoes', headerTitleAlign: 'center' }} />
         <Stack.Screen name='TelaChat' component={TelaChat} options={{ title: 'Chat', headerTitleAlign: 'center' }} />
-        <Stack.Screen name='TelaPerfisFavoritados' component={TelaPerfisFavoritados} options={{ title: 'Perfis Favoritados', headerTitleAlign: 'center' }} />
+        <Stack.Screen name='TelaPerfisFavoritados' component={TelaPerfisFavoritados} options={{ title: 'Perfis Favoritos', headerTitleAlign: 'center' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

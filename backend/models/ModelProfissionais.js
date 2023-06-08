@@ -65,6 +65,7 @@ const modelAgenda = require('./ModelAgenda');
 const modelClientes = require('./ModelClientes');
 const modelEnderecos = require('./ModelEnderecos');
 const modelPerfisFavoritos = require('./ModelPerfisFavoritos');
+const modelProfissionaisEnderecos = require('./ModelProfissionaisEnderecos')
 
 //Declaração dos relacionamentos
 modelProfissionais.hasMany(modelServicos, {
@@ -81,11 +82,15 @@ modelAgenda.belongsTo(modelProfissionais, {
     foreignKey: 'FK_Profissionais_Agenda'
 });
 
-modelEnderecos.hasMany(modelProfissionais, {
-    foreignKey: 'FK_Profissionais_Enderecos'
+modelEnderecos.belongsToMany(modelProfissionais, {
+    through: modelProfissionaisEnderecos,
+    foreignKey: 'FK_Enderecos_Profissionais',
+    timestamps: false
 });
-modelProfissionais.belongsTo(modelEnderecos, {
-    foreignKey: 'FK_Profissionais_Enderecos'
+modelProfissionais.belongsToMany(modelEnderecos, {
+    through: modelProfissionaisEnderecos,
+    foreignKey: 'FK_Profissionais_Enderecos',
+    timestamps: false
 });
 
 modelProfissionais.belongsToMany(modelClientes, {

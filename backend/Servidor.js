@@ -15,6 +15,7 @@ const routeStatus = require('./routes/RouteStatus');
 const routeProfissionais = require('./routes/RouteProfissionais');
 const routeServicos = require('./routes/RouteServicos');
 const routePerfisFavoritos = require('./routes/RoutePerfisFavoritos');
+const routeProfissionaisEnderecos = require('./routes/RouteProfissionaisEnderecos');
 
 //Tornando o express executável
 const app = express();
@@ -23,7 +24,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //conexao.sync({ force : true });
-
 const sincronizar = () => {
     modelStatus.bulkCreate([
         { titulo: 'Solicitado' },
@@ -45,6 +45,7 @@ app.use('/', routeStatus);
 app.use('/', routeProfissionais);
 app.use('/', routeServicos);
 app.use('/', routePerfisFavoritos);
+app.use('/', routeProfissionaisEnderecos);
 
 //Criação do webserver local
 app.listen(3000, ()=>{

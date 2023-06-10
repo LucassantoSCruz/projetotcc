@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -7,45 +7,94 @@ const TelaCadastroEndereco = ({ navigation }) => {
 
   const [cepEnd, setCepEnd] = useState(null);
   const [infoCep, setInfo] = useState('');
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
   const [numero, setNumero] = useState(null);
   const [complemento, setComplemento] = useState(null);
   const route = useRoute();
 
-  const enviarFormulario = async () => {
-    axios.post('http://10.0.1.96:3000/cadastrarEndereco', {
-        latitude,
-        longitude,
-        cep: cepEnd,
-        uf: infoCep.uf,
-        localidadeCidade: infoCep.localidade,
-        logradouro: infoCep.logradouro,
-        bairro: infoCep.bairro,
-        numero,
-        complemento
-    })
-    .then(function (response) {
-      console.log('ID do endereço cadastrado: '+ JSON.stringify(response.data.ID_Endereco))
-      const ID_Endereco = response.data.ID_Endereco
-      console.log("Constante com ID: " + ID_Endereco)
+  useEffect(() => {
+    console.log('ID do Profissional: ' + route.params.idProfissional)
+  },[])
 
-      axios.post(`http://10.0.1.96:3000/cadastrarEnderecoProfissional`, {
-        FK_Profissionais_Enderecos: route.params.idProfissional, 
-        FK_Enderecos_Profissionais: ID_Endereco
-      })
-      .then(function (response){
-        console.log(response.data)
-        navigation.navigate('Login')
-      })
-      .catch(function (erro){
-        console.log(erro)
-      })
-    })
-    .catch (function (erro) {
-      console.log(erro);
-    })
+  const enviarFormulario = async () => {
+    buscarCoordenadas()
   };
+
+  const cadastrarEndereco = (latitude, longitude) => {
+    axios.post('http://192.168.1.2:3000/cadastrarEndereco', {
+      latitude,
+      longitude,
+      cep: cepEnd,
+      uf: infoCep.uf,
+      localidadeCidade: infoCep.localidade,
+      logradouro: infoCep.logradouro,
+      bairro: infoCep.bairro,
+      numero,
+      complemento
+    })
+      .then(function (response) {
+        console.log('ID do endereço cadastrado: ' + JSON.stringify(response.data.ID_Endereco))
+        const ID_Endereco = response.data.ID_Endereco
+        console.log("Constante com ID: " + ID_Endereco)
+
+        axios.post(`http://192.168.1.2:3000/cadastrarEnderecoProfissional`, {
+          FK_Profissionais_Enderecos: route.params.idProfissional,
+          FK_Enderecos_Profissionais: ID_Endereco
+        })
+          .then(function (response) {
+            console.log(response.data)
+            const navegar = () => {navigation.navigate('Login')}
+            Alert.alert(
+              "Endereço Cadastrado",
+              "A localização do seu estabelecimento foi salva com sucesso!",
+              [
+                {
+                  text: 'Salvar Mais Endereços',
+                },
+                {
+                  text: 'Ir para login',
+                  onPress: navegar
+                }
+              ]
+            )
+          })
+          .catch(function (erro) {
+            console.log(erro)
+          })
+      })
+      .catch(function (erro) {
+        console.log(erro);
+      })
+  }
+
+  const buscarCoordenadas = () => {
+
+    const formatarEndereco = (bairro, numero, logradouro, localidade, uf) => {
+      const endereco = bairro + ' ' + numero + ', ' + logradouro + ', ' + localidade + ' ' + uf + ', Brazil'
+      //console.log(endereco)
+      return endereco;
+    }
+
+    const enderecoCompleto = formatarEndereco(infoCep.bairro, numero, infoCep.logradouro, infoCep.localidade, infoCep.uf);
+
+    axios.get('http://192.168.1.2:3000/buscarCoordenadas', {
+      params: {
+        endereco: enderecoCompleto
+      }
+    })
+      .then((response) => {
+        const local = response.data.data.results[0];
+        console.log(JSON.stringify(local.geometry))
+        const latitude = local.geometry.lat;
+        const longitude = local.geometry.lng;
+        console.log('Latitude: ', latitude);
+        console.log('Longitude: ', longitude);
+        cadastrarEndereco(latitude, longitude)
+      })
+      .catch((error) => {
+        console.error('Erro:', error.message);
+      });
+
+  }
 
   //cep
   const getCep = async () => {
@@ -75,22 +124,6 @@ const TelaCadastroEndereco = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
-
-        {/* TextInput para colocar a latitude e longitude manualmente enquanto
-          não temos a api para salvá-los automaticamente - qualquer coisa podemos
-          tirá-los do banco */}
-        <TextInput
-          style={styles.campo}
-          placeholder='latitude:'
-          value={latitude}
-          onChangeText={value => setLatitude(value)}
-        />
-        <TextInput
-          style={styles.campo}
-          placeholder='longitude:'
-          value={longitude}
-          onChangeText={value => setLongitude(value)}
-        />
 
         <TextInput
           style={styles.campo}

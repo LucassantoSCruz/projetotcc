@@ -11,7 +11,6 @@ import { useForm, Controller } from 'react-hook-form';
 
 const TelaCadastroProfissional = ({ navigation }) => {
 
-  // const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
   const [atendimentoDomiciliar, setAtendimentoDomiciliar] = useState(null)
   const [pessoaJuridica, setPessoaJuridica] = useState(null)
   const [visivelPronome, setVisivelPronome] = useState(false);
@@ -35,11 +34,9 @@ const TelaCadastroProfissional = ({ navigation }) => {
     })
     .then(function (response) {
       console.log(JSON.stringify(response.data));
+      const idProfissional = dados.CPF_CNPJ;
       if(cadEndereco){
-        console.log(dados.CPF_CNPJ)
-        // setCPF_CNPJ(dados.CPF_CNPJ)
-        const CPF_CNPJ = dados.CPF_CNPJ
-        navigation.navigate('CadastroEndereco', {CPF_CNPJ})
+        navigation.navigate('CadastroEndereco', {idProfissional})
       }else{
         navigation.navigate('Login')
       }

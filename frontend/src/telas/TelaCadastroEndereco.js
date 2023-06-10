@@ -11,18 +11,10 @@ const TelaCadastroEndereco = ({ navigation }) => {
   const [longitude, setLongitude] = useState(null);
   const [numero, setNumero] = useState(null);
   const [complemento, setComplemento] = useState(null);
-
   const route = useRoute();
-  const [FK_Profissionais_Enderecos, setFK_Profissionais_Enderecos] = useState(null)
-  const [idProfissional, setIdProfissional] = useState(null)
-
-  useEffect(() => {
-    setIdProfissional(route.params.CPF_CNPJ)
-    console.log('FK salva: '+ idProfissional)
-  }, [])
 
   const enviarFormulario = async () => {
-    axios.post('http://10.0.1.57:3000/cadastrarEndereco', {
+    axios.post('http://192.168.1.3:3000/cadastrarEndereco', {
         latitude,
         longitude,
         cep: cepEnd,
@@ -34,12 +26,13 @@ const TelaCadastroEndereco = ({ navigation }) => {
         complemento
     })
     .then(function (response) {
-      console.log('ID do serviço cadastrado: '+ response.data.ID_Endereco)
-      const ID_Servico = response.data.ID_Endereco
-      console.log("Constante com ID: " + ID_Servico)
+      console.log('ID do endereço cadastrado: '+ JSON.stringify(response.data.ID_Endereco))
+      const ID_Endereco = response.data.ID_Endereco
+      console.log("Constante com ID: " + ID_Endereco)
 
-      axios.put(`http://10.0.1.57:3000/alterarProfissionais/${idProfissional}`, {
-        FK_Profissionais_Enderecos : ID_Servico
+      axios.post(`http://192.168.1.3:3000/cadastrarEnderecoProfissional`, {
+        FK_Profissionais_Enderecos: route.params.idProfissional, 
+        FK_Enderecos_Profissionais: ID_Endereco
       })
       .then(function (response){
         console.log(response.data)

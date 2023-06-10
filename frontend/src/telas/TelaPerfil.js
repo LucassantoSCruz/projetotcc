@@ -105,7 +105,7 @@ const TelaPerfilP = () => {
 
     const listarDadosPerfil = () => {
         if (tipoconta == 'Profissional') {
-            axios.get(`http://10.0.1.57:3000/ListarPerfilProfissional/${idUsuario}`)
+            axios.get(`http://192.168.1.3:3000/ListarPerfilProfissional/${idUsuario}`)
             .then(function (response) {
                 setServicos(response.data.data.tbl_Servicos)
                 setNome(response.data.data.nome)
@@ -196,7 +196,7 @@ const TelaPerfilC = () => {
     };
 
     const listarDadosPerfilCliente = () => {
-        axios.get(`http://10.0.1.57:3000/listarClienteCPF/${idUsuario}`)
+        axios.get(`http://192.168.1.3:3000/listarClienteCPF/${idUsuario}`)
             .then(function (response) {
 
                 console.log(response.data.data)

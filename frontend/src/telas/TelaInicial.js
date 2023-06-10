@@ -13,7 +13,7 @@ const TelaInicial = ({navigation}) => {
     return(
         <View style={styles.view}>
             <Text style={styles.titulo1}>
-                Bem Vinde ao
+                Boas Vindas ao
             </Text>
             <Text style={styles.titulo2}>
                 BELEZURA

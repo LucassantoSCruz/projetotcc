@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, RefreshControl, SafeAreaView, ScrollView, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import BarCategoria from '../componentes/BarCategoria';
@@ -38,7 +39,7 @@ const TelaProfissionais = ({ navigation }) => {
     }, []);
 
     const listarServicos = () => {
-        axios.get('http://192.168.1.10:3000/listarServicos')
+        axios.get(`${ENDERECO_API}/listarServicos`)
         .then(function (response) {
             setServicos(response.data)
             console.log('Serviços recebidos: ' + JSON.stringify(servicos.data))

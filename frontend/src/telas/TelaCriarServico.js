@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 
@@ -67,7 +68,7 @@ const TelaCriarServico = () => {
     const  [descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
-        axios.post('http://192.168.1.10:3000/cadastrarServico', {
+        axios.post(`${ENDERECO_API}/cadastrarServico`, {
             preco,
             titulo,
             descricao,

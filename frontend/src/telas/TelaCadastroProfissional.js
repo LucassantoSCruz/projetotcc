@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView, Button, Alert } from 'react-native';
 import { BottomSheet } from 'react-native-btr';
@@ -20,7 +21,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
-    axios.post('http://192.168.1.10:3000/cadastrarProfissonal', {
+    axios.post(`${ENDERECO_API}/cadastrarProfissonal`, {
       CPF_CNPJ: dados.CPF_CNPJ, 
       nome: dados.Nome, 
       nomeFantasia: dados.NomeFantasia, 

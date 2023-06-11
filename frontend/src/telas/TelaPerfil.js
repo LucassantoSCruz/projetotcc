@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, RefreshControl, StyleSheet, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
@@ -105,7 +106,7 @@ const TelaPerfilP = () => {
 
     const listarDadosPerfil = () => {
         if (tipoconta == 'Profissional') {
-            axios.get(`http://192.168.1.10:3000/ListarPerfilProfissional/${idUsuario}`)
+            axios.get(`${ENDERECO_API}/ListarPerfilProfissional/${idUsuario}`)
             .then(function (response) {
                 setServicos(response.data.data.tbl_Servicos)
                 setNome(response.data.data.nome)
@@ -196,7 +197,7 @@ const TelaPerfilC = () => {
     };
 
     const listarDadosPerfilCliente = () => {
-        axios.get(`http://192.168.1.10:3000/listarClienteCPF/${idUsuario}`)
+        axios.get(`${ENDERECO_API}/listarClienteCPF/${idUsuario}`)
             .then(function (response) {
 
                 console.log(response.data.data)

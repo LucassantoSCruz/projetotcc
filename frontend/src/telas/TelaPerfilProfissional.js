@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { Text, View, Image, ImageBackground, RefreshControl, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import BoxPerfil from '../componentes/BoxPerfil';
@@ -43,7 +44,7 @@ const TelaPerfilProfissional = () => {
     }, []);
 
     const listarPerfilProfissional = (idProfissional) => {
-        axios.get(`http://192.168.1.10:3000/ListarPerfilProfissional/${idProfissional}`)
+        axios.get(`${ENDERECO_API}/ListarPerfilProfissional/${idProfissional}`)
         .then(function (response) {
             setPerfil(response.data.data)
             setServicos(response.data.data.tbl_Servicos)
@@ -69,7 +70,7 @@ const TelaPerfilProfissional = () => {
     }
 
     const FavoritarPerfil = () => {
-        axios.post('http://192.168.1.10:3000/cadastrarPerfilFavorito',
+        axios.post(`${ENDERECO_API}/cadastrarPerfilFavorito`,
             {
                 FK_Profissionais_Clientes: idProfissional,
                 FK_Clientes_Profissionais: idUsuario

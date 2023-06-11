@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet } from 'react-native'
 import axios from "axios";
@@ -21,7 +22,7 @@ const obterDados = async () => {
 };
 
 const perfisFavoritos = () => {
-    axios.get(`http://192.168.1.10:3000/listarPerfisFavoritos/${idUsuario}`)
+    axios.get(`${ENDERECO_API}/listarPerfisFavoritos/${idUsuario}`)
         .then(function (response) {
             console.log(response);
         })

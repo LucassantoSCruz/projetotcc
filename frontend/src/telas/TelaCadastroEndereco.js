@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import axios from 'axios';
@@ -20,7 +21,7 @@ const TelaCadastroEndereco = ({ navigation }) => {
   };
 
   const cadastrarEndereco = (latitude, longitude) => {
-    axios.post('http://192.168.1.10:3000/cadastrarEndereco', {
+    axios.post(`${ENDERECO_API}/cadastrarEndereco`, {
       latitude,
       longitude,
       cep: cepEnd,
@@ -36,7 +37,7 @@ const TelaCadastroEndereco = ({ navigation }) => {
         const ID_Endereco = response.data.ID_Endereco
         console.log("Constante com ID: " + ID_Endereco)
 
-        axios.post(`http://192.168.1.10:3000/cadastrarEnderecoProfissional`, {
+        axios.post(`${ENDERECO_API}/cadastrarEnderecoProfissional`, {
           FK_Profissionais_Enderecos: route.params.idProfissional,
           FK_Enderecos_Profissionais: ID_Endereco
         })
@@ -76,7 +77,7 @@ const TelaCadastroEndereco = ({ navigation }) => {
 
     const enderecoCompleto = formatarEndereco(infoCep.bairro, numero, infoCep.logradouro, infoCep.localidade, infoCep.uf);
 
-    axios.get('http://192.168.1.10:3000/buscarCoordenadas', {
+    axios.get(`${ENDERECO_API}/buscarCoordenadas`, {
       params: {
         endereco: enderecoCompleto
       }

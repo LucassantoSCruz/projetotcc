@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
@@ -19,7 +20,7 @@ const TelaCadastroCliente = ({ navigation }) => {
   const [Pronomes, setPronomes] = useState("")
 
   const enviarFormulario = async () => {
-    axios.post('http://192.168.1.10:3000/cadastrarCliente', {
+    axios.post(`${ENDERECO_API}``/cadastrarCliente`, {
       CPF: dados.CPF,
       nome: dados.Nome,
       email: dados.Email,

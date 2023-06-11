@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import { StyleSheet, Text, View, Image, ScrollView, RefreshControl, TouchableOpacity, TextInput } from 'react-native';
 import React, { useEffect, useState, useReducer } from 'react';
 import { BottomSheet } from 'react-native-btr';
@@ -56,7 +57,7 @@ const TelaServico = ({navigation}) => {
     })
 
     const listarInfoServico = (idServico) => {
-        axios.get(`http://192.168.1.10:3000/listarServicosID/${idServico}`)
+        axios.get(`${ENDERECO_API}/listarServicosID/${idServico}`)
         .then(function (response){
             setTitulo(response.data.data.titulo)
             setDescricao(response.data.data.descricao)
@@ -71,7 +72,7 @@ const TelaServico = ({navigation}) => {
     }
 
     const enviarAgendamento = () => {
-        axios.post('http://192.168.1.10:3000/cadastrarAgendamento', {
+        axios.post(`${ENDERECO_API}/cadastrarAgendamento`, {
             data: agendamento, 
             FK_Servicos_Agenda, 
             FK_Clientes_Agenda, 

@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { Platform, Text, View, StyleSheet, FlatList } from 'react-native';
 import * as Location from 'expo-location';
@@ -12,7 +13,7 @@ const MapaExpo = () => {
     const [marcadores, setMarcadores] = useState([]);
 
     const requestResponse = () => {
-        axios.get('http://192.168.1.10:3000/listarEndereco')
+        axios.get(`${ENDERECO_API}/listarEndereco`)
             .then(function (response) {
                 setMarcadores(response.data)
             })

@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, RefreshControl, FlatList, Text, View, TouchableOpacity, Image, SafeAreaView, ScrollView } from 'react-native';
 import CaixaAgenda from '../componentes/CaixaAgenda';
@@ -45,7 +46,7 @@ const TelaAgenda = () => {
   }
 
   const infoAgendamentos = () => {
-    axios.get(`http://192.168.1.10:3000/${rotaBusca}/${idUsuario}`)
+    axios.get(`${ENDERECO_API}/${rotaBusca}/${idUsuario}`)
       .then(function (response) {
         //console.log('Agendamentos Listados: ' + JSON.stringify(response.data.data))
         setAgendamentos(response.data.data)

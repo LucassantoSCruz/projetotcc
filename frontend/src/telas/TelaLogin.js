@@ -1,3 +1,4 @@
+import { ENDERECO_API } from '../../config';
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { useForm, Controller } from "react-hook-form";
@@ -70,7 +71,7 @@ const TelaLogin = ({ navigation }) => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://192.168.1.10:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+    axios.get(`${ENDERECO_API}/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
       Email: dados.Email,
       Senha: dados.Senha
     })

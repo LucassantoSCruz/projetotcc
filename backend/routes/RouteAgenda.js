@@ -3,7 +3,8 @@ const express = require('express');
 const modelAgenda = require('../models/ModelAgenda');
 const modelProfissionais = require('../models/ModelProfissionais');
 const modelServicos = require('../models/ModelServicos');
-const modelStatus = require('../models/ModelStatus')
+const modelStatus = require('../models/ModelStatus');
+const modelClientes = require('../models/ModelClientes')
 const router = express.Router();
 
 //INÍCIO DAS ROTAS DE CRUD TABELA DE AGENDAMENTOS
@@ -79,9 +80,16 @@ router.get('/ListarTodaInfoAgenda', (req, res) => {
     )
 })
 
-router.get('/ListarTodaInfoAgendamentos', (req, res) => {
-    modelAgenda.findAll({ include:{ all: true}})
-    .then(
+router.get('/ListarAgendamentos/:idProfissional', (req, res) => {
+
+    let idProfissional = req.params.idProfissional;
+
+    modelAgenda.findAll({ include:[
+        {model: modelProfissionais},
+        {model: modelServicos},
+        {model: modelStatus},
+        {model: modelClientes}
+    ], where: {FK_Profissionais_Agenda: idProfissional}}).then(
         (response) => {
             return res.status(200).json({
                 erroStatus: false,

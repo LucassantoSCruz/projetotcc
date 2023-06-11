@@ -8,15 +8,11 @@ const TelaAgenda = () => {
 
   const [agendamentos, setAgendamentos] = useState([])
   const [refreshing, setRefreshing] = useState(false);
-  const [profissionais, setProfissionais] = useState(null)
-  const [servicos, setServicos] = useState(null)
-  const [clientes, setClientes] = useState(null)
 
   const fetchData = () => {
     setTimeout(() => {
       // Lógica para buscar os dados atualizados
-      // infoAgendamentos()
-      //obterDados()
+      infoAgendamentos()
 
       setRefreshing(false);
     }, 2000);
@@ -29,50 +25,14 @@ const TelaAgenda = () => {
 
   useEffect(() => {
     infoAgendamentos()
-    //obterDados()
   }, []);
-  
-  // const obterDados = async () => {
-  //   try {
-  //     const valor = await AsyncStorage.getItem('tipoconta');
-  //     if (valor !== null) {
-  //       const tipoconta = JSON.parse(valor);
-  //       setTipoconta(tipoconta);
-  //       console.log("Tipo de conta: " + JSON.stringify(tipoconta))
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   } 
-
-  //   if(tipoconta == 'Cliente'){
-  //     try {
-  //       const valor = await AsyncStorage.getItem('idUsuario');
-  //       if (valor !== null) {
-  //         const idUsuario = JSON.parse(valor);
-  //         setIdCliente(idUsuario);
-  //         console.log("Dados passados para tela (Cliente): " + JSON.stringify(idCliente))
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }else{
-  //     try {
-  //       const valor = await AsyncStorage.getItem('idUsuario');
-  //       if (valor !== null) {
-  //         const idUsuario = JSON.parse(valor);
-  //         setIdProfisional(idUsuario);
-  //         console.log("Dados passados para tela (Profissional): " + JSON.stringify(idProfissional))
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  // };
 
   const infoAgendamentos = () => {
-    axios.get(`http://192.168.1.2:3000/ListarTodaInfoAgendamentos`)
+    axios.get(`http://192.168.1.2:3000/ListarAgendamentos`)
     .then(function (response) {
-        console.log('Agendamentos Listados: ' + JSON.stringify(response.data.data))
+        //console.log('Agendamentos Listados: ' + JSON.stringify(response.data.data))
+        setAgendamentos(response.data.data)
+        console.log(agendamentos)
     }).catch(function (error) {
         console.log(error)
     })
@@ -82,12 +42,11 @@ const TelaAgenda = () => {
     <SafeAreaView>
       <ScrollView refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
-        {/* <FlatList
-          horizontal={false}
-          data={agendamentos.data}
-          renderItem={({item}) => <CaixaAgenda item={item} />}
-          // keyExtractor={item => item.id}
-        /> */}
+        <FlatList
+          data={agendamentos}
+          renderItem={(item)=><CaixaAgenda agendamentos={item}/>}
+          keyExtractor={item => item.ID}
+        />
       </ScrollView>  
     </SafeAreaView>
   );

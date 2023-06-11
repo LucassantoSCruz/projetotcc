@@ -12,7 +12,7 @@ const MapaExpo = () => {
     const [marcadores, setMarcadores] = useState([]);
 
     const requestResponse = () => {
-        axios.get('http://192.168.1.2:3000/listarEndereco')
+        axios.get('http://192.168.1.10:3000/listarEndereco')
             .then(function (response) {
                 setMarcadores(response.data)
             })

@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, RefreshControl, FlatList, Text, View, TouchableOpacity, Image, SafeAreaView, ScrollView} from 'react-native';
+import { StyleSheet, RefreshControl, FlatList, Text, View, TouchableOpacity, Image, SafeAreaView, ScrollView } from 'react-native';
 import CaixaAgenda from '../componentes/CaixaAgenda';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TelaAgenda = () => {
 
-  const [agendamentos, setAgendamentos] = useState([])
+  const [agendamentos, setAgendamentos] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [idUsuario, setIdUsuario] = useState(null);
+  const [tipoconta, setTipoconta] = useState(null);
+  const [rotaBusca, setRotaBusca] = useState('');
 
   const fetchData = () => {
     setTimeout(() => {
       // Lógica para buscar os dados atualizados
-      infoAgendamentos()
+      obterDados();
+      definirRota();
+      infoAgendamentos();
 
       setRefreshing(false);
     }, 2000);
@@ -24,31 +29,79 @@ const TelaAgenda = () => {
   };
 
   useEffect(() => {
-    infoAgendamentos()
+    obterDados();
+    definirRota();
+    infoAgendamentos();
   }, []);
 
+  const definirRota = () => {
+    if (tipoconta == 'Profissional') {
+      setRotaBusca('ListarAgendamentosProfissional')
+      console.log('Rota: ' + rotaBusca)
+    } else {
+      setRotaBusca('ListarAgendamentosCliente')
+      console.log('Rota: ' + rotaBusca)
+    }
+  }
+
   const infoAgendamentos = () => {
-    axios.get(`http://192.168.1.2:3000/ListarAgendamentos`)
-    .then(function (response) {
+    axios.get(`http://192.168.1.10:3000/${rotaBusca}/${idUsuario}`)
+      .then(function (response) {
         //console.log('Agendamentos Listados: ' + JSON.stringify(response.data.data))
         setAgendamentos(response.data.data)
         console.log(agendamentos)
-    }).catch(function (error) {
+      }).catch(function (error) {
         console.log(error)
-    })
+      })
   }
 
+  const obterDados = async () => {
+    try {
+      const valor = await AsyncStorage.getItem('idUsuario');
+      if (valor !== null) {
+        const idUsuario = JSON.parse(valor);
+        setIdUsuario(idUsuario);
+        console.log("ID passado para Agenda: " + idUsuario)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
+      const valor = await AsyncStorage.getItem('tipoconta');
+      if (valor !== null) {
+        const tipoconta = JSON.parse(valor);
+        setTipoconta(tipoconta);
+        console.log("Tipo de conta: " + JSON.stringify(tipoconta))
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <SafeAreaView>
-      <ScrollView refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
-        <FlatList
-          data={agendamentos}
-          renderItem={(item)=><CaixaAgenda agendamentos={item}/>}
-          keyExtractor={item => item.ID}
-        />
-      </ScrollView>  
-    </SafeAreaView>
+    <View>
+      <SafeAreaView>
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+          <View>
+           <Text></Text>
+          </View>
+          
+          <View>
+            <ScrollView horizontal={true} contentContainerStyle={{flex: 1}}>
+              <FlatList
+                horizontal={false}
+                data={agendamentos}
+                renderItem={(item) => <CaixaAgenda agendamentos={item} />}
+                keyExtractor={item => item.ID}
+                contentContainerStyle={{flex: 1}}
+              />
+            </ScrollView>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 }
 
@@ -78,7 +131,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     backgroundColor: '#F4E8F2'
   },
-  imagem: { 
+  imagem: {
     width: 165,
     height: 160,
     borderRadius: 10
@@ -97,7 +150,7 @@ const styles = StyleSheet.create({
     marginTop: 15
   },
   botao: {
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'center',
     borderColor: 'black',
     backgroundColor: '#F4E8F2',

@@ -15,6 +15,7 @@ const TelaServico = ({navigation}) => {
     const [titulo, setTitulo] = useState(null)
     const [descricao, setDescricao] = useState(null)
     const [preco, setPreco] = useState(null)
+    const [precoFormatado, setPrecoFormatado] = useState(null);
     const [visivel, setVisivel] = useState(false);
     // Campos para inserção do agendamento
     const [FK_Clientes_Agenda, setFK_Clientes_Agenda] = useState(null);
@@ -55,11 +56,12 @@ const TelaServico = ({navigation}) => {
     })
 
     const listarInfoServico = (idServico) => {
-        axios.get(`http://192.168.1.2:3000/listarServicosID/${idServico}`)
+        axios.get(`http://192.168.1.10:3000/listarServicosID/${idServico}`)
         .then(function (response){
             setTitulo(response.data.data.titulo)
             setDescricao(response.data.data.descricao)
             setPreco(response.data.data.preco)
+            setPrecoFormatado(preco.replace(".",","))
             setFK_Profissionais_Agenda(response.data.data.FK_Profissionais_Servicos)
             setFK_Servicos_Agenda(response.data.data.ID)
         })
@@ -69,7 +71,7 @@ const TelaServico = ({navigation}) => {
     }
 
     const enviarAgendamento = () => {
-        axios.post('http://192.168.1.2:3000/cadastrarAgendamento', {
+        axios.post('http://192.168.1.10:3000/cadastrarAgendamento', {
             data: agendamento, 
             FK_Servicos_Agenda, 
             FK_Clientes_Agenda, 
@@ -147,7 +149,7 @@ const TelaServico = ({navigation}) => {
                 <View style={styles.valor}>
                     <View>
                         <Text style={styles.preco}>
-                            R${preco}
+                            R${precoFormatado}
                         </Text>
                     </View>
                 </View>

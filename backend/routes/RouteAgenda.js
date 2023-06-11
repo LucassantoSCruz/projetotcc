@@ -80,16 +80,45 @@ router.get('/ListarTodaInfoAgenda', (req, res) => {
     )
 })
 
-router.get('/ListarAgendamentos/:idProfissional', (req, res) => {
+router.get('/ListarAgendamentosProfissional/:idUsuario', (req, res) => {
 
-    let idProfissional = req.params.idProfissional;
+    let idUsuario = req.params.idUsuario;
 
     modelAgenda.findAll({ include:[
         {model: modelProfissionais},
         {model: modelServicos},
         {model: modelStatus},
         {model: modelClientes}
-    ], where: {FK_Profissionais_Agenda: idProfissional}}).then(
+    ], where: {FK_Profissionais_Agenda: idUsuario}}).then(
+        (response) => {
+            return res.status(200).json({
+                erroStatus: false,
+                mensagemStatus: "Agendamentos e informações listados com sucesso!",
+                data: response
+            })
+        }
+    )
+    .catch(
+        (erro) => {
+            return res.status(400).json({
+                erroStatus: true,
+                mensagemStatus: "Erro ao listar Agendamentos e Informações!",
+                erroObject: erro
+            });
+        }
+    )
+})
+
+router.get('/ListarAgendamentosCliente/:idUsuario', (req, res) => {
+
+    let idUsuario = req.params.idUsuario;
+
+    modelAgenda.findAll({ include:[
+        {model: modelProfissionais},
+        {model: modelServicos},
+        {model: modelStatus},
+        {model: modelClientes}
+    ], where: {FK_Clientes_Agenda: idUsuario}}).then(
         (response) => {
             return res.status(200).json({
                 erroStatus: false,

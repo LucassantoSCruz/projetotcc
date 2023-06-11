@@ -7,6 +7,7 @@ const CaixaAgenda = (agendamentos) => {
   const servico = agendamentos.agendamentos.item.tbl_Servico
   const cliente = agendamentos.agendamentos.item.tbl_Cliente
   const status = agendamentos.agendamentos.item.tbl_status
+  const precoFormatado =servico.preco.replace(".",",")
 
   return (
     <View style={styles.container}>
@@ -19,13 +20,12 @@ const CaixaAgenda = (agendamentos) => {
             <Image style={styles.imagem} source={require('../../assets/images.png')} />
             <View style={styles.texto}>
               <View>
-                <Text style={styles.titulo}>titulo</Text>
-                <Text style={styles.titulo}>Unique Beauty</Text>
+                <Text style={styles.titulo}>{servico.titulo}</Text>
+                <Text style={styles.titulo}>{profissional.nomeFantasia}</Text>
               </View>
 
               <View style={styles.info}>
-                <Text>Quantidade: 1</Text>
-                <Text>Valor: R$</Text>
+                <Text>Valor: R${precoFormatado}</Text>
                 <Text>Data: </Text>
                 <Text>Horário: 15h</Text>
                 <Text>Local: Cabelereira Leila</Text>

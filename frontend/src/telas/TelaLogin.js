@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
-
-// Importação do hook-form
 import { useForm, Controller } from "react-hook-form";
-
-// Importação da Caixa 
 import { BottomSheet } from 'react-native-btr';
-
-// Importação do Axios
 import axios from 'axios'
-
-// Importação do AsyncStorage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TelaLogin = ({ navigation }) => {
@@ -48,23 +40,9 @@ const TelaLogin = ({ navigation }) => {
   }, [pessoal])
 
   const [tipoconta, setTipoconta] = useState('')
-
-  //Estado com a rota para buscar cliente ou profissional 
-  //dependendo do tipo de conta selecionado
   const [rotaLogin, setRotaLogin] = useState('')
-  //Estado com a chave primária do cliente ou profissional
   const [idUsuario, setIdUsuario] = useState(null)
-
-  const [email, setEmail] = useState(null)
-
-  const [senha, setSenha] = useState(null)
-
-  const [CPF_CNPJ, setCPF_CNPJ] = useState(null)
-
-  const [botao, setBotao] = useState(false)
-
   const [dados, setDados] = useState([])
-
   const [dadosRecebidos, setDadosRecebidos] = useState(null)
 
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -92,7 +70,7 @@ const TelaLogin = ({ navigation }) => {
 
     // console.log("Dados no Login: " + (dados.Email))
 
-    axios.get(`http://192.168.1.2:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
+    axios.get(`http://192.168.1.10:3000/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
       Email: dados.Email,
       Senha: dados.Senha
     })

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Platform, Text, View, StyleSheet, FlatList } from 'react-native';
 import * as Location from 'expo-location';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import MapView, { Marker, Callout } from 'react-native-maps'
 import MarcadorPessoal from './EstiloMarcadorMapa';
+import CustomCallout from './Callout'
 import axios from 'axios';
 
 const MapaExpo = () => {
@@ -10,12 +11,15 @@ const MapaExpo = () => {
     const [errorMsg, setErrorMsg] = useState(null);
     const [marcadores, setMarcadores] = useState([]);
 
-    /*
-    Criar um estado para os marcadores
-    Chamar informações dos marcadores com o axios
-    Passar informações para uma flatlist
-    Percorrer flatlist e adicionar marcadores
-    */
+    const requestResponse = () => {
+        axios.get('http://192.168.1.2:3000/listarEndereco')
+            .then(function (response) {
+                setMarcadores(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
 
     useEffect(() => {
         (async () => {
@@ -29,6 +33,7 @@ const MapaExpo = () => {
             console.log(location.coords)
         })();
         requestResponse();
+        console.log(marcadores.data)
     }, []);
 
     let text = 'Buscando localização..';
@@ -39,78 +44,48 @@ const MapaExpo = () => {
         text = JSON.stringify(location);
     }
 
-    const requestResponse = () => {
-        axios.get('http://192.168.1.2:3000/listarEndereco')
-        .then(function (response) {
-            setMarcadores(response.data)
-            //console.log(marcadores.data)
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-    }
-
-    const Marcador = ({item}) => (
-        // console.log("Resposta Marcador: ", item)
-        // <View>
-        //     <Text>
-        //         {item.Latitude}
-        //     </Text>
-        // </View>
-            <Marker
-                coordinate={
-                    {
-                        latitude: item.Latitude, 
-                        longitude: item.Longitude
-                    }
-                }
-            />
-    );
-
     return (
         <View style={styles.tela}>
-            {/* <Text>{text}</Text> */}
-            {
-                location &&
+            {location && marcadores.data.length > 0 && (
                 <MapView
-                    style={{ width: 350, height: 300}}
+                    style={{ width: 350, height: 300 }}
                     initialRegion={{
                         latitude: location.coords.latitude,
                         longitude: location.coords.longitude,
                         latitudeDelta: 0.00922,
-                        longitudeDelta: 0.00421
+                        longitudeDelta: 0.00421,
                     }}
                 >
-
                     <Marker
                         coordinate={{
                             latitude: location.coords.latitude,
                             longitude: location.coords.longitude,
                         }}
                     >
-                        <MarcadorPessoal/> 
+                        <MarcadorPessoal />
                     </Marker>
 
-                    <FlatList
-                        data={marcadores.data}
-                        renderItem={({item}) => <Marcador item={item}/>}
-                        keyExtractor={item => item.ID_Endereco}
-                    />
-
-                    {/* {marcadores.data.map((marcadores, index) => (
+                    {marcadores.data.map((marcador, index) => (
                         <Marker
-                        key={index}
-                        coordinate={{
-                            latitude: marcadores.data.Latitude,
-                            longitude: marcadores.data.Longitude,
-                        }}
-                        title={marcadores.data.CEP}
+                            key={index}
+                            coordinate={{
+                                latitude: marcador.latitude,
+                                longitude: marcador.longitude,
+                            }}
+                            pinColor={'#9a6b99'}
                         >
-                            <MarcadorPessoal/>
+                            <Callout>
+                                <CustomCallout
+                                    title="Bolha Customizada"
+                                    description="Este é um componente customizado."
+                                    image={require('../../assets/iconeMarcadorMapa.jpg')}
+                                />
+                            </Callout>
+                            {/* <MarcadorPessoal/> */}
                         </Marker>
-                    ))} */}
+                    ))}
                 </MapView>
-            }
+            )}
         </View>
     );
 }

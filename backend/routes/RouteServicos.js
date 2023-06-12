@@ -123,13 +123,14 @@ router.get('/ListarTodaInfoServicos', (req, res) => {
     )
 })
 
-router.put('/alterarServicos', (req, res) =>{
+router.put('/alterarServicos/:ID', (req, res) =>{
 
-    let {preco, titulo, descricao, FK_Profissionais_Servicos} = req.body;
+    let {preco, titulo, descricao} = req.body;
+    let {ID} = req.params;
 
     modelServicos.update(
-        {preco, titulo, descricao, FK_Profissionais_Servicos},
-        {where:{  ID_Servico }}
+        {preco, titulo, descricao},
+        {where:{  ID }}
 
     ).then(
         () => {
@@ -151,14 +152,14 @@ router.put('/alterarServicos', (req, res) =>{
 })
 
 //Rota de Exclusão
-router.delete('/excluirServicos:ID_Servico', (req, res)=>{
+router.delete('/excluirServicos/:ID', (req, res)=>{
 
     console.log(req.params);
 
-    let {ID_Servico} = req.params;
+    let {ID} = req.params;
 
     modelServicos.destroy(
-        {where:{ID_Servico}}
+        {where:{ID}}
     ).then(
         () => {
             return res.status(200).json({
@@ -178,8 +179,6 @@ router.delete('/excluirServicos:ID_Servico', (req, res)=>{
 
    
 })
-
-//INÍCIO DAS ROTAS DE CRUD DA TABELA SERVICOS
 
 //Exportação
 module.exports = router;

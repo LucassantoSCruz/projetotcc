@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native'
-
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert, RefreshControl } from 'react-native'
+import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadrao from '../componentes/ImagemPadrao';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { placeholder } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 
 const PlaceholderImage = require('../../assets/perfil2.png');
 
 const TelaConfiguracoes = () => {
     const [imagemSelecionada, setImagemSelecionada] = useState(null);
+    const [idUsuario, setIdUsuario] = useState(null)
 
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -23,16 +26,148 @@ const TelaConfiguracoes = () => {
         }
     };
 
+    const [nome, setNome] = useState(null)
+    const [Descricao, setDescricao] = useState(null)
+    const [endereco, setEndereco] = useState(null)
+    const [telefone, setTelefone] = useState(null)
+    const [fkEndereco, setfkEndereco] = useState(null)
+    const [refreshing, setRefreshing] = useState(false);
+
+    const [rua, setRua] = useState(null)
+    const [estado, setEstado] = useState(null)
+    const [cidade, setcidade] = useState(null)
+    const [numero, setNumero] = useState(null)
+
+    const fetchData = () => {
+        setTimeout(() => {
+          // Lógica para buscar os dados atualizados
+        obterDados();
+        listarDadosPerfil();
+        setRefreshing(false); 
+        }, 2000);
+    };
+    
+    const handleRefresh = () => {
+        setRefreshing(true);
+        fetchData();
+    };
+
+    useEffect(() => {
+        obterDados();
+        listarDadosPerfil();
+    }, []);
+
+    //OBTER DADOS
+    const obterDados = async () => {
+        try {
+        const valor = await AsyncStorage.getItem('idUsuario');
+        if (valor !== null) {
+            const idUsuario = JSON.parse(valor);
+            setIdUsuario(idUsuario);
+            console.log("Dados passados para tela de configuração: " + idUsuario)
+        }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    //LISTAR PROFISSIONAL
+    const listarDadosPerfil = () => {
+        axios.get(`http://192.168.15.6:3000/ListarProfissionalCNPJ/${idUsuario}`) 
+        .then(function (response) {
+
+            console.log(response.data.data)
+            setNome(response.data.data.nome)
+            setTelefone(response.data.data.telefone)
+            setDescricao(response.data.data.descricao)
+            setfkEndereco(response.data.data.FK_Profissionais_Enderecos)
+            console.log(fkEndereco)
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        axios.get(`http://192.168.15.6:3000/ListarEnderecoID/${fkEndereco}`)
+            .then(function (response) {
+    
+                console.log('Endereço: '+ JSON.stringify(response.data.data))
+                setRua(response.data.data.logradouro)
+                setEstado(response.data.data.uf)
+                setcidade(response.data.data.localidadeCidade)
+                setNumero(response.data.data.numero)
+                //setEnderecoMu(response.data.data.cep)
+            
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        
+    }
+
+    //variaveis rotas de alteração
+    const [nomeMu, setNomeMu] = useState(null)
+    const [descricaoMu, setDescricaoMu] = useState(null)
+    const [telefoneMu, setTelefoneMu] = useState(null)
+
+    const [ruaMu, setRuaMu] = useState(null)
+    const [estadoMu, setEstadoMu] = useState(null)
+    const [cidadeMu, setcidadeMu] = useState(null)
+    const [numeroMu, setNumeroMu] = useState(null)
+
+    //ROTA EDITAR PROFISSIONAL
+    const alterarProfissional = () => {
+
+        axios.put(`http://192.168.15.6:3000/alterarProfissionais/${idUsuario}`, {
+            nome: nomeMu,
+            descricao: descricaoMu,
+            telefone: telefoneMu
+        })
+        .then(function (response) {
+            console.log(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        
+        axios.put(`http://192.168.15.6:3000/alterarEndereco/${fkEndereco}`, {
+            logradouro: ruaMu,
+            uf: estadoMu,
+            localidadeCidade: cidadeMu,
+            numero: numeroMu
+        })
+            .then(function (response) {
+                console.log(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        
+    }
+
+     //CONFIRMAR SERÇO 
+     const ConfirmarServico = () => {
+        Alert.alert("Tem certeza que deseja alterar seu Perfil?", 'As informações serão alteradas', [
+            {
+                text: 'Cancelar',
+                onPress: () => console.log('Configuração Cancelado')
+            },
+            {
+                text: 'Editar',
+                onPress: () => alterarProfissional()
+            },
+        ])
+    }
+
     return (
         <View style={styles.tela}>
-            <ScrollView>
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
                 <Text style={styles.titulodesc}>
                     Nome
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder=''
+                    placeholder={nome}
                     multiline={true}
+                    onChangeText={nomeMu => setNomeMu(nomeMu)}
                 />
 
                 <Text style={styles.titulo}>
@@ -40,8 +175,9 @@ const TelaConfiguracoes = () => {
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder=''
+                    placeholder={Descricao}
                     multiline={true}
+                    onChangeText={descricaoMu => setDescricaoMu(descricaoMu)}
                 />
 
                 <Text style={styles.titulo}>
@@ -57,44 +193,62 @@ const TelaConfiguracoes = () => {
                     <Text style={{textAlign: 'center'}}>Trocar foto de perfil</Text>
                 </TouchableOpacity>
                 </View>
-
-                <Text style={styles.titulo}>
-                    Sobre - Descrição
-                </Text>
-                <TextInput
-                    style={styles.descricao}
-                    placeholder=''
-                    multiline={true}
-                />
-
+                
                 <Text style={styles.titulo}>
                     Endereço
                 </Text>
-                <TextInput
-                    style={styles.descricao}
-                    placeholder=''
-                    multiline={true}
-                />
 
-                <Text style={styles.titulo}>
-                    Contato
+                <Text style={styles.titulo2}>
+                    Estado
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder=''
+                    placeholder={estado}
                     multiline={true}
+                    onChangeText={estadoMu => setEstadoMu(estadoMu)}
                 />
 
-                <Text style={styles.titulo}>
-                    Outras Informações
+                <Text style={styles.titulo2}>
+                    Cidade
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder=''
-                    multiline={true}
+                    placeholder={cidade}
+                    multiline={true} 
+                    onChangeText={cidadeMu => setcidadeMu(cidadeMu)}
                 />
 
-                <TouchableOpacity style={styles.btnsalvar}>
+
+                <Text style={styles.titulo2}>
+                    Rua
+                </Text>
+                <TextInput
+                    style={styles.descricao}
+                    placeholder={rua}
+                    multiline={true}
+                    onChangeText={ruaMu => setRuaMu(ruaMu)}
+                />
+
+                <Text style={styles.titulo2}>
+                    numero
+                </Text>
+                <TextInput
+                    style={styles.descricao}
+                    placeholder={numero}
+                    multiline={true}
+                    
+                />
+
+                <Text style={styles.titulo}>
+                    Telefone
+                </Text>
+                <TextInput
+                    style={styles.descricao}
+                    placeholder={telefone}
+                    multiline={true}
+                    onChangeText={telefoneMu => setTelefoneMu(telefoneMu)}
+                />
+                <TouchableOpacity style={styles.btnsalvar} onPress={ConfirmarServico}>
                     <Text style={styles.textosalvar}>
                         Salvar
                     </Text>
@@ -119,6 +273,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 24,
         marginHorizontal: 15
+    },
+    titulo2: {
+        fontWeight: 'normal',
+        fontSize: 15,
+        marginHorizontal: 20
     },
     descricao: {
         fontSize: 18,

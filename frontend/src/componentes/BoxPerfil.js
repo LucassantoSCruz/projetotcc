@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         flex: 1,
         marginBottom: 15,
-        width: '95%',
+        width: 170,
         flexGrow: 1
     },
     imagem: {

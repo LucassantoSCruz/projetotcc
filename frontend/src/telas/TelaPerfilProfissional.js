@@ -27,6 +27,7 @@ const TelaPerfilProfissional = () => {
             setIdProfissional(route.params.fkServico)
             listarPerfilProfissional(route.params.fkServico)
             obterDados()
+            verificarFavorito()
             setRefreshing(false);
         }, 2000);
     };
@@ -40,19 +41,20 @@ const TelaPerfilProfissional = () => {
         setIdProfissional(route.params.fkServico)
         listarPerfilProfissional(route.params.fkServico)
         obterDados()
+        verificarFavorito()
     }, []);
 
     const listarPerfilProfissional = (idProfissional) => {
         axios.get(`http://10.0.1.103:3000/ListarPerfilProfissional/${idProfissional}`)
-        .then(function (response) {
-            setPerfil(response.data.data)
-            setServicos(response.data.data.tbl_Servicos)
-            setNome(response.data.data.nome)
-            setDescricao(response.data.data.descricao)
-            setPronomes(response.data.data.pronomes)
-        }).catch(function (error) {
-            console.log(error)
-        })
+            .then(function (response) {
+                setPerfil(response.data.data)
+                setServicos(response.data.data.tbl_Servicos)
+                setNome(response.data.data.nome)
+                setDescricao(response.data.data.descricao)
+                setPronomes(response.data.data.pronomes)
+            }).catch(function (error) {
+                console.log(error)
+            })
     }
 
     const botaoFavoritar = () => {
@@ -76,6 +78,29 @@ const TelaPerfilProfissional = () => {
             })
             .then(function (response) {
                 console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+
+    const verificarFavorito = () => {
+        axios.get(`http://10.0.1.103:3000/listarPerfisFavoritos/${idUsuario}`)
+            .then(function (response) {
+                if (response.data && response.data.data && response.data.data.length > 0) {
+                    console.log(response.data.data);
+
+                    const array = response.data.data;
+                    const encontrado = array.some((objeto) => objeto.FK_Profissionais_Clientes === idProfissional);
+
+                    console.log(encontrado)
+
+                    if (encontrado == true) {
+                        setFavoritar(true)
+                    } else {
+                        setFavoritar(false)
+                    }
+                }
             })
             .catch(function (error) {
                 console.error(error);

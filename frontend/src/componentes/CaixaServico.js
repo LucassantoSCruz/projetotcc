@@ -39,8 +39,9 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   fundonome: {
-    height: 75,
+    height: 69,
     borderRadius: 14,
+    width: '100%',
     backgroundColor: '#9a6b99',
   },
   fundo: {
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     flex: 1,
     marginBottom: 15,
-    width: '95%',
+    width: 170,
     flexGrow: 1
   },
   imagem: {

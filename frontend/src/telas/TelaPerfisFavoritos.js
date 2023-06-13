@@ -5,11 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TelaPerfisFavoritados = () => {
     const [idUsuario, setIdUsuario] = useState(null)
-    const [idProfissional, setIdProfissional] = useState(null)
+    const [idProfissional, setIdProfissional] = useState('')
     const [refreshing, setRefreshing] = useState(false);
     const [dados, setDados] = useState([])
     const [buscaProfissional, setBuscaProfissional] = useState([])
-    const resultados = []
+    const resultados = ([])
+    const [resultadosBusca, setResultadosBusca] = useState()
 
     const onRefresh = () => {
         setRefreshing(true);
@@ -34,7 +35,7 @@ const TelaPerfisFavoritados = () => {
     };
 
     const perfisFavoritos = () => {
-        axios.get(`http://10.0.1.60:3000/listarPerfisFavoritos/${idUsuario}`)
+        axios.get(`http://10.0.1.57:3000/listarPerfisFavoritos/${idUsuario}`)
             .then(function (response) {
                 if (response.data && response.data.data && response.data.data.length > 0) {
                     console.log(response.data.data);
@@ -56,7 +57,7 @@ const TelaPerfisFavoritados = () => {
             const valor = item.FK_Profissionais_Clientes;
 
             try {
-                const response = await axios.get(`http://10.0.1.60:3000/ListarProfissionalCNPJ/${valor}`, {
+                const response = await axios.get(`http://10.0.1.57:3000/ListarProfissionalCNPJ/${valor}`, {
                     params: {
                         CPF_CNPJ: valor
                     }
@@ -64,10 +65,8 @@ const TelaPerfisFavoritados = () => {
 
                 resultados.push(response.data.data);
                 console.log(resultados)
-
-                // console.log(response.data.data);
-                // setBuscaProfissional(response.data.data)
-                // console.log(buscaProfissional)
+                setResultadosBusca(resultados)
+                console.log(resultadosBusca)
 
             } catch (error) {
 
@@ -82,30 +81,28 @@ const TelaPerfisFavoritados = () => {
         perfisFavoritos()
     }, [])
 
-    const renderItem = ({ item }) => {
-
-        return (
-            <View style={style.container}>
-                <Text style={style.pronome}>
-                    {item}
-                </Text>
-            </View>
-        )
-    }
-
     return (
         <View style={style.tela}>
             <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                 <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
+                    <Text>{resultados}</Text>
                     <FlatList
-                        data={resultados}
+                        data={resultadosBusca}
                         renderItem={renderItem}
+                        keyExtractor={(item) => item.CPF_CNPJ}
                     />
                 </ScrollView>
             </ScrollView>
         </View>
     )
 }
+
+const renderItem = ({ item }) => (
+    <View style={{ padding: 16 }}>
+        <Text>Nome: {item.nome}</Text>
+    </View>
+);
+
 
 const style = StyleSheet.create({
     tela: {

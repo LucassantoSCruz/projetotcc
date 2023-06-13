@@ -40,7 +40,7 @@ const MapaExpo = () => {
     }
 
     const requestResponse = () => {
-        axios.get('http://10.0.1.60:3000/listarEndereco')
+        axios.get('http://10.0.1.57:3000/listarEndereco')
         .then(function (response) {
             setMarcadores(response.data)
             //console.log(marcadores.data)

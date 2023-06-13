@@ -145,10 +145,11 @@ router.get('/ListarAgendamentosCliente/:idUsuario', (req, res) => {
 //Rota de Alteração
 router.put('/alterarAgendamento/:ID', (req, res) =>{
 
-    let {data, FK_Servicos_Agenda, FK_Clientes_Agenda, FK_Profissionais_Agenda} = req.body;
+    let {data, FK_Servicos_Agenda, FK_Clientes_Agenda, FK_Profissionais_Agenda, FK_Status_Agenda} = req.body;
+    let ID = req.params.ID;
 
     modelAgenda.update(
-        {data, FK_Servicos_Agenda, FK_Clientes_Agenda, FK_Profissionais_Agenda},
+        {data, FK_Servicos_Agenda, FK_Clientes_Agenda, FK_Profissionais_Agenda, FK_Status_Agenda},
         {where:{ID}}
 
     ).then(

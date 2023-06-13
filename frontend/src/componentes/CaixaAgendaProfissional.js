@@ -1,6 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import Moment from 'moment';
+import { ENDERECO_API } from "../../config";
+import axios from 'axios';
+
 
 const CaixaAgendaProfissional = (agendamentos) => {
   const profissional = agendamentos.agendamentos.item.tbl_Profissionai
@@ -12,25 +15,35 @@ const CaixaAgendaProfissional = (agendamentos) => {
   const horarioFormatado = Moment(agendamentos.agendamentos.item.data).format('HH:mm');
   let botoes = null;
 
+  const alterarStatus = (idStatus) => {
+    axios.put(`${ENDERECO_API}/alterarAgendamento/${agendamentos.agendamentos.item.ID}`, {
+      FK_Status_Agenda: idStatus
+    }).then((response)=>{
+      console.log(response)
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
+
   switch (status.titulo) {
     case 'Solicitado':
       botoes = (<View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'center' }}>
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={alterarStatus(2)}>
           <Text>Confirmar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={alterarStatus(4)}>
           <Text>Cancelar</Text>
         </TouchableOpacity>
       </View>)
       break;
     case 'Confirmado':
       botoes = (<View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'center' }}>
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={alterarStatus(3)}>
           <Text>Concluir</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={alterarStatus(4)}>
           <Text>Cancelar</Text>
         </TouchableOpacity>
       </View>)

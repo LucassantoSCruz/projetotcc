@@ -1,5 +1,6 @@
 const express = require('express');
 const modelClientes = require('../models/ModelClientes');
+const modelProfissionais = require('../models/ModelProfissionais')
 const router = express.Router();
 
 router.post('/cadastrarCliente', (req, res) => {
@@ -106,25 +107,52 @@ router.get('/ListarClientesEmail/:email/:senha', (req, res) => {
 
 router.get('/ListarTodaInfoClientes', (req, res) => {
     modelClientes.findAll({ include: { all: true, nested: true } })
-    .then(
-        (response) => {
+        .then(
+            (response) => {
+                return res.status(200).json({
+                    erroStatus: false,
+                    mensagemStatus: "Clientes e informações listados com sucesso!",
+                    data: response
+                })
+            }
+        )
+        .catch(
+            (erro) => {
+                return res.status(400).json({
+                    erroStatus: true,
+                    mensagemStatus: "Erro ao listar Clientes e Informações!",
+                    erroObject: erro
+                });
+            }
+        )
+})
+
+//Rota de listagem por FK de Cliente
+router.get('/listarPerfisFavoritosCliente/:CPF', (req, res) => {
+
+    let CPF = req.params.CPF;
+
+    modelClientes
+        .findAll({
+            where: { CPF },
+            include: [modelProfissionais],
+        })
+
+        .then((response) => {
             return res.status(200).json({
                 erroStatus: false,
-                mensagemStatus: "Clientes e informações listados com sucesso!",
-                data: response
-            })
-        }
-    )
-    .catch(
-        (erro) => {
+                mensagemStatus: 'Perfis favoritos listados com sucesso!',
+                data: response,
+            });
+        })
+        .catch((erro) => {
             return res.status(400).json({
                 erroStatus: true,
-                mensagemStatus: "Erro ao listar Clientes e Informações!",
-                erroObject: erro
+                mensagemStatus: 'Erro ao listar perfis favoritos',
+                erroObject: erro,
             });
-        }
-    )
-})
+        });
+});
 
 router.put('/alterarCliente/:CPF', (req, res) => {
 

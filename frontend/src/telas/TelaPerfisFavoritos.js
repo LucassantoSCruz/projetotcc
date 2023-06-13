@@ -35,7 +35,7 @@ const TelaPerfisFavoritados = () => {
     };
 
     const perfisFavoritos = () => {
-        axios.get(`http://10.0.1.57:3000/listarPerfisFavoritos/${idUsuario}`)
+        axios.get(`http://10.0.1.103:3000/listarPerfisFavoritos/${idUsuario}`)
             .then(function (response) {
                 if (response.data && response.data.data && response.data.data.length > 0) {
                     console.log(response.data.data);
@@ -57,7 +57,7 @@ const TelaPerfisFavoritados = () => {
             const valor = item.FK_Profissionais_Clientes;
 
             try {
-                const response = await axios.get(`http://10.0.1.57:3000/ListarProfissionalCNPJ/${valor}`, {
+                const response = await axios.get(`http://10.0.1.103:3000/ListarProfissionalCNPJ/${valor}`, {
                     params: {
                         CPF_CNPJ: valor
                     }
@@ -97,12 +97,26 @@ const TelaPerfisFavoritados = () => {
     )
 }
 
-const renderItem = ({ item }) => (
-    <View style={{ padding: 16 }}>
-        <Text>Nome: {item.nome}</Text>
-    </View>
-);
-
+const renderItem = ({ item }) => {
+    return (
+        <View style={style.container}>
+            <Image style={style.imagem} source={require('../../assets/imagem5.png')} />
+            <View style={style.informacoes}>
+                <View style={style.caixapronome}>
+                    <Text style={style.pronome}>
+                        {item.pronomes}
+                    </Text>
+                </View>
+                <Text style={style.nome}>
+                    {item.nome}
+                </Text>
+                <Text style={style.descricao}>
+                    {item.descricao}
+                </Text>
+            </View>
+        </View>
+    )
+}
 
 const style = StyleSheet.create({
     tela: {

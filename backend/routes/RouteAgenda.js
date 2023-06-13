@@ -84,12 +84,16 @@ router.get('/ListarAgendamentosProfissional/:idUsuario', (req, res) => {
 
     let idUsuario = req.params.idUsuario;
 
-    modelAgenda.findAll({ include:[
-        {model: modelProfissionais},
-        {model: modelServicos},
-        {model: modelStatus},
-        {model: modelClientes}
-    ], where: {FK_Profissionais_Agenda: idUsuario}}).then(
+    modelAgenda.findAll({ 
+        include:[
+            {model: modelProfissionais},
+            {model: modelServicos},
+            {model: modelStatus},
+            {model: modelClientes}
+        ], 
+        where: {FK_Profissionais_Agenda: idUsuario},
+        order: [['data', 'ASC']]
+    }).then(
         (response) => {
             return res.status(200).json({
                 erroStatus: false,

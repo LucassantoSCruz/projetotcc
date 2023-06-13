@@ -25,6 +25,7 @@
     "expo-location": "~15.0.1",
     "expo-status-bar": "~1.4.2",
     "express": "^4.18.2",
+    "moment": "^2.29.4",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-hook-form": "^7.43.9",

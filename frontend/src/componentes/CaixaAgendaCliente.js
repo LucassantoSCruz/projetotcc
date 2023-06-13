@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
-const CaixaAgenda = (agendamentos) => {
+const CaixaAgendaCliente = (agendamentos) => {
   console.log('Componente CaixaAgenda: '+ JSON.stringify(agendamentos.agendamentos.item))
   const profissional = agendamentos.agendamentos.item.tbl_Profissionai
   const servico = agendamentos.agendamentos.item.tbl_Servico
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CaixaAgenda
+export default CaixaAgendaCliente

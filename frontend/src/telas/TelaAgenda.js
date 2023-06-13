@@ -1,7 +1,8 @@
 import { ENDERECO_API } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, RefreshControl, FlatList, Text, View, TouchableOpacity, Image, SafeAreaView, ScrollView } from 'react-native';
-import CaixaAgenda from '../componentes/CaixaAgenda';
+import CaixaAgendaProfissional from '../componentes/CaixaAgendaProfissional';
+import CaixaAgendaCliente from '../componentes/CaixaAgendaCliente';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -80,30 +81,56 @@ const TelaAgenda = () => {
     }
   };
 
-  return (
-    <View>
-      <SafeAreaView>
-        <ScrollView refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
-          <View>
-           <Text></Text>
-          </View>
-          
-          <View>
-            <ScrollView horizontal={true} contentContainerStyle={{flex: 1}}>
-              <FlatList
-                horizontal={false}
-                data={agendamentos}
-                renderItem={(item) => <CaixaAgenda agendamentos={item} />}
-                keyExtractor={item => item.ID}
-                contentContainerStyle={{flex: 1}}
-              />
-            </ScrollView>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </View>
-  );
+  if (tipoconta == 'Profissional') {
+    return (
+      <View>
+        <SafeAreaView>
+          <ScrollView refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+            <View>
+              <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
+                <View>
+                  <Text> </Text>
+                </View>
+                <FlatList
+                  horizontal={false}
+                  data={agendamentos}
+                  renderItem={(item) => <CaixaAgendaProfissional agendamentos={item} />}
+                  keyExtractor={item => item.ID}
+                  contentContainerStyle={{ flex: 1 }}
+                />
+              </ScrollView>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </View>
+    );
+  } else {
+    return (
+      <View>
+        <SafeAreaView>
+          <ScrollView refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+            <View>
+              <Text></Text>
+            </View>
+
+            <View>
+              <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
+                <FlatList
+                  horizontal={false}
+                  data={agendamentos}
+                  renderItem={(item) => <CaixaAgendaCliente agendamentos={item} />}
+                  keyExtractor={item => item.ID}
+                  contentContainerStyle={{ flex: 1 }}
+                />
+              </ScrollView>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

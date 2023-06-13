@@ -24,16 +24,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //conexao.sync({ force : true });
-const sincronizar = () => {
-    modelStatus.bulkCreate([
-        { titulo: 'Solicitado' },
-        { titulo: 'Confirmado' },
-        { titulo: 'Concluído' },
-        { titulo: 'Pago' },
-        { titulo: 'Cancelado' },
-        { titulo: 'Adiado' }
-    ])
-}
 
 //INÍCIO DA UTILIZAÇÃO DAS ROTAS
 app.use('/', routeAgenda);
@@ -50,6 +40,4 @@ app.use('/', routeProfissionaisEnderecos);
 //Criação do webserver local
 app.listen(3000, ()=>{
     console.log('Servidor rodando em http://localhost:3000')
-    //SINCRONIZAÇÃO DOS STATUS PADRÃO DOS SERVIÇOS
-    //sincronizar()
 });

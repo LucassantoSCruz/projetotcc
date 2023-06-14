@@ -59,8 +59,8 @@ const TelaServico = ({ navigation }) => {
             .then(function (response) {
                 setTitulo(response.data.data.titulo)
                 setDescricao(response.data.data.descricao)
-                setPreco(response.data.data.preco)
-                setPrecoFormatado(preco.replace(".", ","))
+                setPreco(response.data.data.preco.replace(".", ","))
+                //setPrecoFormatado(preco.replace(".", ","))
                 setFK_Profissionais_Agenda(response.data.data.FK_Profissionais_Servicos)
                 setFK_Servicos_Agenda(response.data.data.ID)
             })
@@ -70,11 +70,12 @@ const TelaServico = ({ navigation }) => {
     }
 
     const enviarAgendamento = () => {
-        const dataFormatada = data.format('YYYY/MM/DD');
-        const agendamento = dataFormatada + ' ' + horario + ':00';
-        console.log(dataFormatada)
-        console.log(horario)
-        console.log(agendamento)
+
+        const dataFormatada = Moment(data, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        const agendamento = dataFormatada + ' ' + horario;
+        console.log('Data formatada: ' + dataFormatada)
+        console.log('Data formatada: ' + horario)
+        console.log('Data formatada: ' + agendamento)
 
         axios.post(`${ENDERECO_API}/cadastrarAgendamento`, {
             data: agendamento,
@@ -154,7 +155,7 @@ const TelaServico = ({ navigation }) => {
                 <View style={styles.valor}>
                     <View>
                         <Text style={styles.preco}>
-                            R${precoFormatado}
+                            R${preco}
                         </Text>
                     </View>
                 </View>
@@ -202,8 +203,7 @@ const TelaServico = ({ navigation }) => {
 
                                 <MaskedTextInput
                                     mask="99:99"
-                                    onChangeText={(text, rawText) => {
-                                        console.log(text);
+                                    onChangeText={(text) => {
                                         setHorario(text);
                                     }}
                                     style={styles.campotexto}

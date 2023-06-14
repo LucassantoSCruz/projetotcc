@@ -11,6 +11,7 @@ const MapaExpo = () => {
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const [marcadores, setMarcadores] = useState([]);
+    const [profisional, setProfissional] = useState(null)
 
     const requestResponse = () => {
         axios.get(`${ENDERECO_API}/listarEndereco`)
@@ -34,7 +35,7 @@ const MapaExpo = () => {
             console.log(location.coords)
         })();
         requestResponse();
-        marcadores.forEach(item => console.log(item))
+        console.log(marcadores.data)
     }, []);
 
     let text = 'Buscando localização..';
@@ -75,7 +76,7 @@ const MapaExpo = () => {
                             }}
                             pinColor={'#9a6b99'}
                         >
-                            <Callout>
+                            <Callout onPress={console.log(JSON.stringify(marcador.tbl_Profissionais.nomeFantasia))}>
                                 <CustomCallout
                                     title="Bolha Customizada"
                                     description="Este é um componente customizado."

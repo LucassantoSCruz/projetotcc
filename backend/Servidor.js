@@ -3,7 +3,6 @@ const conexao = require('./database/Database')
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const modelStatus = require('./models/ModelStatus')
 
 //Importação das rotas
 const routeAgenda = require('./routes/RouteAgenda');

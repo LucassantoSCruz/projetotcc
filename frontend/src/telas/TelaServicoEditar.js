@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import CurrencyInput from 'react-native-currency-input';
+import { ENDERECO_API } from '../../config';
 
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoServico from '../componentes/ImagemPadraoServico';
@@ -100,7 +101,7 @@ const TelaCriarServico = () => {
 
     //ROTA DE LISTAGEM
     const listarInfoServico = () => {
-        axios.get(`http://192.168.15.6:3000/listarServicosID/${idServico}`)
+        axios.get(`${ENDERECO_API}/listarServicosID/${idServico}`)
         .then(function (response){
             //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)
@@ -121,7 +122,7 @@ const TelaCriarServico = () => {
     //ROTA EDITAR SERVICO
     const alterarServicos = () => {
         axios
-          .put(`http://192.168.15.6:3000/alterarServicos/${idServico}`, {
+          .put(`${ENDERECO_API}/alterarServicos/${idServico}`, {
             preco: precoMu,
             titulo: tituloMu,
             descricao: descricaoMu,

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert, RefreshControl } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ScrollView, TextInput, TouchableOpacity, Alert, RefreshControl } from 'react-native'
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadrao from '../componentes/ImagemPadrao';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { placeholder } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 import BoxEndereco from '../componentes/BoxEndereco';
+import { ENDERECO_API } from '../../config';
 
 const PlaceholderImage = require('../../assets/perfil2.png');
 
@@ -73,47 +74,19 @@ const TelaConfiguracoes = () => {
     };
 
     const listarTodosDados = () => {
-        axios.get(`http://192.168.1.6:3000/ListarTodaInfoProfissional/${idUsuario}`)
+        axios.get(`${ENDERECO_API}/ListarTodaInfoProfissional/${idUsuario}`)
             .then(function (response) {
-                console.log('Info Profissional: ' + JSON.stringify(response.data.data.tbl_Enderecos))
+                console.log('Info Profissional: ' + JSON.stringify(response.data.data))
                 setEndereco(response.data.data.tbl_Enderecos)
                 console.log('Info salva: ' + JSON.stringify(endereco))
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
-    }
-
-    //LISTAR PROFISSIONAL
-    const listarDadosPerfil = () => {
-        axios.get(`http://192.168.1.6:3000/ListarProfissionalCNPJ/${idUsuario}`)
-            .then(function (response) {
-
-                console.log(response.data.data)
                 setNome(response.data.data.nome)
                 setTelefone(response.data.data.telefone)
                 setDescricao(response.data.data.descricao)
                 setfkEndereco(response.data.data.FK_Profissionais_Enderecos)
-                console.log(fkEndereco)
             })
             .catch(function (error) {
-                console.log(error);
+                console.log(error)
             })
-        axios.get(`http://192.168.1.6:3000/ListarEnderecoID/${fkEndereco}`)
-            .then(function (response) {
-
-                console.log('Endereço: ' + JSON.stringify(response.data.data))
-                setRua(response.data.data.logradouro)
-                setEstado(response.data.data.uf)
-                setcidade(response.data.data.localidadeCidade)
-                setNumero(response.data.data.numero)
-                //setEnderecoMu(response.data.data.cep)
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-
     }
 
     //variaveis rotas de alteração
@@ -121,15 +94,10 @@ const TelaConfiguracoes = () => {
     const [descricaoMu, setDescricaoMu] = useState(null)
     const [telefoneMu, setTelefoneMu] = useState(null)
 
-    const [ruaMu, setRuaMu] = useState(null)
-    const [estadoMu, setEstadoMu] = useState(null)
-    const [cidadeMu, setcidadeMu] = useState(null)
-    const [numeroMu, setNumeroMu] = useState(null)
-
     //ROTA EDITAR PROFISSIONAL
     const alterarProfissional = () => {
 
-        axios.put(`http://192.168.1.6:3000/alterarProfissionais/${idUsuario}`, {
+        axios.put(`${ENDERECO_API}/alterarProfissionais/${idUsuario}`, {
             nome: nomeMu,
             descricao: descricaoMu,
             telefone: telefoneMu
@@ -140,24 +108,10 @@ const TelaConfiguracoes = () => {
             .catch(function (error) {
                 console.log(error);
             });
-
-        axios.put(`http://192.168.1.6:3000/alterarEndereco/${fkEndereco}`, {
-            logradouro: ruaMu,
-            uf: estadoMu,
-            localidadeCidade: cidadeMu,
-            numero: numeroMu
-        })
-            .then(function (response) {
-                console.log(response.data)
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-
     }
 
     //CONFIRMAR SERÇO 
-    const ConfirmarServico = () => {
+    const confirmarEdicao = () => {
         Alert.alert("Tem certeza que deseja alterar seu Perfil?", 'As informações serão alteradas', [
             {
                 text: 'Cancelar',
@@ -172,20 +126,25 @@ const TelaConfiguracoes = () => {
 
     const toggleItem = (itemId) => {
         setEndereco((prevState) =>
-          prevState.map((item) =>
-            item.id === itemId ? { ...item, selected: !item.selected } : item
-          )
+            prevState.map((item) =>
+                item.ID === itemId ? { ...item, selected: !item.selected } : item
+            )
         );
-      };
-    
-      const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => toggleItem(item.id)}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-            <Text>Endereço</Text>
-            <Text>{item.selected ? ' (Selected)' : ''}</Text>
-          </View>
+        setSelectedItemId((prevItemId) =>
+            prevItemId === itemId ? null : itemId
+        );
+    };
+
+    const [selectedItemId, setSelectedItemId] = useState(null);
+
+    const renderItem = ({ item }) => (
+        <TouchableOpacity onPress={() => toggleItem(item.ID)}>
+            <View style={{ alignItems: 'center', padding: 10 }}>
+                <Text style={styles.titulo}>Endereço</Text>
+                {item.selected && <BoxEndereco endereco={item} selectedItemId={selectedItemId}/>}
+            </View>
         </TouchableOpacity>
-      );
+    );
 
     return (
         <View style={styles.tela}>
@@ -227,12 +186,13 @@ const TelaConfiguracoes = () => {
                 <View>
                     <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
                         <FlatList
-                            horizontal={false}
+                            
                             data={endereco}
                             renderItem={renderItem}
                             keyExtractor={item => item.ID}
                             contentContainerStyle={{ flex: 1 }}
                         />
+                        
                     </ScrollView>
                 </View>
 
@@ -245,7 +205,7 @@ const TelaConfiguracoes = () => {
                     multiline={true}
                     onChangeText={telefoneMu => setTelefoneMu(telefoneMu)}
                 />
-                <TouchableOpacity style={styles.btnsalvar} onPress={ConfirmarServico}>
+                <TouchableOpacity style={styles.btnsalvar} onPress={confirmarEdicao}>
                     <Text style={styles.textosalvar}>
                         Salvar
                     </Text>

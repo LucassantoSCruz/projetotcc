@@ -1,88 +1,128 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert, RefreshControl } from 'react-native'
 import axios from 'axios';
-import * as ImagePicker from 'expo-image-picker';
-import ImagemPadrao from './ImagemPadrao';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { placeholder } from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
+import { ENDERECO_API } from '../../config'
 
-const BoxEndereco = (item) => {
-    // const [cepEnd, setCepEnd] = useState(null);
-    // const [infoCep, setInfo] = useState('');
-    // const [latitude, setLatitude] = useState(null);
-    // const [longitude, setLongitude] = useState(null);
-    // const [numero, setNumero] = useState(null);
-    // const [complemento, setComplemento] = useState(null);
-    // const route = useRoute();
+const BoxEndereco = (endereco, selectedItemId) => {
+    const [ruaMu, setRuaMu] = useState(null)
+    const [estadoMu, setEstadoMu] = useState(null)
+    const [cidadeMu, setcidadeMu] = useState(null)
+    const [numeroMu, setNumeroMu] = useState(null)
 
     const getCep = async () => {
         const { data } = await axios.get(`https://viacep.com.br/ws/${cepEnd}/json`);
         setInfo(data);
     }
 
-    console.log(item)
-    return (
-        <View>
-            <Text style={styles.titulo}>
-                Endereço
-            </Text>
+    const enderecoSelecionado = (endereco.endereco)
+    const rua = enderecoSelecionado.logradouro
+    const estado = enderecoSelecionado.uf
+    const cidade = enderecoSelecionado.localidadeCidade
+    const bairro = enderecoSelecionado.bairro
+    const numero = enderecoSelecionado.numero
+    const complemento = enderecoSelecionado.complemento
+    const cep = enderecoSelecionado.cep
+    console.log(enderecoSelecionado)
+    console.log(endereco.selectedItemId)
 
-            <View style={styles.alinhamentocep}>
-                <TextInput
-                    style={styles.campocep}
-                    placeholder={'item.item.item.cep'}
+    const alterarEndereco = () => {
+        axios.put(`${ENDERECO_API}/alterarEndereco/${enderecoSelecionado.ID}`, {
+            logradouro: ruaMu,
+            uf: estadoMu,
+            localidadeCidade: cidadeMu,
+            numero: numeroMu
+        })
+            .then(function (response) {
+                console.log(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    const confirmarEdicao = () => {
+        Alert.alert("Tem certeza que deseja alterar este Endereço?", 'As informações serão alteradas', [
+            {
+                text: 'Cancelar',
+                onPress: () => console.log('Configuração Cancelado')
+            },
+            {
+                text: 'Editar',
+                onPress: () => alterarEndereco()
+            },
+        ])
+    }
+
+
+    if (enderecoSelecionado.ID == endereco.selectedItemId) {
+        return (
+            <View>
+                <View style={styles.alinhamentocep}>
+                    <TextInput
+                        style={styles.campocep}
+                        placeholder={'item.item.item.cep'}
                     //value={cepEnd}
                     //onChangeText={text => setCepEnd(text)}
+                    />
+
+                    <TouchableOpacity style={styles.botaocep}
+                    // onPress={getCep}
+                    >
+                        <Text style={styles.textocep}>
+                            Buscar
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+                <Text style={styles.titulo2}>
+                    Estado
+                </Text>
+                <TextInput
+                    style={styles.descricao}
+                    placeholder={'estado'}
+                    multiline={true}
+                // onChangeText={estadoMu => setEstadoMu(estadoMu)}
                 />
 
-                <TouchableOpacity style={styles.botaocep} onPress={getCep}>
+                <Text style={styles.titulo2}>
+                    Cidade
+                </Text>
+                <TextInput
+                    style={styles.descricao}
+                    placeholder={'cidade'}
+                    multiline={true}
+                //onChangeText={cidadeMu => setcidadeMu(cidadeMu)}
+                />
+
+
+                <Text style={styles.titulo2}>
+                    Rua
+                </Text>
+                <TextInput
+                    style={styles.descricao}
+                    placeholder={'rua'}
+                    multiline={true}
+                //onChangeText={ruaMu => setRuaMu(ruaMu)}
+                />
+
+                <Text style={styles.titulo2}>
+                    numero
+                </Text>
+                <TextInput
+                    style={styles.descricao}
+                    placeholder={'numero'}
+                    multiline={true}
+                />
+
+                <TouchableOpacity style={styles.botaocep} onPress={confirmarEdicao}>
                     <Text style={styles.textocep}>
-                        Buscar
+                        Alterar
                     </Text>
                 </TouchableOpacity>
             </View>
-
-            <Text style={styles.titulo2}>
-                Estado
-            </Text>
-            <TextInput
-                style={styles.descricao}
-                placeholder={'estado'}
-                multiline={true}
-            // onChangeText={estadoMu => setEstadoMu(estadoMu)}
-            />
-
-            <Text style={styles.titulo2}>
-                Cidade
-            </Text>
-            <TextInput
-                style={styles.descricao}
-                placeholder={'cidade'}
-                multiline={true}
-            //onChangeText={cidadeMu => setcidadeMu(cidadeMu)}
-            />
-
-
-            <Text style={styles.titulo2}>
-                Rua
-            </Text>
-            <TextInput
-                style={styles.descricao}
-                placeholder={'rua'}
-                multiline={true}
-            //onChangeText={ruaMu => setRuaMu(ruaMu)}
-            />
-
-            <Text style={styles.titulo2}>
-                numero
-            </Text>
-            <TextInput
-                style={styles.descricao}
-                placeholder={'numero'}
-                multiline={true}
-            />
-        </View>
-    )
+        )
+    }
+    return null;
 }
 
 const styles = StyleSheet.create({
@@ -103,7 +143,7 @@ const styles = StyleSheet.create({
     },
     alinhamentocep: {
         flexDirection: 'row'
-      },
+    },
     titulo2: {
         fontWeight: 'normal',
         fontSize: 15,

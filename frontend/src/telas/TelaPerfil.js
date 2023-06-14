@@ -115,7 +115,7 @@ const TelaPerfilP = () => {
             }).catch(function (error) {
                 console.log(error)
             })
-            axios.get(`http://192.168.15.6:3000/listarServicosFK/${idUsuario}`)
+            axios.get(`${ENDERECO_API}/listarServicosFK/${idUsuario}`)
             .then(function (response) {
                 setServicos(response.data.data)
                 console.log(servicos)

@@ -1,13 +1,16 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import Moment from 'moment';
 
 const CaixaAgendaCliente = (agendamentos) => {
-  console.log('Componente CaixaAgenda: '+ JSON.stringify(agendamentos.agendamentos.item))
   const profissional = agendamentos.agendamentos.item.tbl_Profissionai
   const servico = agendamentos.agendamentos.item.tbl_Servico
   const cliente = agendamentos.agendamentos.item.tbl_Cliente
   const status = agendamentos.agendamentos.item.tbl_status
-  const precoFormatado =servico.preco.replace(".",",")
+  const precoFormatado = servico.preco.replace(".", ",")
+  const dataFormatada = Moment(agendamentos.agendamentos.item.data).format('DD/MM/YYYY');
+  const horarioFormatado = Moment(agendamentos.agendamentos.item.data).format('HH:mm');
+  let botoes = null;
 
   return (
     <View style={styles.container}>
@@ -25,29 +28,16 @@ const CaixaAgendaCliente = (agendamentos) => {
               </View>
 
               <View style={styles.info}>
+                <Text>Status: {status.titulo}</Text>
                 <Text>Valor: R${precoFormatado}</Text>
-                <Text>Data: </Text>
-                <Text>Horário: 15h</Text>
+                <Text>Data: {dataFormatada}</Text>
+                <Text>Horário: {horarioFormatado}</Text>
                 <Text>Local: Cabelereira Leila</Text>
               </View>
             </View>
 
           </View>
-
-          <View style={{ flexDirection: 'row', marginTop: 7 }}>
-            <TouchableOpacity style={styles.botao}>
-              <Text>Botão</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.botao}>
-              <Text>Botão</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.botao}>
-              <Text>Botão</Text>
-            </TouchableOpacity>
-          </View>
-
+           
         </View>
 
       </View>
@@ -58,28 +48,26 @@ const CaixaAgendaCliente = (agendamentos) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-    marginTop: 50
+    marginTop: 50,
+    width: '100%'
   },
   caixa: {
     width: 350,
-    height: 250,
     backgroundColor: '#DCBADB',
     borderRadius: 10,
     borderColor: 'black',
-    borderWidth: 1
+    borderWidth: 1,
   },
   imgtxt: {
     flexDirection: 'row',
-    borderWidth: 1,
     borderRadius: 10,
-    borderColor: 'black',
     width: 340,
-    height: 163,
-    marginTop: 10,
-    marginLeft: 5,
-    backgroundColor: '#F4E8F2'
+    marginTop: 5,
+    marginLeft: 3,
+    marginBottom: 5,
+    backgroundColor: '#F4E8F2',
+    alignItems: 'center',
   },
   imagem: {
     width: 165,
@@ -88,7 +76,6 @@ const styles = StyleSheet.create({
   },
   texto: {
     width: 165,
-    height: 160,
     marginLeft: 5,
     borderRadius: 10,
   },
@@ -102,15 +89,26 @@ const styles = StyleSheet.create({
   botao: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: 'black',
     backgroundColor: '#F4E8F2',
-    borderWidth: 1,
     borderRadius: 10,
-    width: 110,
+    width: '47%',
+    height: 60,
+    marginLeft: 2.5,
+    marginRight: 2.5,
+    marginBottom: 7
+  },
+  status: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F4E8F2',
+    borderRadius: 10,
+    width: '97%',
     height: 60,
     marginLeft: 5,
+    marginBottom: 7,
+    flexDirection: 'row', 
+    marginTop: 7
   }
-
 });
 
 export default CaixaAgendaCliente

@@ -5,6 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import MaskInput, { Masks, createNumberMask } from 'react-native-mask-input';
 import { MaskedTextInput } from 'react-native-mask-text';  // esse é outro componente para máscarar o valor inserido, vou conferir ainda qual dos dois compensa mais usar
 import axios from 'axios';
+import { ENDERECO_API } from '../../config';
 
 
 
@@ -76,9 +77,9 @@ const TelaServicoProfissional = ({navigation}) => {
     //ROTA EXCLUIR SERVICO
     const excluirServicos = () => {
 
-        // console.log(`http://192.168.15.6:3000/excluirServicos/${idServico}`)
+        // console.log(`${ENDERECO_API}/excluirServicos/${idServico}`)
 
-    axios.delete(`http://192.168.15.6:3000/excluirServicos/${idServico}`)
+    axios.delete(`${ENDERECO_API}/excluirServicos/${idServico}`)
         .then(function (response) {
             console.log(response.data)
         })
@@ -90,7 +91,7 @@ const TelaServicoProfissional = ({navigation}) => {
 
     //LISTAR SERVIÇO
     const listarInfoServico = () => {
-        axios.get(`http://192.168.15.6:3000/listarServicosID/${idServico}`)
+        axios.get(`${ENDERECO_API}/listarServicosID/${idServico}`)
         .then(function (response){
             //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert, RefreshControl, FlatList } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert, RefreshControl } from 'react-native'
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadrao from '../componentes/ImagemPadrao';
@@ -11,6 +11,7 @@ const PlaceholderImage = require('../../assets/perfil2.png');
 
 const TelaConfiguracoes = () => {
     const [imagemSelecionada, setImagemSelecionada] = useState(null);
+    const [idUsuario, setIdUsuario] = useState(null)
 
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -188,14 +189,15 @@ const TelaConfiguracoes = () => {
 
     return (
         <View style={styles.tela}>
-            <ScrollView>
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
                 <Text style={styles.titulodesc}>
                     Nome
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder=''
+                    placeholder={nome}
                     multiline={true}
+                    onChangeText={nomeMu => setNomeMu(nomeMu)}
                 />
 
                 <Text style={styles.titulo}>
@@ -203,8 +205,9 @@ const TelaConfiguracoes = () => {
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder=''
+                    placeholder={Descricao}
                     multiline={true}
+                    onChangeText={descricaoMu => setDescricaoMu(descricaoMu)}
                 />
 
                 <Text style={styles.titulo}>
@@ -234,15 +237,15 @@ const TelaConfiguracoes = () => {
                 </View>
 
                 <Text style={styles.titulo}>
-                    Outras Informações
+                    Telefone
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder=''
+                    placeholder={telefone}
                     multiline={true}
+                    onChangeText={telefoneMu => setTelefoneMu(telefoneMu)}
                 />
-
-                <TouchableOpacity style={styles.btnsalvar}>
+                <TouchableOpacity style={styles.btnsalvar} onPress={ConfirmarServico}>
                     <Text style={styles.textosalvar}>
                         Salvar
                     </Text>
@@ -267,6 +270,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 24,
         marginHorizontal: 15
+    },
+    titulo2: {
+        fontWeight: 'normal',
+        fontSize: 15,
+        marginHorizontal: 20
     },
     descricao: {
         fontSize: 18,

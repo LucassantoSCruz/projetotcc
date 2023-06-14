@@ -100,7 +100,7 @@ const TelaCriarServico = () => {
 
     //ROTA DE LISTAGEM
     const listarInfoServico = () => {
-        axios.get(`http://192.168.1.6:3000/listarServicosID/${idServico}`)
+        axios.get(`http://192.168.15.6:3000/listarServicosID/${idServico}`)
         .then(function (response){
             //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)
@@ -121,7 +121,7 @@ const TelaCriarServico = () => {
     //ROTA EDITAR SERVICO
     const alterarServicos = () => {
         axios
-          .put(`http://192.168.1.6:3000/alterarServicos/${idServico}`, {
+          .put(`http://192.168.15.6:3000/alterarServicos/${idServico}`, {
             preco: precoMu,
             titulo: tituloMu,
             descricao: descricaoMu,

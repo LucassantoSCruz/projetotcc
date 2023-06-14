@@ -76,9 +76,9 @@ const TelaServicoProfissional = ({navigation}) => {
     //ROTA EXCLUIR SERVICO
     const excluirServicos = () => {
 
-        // console.log(`http://192.168.1.6:3000/excluirServicos/${idServico}`)
+        // console.log(`http://192.168.15.6:3000/excluirServicos/${idServico}`)
 
-    axios.delete(`http://192.168.1.6:3000/excluirServicos/${idServico}`)
+    axios.delete(`http://192.168.15.6:3000/excluirServicos/${idServico}`)
         .then(function (response) {
             console.log(response.data)
         })
@@ -90,7 +90,7 @@ const TelaServicoProfissional = ({navigation}) => {
 
     //LISTAR SERVIÇO
     const listarInfoServico = () => {
-        axios.get(`http://192.168.1.6:3000/listarServicosID/${idServico}`)
+        axios.get(`http://192.168.15.6:3000/listarServicosID/${idServico}`)
         .then(function (response){
             //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
             setTitulo(response.data.data.titulo)

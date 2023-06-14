@@ -1,7 +1,7 @@
 import { ENDERECO_API } from '../../config';
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, RefreshControl, StyleSheet, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
-import BoxPerfil from '../componentes/BoxPerfil';
+import BoxProf from '../componentes/BoxProf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
@@ -115,10 +115,17 @@ const TelaPerfilP = () => {
             }).catch(function (error) {
                 console.log(error)
             })
-            }
+            axios.get(`http://192.168.15.6:3000/listarServicosFK/${idUsuario}`)
+            .then(function (response) {
+                setServicos(response.data.data)
+                console.log(servicos)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+        } 
         else {
             console.log('Não é possível ver os serviços de uma conta cliente')
-
         }
     }
 
@@ -152,7 +159,7 @@ const TelaPerfilP = () => {
                     <FlatList
                         horizontal={true}
                         data={servicos}
-                        renderItem={({ item }) => <BoxPerfil item={(item)} />}
+                        renderItem={({ item }) => <BoxProf item={(item)} />}
                     />
                 </View>
             </ScrollView>

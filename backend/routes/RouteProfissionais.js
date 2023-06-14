@@ -129,23 +129,28 @@ router.get('/ListarProfissionaisEmail/:email/:senha', (req, res)=>{
     )
 });
 
-router.get('/ListarTodaInfoProfissionais', (req, res) => {
-    modelProfissionais.findAll({ include: { all: true, nested: true } })
-    .then(
-        (response) => {
+router.get('/ListarTodaInfoProfissional/:CPF_CNPJ', (req, res) => {
+
+    let CPF_CNPJ = req.params.CPF_CNPJ;
+
+    modelProfissionais.findOne({ 
+        where: { CPF_CNPJ: CPF_CNPJ },
+        include: { all: true} 
+    }).then(
+        (response)=>{
             return res.status(200).json({
-                erroStatus: false,
-                mensagemStatus: "Profissionais e informações listados com sucesso!",
-                data: response
+                erroStatus:false,
+                mensagemStatus:"Profissional listado com sucesso!",
+                data:response
             })
         }
     )
     .catch(
-        (erro) => {
+        (erro)=>{
             return res.status(400).json({
-                erroStatus: true,
-                mensagemStatus: "Erro ao listar Profissionais e Informações!",
-                erroObject: erro
+                erroStatus:true,
+                mensagemStatus:"Erro ao listar Profissional!",
+                erroObject:erro
             });
         }
     )

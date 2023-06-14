@@ -34,7 +34,7 @@ const MapaExpo = () => {
             console.log(location.coords)
         })();
         requestResponse();
-        console.log(marcadores.data)
+        marcadores.forEach(item => console.log(item))
     }, []);
 
     let text = 'Buscando localização..';

@@ -1,5 +1,6 @@
 const express = require('express');
 const modelEnderecos = require('../models/ModelEnderecos');
+const modelProfissionais = require('../models/ModelProfissionais')
 const router = express.Router();
 const opencage = require('opencage-api-client');
 
@@ -77,7 +78,7 @@ router.post('/cadastrarEndereco', (req, res) => {
 router.get('/listarEndereco', (req, res) => {
 
     //Procure todos os campos e registros desta tabela...
-    modelEnderecos.findAll()
+    modelEnderecos.findAll({include: modelProfissionais})
         .then(
             /*
             *...e então, caso dê certo, envie este arquivo JSON 

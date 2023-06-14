@@ -8,6 +8,8 @@ const BoxEndereco = (endereco, selectedItemId) => {
     const [estadoMu, setEstadoMu] = useState(null)
     const [cidadeMu, setcidadeMu] = useState(null)
     const [numeroMu, setNumeroMu] = useState(null)
+    const [infoCep, setInfo] = useState('');
+    const [cepEnd, setCepEnd] = useState(null);
 
     const getCep = async () => {
         const { data } = await axios.get(`https://viacep.com.br/ws/${cepEnd}/json`);
@@ -53,21 +55,48 @@ const BoxEndereco = (endereco, selectedItemId) => {
         ])
     }
 
+    const buscarCoordenadas = () => {
+
+        const formatarEndereco = (bairro, numero, logradouro, localidade, uf) => {
+          const endereco = bairro + ' ' + numero + ', ' + logradouro + ', ' + localidade + ' ' + uf + ', Brazil'
+          //console.log(endereco)
+          return endereco;
+        }
+    
+        const enderecoCompleto = formatarEndereco(infoCep.bairro, numero, infoCep.logradouro, infoCep.localidade, infoCep.uf);
+    
+        axios.get(`${ENDERECO_API}/buscarCoordenadas`, {
+          params: {
+            endereco: enderecoCompleto
+          }
+        })
+          .then((response) => {
+            const local = response.data.data.results[0];
+            console.log(JSON.stringify(local.geometry))
+            const latitude = local.geometry.lat;
+            const longitude = local.geometry.lng;
+            console.log('Latitude: ', latitude);
+            console.log('Longitude: ', longitude);
+            //cadastrarEndereco(latitude, longitude)
+          })
+          .catch((error) => {
+            console.error('Erro:', error.message);
+          });
+      }
+
 
     if (enderecoSelecionado.ID == endereco.selectedItemId) {
         return (
-            <View>
+            <View style={styles.tela}>
                 <View style={styles.alinhamentocep}>
                     <TextInput
-                        style={styles.campocep}
-                        placeholder={'item.item.item.cep'}
+                        style={styles.descricao}
+                        placeholder={enderecoSelecionado.cep}
                     //value={cepEnd}
                     //onChangeText={text => setCepEnd(text)}
                     />
 
-                    <TouchableOpacity style={styles.botaocep}
-                    // onPress={getCep}
-                    >
+                    <TouchableOpacity style={styles.botaocep} onPress={getCep}>
                         <Text style={styles.textocep}>
                             Buscar
                         </Text>
@@ -114,9 +143,9 @@ const BoxEndereco = (endereco, selectedItemId) => {
                     multiline={true}
                 />
 
-                <TouchableOpacity style={styles.botaocep} onPress={confirmarEdicao}>
-                    <Text style={styles.textocep}>
-                        Alterar
+                <TouchableOpacity style={styles.btnsalvar} onPress={confirmarEdicao}>
+                    <Text style={styles.textosalvar}>
+                        Alterar Endereço
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -128,6 +157,7 @@ const BoxEndereco = (endereco, selectedItemId) => {
 const styles = StyleSheet.create({
     tela: {
         flex: 1,
+        width: '90%'
     },
     titulodesc: {
         fontWeight: 'bold',
@@ -142,7 +172,8 @@ const styles = StyleSheet.create({
         margin: 10
     },
     alinhamentocep: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     titulo2: {
         fontWeight: 'normal',
@@ -184,6 +215,22 @@ const styles = StyleSheet.create({
         width: '50%',
         textAlign: 'center'
     },
+    botaocep: {
+        width: '25%',
+        height: 50,
+        backgroundColor: '#D0A3CE',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2,
+        borderRadius: 10,
+        marginBottom: 15,
+        marginHorizontal: '2%'
+      },
+      textocep: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 20
+      }
 })
 
 export default BoxEndereco

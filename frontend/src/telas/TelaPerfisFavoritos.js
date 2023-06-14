@@ -16,7 +16,7 @@ const TelaPerfisFavoritados = () => {
         setRefreshing(true);
         setTimeout(() => {
             obterDados();
-            perfisFavoritos();
+            favoritarPerfil();
             setRefreshing(false);
         }, 2000);
     }
@@ -34,8 +34,8 @@ const TelaPerfisFavoritados = () => {
         }
     };
 
-    const perfisFavoritos = () => {
-        axios.get(`http://10.0.1.103:3000/listarPerfisFavoritos/${idUsuario}`)
+    const favoritarPerfil = () => {
+        axios.get(`http://10.0.1.29:3000/listarPerfisFavoritos/${idUsuario}`)
             .then(function (response) {
                 if (response.data && response.data.data && response.data.data.length > 0) {
                     console.log(response.data.data);
@@ -52,33 +52,27 @@ const TelaPerfisFavoritados = () => {
     }
 
     const buscarDados = async () => {
-
         for (const item of idProfissional) {
             const valor = item.FK_Profissionais_Clientes;
-
             try {
-                const response = await axios.get(`http://10.0.1.103:3000/ListarProfissionalCNPJ/${valor}`, {
+                const response = await axios.get(`http://10.0.1.29:3000/ListarProfissionalCNPJ/${valor}`, {
                     params: {
                         CPF_CNPJ: valor
                     }
                 });
-
                 resultados.push(response.data.data);
                 console.log(resultados)
                 setResultadosBusca(resultados)
                 console.log(resultadosBusca)
-
             } catch (error) {
-
                 console.error(error);
-
             }
         }
     };
 
     useEffect(() => {
         obterDados()
-        perfisFavoritos()
+        favoritarPerfil()
     }, [])
 
     return (

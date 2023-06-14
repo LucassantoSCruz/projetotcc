@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 15,
-    marginHorizontal: 16,
+    marginHorizontal: '2%',
     flex: 1,
     marginBottom: 15,
-    width: 170,
+    width: 185,
     flexGrow: 1
   },
   imagem: {

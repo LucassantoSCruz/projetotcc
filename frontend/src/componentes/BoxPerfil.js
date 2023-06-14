@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         fontSize: 32,
     },
     fundonome: {
-        height: 75,
+        height: 69,
         borderRadius: 14,
         backgroundColor: '#9a6b99',
     },
@@ -46,10 +46,10 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderWidth: 1,
         borderRadius: 15,
-        marginHorizontal: 16,
+        marginHorizontal: '2%',
         flex: 1,
         marginBottom: 15,
-        width: 170,
+        width: 185,
         flexGrow: 1
     },
     imagem: {

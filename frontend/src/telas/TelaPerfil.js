@@ -60,6 +60,8 @@ const TelaPerfilP = () => {
     const [servicos, setServicos] = useState([])
     const navigation = useNavigation();
 
+    const [imagemSelecionada, setImagemSelecionada] = useState('')
+
     const fetchData = () => {
         setTimeout(() => {
             // Lógica para buscar os dados atualizados
@@ -104,7 +106,14 @@ const TelaPerfilP = () => {
         }
     };
 
-    const listarDadosPerfil = () => {
+    useEffect(() => {
+    
+    
+       console.log('imagem de perfil: '+ JSON.stringify(imagemSelecionada) )
+     }, [imagemSelecionada])
+
+
+    const listarDadosPerfil = async () => {
         if (tipoconta == 'Profissional') {
             axios.get(`${ENDERECO_API}/ListarPerfilProfissional/${idUsuario}`)
             .then(function (response) {
@@ -127,6 +136,10 @@ const TelaPerfilP = () => {
         else {
             console.log('Não é possível ver os serviços de uma conta cliente')
         }
+        
+        const imagemRecuperada = AsyncStorage.getItem('imagemPerfil')
+        setImagemSelecionada(imagemRecuperada)
+        
     }
 
     return (
@@ -140,7 +153,17 @@ const TelaPerfilP = () => {
                         <Text style={styles.legenda}>{descricao}</Text>
                     </View>
                     <View style={styles.direita}>
-                        <Image style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} />
+                    {
+                        imagemSelecionada ?
+                        <Image
+                        source={{uri: imagemSelecionada}}
+                        style={styles.imagem}/>
+                        :
+                        <Image
+                        source={require('../../assets/imagem5.png')}
+                        style={styles.imagem}/>
+                    }
+                      
                     </View>
                 </View>
                 <View style={styles.botoes}>

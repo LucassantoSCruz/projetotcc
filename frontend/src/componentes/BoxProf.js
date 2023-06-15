@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 const BoxProf = ( item ) => {
@@ -7,21 +7,36 @@ const BoxProf = ( item ) => {
     //console.log('Itens do box Perfil: '+ JSON.stringify(item.item.titulo))
 
     const navigation = useNavigation()
+    const [ imagemSelecionada, setImagemSelecionada] = useState();
 
-    const Pressionar = () => {
+    useEffect(() =>{
+        console.log(imagemSelecionada)
+    }, [imagemSelecionada])
+
+    const Pressionar = async () => {
         console.log('Info do serviço clicado: ' + JSON.stringify(item.item))
         const idServico = item.item.ID 
         // console.log('ID salvo: ' + idServico)
         navigation.navigate('ServicoProfissional', {idServico})
+
+        const imagemRecuperada = await AsyncStorage.getItem('imagemServico')
+        setImagemSelecionada(imagemRecuperada)
     }
 
     return (
         <TouchableOpacity onPress={Pressionar} >
             <View style={styles.caixa}>
                 <View style={styles.caixa2}>
+                    {
+                    imagemSelecionada ?
+                    <Image
+                    source={{uri: imagemSelecionada}}
+                    style={styles.imagem}/>
+                    :
                     <Image
                     source={require('../../assets/imagem1.png')}
                     style={styles.imagem}/>
+                    }
                 </View>
                 <View style={styles.view}>
                 <Text style={styles.text}>

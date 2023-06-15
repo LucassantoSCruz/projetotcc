@@ -86,6 +86,20 @@ const TelaPerfilProfissional = () => {
             });
     }
 
+    const DesFavoritarPerfil = () => {
+        axios.delete(`${ENDERECO_API}/excluirPerfilFavorito/${idUsuario}/${idProfissional}`,
+            {
+                FK_Profissionais_Clientes: idProfissional,
+                FK_Clientes_Profissionais: idUsuario
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+
     const verificarFavorito = () => {
         axios.get(`${ENDERECO_API}/listarPerfisFavoritos/${idUsuario}`)
             .then(function (response) {

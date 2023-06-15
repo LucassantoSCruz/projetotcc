@@ -93,16 +93,18 @@ modelProfissionais.belongsToMany(modelEnderecos, {
     timestamps: false
 });
 
-modelProfissionais.belongsToMany(modelClientes, {
-    through: modelPerfisFavoritos, 
-    foreignKey: 'FK_Profissionais_Clientes',
-    timestamps: false
-});
 modelClientes.belongsToMany(modelProfissionais, {
-    through: modelPerfisFavoritos, 
+    through: modelPerfisFavoritos,
     foreignKey: 'FK_Clientes_Profissionais',
+    otherKey: 'FK_Profissionais_Clientes',
     timestamps: false
-});
+  });
+  modelProfissionais.belongsToMany(modelClientes, {
+    through: modelPerfisFavoritos,
+    foreignKey: 'FK_Profissionais_Clientes',
+    otherKey: 'FK_Clientes_Profissionais',
+    timestamps: false
+  });
 
 //Exportação do modelo
 module.exports = modelProfissionais;

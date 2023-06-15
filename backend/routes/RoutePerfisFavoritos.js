@@ -64,11 +64,8 @@ router.get('/listarPerfisFavoritos/:FK_Clientes_Profissionais', (req, res) => {
         {
             where: {
                 FK_Clientes_Profissionais: FK_Clientes_Profissionais
-            },
-            include: [{
-              model: modelProfissionais
-            }]
-          }
+            }
+        }
     )
         .then(
             (response) => {
@@ -90,7 +87,33 @@ router.get('/listarPerfisFavoritos/:FK_Clientes_Profissionais', (req, res) => {
         )
 });
 
+router.delete('/excluirPerfilFavorito/:FK_Clientes_Profissionais/:FK_Profissionais_Clientes', (req, res) => {
+    
+    let { FK_Clientes_Profissionais, FK_Profissionais_Clientes } = req.params;
 
+    modelPerfisFavoritos.destroy({
+        where: { FK_Clientes_Profissionais, FK_Profissionais_Clientes }
+    })
+
+    .then(
+        (response) => {
+            return res.status(200).json({
+                erroStatus: false,
+                mensagemStatus: "Perfil favorito excluido com sucesso!",
+                data: response
+            })
+        }
+    )
+    .catch(
+        (erro) => {
+            return res.status(400).json({
+                erroStatus: true,
+                mensagemStatus: "Erro ao excluir Perfil favorito!",
+                data: erro
+            })
+        }
+    )
+})
 
 //Rota de Exclusão
 //NÃO TERMINADO!!!

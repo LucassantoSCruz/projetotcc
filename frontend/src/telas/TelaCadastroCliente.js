@@ -20,7 +20,7 @@ const TelaCadastroCliente = ({ navigation }) => {
   const [Pronomes, setPronomes] = useState("")
 
   const enviarFormulario = async () => {
-    axios.post(`${ENDERECO_API}``/cadastrarCliente`, {
+    axios.post(`${ENDERECO_API}/cadastrarCliente`, {
       CPF: dados.CPF,
       nome: dados.Nome,
       email: dados.Email,

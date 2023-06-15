@@ -46,10 +46,6 @@ const MapaExpo = () => {
         text = JSON.stringify(location);
     }
 
-    const listarProfissional = ()=>{
-
-    }
-
     return (
         <View style={styles.tela}>
             {location && marcadores.data.length > 0 && (

@@ -1,9 +1,13 @@
 import { ENDERECO_API } from '../../config';
 import React, { useEffect, useState } from 'react';
+
 import { Text, View, Image, RefreshControl, StyleSheet, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native';
+import BoxPerfil from '../componentes/BoxPerfil';
 import BoxProf from '../componentes/BoxProf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import axios from 'axios';
+
 import { useNavigation } from '@react-navigation/native';
 
 const TelaPerfil = ({ navigation }) => {

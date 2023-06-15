@@ -28,6 +28,7 @@ const TelaPerfilProfissional = () => {
             setIdProfissional(route.params.fkServico)
             listarPerfilProfissional(route.params.fkServico)
             obterDados()
+            verificarFavorito()
             setRefreshing(false);
         }, 2000);
     };
@@ -41,6 +42,7 @@ const TelaPerfilProfissional = () => {
         setIdProfissional(route.params.fkServico)
         listarPerfilProfissional(route.params.fkServico)
         obterDados()
+        verificarFavorito()
     }, []);
 
     const listarPerfilProfissional = (idProfissional) => {
@@ -59,7 +61,8 @@ const TelaPerfilProfissional = () => {
     const botaoFavoritar = () => {
         if (favoritar) {
             setFavoritar(false),
-                console.log('DESfavoritado')
+            console.log('DESfavoritado'),
+            DesFavoritarPerfil()
         } else {
             setFavoritar(true)
             console.log('favoritado')
@@ -76,7 +79,30 @@ const TelaPerfilProfissional = () => {
                 FK_Clientes_Profissionais: idUsuario
             })
             .then(function (response) {
-                console.log(response.data);
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+
+    const verificarFavorito = () => {
+        axios.get(`${ENDERECO_API}/listarPerfisFavoritos/${idUsuario}`)
+            .then(function (response) {
+                if (response.data && response.data.data && response.data.data.length > 0) {
+                    console.log(response.data.data);
+
+                    const array = response.data.data;
+                    const encontrado = array.some((objeto) => objeto.FK_Profissionais_Clientes === idProfissional);
+
+                    console.log(encontrado)
+
+                    if (encontrado == true) {
+                        setFavoritar(true)
+                    } else {
+                        setFavoritar(false)
+                    }
+                }
             })
             .catch(function (error) {
                 console.error(error);

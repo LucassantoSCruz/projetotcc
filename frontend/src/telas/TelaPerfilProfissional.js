@@ -45,7 +45,7 @@ const TelaPerfilProfissional = () => {
     }, []);
 
     const listarPerfilProfissional = (idProfissional) => {
-        axios.get(`http://10.0.1.29:3000/ListarPerfilProfissional/${idProfissional}`)
+        axios.get(`http://192.168.10.242:3000/ListarPerfilProfissional/${idProfissional}`)
             .then(function (response) {
                 setPerfil(response.data.data)
                 setServicos(response.data.data.tbl_Servicos)
@@ -60,7 +60,8 @@ const TelaPerfilProfissional = () => {
     const botaoFavoritar = () => {
         if (favoritar) {
             setFavoritar(false),
-            console.log('DESfavoritado')
+            console.log('DESfavoritado'),
+            DesFavoritarPerfil()
         } else {
             setFavoritar(true)
             console.log('favoritado')
@@ -71,7 +72,21 @@ const TelaPerfilProfissional = () => {
     }
 
     const FavoritarPerfil = () => {
-        axios.post('http://10.0.1.29:3000/cadastrarPerfilFavorito',
+        axios.post('http://192.168.10.242:3000/cadastrarPerfilFavorito',
+            {
+                FK_Profissionais_Clientes: idProfissional,
+                FK_Clientes_Profissionais: idUsuario
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+
+    const DesFavoritarPerfil = () => {
+        axios.delete(`http://192.168.10.242:3000/excluirPerfilFavorito/${idUsuario}/${idProfissional}`,
             {
                 FK_Profissionais_Clientes: idProfissional,
                 FK_Clientes_Profissionais: idUsuario
@@ -85,7 +100,7 @@ const TelaPerfilProfissional = () => {
     }
 
     const verificarFavorito = () => {
-        axios.get(`http://10.0.1.29:3000/listarPerfisFavoritos/${idUsuario}`)
+        axios.get(`http://192.168.10.242:3000/listarPerfisFavoritos/${idUsuario}`)
             .then(function (response) {
                 if (response.data && response.data.data && response.data.data.length > 0) {
                     console.log(response.data.data);

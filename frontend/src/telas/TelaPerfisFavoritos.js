@@ -35,7 +35,7 @@ const TelaPerfisFavoritados = () => {
     };
 
     const favoritarPerfil = () => {
-        axios.get(`http://10.0.1.29:3000/listarPerfisFavoritos/${idUsuario}`)
+        axios.get(`http://192.168.10.242:3000/listarPerfisFavoritos/${idUsuario}`)
             .then(function (response) {
                 if (response.data && response.data.data && response.data.data.length > 0) {
                     console.log(response.data.data);
@@ -55,7 +55,7 @@ const TelaPerfisFavoritados = () => {
         for (const item of idProfissional) {
             const valor = item.FK_Profissionais_Clientes;
             try {
-                const response = await axios.get(`http://10.0.1.29:3000/ListarProfissionalCNPJ/${valor}`, {
+                const response = await axios.get(`http://192.168.10.242:3000/ListarProfissionalCNPJ/${valor}`, {
                     params: {
                         CPF_CNPJ: valor
                     }

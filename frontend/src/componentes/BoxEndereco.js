@@ -58,31 +58,31 @@ const BoxEndereco = (endereco, selectedItemId) => {
     const buscarCoordenadas = () => {
 
         const formatarEndereco = (bairro, numero, logradouro, localidade, uf) => {
-          const endereco = bairro + ' ' + numero + ', ' + logradouro + ', ' + localidade + ' ' + uf + ', Brazil'
-          //console.log(endereco)
-          return endereco;
+            const endereco = bairro + ' ' + numero + ', ' + logradouro + ', ' + localidade + ' ' + uf + ', Brazil'
+            //console.log(endereco)
+            return endereco;
         }
-    
+
         const enderecoCompleto = formatarEndereco(infoCep.bairro, numero, infoCep.logradouro, infoCep.localidade, infoCep.uf);
-    
+
         axios.get(`${ENDERECO_API}/buscarCoordenadas`, {
-          params: {
-            endereco: enderecoCompleto
-          }
+            params: {
+                endereco: enderecoCompleto
+            }
         })
-          .then((response) => {
-            const local = response.data.data.results[0];
-            console.log(JSON.stringify(local.geometry))
-            const latitude = local.geometry.lat;
-            const longitude = local.geometry.lng;
-            console.log('Latitude: ', latitude);
-            console.log('Longitude: ', longitude);
-            //cadastrarEndereco(latitude, longitude)
-          })
-          .catch((error) => {
-            console.error('Erro:', error.message);
-          });
-      }
+            .then((response) => {
+                const local = response.data.data.results[0];
+                console.log(JSON.stringify(local.geometry))
+                const latitude = local.geometry.lat;
+                const longitude = local.geometry.lng;
+                console.log('Latitude: ', latitude);
+                console.log('Longitude: ', longitude);
+                //cadastrarEndereco(latitude, longitude)
+            })
+            .catch((error) => {
+                console.error('Erro:', error.message);
+            });
+    }
 
 
     if (enderecoSelecionado.ID == endereco.selectedItemId) {
@@ -103,15 +103,28 @@ const BoxEndereco = (endereco, selectedItemId) => {
                     </TouchableOpacity>
                 </View>
 
+
                 <Text style={styles.titulo2}>
-                    Estado
+                    Rua
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder={'estado'}
+                    placeholder={'rua'}
                     multiline={true}
-                // onChangeText={estadoMu => setEstadoMu(estadoMu)}
+                //onChangeText={ruaMu => setRuaMu(ruaMu)}
                 />
+
+
+                <Text style={styles.titulo2}>
+                    Bairro
+                </Text>
+                <TextInput
+                    style={styles.descricao}
+                    placeholder={'bairro'}
+                    multiline={true}
+                //onChangeText={ruaMu => setRuaMu(ruaMu)}
+                />
+
 
                 <Text style={styles.titulo2}>
                     Cidade
@@ -125,14 +138,15 @@ const BoxEndereco = (endereco, selectedItemId) => {
 
 
                 <Text style={styles.titulo2}>
-                    Rua
+                    Estado
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder={'rua'}
+                    placeholder={'estado'}
                     multiline={true}
-                //onChangeText={ruaMu => setRuaMu(ruaMu)}
+                // onChangeText={estadoMu => setEstadoMu(estadoMu)}
                 />
+
 
                 <Text style={styles.titulo2}>
                     numero
@@ -142,6 +156,18 @@ const BoxEndereco = (endereco, selectedItemId) => {
                     placeholder={'numero'}
                     multiline={true}
                 />
+
+
+                <Text style={styles.titulo2}>
+                    Complemento
+                </Text>
+                <TextInput
+                    style={styles.descricao}
+                    placeholder={'complemento'}
+                    multiline={true}
+                // onChangeText={estadoMu => setEstadoMu(estadoMu)}
+                />
+
 
                 <TouchableOpacity style={styles.btnsalvar} onPress={confirmarEdicao}>
                     <Text style={styles.textosalvar}>
@@ -225,12 +251,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 15,
         marginHorizontal: '2%'
-      },
-      textocep: {
+    },
+    textocep: {
         color: 'white',
         fontWeight: 'bold',
         fontSize: 20
-      }
+    }
 })
 
 export default BoxEndereco

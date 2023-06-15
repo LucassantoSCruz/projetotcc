@@ -46,6 +46,10 @@ const MapaExpo = () => {
         text = JSON.stringify(location);
     }
 
+    const listarProfissional = ()=>{
+
+    }
+
     return (
         <View style={styles.tela}>
             {location && marcadores.data.length > 0 && (
@@ -76,11 +80,9 @@ const MapaExpo = () => {
                             }}
                             pinColor={'#9a6b99'}
                         >
-                            <Callout onPress={console.log(JSON.stringify(marcador.tbl_Profissionais.nomeFantasia))}>
+                            <Callout>
                                 <CustomCallout
-                                    title="Bolha Customizada"
-                                    description="Este é um componente customizado."
-                                    image={require('../../assets/iconeMarcadorMapa.jpg')}
+                                    profissional={marcador.tbl_Profissionais}
                                 />
                             </Callout>
                             {/* <MarcadorPessoal/> */}

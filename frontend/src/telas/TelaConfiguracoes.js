@@ -135,12 +135,44 @@ const TelaConfiguracoes = () => {
         );
     };
 
+    const excluirEndereco = () => {
+        axios.delete(`${ENDERECO_API}/excluirEndereco/${enderecoSelecionado.ID}`)
+        .then(function (response) {
+            console.log(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    const confirmarExclusao = () => {
+        Alert.alert("Tem certeza que deseja excluir este Endereço?", 'Este endereço será excluído permanentemente.', [
+            {
+                text: 'Cancelar',
+                onPress: () => console.log('Exclusão Cancelada')
+            },
+            {
+                text: 'Excluir',
+                onPress: () => excluirEndereco()
+            },
+        ])
+    }
+
+
     const [selectedItemId, setSelectedItemId] = useState(null);
 
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={() => toggleItem(item.ID)}>
-            <View style={{ alignItems: 'center', padding: 10 }}>
-                <Text style={styles.titulo}>Endereço</Text>
+            <View style={{ padding: 10 }}>
+                <View style={{flexDirection: 'row', width: '80%', justifyContent: 'space-between'}}>
+                    <View style={{ flex: 1 }}>
+                        <Text style={styles.endereco}>{item.logradouro}, {item.numero}</Text>
+                    </View>
+                    <TouchableOpacity style={styles.botaoexcluir} onPress={confirmarExclusao}>
+                        <Text style={styles.textosalvar}>Excluir</Text>
+                    </TouchableOpacity>
+                </View>
+                
                 {item.selected && <BoxEndereco endereco={item} selectedItemId={selectedItemId}/>}
             </View>
         </TouchableOpacity>
@@ -156,7 +188,10 @@ const TelaConfiguracoes = () => {
                     style={styles.descricao}
                     placeholder={nome}
                     multiline={true}
-                    onChangeText={nomeMu => setNomeMu(nomeMu)}
+                    onChangeText={nomeMu => {
+                        if(nomeMu != null){setNomeMu(nomeMu)}
+                        else {setNomeMu(nome)}
+                    }}
                 />
 
                 <Text style={styles.titulo}>
@@ -166,7 +201,10 @@ const TelaConfiguracoes = () => {
                     style={styles.descricao}
                     placeholder={Descricao}
                     multiline={true}
-                    onChangeText={descricaoMu => setDescricaoMu(descricaoMu)}
+                    onChangeText={descricaoMu => {
+                        if(descricaoMu != null){setDescricaoMu(descricaoMu)}
+                        else {setDescricaoMu(Descricao)}
+                    }}
                 />
 
                 <Text style={styles.titulo}>
@@ -184,9 +222,9 @@ const TelaConfiguracoes = () => {
                 </View>
 
                 <View>
+                <Text style={styles.titulo}>Endereços</Text>
                     <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
                         <FlatList
-                            
                             data={endereco}
                             renderItem={renderItem}
                             keyExtractor={item => item.ID}
@@ -203,7 +241,10 @@ const TelaConfiguracoes = () => {
                     style={styles.descricao}
                     placeholder={telefone}
                     multiline={true}
-                    onChangeText={telefoneMu => setTelefoneMu(telefoneMu)}
+                    onChangeText={telefoneMu => {
+                        if(telefoneMu != null){setTelefoneMu(telefoneMu)}
+                        else {setTelefoneMu(telefone)}
+                    }}
                 />
                 <TouchableOpacity style={styles.btnsalvar} onPress={confirmarEdicao}>
                     <Text style={styles.textosalvar}>
@@ -230,6 +271,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 24,
         marginHorizontal: 15
+    },
+    endereco: {
+        fontWeight: 'bold',
+        fontSize: 19,
+        marginHorizontal: 15,
+        flexWrap: 'wrap',
+        
     },
     titulo2: {
         fontWeight: 'normal',
@@ -261,6 +309,10 @@ const styles = StyleSheet.create({
     campofotodeperfil: {
         alignItems: 'center',
     },
+    textosalvar: {
+        fontWeight: 'bold',
+        color: 'white'
+    },
     botaotrocarfoto: {
         borderWidth: 1,
         padding: 15,
@@ -270,6 +322,17 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         width: '50%',
         textAlign: 'center'
+    },
+    botaoexcluir: {
+        width: '25%',
+        height: 50,
+        backgroundColor: '#D0A3CE',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2,
+        borderRadius: 10,
+        marginBottom: 15,
+        marginHorizontal: '2%'
     },
 })
 

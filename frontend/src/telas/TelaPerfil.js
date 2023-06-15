@@ -106,11 +106,11 @@ const TelaPerfilP = () => {
         }
     };
 
-    useEffect(() => {
+    // useEffect(() => {
     
     
-       console.log('imagem de perfil: '+ JSON.stringify(imagemSelecionada) )
-     }, [imagemSelecionada])
+    //    console.log('imagem de perfil: '+ JSON.stringify(imagemSelecionada) )
+    // }, [imagemSelecionada])
 
 
     const listarDadosPerfil = async () => {
@@ -137,8 +137,8 @@ const TelaPerfilP = () => {
             console.log('Não é possível ver os serviços de uma conta cliente')
         }
         
-        const imagemRecuperada = AsyncStorage.getItem('imagemPerfil')
-        setImagemSelecionada(imagemRecuperada)
+        // const imagemRecuperada = AsyncStorage.getItem('imagemPerfil')
+        // setImagemSelecionada(imagemRecuperada)
         
     }
 
@@ -154,14 +154,14 @@ const TelaPerfilP = () => {
                     </View>
                     <View style={styles.direita}>
                     {
-                        imagemSelecionada ?
-                        <Image
-                        source={{uri: imagemSelecionada}}
-                        style={styles.imagem}/>
-                        :
+                        // imagemSelecionada ?
+                        // <Image
+                        // source={{uri: imagemSelecionada}}
+                        // style={styles.imagem}/>
+                        // :
                         <Image
                         source={require('../../assets/imagem5.png')}
-                        style={styles.imagem}/>
+                        style={styles.fotodeperfil}/>
                     }
                       
                     </View>

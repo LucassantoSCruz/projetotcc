@@ -4,18 +4,14 @@ import axios from 'axios';
 import { ENDERECO_API } from '../../config'
 
 const BoxEndereco = (endereco, selectedItemId) => {
-    const [ruaMu, setRuaMu] = useState(null)
-    const [estadoMu, setEstadoMu] = useState(null)
-    const [cidadeMu, setcidadeMu] = useState(null)
-    const [numeroMu, setNumeroMu] = useState(null)
+    const [ruaMu, setRuaMu] = useState(null);
+    const [estadoMu, setEstadoMu] = useState(null);
+    const [cidadeMu, setcidadeMu] = useState(null);
+    const [bairroMu, setBairroMu] = useState(null);
+    const [numeroMu, setNumeroMu] = useState(null);
+    const [complementoMu, setComplementoMu] = useState(null);
     const [infoCep, setInfo] = useState('');
     const [cepEnd, setCepEnd] = useState(null);
-
-    const getCep = async () => {
-        const { data } = await axios.get(`https://viacep.com.br/ws/${cepEnd}/json`);
-        setInfo(data);
-    }
-
     const enderecoSelecionado = (endereco.endereco)
     const rua = enderecoSelecionado.logradouro
     const estado = enderecoSelecionado.uf
@@ -29,10 +25,15 @@ const BoxEndereco = (endereco, selectedItemId) => {
 
     const alterarEndereco = () => {
         axios.put(`${ENDERECO_API}/alterarEndereco/${enderecoSelecionado.ID}`, {
-            logradouro: ruaMu,
+            latitude: enderecoSelecionado.latitude,
+            longitude: enderecoSelecionado.longitude,
+            cep: enderecoSelecionado.cep,
             uf: estadoMu,
             localidadeCidade: cidadeMu,
-            numero: numeroMu
+            logradouro: ruaMu,
+            bairro: bairroMu,
+            numero: numeroMu,
+            complemento: complementoMu
         })
             .then(function (response) {
                 console.log(response.data)
@@ -55,63 +56,20 @@ const BoxEndereco = (endereco, selectedItemId) => {
         ])
     }
 
-    const buscarCoordenadas = () => {
-
-        const formatarEndereco = (bairro, numero, logradouro, localidade, uf) => {
-            const endereco = bairro + ' ' + numero + ', ' + logradouro + ', ' + localidade + ' ' + uf + ', Brazil'
-            //console.log(endereco)
-            return endereco;
-        }
-
-        const enderecoCompleto = formatarEndereco(infoCep.bairro, numero, infoCep.logradouro, infoCep.localidade, infoCep.uf);
-
-        axios.get(`${ENDERECO_API}/buscarCoordenadas`, {
-            params: {
-                endereco: enderecoCompleto
-            }
-        })
-            .then((response) => {
-                const local = response.data.data.results[0];
-                console.log(JSON.stringify(local.geometry))
-                const latitude = local.geometry.lat;
-                const longitude = local.geometry.lng;
-                console.log('Latitude: ', latitude);
-                console.log('Longitude: ', longitude);
-                //cadastrarEndereco(latitude, longitude)
-            })
-            .catch((error) => {
-                console.error('Erro:', error.message);
-            });
-    }
-
-
     if (enderecoSelecionado.ID == endereco.selectedItemId) {
         return (
             <View style={styles.tela}>
-                <View style={styles.alinhamentocep}>
-                    <TextInput
-                        style={styles.descricao}
-                        placeholder={enderecoSelecionado.cep}
-                    //value={cepEnd}
-                    //onChangeText={text => setCepEnd(text)}
-                    />
-
-                    <TouchableOpacity style={styles.botaocep} onPress={getCep}>
-                        <Text style={styles.textocep}>
-                            Buscar
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-
-
                 <Text style={styles.titulo2}>
                     Rua
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder={'rua'}
+                    placeholder={enderecoSelecionado.logradouro}
                     multiline={true}
-                //onChangeText={ruaMu => setRuaMu(ruaMu)}
+                    onChangeText={ruaMu => {
+                        if (ruaMu != null) { setRuaMu(ruaMu) }
+                        else { setRuaMu(rua) }
+                    }}
                 />
 
 
@@ -120,9 +78,12 @@ const BoxEndereco = (endereco, selectedItemId) => {
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder={'bairro'}
+                    placeholder={enderecoSelecionado.bairro}
                     multiline={true}
-                //onChangeText={ruaMu => setRuaMu(ruaMu)}
+                    onChangeText={bairroMu => {
+                        if (bairroMu != null) { setBairroMu(bairroMu) }
+                        else { setBairroMu(bairro) }
+                    }}
                 />
 
 
@@ -131,9 +92,12 @@ const BoxEndereco = (endereco, selectedItemId) => {
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder={'cidade'}
+                    placeholder={enderecoSelecionado.localidadeCidade}
                     multiline={true}
-                //onChangeText={cidadeMu => setcidadeMu(cidadeMu)}
+                    onChangeText={cidadeMu => {
+                        if (cidadeMu != null) { setcidadeMu(cidadeMu) }
+                        else { setcidadeMu(cidade) }
+                    }}
                 />
 
 
@@ -142,9 +106,12 @@ const BoxEndereco = (endereco, selectedItemId) => {
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder={'estado'}
+                    placeholder={enderecoSelecionado.uf}
                     multiline={true}
-                // onChangeText={estadoMu => setEstadoMu(estadoMu)}
+                    onChangeText={estadoMu => {
+                        if (estadoMu != null) { setEstadoMu(estadoMu) }
+                        else { setEstadoMu(estado) }
+                    }}
                 />
 
 
@@ -153,8 +120,12 @@ const BoxEndereco = (endereco, selectedItemId) => {
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder={'numero'}
+                    placeholder={enderecoSelecionado.numero}
                     multiline={true}
+                    onChangeText={numeroMu => {
+                        if (numeroMu != null) { setNumeroMu(numeroMu) }
+                        else { setNumeroMu(numero) }
+                    }}
                 />
 
 
@@ -163,9 +134,12 @@ const BoxEndereco = (endereco, selectedItemId) => {
                 </Text>
                 <TextInput
                     style={styles.descricao}
-                    placeholder={'complemento'}
+                    placeholder={enderecoSelecionado.complemento}
                     multiline={true}
-                // onChangeText={estadoMu => setEstadoMu(estadoMu)}
+                    onChangeText={complementoMu => {
+                        if (complementoMu != null) { setComplementoMu(complementoMu) }
+                        else { setComplementoMu(complemento) }
+                    }}
                 />
 
 
@@ -174,6 +148,8 @@ const BoxEndereco = (endereco, selectedItemId) => {
                         Alterar Endereço
                     </Text>
                 </TouchableOpacity>
+
+
             </View>
         )
     }
@@ -183,7 +159,8 @@ const BoxEndereco = (endereco, selectedItemId) => {
 const styles = StyleSheet.create({
     tela: {
         flex: 1,
-        width: '90%'
+        width: '90%',
+        alignSelf: 'center'
     },
     titulodesc: {
         fontWeight: 'bold',

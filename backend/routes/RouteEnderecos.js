@@ -132,13 +132,15 @@ router.get('/ListarEnderecoID/:ID', (req, res) => {
 });
 
 //Rota de Alteração
-router.put('/alterarEndereco', (req, res) => {
+router.put('/alterarEndereco/:ID', (req, res) => {
 
     let { latitude, longitude, cep, uf, localidadeCidade, logradouro, bairro, numero, complemento } = req.body;
 
+    let ID = req.params.ID;
+
     modelEnderecos.update(
         { latitude, longitude, cep, uf, localidadeCidade, logradouro, bairro, numero, complemento },
-        { where: { ID_Endereco } }
+        { where: { ID } }
 
     ).then(
         () => {
@@ -160,14 +162,14 @@ router.put('/alterarEndereco', (req, res) => {
 })
 
 //Rota de Exclusão
-router.delete('/excluirEndereco:ID_Endereco', (req, res) => {
+router.delete('/excluirEndereco/:ID', (req, res) => {
 
     console.log(req.params);
 
-    let { ID_Endereco } = req.params;
+    let ID = req.params.ID;
 
     modelEnderecos.destroy(
-        { where: { ID_Endereco } }
+        { where: { ID } }
     ).then(
         () => {
             return res.status(200).json({

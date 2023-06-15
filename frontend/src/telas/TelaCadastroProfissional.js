@@ -6,6 +6,8 @@ import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const PlaceholderImage = require('../../assets/Perfil.png');
 
 import { useForm, Controller } from 'react-hook-form';
@@ -18,6 +20,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [cadEndereco, setCadEndereco] = useState(false)
   const [visivelTipoConta, setVisivelTipoConta] = useState(false);
   const [visivelAtDomicilio, setAtDomicilio] = useState(false);
+
+  const [imagemSelecionada, setImagemSelecionada] = useState(null);
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
@@ -129,8 +133,6 @@ const TelaCadastroProfissional = ({ navigation }) => {
     }
   })
 
-  const [imagemSelecionada, setImagemSelecionada] = useState(null);
-
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -144,6 +146,13 @@ const TelaCadastroProfissional = ({ navigation }) => {
       Alert.alert("Atenção", "Você não selecionou nenhuma imagem.");
     }
   };
+
+  useEffect(() => {
+    //salvar a imagem
+  AsyncStorage.setItem('imagemPerfil', imagemSelecionada)
+
+  console.log(imagemSelecionada)
+}, [imagemSelecionada])
 
   const [tipoconta, setTipoconta] = useState("")
   const [pronomes, setPronomes] = useState("")

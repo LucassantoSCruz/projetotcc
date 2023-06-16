@@ -35,12 +35,12 @@ const TelaCriarServico = () => {
         obterDados();
       }, []);
 
-      useEffect(() => {
-         //salvar a imagem
-        AsyncStorage.setItem('imagemServico', imagemSelecionada)
+    //   useEffect(() => {
+    //      //salvar a imagem
+    //     AsyncStorage.setItem('imagemServico', imagemSelecionada)
 
-        console.log(imagemSelecionada)
-      }, [imagemSelecionada])
+    //     // console.log(imagemSelecionada)
+    //   }, [imagemSelecionada])
 
 
     const pickImageAsync = async () => {
@@ -50,9 +50,10 @@ const TelaCriarServico = () => {
             aspect: [3, 2]
         });
 
-        if (!result.cancelled) {
-            setImagemSelecionada(result.uri);
-            console.log(result.uri)       
+        if (!result.canceled) {
+            setImagemSelecionada(result.assets[0].uri);
+            // setImagemSelecionada(result.uri);
+            // console.log(result.uri)       
             
         } else {
             Alert.alert("Atenção", "Você não selecionou nenhuma imagem.");

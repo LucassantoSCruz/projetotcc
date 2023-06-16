@@ -255,6 +255,7 @@ const TelaCadastroCliente = ({ navigation }) => {
           control={control}
           rules={{
             required: true,
+            minLength: 8
           }}
           render={({ field: { onChange, onBlur, value } }) => (
 

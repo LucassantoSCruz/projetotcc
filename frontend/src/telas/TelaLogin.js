@@ -63,7 +63,7 @@ const TelaLogin = ({ navigation }) => {
 
   const Navegacao = () => {
     navigation.navigate("Profissionais"),
-    
+
       salvarDados()
   }
 
@@ -77,14 +77,14 @@ const TelaLogin = ({ navigation }) => {
     })
 
       .then(function (response) {
-        if(tipoconta == 'Profissional'){
+        if (tipoconta == 'Profissional') {
           console.log(response.data.data.CPF_CNPJ)
           setIdUsuario(response.data.data.CPF_CNPJ)
           console.log("CPF_CNPJ do usuário Profissional: " + idUsuario)
-        } else{
-            console.log(response.data.data.CPF)
-            setIdUsuario(response.data.data.CPF)
-            console.log("CPF_CNPJ do usuário Profissional: " + idUsuario)
+        } else {
+          console.log(response.data.data.CPF)
+          setIdUsuario(response.data.data.CPF)
+          console.log("CPF_CNPJ do usuário Profissional: " + idUsuario)
         }
 
         if (response.data.data != null) {
@@ -319,6 +319,9 @@ const style = StyleSheet.create({
     color: 'white',
     padding: 10,
     borderRadius: 50
+  },
+  corAlert: {
+    color: 'green'
   }
 });
 

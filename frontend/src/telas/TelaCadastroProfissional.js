@@ -147,12 +147,12 @@ const TelaCadastroProfissional = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    //salvar a imagem
-  AsyncStorage.setItem('imagemPerfil', imagemSelecionada)
+//   useEffect(() => {
+//     //salvar a imagem
+//   AsyncStorage.setItem('imagemPerfil', imagemSelecionada)
 
-  console.log(imagemSelecionada)
-}, [imagemSelecionada])
+//   console.log(imagemSelecionada)
+// }, [imagemSelecionada])
 
   const [tipoconta, setTipoconta] = useState("")
   const [pronomes, setPronomes] = useState("")

@@ -111,8 +111,8 @@ const TelaPerfilP = () => {
     };
 
     // useEffect(() => {
-    
-    
+
+
     //    console.log('imagem de perfil: '+ JSON.stringify(imagemSelecionada) )
     // }, [imagemSelecionada])
 
@@ -120,30 +120,30 @@ const TelaPerfilP = () => {
     const listarDadosPerfil = async () => {
         if (tipoconta == 'Profissional') {
             axios.get(`${ENDERECO_API}/ListarPerfilProfissional/${idUsuario}`)
-            .then(function (response) {
-                setServicos(response.data.data.tbl_Servicos)
-                setNome(response.data.data.nome)
-                setDescricao(response.data.data.descricao)
-                setPronomes(response.data.data.pronomes)
-            }).catch(function (error) {
-                console.log(error)
-            })
+                .then(function (response) {
+                    setServicos(response.data.data.tbl_Servicos)
+                    setNome(response.data.data.nome)
+                    setDescricao(response.data.data.descricao)
+                    setPronomes(response.data.data.pronomes)
+                }).catch(function (error) {
+                    console.log(error)
+                })
             axios.get(`${ENDERECO_API}/listarServicosFK/${idUsuario}`)
-            .then(function (response) {
-                setServicos(response.data.data)
-                console.log(servicos)
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
-        } 
+                .then(function (response) {
+                    setServicos(response.data.data)
+                    console.log(servicos)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        }
         else {
             console.log('Não é possível ver os serviços de uma conta cliente')
         }
-        
+
         // const imagemRecuperada = AsyncStorage.getItem('imagemPerfil')
         // setImagemSelecionada(imagemRecuperada)
-        
+
     }
 
     return (
@@ -157,17 +157,17 @@ const TelaPerfilP = () => {
                         <Text style={styles.legenda}>{descricao}</Text>
                     </View>
                     <View style={styles.direita}>
-                    {
-                        // imagemSelecionada ?
-                        // <Image
-                        // source={{uri: imagemSelecionada}}
-                        // style={styles.imagem}/>
-                        // :
-                        <Image
-                        source={require('../../assets/imagem5.png')}
-                        style={styles.fotodeperfil}/>
-                    }
-                      
+                        {
+                            // imagemSelecionada ?
+                            // <Image
+                            // source={{uri: imagemSelecionada}}
+                            // style={styles.imagem}/>
+                            // :
+                            <Image
+                                source={require('../../assets/imagem5.png')}
+                                style={styles.fotodeperfil} />
+                        }
+
                     </View>
                 </View>
                 <View style={styles.botoes}>
@@ -183,11 +183,14 @@ const TelaPerfilP = () => {
                 </View>
 
                 <View style={styles.view2}>
-                    <FlatList
-                        horizontal={true}
-                        data={servicos}
-                        renderItem={({ item }) => <BoxProf item={(item)} />}
-                    />
+                    <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
+                        <FlatList
+                            horizontal={false}
+                            data={servicos}
+                            numColumns={2}
+                            renderItem={({ item }) => <BoxProf item={(item)} />}
+                        />
+                    </ScrollView>
                 </View>
             </ScrollView>
         </View>
@@ -266,7 +269,7 @@ const TelaPerfilC = () => {
                     <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.Perfilselecao} onPress={ ()=> navigation.navigate('TelaPerfisFavoritados')}>
+                <TouchableOpacity style={styles.Perfilselecao} onPress={() => navigation.navigate('TelaPerfisFavoritados')}>
                     <Text style={styles.Perfilopcoes} >Perfis Favoritos</Text>
                     <Image style={styles.Perfilseta} source={require('../../assets/Seta.png')} />
                 </TouchableOpacity>

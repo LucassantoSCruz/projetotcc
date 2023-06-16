@@ -35,15 +35,6 @@ const CaixaServico = (item) => {
 };
 
 const styles = StyleSheet.create({
-  textocampo: {
-    fontSize: 32,
-  },
-  fundonome: {
-    height: 69,
-    borderRadius: 14,
-    width: '100%',
-    backgroundColor: '#9a6b99',
-  },
   fundo: {
     borderColor: "black",
     borderWidth: 1,
@@ -54,14 +45,25 @@ const styles = StyleSheet.create({
     width: 185,
     flexGrow: 1
   },
+  fundoimagem: {
+    alignItems: 'center'
+  },
+  textocampo: {
+    fontSize: 32,
+  },
+  fundonome: {
+    height: 69,
+    borderRadius: 14,
+    width: '100%',
+    backgroundColor: '#9a6b99',
+  },
+
   imagem: {
     width: 150,
     height: 150,
     resizeMode: 'contain',
   },
-  fundoimagem: {
-    alignItems: 'center'
-  },
+
   texto: {
     padding: 10,
     fontWeight: 'bold',

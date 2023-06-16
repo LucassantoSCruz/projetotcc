@@ -3,10 +3,8 @@ import { StyleSheet, View, Text, TouchableOpacity, ScrollView, TextInput, Alert 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import CurrencyInput from 'react-native-currency-input';
 import { ENDERECO_API } from '../../config';
-
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoServico from '../componentes/ImagemPadraoServico';
-
 import axios from 'axios';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';

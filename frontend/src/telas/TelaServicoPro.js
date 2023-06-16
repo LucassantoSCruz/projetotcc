@@ -86,6 +86,7 @@ const TelaServicoProfissional = ({navigation}) => {
         .catch(function (error) {
             console.log(error, "erro ao excluir");
         }); 
+        navigation.navigate('Perfil')
     }
 
 
@@ -163,18 +164,20 @@ const TelaServicoProfissional = ({navigation}) => {
                 </View>
 
 
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('ServicoEditar', {idServico})}>
+                        <Text style={styles.textobtn}>
+                            Editar
+                        </Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('ServicoEditar', {idServico})}>
-                    <Text style={styles.textobtn}>
-                        Editar
-                    </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.btn1} onPress={ConfirmarServico}>
-                    <Text style={styles.textobtn}>
-                        Excluir
-                    </Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.btn1} onPress={ConfirmarServico}>
+                        <Text style={styles.textobtn}>
+                            Excluir
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                
 
             </ScrollView>
         </View>
@@ -266,14 +269,16 @@ const styles = StyleSheet.create({
     btn: {
         backgroundColor: '#8fbc8f',
         padding: 10,
-        borderRadius: 50,
-        margin: 5
+        borderRadius: 10,
+        margin: 5,
+        flex: 1
     },
     btn1: {
         backgroundColor: '#cd5c5c',
         padding: 10,
-        borderRadius: 50,
-        margin: 5
+        borderRadius: 10,
+        margin: 5,
+        flex: 1
     },
     btnconfirmar: {
         width: '90%',

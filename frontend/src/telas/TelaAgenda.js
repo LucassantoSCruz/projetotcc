@@ -51,7 +51,7 @@ const TelaAgenda = () => {
       .then(function (response) {
         //console.log('Agendamentos Listados: ' + JSON.stringify(response.data.data))
         setAgendamentos(response.data.data)
-        console.log(agendamentos)
+        //console.log(agendamentos)
       }).catch(function (error) {
         console.log(error)
       })

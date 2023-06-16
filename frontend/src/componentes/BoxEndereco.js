@@ -20,14 +20,13 @@ const BoxEndereco = (endereco, selectedItemId) => {
     const numero = enderecoSelecionado.numero
     const complemento = enderecoSelecionado.complemento
     const cep = enderecoSelecionado.cep
-    console.log(enderecoSelecionado)
+    console.log('EnderecoSelecionado: '+ JSON.stringify(enderecoSelecionado.ID))
     console.log(endereco.selectedItemId)
 
     const alterarEndereco = () => {
-        axios.put(`${ENDERECO_API}/alterarEndereco/${enderecoSelecionado.ID}`, {
-            latitude: enderecoSelecionado.latitude,
-            longitude: enderecoSelecionado.longitude,
-            cep: enderecoSelecionado.cep,
+        const idEndereco = enderecoSelecionado.ID
+        console.log('Id salvo: ' + idEndereco)
+        axios.put(`${ENDERECO_API}/alterarEndereco/${idEndereco}`, {
             uf: estadoMu,
             localidadeCidade: cidadeMu,
             logradouro: ruaMu,

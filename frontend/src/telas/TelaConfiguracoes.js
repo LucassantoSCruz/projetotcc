@@ -137,12 +137,12 @@ const TelaConfiguracoes = () => {
 
     const excluirEndereco = () => {
         axios.delete(`${ENDERECO_API}/excluirEndereco/${enderecoSelecionado.ID}`)
-        .then(function (response) {
-            console.log(response.data)
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+            .then(function (response) {
+                console.log(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
     }
 
     const confirmarExclusao = () => {
@@ -162,20 +162,22 @@ const TelaConfiguracoes = () => {
     const [selectedItemId, setSelectedItemId] = useState(null);
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => toggleItem(item.ID)}>
+        <View>
             <View style={{ padding: 10 }}>
-                <View style={{flexDirection: 'row', width: '80%', justifyContent: 'space-between'}}>
-                    <View style={{ flex: 1 }}>
-                        <Text style={styles.endereco}>{item.logradouro}, {item.numero}</Text>
+                <TouchableOpacity onPress={() => toggleItem(item.ID)}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={styles.endereco}>{item.logradouro}, {item.numero}</Text>
+                        </View>
+                        <TouchableOpacity style={styles.botaoexcluir} onPress={confirmarExclusao}>
+                            <Text style={styles.textosalvar}>Excluir</Text>
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.botaoexcluir} onPress={confirmarExclusao}>
-                        <Text style={styles.textosalvar}>Excluir</Text>
-                    </TouchableOpacity>
-                </View>
-                
-                {item.selected && <BoxEndereco endereco={item} selectedItemId={selectedItemId}/>}
+                </TouchableOpacity>
+                {item.selected && <BoxEndereco endereco={item} selectedItemId={selectedItemId} />}
             </View>
-        </TouchableOpacity>
+        </View>
+
     );
 
     return (
@@ -189,8 +191,8 @@ const TelaConfiguracoes = () => {
                     placeholder={nome}
                     multiline={true}
                     onChangeText={nomeMu => {
-                        if(nomeMu != null){setNomeMu(nomeMu)}
-                        else {setNomeMu(nome)}
+                        if (nomeMu != null) { setNomeMu(nomeMu) }
+                        else { setNomeMu(nome) }
                     }}
                 />
 
@@ -202,8 +204,8 @@ const TelaConfiguracoes = () => {
                     placeholder={Descricao}
                     multiline={true}
                     onChangeText={descricaoMu => {
-                        if(descricaoMu != null){setDescricaoMu(descricaoMu)}
-                        else {setDescricaoMu(Descricao)}
+                        if (descricaoMu != null) { setDescricaoMu(descricaoMu) }
+                        else { setDescricaoMu(Descricao) }
                     }}
                 />
 
@@ -222,7 +224,7 @@ const TelaConfiguracoes = () => {
                 </View>
 
                 <View>
-                <Text style={styles.titulo}>Endereços</Text>
+                    <Text style={styles.titulo}>Endereços</Text>
                     <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
                         <FlatList
                             data={endereco}
@@ -230,7 +232,7 @@ const TelaConfiguracoes = () => {
                             keyExtractor={item => item.ID}
                             contentContainerStyle={{ flex: 1 }}
                         />
-                        
+
                     </ScrollView>
                 </View>
 
@@ -242,8 +244,8 @@ const TelaConfiguracoes = () => {
                     placeholder={telefone}
                     multiline={true}
                     onChangeText={telefoneMu => {
-                        if(telefoneMu != null){setTelefoneMu(telefoneMu)}
-                        else {setTelefoneMu(telefone)}
+                        if (telefoneMu != null) { setTelefoneMu(telefoneMu) }
+                        else { setTelefoneMu(telefone) }
                     }}
                 />
                 <TouchableOpacity style={styles.btnsalvar} onPress={confirmarEdicao}>
@@ -277,7 +279,7 @@ const styles = StyleSheet.create({
         fontSize: 19,
         marginHorizontal: 15,
         flexWrap: 'wrap',
-        
+
     },
     titulo2: {
         fontWeight: 'normal',

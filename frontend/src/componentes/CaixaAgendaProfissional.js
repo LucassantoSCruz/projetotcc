@@ -14,19 +14,23 @@ const CaixaAgendaProfissional = (agendamentos) => {
   const dataFormatada = Moment(agendamentos.agendamentos.item.data).format('DD/MM/YYYY');
   const horarioFormatado = Moment(agendamentos.agendamentos.item.data).format('HH:mm');
   let botoes = null;
+  const idStatus = status.ID
+  
 
-  const alterarStatus = (idStatus) => {
-    axios.put(`${ENDERECO_API}/alterarAgendamento/${agendamentos.agendamentos.item.ID}`, {
+  const alterarStatus = (idStatuMudar) => {
+    const idAgendamento = agendamentos.agendamentos.item.ID
+    console.log('Mudar para ID: '+ idStatuMudar)
+    axios.put(`${ENDERECO_API}/alterarAgendamento/${idAgendamento}`, {
       FK_Status_Agenda: idStatus
     }).then((response)=>{
-      console.log(response)
+      //console.log(response)
     }).catch((error)=>{
       console.log(error)
     })
   }
 
-  switch (status.titulo) {
-    case 'Solicitado':
+  switch (idStatus) {
+    case 1:
       botoes = (<View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'center' }}>
         <TouchableOpacity style={styles.botao} onPress={alterarStatus(2)}>
           <Text>Confirmar</Text>
@@ -37,7 +41,7 @@ const CaixaAgendaProfissional = (agendamentos) => {
         </TouchableOpacity>
       </View>)
       break;
-    case 'Confirmado':
+    case 2:
       botoes = (<View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'center' }}>
         <TouchableOpacity style={styles.botao} onPress={alterarStatus(3)}>
           <Text>Concluir</Text>
@@ -48,12 +52,12 @@ const CaixaAgendaProfissional = (agendamentos) => {
         </TouchableOpacity>
       </View>)
       break;
-    case 'Concluído':
+    case 3:
       botoes = (<View style={styles.status}>
         <Text>Concluído!</Text>
       </View>)
       break;
-    case 'Cancelado':
+    case 4:
       botoes = (<View style={styles.status}>
         <Text>Cancelado!</Text>
       </View>)

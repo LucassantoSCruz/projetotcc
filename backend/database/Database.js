@@ -7,18 +7,17 @@ const sequelize = require('sequelize');
 const conexao = new sequelize(
 
     //Nome do banco de dados
-    'bd_belezura', 
+    'bd_belezura',
 
     //Usuário
-    'root', 
-    
+    'belezura_administrador',
+
     //Senha
-    '', 
+    'Cl7Ys6^4Q1R_',
 
     {
-        host: 'localhost',
+        host: 'bd-belezura.mysql.database.azure.com',
         dialect: 'mysql',
-        timezone: '-03:00',
         port: '3306'
     }
 );

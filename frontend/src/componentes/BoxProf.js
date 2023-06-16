@@ -58,10 +58,11 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderWidth: 1,
         borderRadius: 15,
+        marginHorizontal: '2%',
         flex: 1,
-        marginLeft: 7.5,
-        marginRight: 7.5,
-        marginBottom: 15
+        marginBottom: 15,
+        width: 185,
+        flexGrow: 1
     },
     imagem: {
         width: 150,

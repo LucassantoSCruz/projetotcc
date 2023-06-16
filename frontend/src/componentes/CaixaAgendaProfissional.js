@@ -14,50 +14,46 @@ const CaixaAgendaProfissional = (agendamentos) => {
   const dataFormatada = Moment(agendamentos.agendamentos.item.data).format('DD/MM/YYYY');
   const horarioFormatado = Moment(agendamentos.agendamentos.item.data).format('HH:mm');
   let botoes = null;
-  const idStatus = status.ID
-  
 
-  const alterarStatus = (idStatuMudar) => {
-    const idAgendamento = agendamentos.agendamentos.item.ID
-    console.log('Mudar para ID: '+ idStatuMudar)
-    axios.put(`${ENDERECO_API}/alterarAgendamento/${idAgendamento}`, {
+  const alterarStatus = (idStatus) => {
+    axios.put(`${ENDERECO_API}/alterarAgendamento/${agendamentos.agendamentos.item.ID}`, {
       FK_Status_Agenda: idStatus
     }).then((response)=>{
-      //console.log(response)
+      console.log(response)
     }).catch((error)=>{
       console.log(error)
     })
   }
 
-  switch (idStatus) {
-    case 1:
+  switch (status.titulo) {
+    case 'Solicitado':
       botoes = (<View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'center' }}>
-        <TouchableOpacity style={styles.botao} onPress={alterarStatus(2)}>
+        <TouchableOpacity style={styles.botao} onPress={()=>alterarStatus(2)}>
           <Text>Confirmar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={alterarStatus(4)}>
+        <TouchableOpacity style={styles.botao} onPress={()=>alterarStatus(4)}>
           <Text>Cancelar</Text>
         </TouchableOpacity>
       </View>)
       break;
-    case 2:
+    case 'Confirmado':
       botoes = (<View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'center' }}>
-        <TouchableOpacity style={styles.botao} onPress={alterarStatus(3)}>
+        <TouchableOpacity style={styles.botao} onPress={()=>alterarStatus(3)}>
           <Text>Concluir</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={alterarStatus(4)}>
+        <TouchableOpacity style={styles.botao} onPress={()=>alterarStatus(4)}>
           <Text>Cancelar</Text>
         </TouchableOpacity>
       </View>)
       break;
-    case 3:
+    case 'Concluído':
       botoes = (<View style={styles.status}>
         <Text>Concluído!</Text>
       </View>)
       break;
-    case 4:
+    case 'Cancelado':
       botoes = (<View style={styles.status}>
         <Text>Cancelado!</Text>
       </View>)

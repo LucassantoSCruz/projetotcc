@@ -63,8 +63,9 @@ const TelaPerfilP = () => {
     const [pronomes, setPronomes] = useState(null)
     const [servicos, setServicos] = useState([])
     const navigation = useNavigation();
+    const [fotoPerfil, setFotoPerfil] = useState(null)
 
-    const [imagemSelecionada, setImagemSelecionada] = useState('')
+    //const [imagemSelecionada, setImagemSelecionada] = useState('')
 
     const fetchData = () => {
         setTimeout(() => {
@@ -125,6 +126,8 @@ const TelaPerfilP = () => {
                     setNome(response.data.data.nome)
                     setDescricao(response.data.data.descricao)
                     setPronomes(response.data.data.pronomes)
+                    setFotoPerfil(response.data.data.fotoPerfil.replace('public\\uploads', '/uploads'))
+                    console.log('Imagem recuperada: ' + fotoPerfil)
                 }).catch(function (error) {
                     console.log(error)
                 })
@@ -158,11 +161,11 @@ const TelaPerfilP = () => {
                     </View>
                     <View style={styles.direita}>
                         {
-                            // imagemSelecionada ?
-                            // <Image
-                            // source={{uri: imagemSelecionada}}
-                            // style={styles.imagem}/>
-                            // :
+                            fotoPerfil ?
+                            <Image
+                            source={{uri: `${ENDERECO_API}${fotoPerfil}`}}
+                            style={styles.fotodeperfil}/>
+                            :
                             <Image
                                 source={require('../../assets/imagem5.png')}
                                 style={styles.fotodeperfil} />

@@ -5,6 +5,8 @@ import { useForm, Controller } from "react-hook-form";
 import { BottomSheet } from 'react-native-btr';
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRoute } from '@react-navigation/native';
+
 
 const TelaLogin = ({ navigation }) => {
 
@@ -58,11 +60,10 @@ const TelaLogin = ({ navigation }) => {
     // console.log("Dados no onSubmit: " + (data.Email));
     setDados(data)
     Login()
-
   }
 
   const Navegacao = () => {
-    navigation.navigate("Profissionais"),
+    navigation.navigate("TelaPrincipal"),
 
       salvarDados()
   }

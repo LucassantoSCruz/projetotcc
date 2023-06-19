@@ -1,27 +1,21 @@
-/*
-*********************************************************************
-* Este arquivo tem todas as rotas do modelo da tabela de 
-* Profissionais 
-*********************************************************************
-* ID, Nome, Email, Senha, Telefone, AtendimentoDomiciliar, Descricao, FotoPerfil
-*/
-
 //Importação do Express, do modelo e do gerenciador de rotas do Express
 const express = require('express');
 const modelProfissionais = require('../models/ModelProfissionais');
 const modelServicos = require('../models/ModelServicos');
 const router = express.Router();
+const upload = require('../helpers/upload/UploadImagem')
 
 //INÍCIO DAS ROTAS DE CRUD TABELA DE PROFISSIONAIS
 
 //Rota de cadastro
-router.post('/cadastrarProfissonal', (req, res) => {
-    console.log(req.body);
+router.post('/cadastrarProfissonal', upload.single('fotoPerfil'), (req, res) => {
+    console.log(req.file);
 
     let { CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao } = req.body;
+    let fotoPerfil = req.file.path;
 
     modelProfissionais.create(
-        { CPF_CNPJ, nome, nomeFantasia, pronomes, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao }
+        { CPF_CNPJ, nome, nomeFantasia, pronomes, fotoPerfil, pessoaJuridica, email, senha, telefone, atendimentoDomiciliar, descricao }
     ).then(
         () => {
             return res.status(201).json({
@@ -97,6 +91,40 @@ router.get('/ListarProfissionalCNPJ/:CPF_CNPJ', (req, res) => {
             }
         )
 });
+
+router.get('/ListarProfissionalCNPJImagem/:CPF_CNPJ/imagens', (req, res) => {
+    let { CPF_CNPJ } = req.params;
+  
+    modelProfissionais
+      .findByPk(CPF_CNPJ)
+      .then((profissional) => {
+        if (!profissional) {
+          return res.status(404).json({
+            erroStatus: true,
+            mensagemStatus: "Profissional não encontrado",
+          });
+        }
+  
+        // Aqui você pode adicionar a lógica para obter a lista de imagens relacionadas ao profissional
+        // Por exemplo, se houver um campo 'imagens' no objeto 'profissional', você pode retornar esse campo
+  
+        const imagens = profissional.fotoPerfil || [];
+  
+        return res.status(200).json({
+          erroStatus: false,
+          mensagemStatus: "Imagens do profissional listadas com sucesso!",
+          data: imagens,
+        });
+      })
+      .catch((erro) => {
+        return res.status(400).json({
+          erroStatus: true,
+          mensagemStatus: "Erro ao listar imagens do profissional!",
+          erroObject: erro,
+        });
+      });
+  });
+  
 
 //Rota de listagem por e-mail
 router.get('/ListarProfissionaisEmail/:email/:senha', (req, res) => {

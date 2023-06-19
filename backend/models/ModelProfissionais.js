@@ -48,7 +48,7 @@ const modelProfissionais = conexao.define('tbl_Profissionais', {
         allowNull: true
     },
     fotoPerfil: {
-        type: sequelize.BLOB,
+        type: sequelize.STRING,
         allowNull: true
     },
 }, {

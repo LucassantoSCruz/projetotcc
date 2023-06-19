@@ -5,6 +5,7 @@ import { BottomSheet } from 'react-native-btr';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
 import axios from 'axios';
+import FormData from 'form-data';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -24,30 +25,40 @@ const TelaCadastroProfissional = ({ navigation }) => {
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
-    axios.post(`${ENDERECO_API}/cadastrarProfissonal`, {
-      CPF_CNPJ: dados.CPF_CNPJ,
-      nome: dados.Nome,
-      nomeFantasia: dados.NomeFantasia,
-      pronomes,
-      email: dados.Email,
-      senha: dados.Senha,
-      telefone: dados.Telefone,
-      atendimentoDomiciliar,
-      pessoaJuridica,
-      descricao: dados.Descricao
-    })
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        const idProfissional = dados.CPF_CNPJ;
-        if (cadEndereco) {
-          navigation.navigate('CadastroEndereco', { idProfissional })
-        } else {
-          navigation.navigate('Login')
+
+    const formData = new FormData();
+    formData.append('fotoPerfil', {
+      uri: imagemSelecionada,
+      type: 'image/jpeg', // Substitua pelo tipo de arquivo correto se necessário
+      name: 'imagem.jpg' // Substitua pelo nome do arquivo correto se necessário
+    });
+    formData.append('CPF_CNPJ', dados.CPF_CNPJ);
+    formData.append('nome', dados.Nome);
+    formData.append('nomeFantasia', dados.NomeFantasia)
+    formData.append('pronomes', pronomes)
+    formData.append('email', dados.Email)
+    formData.append('senha', dados.Senha)
+    formData.append('telefone', dados.Telefone)
+    formData.append('atendimentoDomiciliar', atendimentoDomiciliar)
+    formData.append('pessoaJuridica', pessoaJuridica)
+    formData.append('descricao', dados.Descricao)
+
+    try {
+      const response = await axios.post(`${ENDERECO_API}/cadastrarProfissonal`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-      })
-      .catch(function (erro) {
-        console.log(erro);
-      })
+      });
+      console.log(JSON.stringify(response.data));
+      const idProfissional = dados.CPF_CNPJ;
+      if (cadEndereco) {
+        navigation.navigate('CadastroEndereco', { idProfissional });
+      } else {
+        navigation.navigate('Login');
+      }
+    } catch (error) {
+      console.log('Erro form-data: '+error);
+    }
   };
 
   function toggle1() {
@@ -170,7 +181,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
       enviarFormulario();
       setFormularioEnviado(true);
     }
-  }, [dados, enviarFormularioEstado, formularioEnviado]);  
+  }, [dados, enviarFormularioEstado, formularioEnviado]);
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -516,6 +527,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
         <ImagemPadraoPerfil
           placeholderImageSource={PlaceholderImage}
           imagemSelecionada={imagemSelecionada}
+          name='fotoPerfil'
         />
 
         <TouchableOpacity style={styles.botaofoto} onPress={pickImageAsync}>

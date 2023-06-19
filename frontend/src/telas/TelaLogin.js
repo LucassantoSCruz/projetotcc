@@ -8,44 +8,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TelaLogin = ({ navigation }) => {
 
-  // Função que declara se a caixa está visivel ou não
   const [visivel, setVisivel] = useState(false);
-
-  function toggle() {
-    setVisivel((visivel) => !visivel);
-  }
-
-  const [profissional, setProfissional] = useState(false);
-  const [pessoal, setPessoal] = useState(false);
-
-  useEffect(() => {
-    if (profissional == true) {
-      console.log('Profissional')
-      setTipoconta('Profissional')
-      setRotaLogin('ListarProfissionaisEmail')
-    }
-    return () => {
-      setProfissional(false)
-    }
-  }, [profissional])
-
-  useEffect(() => {
-    if (pessoal == true) {
-      console.log('Cliente')
-      setTipoconta('Cliente')
-      setRotaLogin('ListarClientesEmail')
-    }
-    return () => {
-      setPessoal(false)
-    }
-  }, [pessoal])
-
-  const [tipoconta, setTipoconta] = useState('')
-  const [rotaLogin, setRotaLogin] = useState('')
-  const [idUsuario, setIdUsuario] = useState(null)
-  const [dados, setDados] = useState([])
+  const [tipoconta, setTipoconta] = useState('');
+  const [idUsuario, setIdUsuario] = useState(null);
   const [dadosRecebidos, setDadosRecebidos] = useState(null)
-
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       Email: '',
@@ -53,41 +19,36 @@ const TelaLogin = ({ navigation }) => {
     }
   });
 
+  const toggle = () => {
+    setVisivel(visivel => !visivel);
+  };
+
   const onSubmit = data => {
+    Login(data);
+  };
 
-    // console.log("Dados no onSubmit: " + (data.Email));
-    setDados(data)
-    Login()
+  const Navegacao = async () => {
+    navigation.navigate("Profissionais");
+  };
 
-  }
+  const Login = (data) => {
+    const rotaLogin = tipoconta === 'Profissional' ? 'ListarProfissionaisEmail' : 'ListarClientesEmail';
 
-  const Navegacao = () => {
-    navigation.navigate("Profissionais"),
-
-      salvarDados()
-  }
-
-  const Login = () => {
-
-    // console.log("Dados no Login: " + (dados.Email))
-
-    axios.get(`${ENDERECO_API}/${rotaLogin}/${dados.Email}/${dados.Senha}`, {
-      Email: dados.Email,
-      Senha: dados.Senha
+    axios.get(`${ENDERECO_API}/${rotaLogin}/${data.Email}/${data.Senha}`, {
+      Email: data.Email,
+      Senha: data.Senha
     })
-
       .then(function (response) {
         if (tipoconta == 'Profissional') {
           console.log(response.data.data.CPF_CNPJ)
           setIdUsuario(response.data.data.CPF_CNPJ)
-          console.log("CPF_CNPJ do usuário Profissional: " + idUsuario)
+          console.log("CPF_CNPJ do usuário Profissional: " + JSON.stringify(idUsuario))
         } else {
           console.log(response.data.data.CPF)
           setIdUsuario(response.data.data.CPF)
-          console.log("CPF_CNPJ do usuário Profissional: " + idUsuario)
+          console.log("CPF_CNPJ do usuário Profissional: " + JSON.stringify(idUsuario))
         }
-
-        if (response.data.data != null) {
+        if (response.data.data !== null) {
           if (response.status === 200) {
             setDadosRecebidos(response.data.data);
             Alert.alert(
@@ -106,9 +67,8 @@ const TelaLogin = ({ navigation }) => {
           } else {
             console.log(response.data.data.Email + " RETORNO ELSE");
           }
-        }
-        else {
-          Alert.alert("Usuário não encontrado.")
+        } else {
+          Alert.alert("Usuário não encontrado.");
         }
       })
       .catch(function (error) {
@@ -130,21 +90,23 @@ const TelaLogin = ({ navigation }) => {
     }
   }
 
+  useEffect(() => {
+    console.log("Valor atual de idUsuario: " + JSON.stringify(idUsuario));
+    if (idUsuario !== null) {
+      salvarDados();
+    }
+  }, [idUsuario]);
+
   return (
     <View style={style.tela}>
+      <Text style={style.titulo}>Login</Text>
 
-      <Text style={style.titulo}>
-        Login
-      </Text>
-
-      {errors.Email &&
+      {errors.Email && (
         <View style={style.caixaerro}>
           <Image style={style.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
-          <Text style={style.textoerro}>
-            Campo de Email incorreto
-          </Text>
+          <Text style={style.textoerro}>Campo de Email incorreto</Text>
         </View>
-      }
+      )}
 
       <Controller
         control={control}
@@ -156,7 +118,6 @@ const TelaLogin = ({ navigation }) => {
           }
         }}
         render={({ field: { onChange, onBlur, value } }) => (
-
           <TextInput
             style={style.caixadetexto}
             placeholder="Digite seu Email"
@@ -164,19 +125,16 @@ const TelaLogin = ({ navigation }) => {
             onChangeText={onChange}
             value={value}
           />
-
         )}
         name="Email"
       />
 
-      {errors.Senha &&
+      {errors.Senha && (
         <View style={style.caixaerro}>
           <Image style={style.imagemerro} source={require('../../assets/iconsbelezura/erro.png')} />
-          <Text style={style.textoerro}>
-            Campo de Senha incorreto
-          </Text>
+          <Text style={style.textoerro}>Campo de Senha incorreto</Text>
         </View>
-      }
+      )}
 
       <Controller
         control={control}
@@ -185,7 +143,6 @@ const TelaLogin = ({ navigation }) => {
           minLength: 2,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
-
           <TextInput
             style={style.caixadetexto}
             placeholder="Digite sua Senha"
@@ -193,45 +150,32 @@ const TelaLogin = ({ navigation }) => {
             onChangeText={onChange}
             value={value}
           />
-
         )}
         name="Senha"
       />
 
       <TouchableOpacity style={style.botaomodal} onPress={toggle}>
         <View>
-          <Text style={style.titulomodal}>
-            Tipo de conta: {tipoconta}
-          </Text>
+          <Text style={style.titulomodal}>Tipo de conta: {tipoconta}</Text>
         </View>
       </TouchableOpacity>
-      <BottomSheet
-        visible={visivel}
-        onBackButtonPress={toggle}
-        onBackdropPress={toggle}
-      >
+      <BottomSheet visible={visivel} onBackButtonPress={toggle} onBackdropPress={toggle}>
         <View style={style.fundomodal}>
-          <TouchableOpacity style={style.selecao} onPress={() => setProfissional(true)}>
-            <Text style={style.textomodal}>
-              Profissional
-            </Text>
+          <TouchableOpacity style={style.selecao} onPress={() => setTipoconta('Profissional')}>
+            <Text style={style.textomodal}>Profissional</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={style.selecao} onPress={() => setPessoal(true)}>
-            <Text style={style.textomodal}>
-              Cliente
-            </Text>
+          <TouchableOpacity style={style.selecao} onPress={() => setTipoconta('Cliente')}>
+            <Text style={style.textomodal}>Cliente</Text>
           </TouchableOpacity>
         </View>
       </BottomSheet>
 
-      <TouchableOpacity style={style.botao} onPress={handleSubmit(onSubmit)} >
-        <Text style={style.textobotao}>
-          Entrar
-        </Text>
+      <TouchableOpacity style={style.botao} onPress={handleSubmit(onSubmit)}>
+        <Text style={style.textobotao}>Entrar</Text>
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const style = StyleSheet.create({
   tela: {

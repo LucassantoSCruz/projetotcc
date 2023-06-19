@@ -32,30 +32,40 @@ const TelaAgenda = () => {
 
   useEffect(() => {
     obterDados();
-    definirRota();
-    infoAgendamentos();
   }, []);
+
+  useEffect(() => {
+    definirRota();
+  }, [tipoconta]);
+
+  useEffect(() => {
+    if (tipoconta) {
+      infoAgendamentos();
+    }
+  }, [tipoconta]);
+  
 
   const definirRota = () => {
     if (tipoconta == 'Profissional') {
       setRotaBusca('ListarAgendamentosProfissional')
       console.log('Rota: ' + rotaBusca)
+      infoAgendamentos(); 
     } else {
       setRotaBusca('ListarAgendamentosCliente')
       console.log('Rota: ' + rotaBusca)
+      infoAgendamentos(); 
     }
   }
 
   const infoAgendamentos = () => {
-    axios.get(`${ENDERECO_API}/${rotaBusca}/${idUsuario}`)
+    axios.get(`${ENDERECO_API}/ListarAgendamentos${tipoconta}/${idUsuario}`)
       .then(function (response) {
-        //console.log('Agendamentos Listados: ' + JSON.stringify(response.data.data))
-        setAgendamentos(response.data.data)
-        //console.log(agendamentos)
-      }).catch(function (error) {
-        console.log(error)
+        setAgendamentos(response.data.data);
       })
-  }
+      .catch(function (error) {
+        console.log(error.response);
+      });
+  };  
 
   const obterDados = async () => {
     try {
@@ -86,12 +96,13 @@ const TelaAgenda = () => {
       <View>
         <SafeAreaView>
           <ScrollView refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+            <View>
+              <Text></Text>
+            </View>
+
             <View>
               <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
-                <View>
-                  <Text> </Text>
-                </View>
                 <FlatList
                   horizontal={false}
                   data={agendamentos}
@@ -104,7 +115,7 @@ const TelaAgenda = () => {
           </ScrollView>
         </SafeAreaView>
       </View>
-    );
+    )
   } else {
     return (
       <View>

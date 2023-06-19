@@ -27,6 +27,9 @@ const BoxPerfil = (item) => {
                     <Text style={styles.texto}>
                         {item.item.titulo}
                     </Text>
+                    <Text style={styles.textopreco}>
+                        R$ {item.item.preco.replace('.', ',')}
+                    </Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -38,8 +41,8 @@ const styles = StyleSheet.create({
         fontSize: 32,
     },
     fundonome: {
-        height: 69,
         borderRadius: 14,
+        width: '100%',
         backgroundColor: '#9a6b99',
     },
     fundo: {
@@ -50,7 +53,9 @@ const styles = StyleSheet.create({
         flex: 1,
         marginBottom: 15,
         width: 185,
-        flexGrow: 1
+        flexGrow: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
     },
     imagem: {
         width: 150,
@@ -61,11 +66,16 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     texto: {
-        padding: 10,
         fontWeight: 'bold',
         fontSize: 18,
-        color: 'white'
+        color: 'white',
+        padding: 10
     },
+    textopreco: {
+      fontSize: 18,
+      color: 'white',
+      padding: 10
+    }
 })
 
 export default BoxPerfil

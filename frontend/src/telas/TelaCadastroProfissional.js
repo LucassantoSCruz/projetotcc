@@ -20,35 +20,34 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [cadEndereco, setCadEndereco] = useState(false)
   const [visivelTipoConta, setVisivelTipoConta] = useState(false);
   const [visivelAtDomicilio, setAtDomicilio] = useState(false);
-
   const [imagemSelecionada, setImagemSelecionada] = useState(null);
 
   //Teste para fazer mais de uma requisição com o Axios
   const enviarFormulario = async () => {
     axios.post(`${ENDERECO_API}/cadastrarProfissonal`, {
-      CPF_CNPJ: dados.CPF_CNPJ, 
-      nome: dados.Nome, 
-      nomeFantasia: dados.NomeFantasia, 
-      pronomes, 
-      email: dados.Email, 
+      CPF_CNPJ: dados.CPF_CNPJ,
+      nome: dados.Nome,
+      nomeFantasia: dados.NomeFantasia,
+      pronomes,
+      email: dados.Email,
       senha: dados.Senha,
-      telefone: dados.Telefone, 
+      telefone: dados.Telefone,
       atendimentoDomiciliar,
       pessoaJuridica,
       descricao: dados.Descricao
     })
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-      const idProfissional = dados.CPF_CNPJ;
-      if(cadEndereco){
-        navigation.navigate('CadastroEndereco', {idProfissional})
-      }else{
-        navigation.navigate('Login')
-      }
-    })
-    .catch (function (erro) {
-      console.log(erro);
-    })
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        const idProfissional = dados.CPF_CNPJ;
+        if (cadEndereco) {
+          navigation.navigate('CadastroEndereco', { idProfissional })
+        } else {
+          navigation.navigate('Login')
+        }
+      })
+      .catch(function (erro) {
+        console.log(erro);
+      })
   };
 
   function toggle1() {
@@ -93,7 +92,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
     if (eleDele == true) {
       console.log('Ele/Dele'),
         setPronomes('Ele/Dele')
-        setTxtPronomes('Ele/Dele')
+      setTxtPronomes('Ele/Dele')
     }
     return () => {
       setEleDele(false)
@@ -133,6 +132,9 @@ const TelaCadastroProfissional = ({ navigation }) => {
     }
   })
 
+
+
+
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -147,12 +149,12 @@ const TelaCadastroProfissional = ({ navigation }) => {
     }
   };
 
-//   useEffect(() => {
-//     //salvar a imagem
-//   AsyncStorage.setItem('imagemPerfil', imagemSelecionada)
+  //   useEffect(() => {
+  //     //salvar a imagem
+  //   AsyncStorage.setItem('imagemPerfil', imagemSelecionada)
 
-//   console.log(imagemSelecionada)
-// }, [imagemSelecionada])
+  //   console.log(imagemSelecionada)
+  // }, [imagemSelecionada])
 
   const [tipoconta, setTipoconta] = useState("")
   const [pronomes, setPronomes] = useState("")
@@ -160,14 +162,15 @@ const TelaCadastroProfissional = ({ navigation }) => {
   const [txtAtDomiciliar, setTxtAtDomiciliar] = useState("Realiza atendimento á domicílio?")
 
   const [dados, setDados] = useState(null)
+  const [enviarFormularioEstado, setEnviarFormularioEstado] = useState(false);
+  const [formularioEnviado, setFormularioEnviado] = useState(false);
 
-  const onSubmit = data => {
-
-    console.log(data)
-    setDados(data)
-    enviarFormulario()
-
-  };
+  useEffect(() => {
+    if (dados && enviarFormularioEstado && !formularioEnviado) {
+      enviarFormulario();
+      setFormularioEnviado(true);
+    }
+  }, [dados, enviarFormularioEstado, formularioEnviado]);  
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -180,6 +183,15 @@ const TelaCadastroProfissional = ({ navigation }) => {
       Descricao: '',
     }
   })
+
+  const handleCadastro = data => {
+    console.log(data)
+    setDados(data)
+    setEnviarFormularioEstado(true)
+    // enviarFormulario()
+  }
+
+  const onSubmit = handleSubmit(handleCadastro)
 
   return (
     <ScrollView>
@@ -373,7 +385,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
             <TouchableOpacity style={styles.selecao} onPress={() => {
               setAtendimentoDomiciliar(false);
               setTxtAtDomiciliar("Não realizo atendimento á domicílio.")
-              setCadEndereco(true)}
+              setCadEndereco(true)
+            }
             }>
               <Text style={styles.textomodal}>
                 Não realizo atendimento á domicílio.
@@ -382,7 +395,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
             <TouchableOpacity style={styles.selecao} onPress={() => {
               setAtendimentoDomiciliar(true);
               setTxtAtDomiciliar("Sim, atendimento á domicilio e em meu estabelecimento.")
-              setCadEndereco(true)}
+              setCadEndereco(true)
+            }
             }>
               <Text style={styles.textomodal}>
                 Sim, atendimento á domicilio e estabelecimento.
@@ -391,7 +405,8 @@ const TelaCadastroProfissional = ({ navigation }) => {
             <TouchableOpacity style={styles.selecao} onPress={() => {
               setAtendimentoDomiciliar(true);
               setTxtAtDomiciliar("Realizo apenas atendimento á domicílio.")
-              setCadEndereco(false)}
+              setCadEndereco(false)
+            }
             }>
               <Text style={styles.textomodal}>
                 Sim, apenas atendimento á domicílio.

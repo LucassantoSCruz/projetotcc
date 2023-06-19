@@ -1,24 +1,18 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import Moment from 'moment';
 
-const CaixaAgendaCliente = (agendamentos) => {
-  const profissional = agendamentos.agendamentos.item.tbl_Profissionai
-  const servico = agendamentos.agendamentos.item.tbl_Servico
-  const cliente = agendamentos.agendamentos.item.tbl_Cliente
-  const status = agendamentos.agendamentos.item.tbl_status
+const CaixaAgendaCliente = ({ agendamentos }) => {
+  const { item } = agendamentos;
+  const { tbl_Profissionai: profissional, tbl_Servico: servico, tbl_Cliente: cliente, tbl_status: status } = item;
   const precoFormatado = servico.preco.replace(".", ",")
-  const dataFormatada = Moment(agendamentos.agendamentos.item.data).format('DD/MM/YYYY');
-  const horarioFormatado = Moment(agendamentos.agendamentos.item.data).format('HH:mm');
-  let botoes = null;
+  const dataFormatada = Moment(item.data).format('DD/MM/YYYY');
+  const horarioFormatado = Moment(item.data).format('HH:mm');
 
   return (
     <View style={styles.container}>
-
       <View>
-
         <View style={styles.caixa}>
-
           <View style={styles.imgtxt}>
             <Image style={styles.imagem} source={require('../../assets/images.png')} />
             <View style={styles.texto}>
@@ -26,7 +20,6 @@ const CaixaAgendaCliente = (agendamentos) => {
                 <Text style={styles.titulo}>{servico.titulo}</Text>
                 <Text style={styles.titulo}>{profissional.nomeFantasia}</Text>
               </View>
-
               <View style={styles.info}>
                 <Text>Status: {status.titulo}</Text>
                 <Text>Valor: R${precoFormatado}</Text>
@@ -35,14 +28,11 @@ const CaixaAgendaCliente = (agendamentos) => {
                 <Text>Local: Cabelereira Leila</Text>
               </View>
             </View>
-
           </View>
-           
         </View>
-
       </View>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({

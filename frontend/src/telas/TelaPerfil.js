@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
     texto: {
         fontWeight: 'bold',
         color: 'white',
-        fontSize: 17,
+        fontSize: 15,
     },
     Perfilview: {
         flexDirection: 'row',

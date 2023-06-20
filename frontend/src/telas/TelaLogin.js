@@ -5,6 +5,8 @@ import { useForm, Controller } from "react-hook-form";
 import { BottomSheet } from 'react-native-btr';
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRoute } from '@react-navigation/native';
+
 
 const TelaLogin = ({ navigation }) => {
 
@@ -28,7 +30,7 @@ const TelaLogin = ({ navigation }) => {
   };
 
   const Navegacao = async () => {
-    navigation.navigate("Profissionais");
+    navigation.navigate("TelaPrincipal", {tipoconta});
   };
 
   const Login = (data) => {

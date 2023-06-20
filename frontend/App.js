@@ -7,11 +7,12 @@ import TabNavegacao from './src/Rotas';
 import TelaCadastroProfissional from './src/telas/TelaCadastroProfissional';
 import TelaCadastroCliente from './src/telas/TelaCadastroCliente';
 import TelaCadastroEndereco from './src/telas/TelaCadastroEndereco'
-import Mapa from './src/componentes/Mapa';
+import AppNavigator from './src/LogicaTabNavigator';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Inicio">
@@ -20,7 +21,7 @@ const App = () => {
         <Stack.Screen name="CadastroProfissional" component={TelaCadastroProfissional} options={{headerTitleAlign: 'center', headerTitle: 'Cadastro de Profissional'}}/>
         <Stack.Screen name="CadastroEndereco" component={TelaCadastroEndereco} options={{headerTitleAlign: 'center', headerTitle: 'Cadastrar Endereço'}}/>
         <Stack.Screen name="CadastroCliente" component={TelaCadastroCliente} options={{headerTitleAlign: 'center', headerTitle: 'Cadastro de Cliente'}}/>
-        <Stack.Screen name="Profissionais" component={TabNavegacao} options={{headerShown: false}}/>
+        <Stack.Screen name="TelaPrincipal" component={AppNavigator} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

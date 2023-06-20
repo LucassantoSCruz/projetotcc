@@ -90,23 +90,11 @@ const TelaCriarServico = () => {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            })
+            });
+            console.log(response.data);
         } catch (error) {
             console.log('Erro form-data: ' + error);
         }
-        
-        axios.post(`${ENDERECO_API}/cadastrarServico`, {
-            preco,
-            titulo,
-            descricao,
-            FK_Profissionais_Servicos
-        })
-            .then(function (response) {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.error(error);
-            });
     };
 
     return (
@@ -115,7 +103,9 @@ const TelaCriarServico = () => {
                 <View style={styles.fundoimagem}>
                     <ImagemPadraoServico
                         placeholderImageSource={PlaceholderImage}
-                        imagemSelecionada={imagemSelecionada} />
+                        imagemSelecionada={imagemSelecionada} 
+                        name='imagem'
+                    />
                     <TouchableOpacity style={styles.botaoimagem} onPress={pickImageAsync}>
                         <Text>
                             Trocar/Imagem

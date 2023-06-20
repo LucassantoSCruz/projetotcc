@@ -2,12 +2,14 @@ const express = require('express');
 const modelClientes = require('../models/ModelClientes');
 const modelProfissionais = require('../models/ModelProfissionais')
 const router = express.Router();
+const upload = require('../helpers/upload/UploadImagem')
 
-router.post('/cadastrarCliente', (req, res) => {
+router.post('/cadastrarCliente', upload.single('fotoPerfil'), (req, res) => {
 
     let { CPF, nome, email, senha, telefone, pronomes } = req.body;
+    let fotoPerfil = req.file.path;
 
-    modelClientes.create({ CPF, nome, email, senha, telefone, pronomes })
+    modelClientes.create({ CPF, nome, fotoPerfil, email, senha, telefone, pronomes })
         .then(
             () => {
                 return res.status(201).json({
@@ -17,7 +19,7 @@ router.post('/cadastrarCliente', (req, res) => {
             }
         ).catch(
             (erro) => {
-                return res.status(400).json({
+                return res.status(201).json({
                     erroStatus: true,
                     mensagemStatus: "Erro ao cadastrar",
                     erroObject: erro

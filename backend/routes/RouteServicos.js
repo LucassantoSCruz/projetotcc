@@ -35,7 +35,7 @@ router.post('/cadastrarServico', upload.single('imagem'), (req, res) => {
 //Rota de listagem
 router.get('/listarServicos', (req, res) => {
 
-    modelServicos.findAll()
+    modelServicos.findAll({order: [['ultimaModificacao', 'DESC']]})
     .then(
        (response) => {
         return res.status(200).json({

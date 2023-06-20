@@ -26,7 +26,7 @@ const modelClientes = conexao.define('tbl_Clientes', {
         allowNull: false
     },
     fotoPerfil:{
-        type: Sequelize.BLOB,
+        type: Sequelize.STRING,
         allowNull: true
     },
     telefone: {

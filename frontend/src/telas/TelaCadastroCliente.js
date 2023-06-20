@@ -6,6 +6,7 @@ import { BottomSheet } from 'react-native-btr';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoPerfil from '../componentes/ImagemPadrao';
 import axios from 'axios';
+import FormData from 'form-data';
 
 const PlaceholderImage = require('../../assets/Perfil.png');
 
@@ -18,23 +19,34 @@ const TelaCadastroCliente = ({ navigation }) => {
   // const [Telefone, setTelefone] = useState(null)
   const [visivelPronome, setVisivelPronome] = useState(false);
   const [Pronomes, setPronomes] = useState("")
+  const [imagemSelecionada, setImagemSelecionada] = useState(null);
 
   const enviarFormulario = async () => {
-    axios.post(`${ENDERECO_API}/cadastrarCliente`, {
-      CPF: dados.CPF,
-      nome: dados.Nome,
-      email: dados.Email,
-      senha: dados.Senha,
-      telefone: dados.Telefone,
-      pronomes: Pronomes
-    })
-      .then(function (response) {
-        console.log(response.data);
-        navigation.navigate('Login')
-      })
-      .catch(function (error) {
-        console.log(error);
+
+    const formData = new FormData();
+    formData.append('fotoPerfil', {
+      uri: imagemSelecionada,
+      type: 'image/jpeg', // Substitua pelo tipo de arquivo correto se necessário
+      name: 'imagem.jpg' // Substitua pelo nome do arquivo correto se necessário
+    });
+    formData.append('CPF', dados.CPF);
+    formData.append('nome', ados.Nome);
+    formData.append('email', dados.Email);
+    formData.append('senha', dados.Senha);
+    formData.append('telefone', dados.Telefone);
+    formData.append('pronomes', Pronomes);
+
+    try {
+      const response = await axios.post(`${ENDERECO_API}/cadastrarCliente`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
+      console.log(JSON.stringify(response.data));
+      navigation.navigate('Login')
+    } catch (error) {
+      console.log('Erro form-data: ' + error);
+    }
   };
 
   function togglePronomes() {
@@ -83,8 +95,6 @@ const TelaCadastroCliente = ({ navigation }) => {
       setNaoDizer(false)
     }
   })
-
-  const [imagemSelecionada, setImagemSelecionada] = useState(null);
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -315,6 +325,7 @@ const TelaCadastroCliente = ({ navigation }) => {
         <ImagemPadraoPerfil
           placeholderImageSource={PlaceholderImage}
           imagemSelecionada={imagemSelecionada}
+          name='fotoPerfil'
         />
 
         <TouchableOpacity style={styles.botaofoto} onPress={pickImageAsync}>

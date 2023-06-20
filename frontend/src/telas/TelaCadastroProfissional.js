@@ -57,7 +57,7 @@ const TelaCadastroProfissional = ({ navigation }) => {
         navigation.navigate('Login');
       }
     } catch (error) {
-      console.log('Erro form-data: '+error);
+      console.log('Erro form-data: ' + error);
     }
   };
 

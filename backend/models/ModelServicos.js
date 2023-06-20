@@ -14,7 +14,7 @@ const modelServicos = conexao.define('tbl_Servicos', {
         autoIncrement: true
     },
     imagem: {
-        type: sequelize.BLOB,
+        type: sequelize.STRING,
         allowNull: true
     },
     preco: {

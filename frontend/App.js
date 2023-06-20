@@ -3,11 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TelaInicial from './src/telas/TelaInicial';
 import TelaLogin from './src/telas/TelaLogin';
-import TabNavegacao from './src/Rotas';
 import TelaCadastroProfissional from './src/telas/TelaCadastroProfissional';
 import TelaCadastroCliente from './src/telas/TelaCadastroCliente';
 import TelaCadastroEndereco from './src/telas/TelaCadastroEndereco'
-import AppNavigator from './src/LogicaTabNavigator';
+import TabNavegacao from './src/TabNavegacao';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +20,7 @@ const App = () => {
         <Stack.Screen name="CadastroProfissional" component={TelaCadastroProfissional} options={{headerTitleAlign: 'center', headerTitle: 'Cadastro de Profissional'}}/>
         <Stack.Screen name="CadastroEndereco" component={TelaCadastroEndereco} options={{headerTitleAlign: 'center', headerTitle: 'Cadastrar Endereço'}}/>
         <Stack.Screen name="CadastroCliente" component={TelaCadastroCliente} options={{headerTitleAlign: 'center', headerTitle: 'Cadastro de Cliente'}}/>
-        <Stack.Screen name="TelaPrincipal" component={AppNavigator} options={{headerShown: false}}/>
+        <Stack.Screen name="TelaPrincipal" component={TabNavegacao} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

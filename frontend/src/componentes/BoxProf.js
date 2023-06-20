@@ -1,3 +1,4 @@
+import { ENDERECO_API } from "../../config";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
@@ -7,20 +8,18 @@ const BoxProf = (item) => {
     //console.log('Itens do box Perfil: '+ JSON.stringify(item.item.titulo))
 
     const navigation = useNavigation()
-    const [imagemSelecionada, setImagemSelecionada] = useState();
+    const [imagemServico, setImagemServico] = useState(null)
 
-    useEffect(() => {
-        console.log(imagemSelecionada)
-    }, [imagemSelecionada])
+    useEffect(()=>{
+        setImagemServico(item.item.imagem.replace('public\\uploads', '/uploads'))
+        console.log('Imagem: ' + imagemServico)
+    }, [])
 
     const Pressionar = async () => {
         console.log('Info do serviço clicado: ' + JSON.stringify(item.item))
         const idServico = item.item.ID
         // console.log('ID salvo: ' + idServico)
         navigation.navigate('ServicoProfissional', { idServico })
-
-        const imagemRecuperada = await AsyncStorage.getItem('imagemServico')
-        setImagemSelecionada(imagemRecuperada)
     }
 
     return (
@@ -28,9 +27,9 @@ const BoxProf = (item) => {
             <View style={styles.caixa}>
                 <View style={styles.caixa2}>
                     {
-                        imagemSelecionada ?
+                        imagemServico ?
                             <Image
-                                source={{ uri: imagemSelecionada }}
+                                source={{ uri: `${ENDERECO_API}/${imagemServico}` }}
                                 style={styles.imagem} />
                             :
                             <Image
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     imagem: {
-        width: 150,
+        width: '100%',
         height: 150,
         resizeMode: 'contain',
     },

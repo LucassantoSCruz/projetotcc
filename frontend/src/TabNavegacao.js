@@ -7,7 +7,7 @@ import { NavigationContainer, useRoute } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
-const AppNavigator = () => {
+const TabNavegacao = () => {
 
     const route = useRoute()
 
@@ -20,4 +20,4 @@ const AppNavigator = () => {
     );
 };
 
-export default AppNavigator;
+export default TabNavegacao;

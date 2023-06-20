@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CaixaServico from '../componentes/CaixaServico';
-import BoxPerfilEstatico from '../componentes/BoxPerfilEstatico';
 
 const TelaPerfilProfissional = () => {
 

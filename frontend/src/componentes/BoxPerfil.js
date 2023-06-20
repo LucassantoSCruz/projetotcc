@@ -1,5 +1,6 @@
+import { ENDERECO_API } from "../../config";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 const BoxPerfil = (item) => {
@@ -7,6 +8,12 @@ const BoxPerfil = (item) => {
     //console.log('Itens do box Perfil: '+ JSON.stringify(item.item.titulo))
 
     const navigation = useNavigation()
+    const [imagemServico, setImagemServico] = useState(null)
+
+    useEffect(() => {
+        setImagemServico(item.item.imagem.replace('public\\uploads', '/uploads'))
+        console.log('Imagem: ' + imagemServico)
+    }, [])
 
     const Pressionar = () => {
         console.log('Info do serviço clicado: ' + JSON.stringify(item.item))
@@ -19,9 +26,18 @@ const BoxPerfil = (item) => {
         <TouchableOpacity onPress={Pressionar} >
             <View style={styles.fundo}>
                 <View style={styles.fundoimagem}>
-                    <Image
-                        source={require('../../assets/imagem1.png')}
-                        style={styles.imagem} />
+                    {
+                        imagemServico ?
+                        <Image
+                            source={{ uri: `${ENDERECO_API}/${imagemServico}` }}
+                            style={styles.imagem} 
+                        />
+                        :
+                        <Image
+                            source={require('../../assets/imagem1.png')}
+                            style={styles.imagem} 
+                        />
+                    }
                 </View>
                 <View style={styles.fundonome}>
                     <Text style={styles.texto}>
@@ -58,7 +74,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     imagem: {
-        width: 150,
+        width: '100%',
         height: 150,
         resizeMode: 'contain',
     },
@@ -72,9 +88,9 @@ const styles = StyleSheet.create({
         padding: 10
     },
     textopreco: {
-      fontSize: 18,
-      color: 'white',
-      padding: 10
+        fontSize: 18,
+        color: 'white',
+        padding: 10
     }
 })
 

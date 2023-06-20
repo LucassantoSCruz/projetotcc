@@ -1,5 +1,6 @@
+import { ENDERECO_API } from "../../config";
 import { useNavigation } from "@react-navigation/native";
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, Touchable, TouchableOpacity } from 'react-native';
 
 // criação de um componente
@@ -8,6 +9,11 @@ const CaixaServico = (item) => {
   // const cb = props.quandoClicar;
 
   const navigation = useNavigation()
+  const [imagemServico, setImagemServico] = useState(null)
+
+  useEffect(() => {
+    setImagemServico(item.item.imagem)
+  }, [])
 
   const Pressionar = () => {
     console.log('Serviço clicado: ' + item.item.FK_Profissionais_Servicos)
@@ -20,9 +26,16 @@ const CaixaServico = (item) => {
     <TouchableOpacity onPress={Pressionar}>
       <View style={styles.fundo}>
         <View style={styles.fundoimagem}>
-          <Image
-            source={require('../../assets/imagem1.png')}
-            style={styles.imagem} />
+          {
+            imagemServico ?
+              <Image
+                source={{ uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}` }}
+                style={styles.imagem} />
+              :
+              <Image
+                source={require('../../assets/imagem1.png')}
+                style={styles.imagem} />
+          }
         </View>
         <View style={styles.fundonome}>
           <Text style={styles.texto}>
@@ -62,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#9a6b99',
   },
   imagem: {
-    width: 150,
+    width: '100%',
     height: 150,
     resizeMode: 'contain',
   },

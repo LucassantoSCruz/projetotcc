@@ -8,7 +8,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Telas
 import TelaComunidade from './telas/TelaComunidade'
 import TelaAgenda from './telas/TelaAgenda';
-import TelaPerfil from './telas/TelaPerfil';
 import TelaCriarServico from './telas/TelaCriarServico';
 import TelaComunidadeInfo from './telas/TelaComunidadeInfo';
 import TelaConfiguracoes from './telas/TelaConfiguracoes';

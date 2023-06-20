@@ -9,7 +9,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TelaProfissionais from './telas/TelaProfissionais';
 import TelaComunidade from './telas/TelaComunidade'
 import TelaAgenda from './telas/TelaAgenda';
-import TelaPerfil from './telas/TelaPerfil';
 import TelaPerfilProfissional from './telas/TelaPerfilProfissional';
 import TelaServico from './telas/TelaServico';
 import TelaComunidadeInfo from './telas/TelaComunidadeInfo';

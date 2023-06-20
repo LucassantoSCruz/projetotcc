@@ -14,6 +14,7 @@ const TelaContaCliente = () => {
     const [nomeCliente, setNomeCliente] = useState(null)
     const [pronomesCliente, setPronomesCliente] = useState(null)
     const [refreshing, setRefreshing] = useState(false);
+    const [fotoPerfil, setFotoPerfil] = useState(null)
 
     const onRefresh = () => {
         setRefreshing(true);
@@ -51,7 +52,8 @@ const TelaContaCliente = () => {
 
                 setNomeCliente(response.data.data.nome)
                 setPronomesCliente(response.data.data.pronomes)
-
+                setFotoPerfil(response.data.data.fotoPerfil.replace('public\\uploads', '/uploads'))
+                console.log('Imagem recuperada: ' + fotoPerfil)
             })
             .catch(function (error) {
                 console.log(error);
@@ -70,7 +72,18 @@ const TelaContaCliente = () => {
 
 
                     <View style={styles.Perfildireita}>
-                        <Image style={styles.fotodeperfil} source={require('../../assets/Perfil.png')} />
+                        {
+                            fotoPerfil ?
+                            <Image
+                                source={{ uri: `${ENDERECO_API}${fotoPerfil}` }}
+                                style={styles.fotodeperfil} 
+                            />
+                            :
+                            <Image
+                                source={require('../../assets/imagem5.png')}
+                                style={styles.fotodeperfil} 
+                            />
+                        }
                     </View>
                 </View>
 

@@ -1,11 +1,12 @@
 const express = require('express');
 const modelServicos = require('../models/ModelServicos');
 const router = express.Router();
+const upload = require('../helpers/upload/UploadImagem');
 
 //INÍCIO DAS ROTAS DE CRUD DA TABELA SERVICOS
 
 //Rota de cadastro
-router.post('/cadastrarServico', (req, res) => {
+router.post('/cadastrarServico', upload.single('imagem'), (req, res) => {
     console.log(req.body);
 
     let {preco, titulo, descricao, FK_Profissionais_Servicos} = req.body;

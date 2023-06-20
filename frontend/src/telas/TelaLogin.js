@@ -149,6 +149,7 @@ const TelaLogin = ({ navigation }) => {
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            secureTextEntry={true}
           />
         )}
         name="Senha"

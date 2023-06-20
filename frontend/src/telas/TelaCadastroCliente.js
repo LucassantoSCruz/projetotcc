@@ -30,7 +30,7 @@ const TelaCadastroCliente = ({ navigation }) => {
       name: 'imagem.jpg' // Substitua pelo nome do arquivo correto se necessário
     });
     formData.append('CPF', dados.CPF);
-    formData.append('nome', ados.Nome);
+    formData.append('nome', dados.Nome);
     formData.append('email', dados.Email);
     formData.append('senha', dados.Senha);
     formData.append('telefone', dados.Telefone);

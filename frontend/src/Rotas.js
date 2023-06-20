@@ -21,6 +21,7 @@ import TelaPagamento from './telas/TelaPagamento';
 import TelaPerfisFavoritados from './telas/TelaPerfisFavoritos';
 import TelaServicoProfissional from './telas/TelaServicoPro';
 import TelaServicoEditar from './telas/TelaServicoEditar';
+import TelaCadastroEndereco from './telas/TelaCadastroEndereco';
 
 // Nomes das Telas
 const telaProfissionais = 'Profissionais';
@@ -93,6 +94,7 @@ const RotaPerfil = () => {
         <Stack.Screen name='TelaPerfisFavoritados' component={TelaPerfisFavoritados} options={{ title: 'Perfis Favoritados', headerTitleAlign: 'center' }} />
         <Stack.Screen name='ServicoProfissional' component={TelaServicoProfissional} options={{ title: 'ServiçoProfissional', headerTitleAlign: 'center' }} />
         <Stack.Screen name='ServicoEditar' component={TelaServicoEditar} options={{ title: 'ServiçoEditar', headerTitleAlign: 'center' }} />
+        <Stack.Screen name='CadastroEndereco' component={TelaCadastroEndereco} options={{ title: 'CadastroEndereco', headerTitleAlign: 'center' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

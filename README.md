@@ -1,11 +1,10 @@
 <div align="center">
-  <img src="" alt="titulo"/>
+ <a src="https://ibb.co/TDy3KTL" ><img src="https://i.ibb.co/xKZTmsH/Microsoft-Teams-image-8.png" alt="Microsoft-Teams-image-8" border="0"  width="300" height="300"></img></a>
 </div>
 
 <div align="center">
-  <img src="https://img.shields.io/github/repo-size/Jpzinn654/E-PLANNER-MAIN?style=for-the-badge" alt="Repo Size"/>
-</div>
- 
+ <h1>Belezura</h1>
+ </div>
  
  ---
 ## 💡 O que é?
@@ -26,6 +25,10 @@ Também irá oferecer a opção ao cliente, com o mapa, verificar e analisar os 
 
 
 ## 🌈 Protótipo
+ <div align="center">
+<a href="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FnsA6dX55mnzWVSNxlOwJg6%2FPrototipo-Belezura-1.1-(Copy)%3Ftype%3Ddesign%26node-id%3D369-640%26scaling%3Dmin-zoom%26page-id%3D369%253A2%26starting-point-node-id%3D369%253A1096%26show-proto-sidebar%3D1"> Protótipo </a> 
+</div>
+
 
 ---
 
@@ -40,7 +43,7 @@ Também irá oferecer a opção ao cliente, com o mapa, verificar e analisar os 
   ## 📋 Futuras Atualizações
   
   * Chat 
-  * 
+  * Modo escuro
   * Compativel com o sistema iOS
  
 ---
@@ -49,17 +52,11 @@ Também irá oferecer a opção ao cliente, com o mapa, verificar e analisar os 
   
 | Colaboradores                              | Participação                                             |Git Hub                                                |
 | -------------------------------------------| -------------------------------------------------------- | ----------------------------------------------------- |
-| Graziely Tavares                           | Desenvolvedor Back-End e Integração                      |[Git Hub](https://github.com/Jpzinn654)                |
-| Gabriely Barbosa                           | Desenvolvedor Fron-End e Documentação                    |[Git Hub](https://github.com/MuriloJLima)              |
-| Giovanna Teixeira                          | Desenvolvedor Back-End, Banco de Dados e Integração      |[Git Hub](https://github.com/Nunesxntj)                |
-| Lucas Santos                               | Desenvolvedor Fron-End e Designer                        |[Git Hub](https://github.com/Daymozzer)                |
+| Graziely Tavares                           | Desenvolvedor Back-End e Integração                      |[Git Hub](https://github.com/GrazielyTavares)              |
+| Gabriely Barbosa                           | Desenvolvedor Fron-End e Documentação                    |                                                       |
+| Giovanna Teixeira                          | Desenvolvedor Back-End, Banco de Dados e Integração      |[Git Hub](https://github.com/Giovanna)                 |
+| Lucas Santos                               | Desenvolvedor Fron-End e Designer                        |[Git Hub](https://github.com/LucassantoSCruz)          |
 
 ---
 
-## ⚠️ Licença
 
-  
- <div align="center">
-  <img src="https://img.shields.io/github/package-json/v/Jpzinn654/E-PLANNER-MAIN/main?color=a&label=App+Version&style=for-the-badge" alt="version"/>
-</div>
-  

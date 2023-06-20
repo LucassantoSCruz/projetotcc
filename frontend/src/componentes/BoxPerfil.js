@@ -11,7 +11,7 @@ const BoxPerfil = (item) => {
     const [imagemServico, setImagemServico] = useState(null)
 
     useEffect(() => {
-        setImagemServico(item.item.imagem.replace('public\\uploads', '/uploads'))
+        setImagemServico(item.item.imagem)
         console.log('Imagem: ' + imagemServico)
     }, [])
 
@@ -29,7 +29,7 @@ const BoxPerfil = (item) => {
                     {
                         imagemServico ?
                         <Image
-                            source={{ uri: `${ENDERECO_API}/${imagemServico}` }}
+                            source={{ uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}` }}
                             style={styles.imagem} 
                         />
                         :

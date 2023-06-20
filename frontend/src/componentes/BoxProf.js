@@ -10,8 +10,8 @@ const BoxProf = (item) => {
     const navigation = useNavigation()
     const [imagemServico, setImagemServico] = useState(null)
 
-    useEffect(()=>{
-        setImagemServico(item.item.imagem.replace('public\\uploads', '/uploads'))
+    useEffect(() => {
+        setImagemServico(item.item.imagem)
         console.log('Imagem: ' + imagemServico)
     }, [])
 
@@ -29,7 +29,7 @@ const BoxProf = (item) => {
                     {
                         imagemServico ?
                             <Image
-                                source={{ uri: `${ENDERECO_API}/${imagemServico}` }}
+                                source={{ uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}` }}
                                 style={styles.imagem} />
                             :
                             <Image
@@ -52,9 +52,10 @@ const BoxProf = (item) => {
 
 const styles = StyleSheet.create({
     view: {
-        borderRadius: 14,
         width: '100%',
         backgroundColor: '#9a6b99',
+        borderBottomLeftRadius: 14,
+        borderBottomRightRadius: 14
     },
     caixa: {
         borderColor: "black",
@@ -71,7 +72,9 @@ const styles = StyleSheet.create({
     imagem: {
         width: '100%',
         height: 150,
-        resizeMode: 'contain',
+        resizeMode: 'cover',
+        borderTopLeftRadius: 14,
+        borderTopRightRadius: 14
     },
     caixa2: {
         alignItems: 'center'
@@ -83,9 +86,9 @@ const styles = StyleSheet.create({
         padding: 10
     },
     textopreco: {
-      fontSize: 18,
-      color: 'white',
-      padding: 10
+        fontSize: 18,
+        color: 'white',
+        padding: 10
     }
 })
 

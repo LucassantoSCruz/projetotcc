@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, ScrollView, TextInput, TouchableOpacity, Alert, RefreshControl } from 'react-native'
+import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadrao from '../componentes/ImagemPadrao';
@@ -8,9 +9,10 @@ import { placeholder } from 'deprecated-react-native-prop-types/DeprecatedTextIn
 import BoxEndereco from '../componentes/BoxEndereco';
 import { ENDERECO_API } from '../../config';
 
+
 const PlaceholderImage = require('../../assets/perfil2.png');
 
-const TelaConfiguracoes = () => {
+const TelaConfiguracoes = ({navigation}) => {
     const [imagemSelecionada, setImagemSelecionada] = useState(null);
     const [idUsuario, setIdUsuario] = useState(null)
 
@@ -27,6 +29,7 @@ const TelaConfiguracoes = () => {
             Alert.alert("Atenção", "Você não selecionou nenhuma imagem.");
         }
     };
+
 
     const [nome, setNome] = useState(null)
     const [Descricao, setDescricao] = useState(null)
@@ -158,6 +161,19 @@ const TelaConfiguracoes = () => {
         ])
     }
 
+    const confirmarAdicionar = () => {
+        Alert.alert("Tem certeza que deseja Adiconar um Endereço?", 'Este endereço será adicionado!', [
+            {
+                text: 'Cancelar',
+                onPress: () => console.log('Adição Cancelada')
+            },
+            {
+                text: 'Adicionar',
+                onPress: () => excluirEndereco()
+            },
+        ])
+    }
+
 
     const [selectedItemId, setSelectedItemId] = useState(null);
 
@@ -176,6 +192,10 @@ const TelaConfiguracoes = () => {
                 </TouchableOpacity>
                 {item.selected && <BoxEndereco endereco={item} selectedItemId={selectedItemId} />}
             </View>
+
+            <TouchableOpacity style={styles.botaoadd} onPress={() => navigation.navigate('CadastroEndereco', {idUsuario})}>
+                <Text style={styles.textosalvar}>Adicionar</Text>
+            </TouchableOpacity>
         </View>
 
     );
@@ -232,9 +252,12 @@ const TelaConfiguracoes = () => {
                             keyExtractor={item => item.ID}
                             contentContainerStyle={{ flex: 1 }}
                         />
-
+                    
                     </ScrollView>
+                    
                 </View>
+
+               
 
                 <Text style={styles.titulo}>
                     Telefone
@@ -328,13 +351,25 @@ const styles = StyleSheet.create({
     botaoexcluir: {
         width: '25%',
         height: 50,
-        backgroundColor: '#D0A3CE',
+        backgroundColor:  '#cd5c5c',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2,
         borderRadius: 10,
         marginBottom: 15,
         marginHorizontal: '2%'
+    },
+    botaoadd: {
+        width: '90%',
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        marginBottom: 15,
+        marginHorizontal: '2%',
+        backgroundColor: '#8fbc8f',
+        padding: 10,
+        borderRadius: 100,
     },
 })
 

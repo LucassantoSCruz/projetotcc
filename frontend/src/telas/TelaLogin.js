@@ -63,7 +63,7 @@ const TelaLogin = ({ navigation }) => {
   }
 
   const Navegacao = () => {
-    navigation.navigate("TelaPrincipal"),
+    navigation.navigate("TelaPrincipal", {tipoconta}),
 
       salvarDados()
   }

@@ -10,9 +10,10 @@ router.post('/cadastrarServico', upload.single('imagem'), (req, res) => {
     console.log(req.body);
 
     let {preco, titulo, descricao, FK_Profissionais_Servicos} = req.body;
+    let imagem = req.file.path;
 
     modelServicos.create(
-        {preco, titulo, descricao, FK_Profissionais_Servicos}
+        {preco, titulo, imagem, descricao, FK_Profissionais_Servicos}
     ).then(
        () => {
             return res.status(201).json({

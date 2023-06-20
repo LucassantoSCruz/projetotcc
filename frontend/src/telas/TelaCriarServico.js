@@ -1,39 +1,34 @@
 import { ENDERECO_API } from '../../config';
 import { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
-
+import FormData from 'form-data';
 import CurrencyInput from 'react-native-currency-input';
-
 import * as ImagePicker from 'expo-image-picker';
 import ImagemPadraoServico from '../componentes/ImagemPadraoServico';
-
 import axios from 'axios';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 const PlaceholderImage = require('../../assets/imagemInicial.png');
 
 const TelaCriarServico = () => {
 
     const [imagemSelecionada, setImagemSelecionada] = useState(null);
-
     const [FK_Profissionais_Servicos, setFK_Profissionais_Servicos] = useState(null)
 
     useEffect(() => {
         const obterDados = async () => {
-          try {
-            const valor = await AsyncStorage.getItem('idUsuario');
-            if (valor !== null) {
-              const FK_Profissionais_Servicos = JSON.parse(valor);
-              setFK_Profissionais_Servicos(FK_Profissionais_Servicos);
-              console.log("Dados passados para tela de Criar Serviço: " + (FK_Profissionais_Servicos))
+            try {
+                const valor = await AsyncStorage.getItem('idUsuario');
+                if (valor !== null) {
+                    const FK_Profissionais_Servicos = JSON.parse(valor);
+                    setFK_Profissionais_Servicos(FK_Profissionais_Servicos);
+                    console.log("Dados passados para tela de Criar Serviço: " + (FK_Profissionais_Servicos))
+                }
+            } catch (error) {
+                console.error(error);
             }
-          } catch (error) {
-            console.error(error);
-          }
         };
         obterDados();
-      }, []);
+    }, []);
 
     //   useEffect(() => {
     //      //salvar a imagem
@@ -54,7 +49,7 @@ const TelaCriarServico = () => {
             setImagemSelecionada(result.assets[0].uri);
             // setImagemSelecionada(result.uri);
             // console.log(result.uri)       
-            
+
         } else {
             Alert.alert("Atenção", "Você não selecionou nenhuma imagem.");
         }
@@ -74,23 +69,45 @@ const TelaCriarServico = () => {
     }
 
     const [preco, setPreco] = useState(null)
-    const  [titulo, setTitulo] = useState(null)
-    const  [descricao, setDescricao] = useState(null)
+    const [titulo, setTitulo] = useState(null)
+    const [descricao, setDescricao] = useState(null)
 
     const enviarFormulario = async () => {
+
+        const formData = new FormData();
+        formData.append('imagem', {
+            uri: imagemSelecionada,
+            type: 'image/jpeg',
+            name: 'imagem.jpg'
+        });
+        formData.append('preco', preco);
+        formData.append('titulo', titulo);
+        formData.append('descricao', descricao)
+        formData.append('FK_Profissionais_Servicos', FK_Profissionais_Servicos)
+
+        try{
+            const response = await  axios.post(`${ENDERECO_API}/cadastrarServico`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+        } catch (error) {
+            console.log('Erro form-data: ' + error);
+        }
+        
         axios.post(`${ENDERECO_API}/cadastrarServico`, {
             preco,
             titulo,
             descricao,
             FK_Profissionais_Servicos
         })
-        .then(function (response) {
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            console.error(error);
-        });
-      };
+            .then(function (response) {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    };
 
     return (
         <View style={{ flex: 1 }}>

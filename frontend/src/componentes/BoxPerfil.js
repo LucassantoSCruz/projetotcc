@@ -28,15 +28,15 @@ const BoxPerfil = (item) => {
                 <View style={styles.fundoimagem}>
                     {
                         imagemServico ?
-                        <Image
-                            source={{ uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}` }}
-                            style={styles.imagem} 
-                        />
-                        :
-                        <Image
-                            source={require('../../assets/imagem1.png')}
-                            style={styles.imagem} 
-                        />
+                            <Image
+                                source={{ uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}` }}
+                                style={styles.imagem}
+                            />
+                            :
+                            <Image
+                                source={require('../../assets/imagem1.png')}
+                                style={styles.imagem}
+                            />
                     }
                 </View>
                 <View style={styles.fundonome}>
@@ -57,9 +57,10 @@ const styles = StyleSheet.create({
         fontSize: 32,
     },
     fundonome: {
-        borderRadius: 14,
         width: '100%',
         backgroundColor: '#9a6b99',
+        borderBottomLeftRadius: 14,
+        borderBottomRightRadius: 14
     },
     fundo: {
         borderColor: "black",
@@ -76,7 +77,9 @@ const styles = StyleSheet.create({
     imagem: {
         width: '100%',
         height: 150,
-        resizeMode: 'contain',
+        resizeMode: 'cover',
+        borderTopLeftRadius: 14,
+        borderTopRightRadius: 14
     },
     fundoimagem: {
         alignItems: 'center'

@@ -70,14 +70,17 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   fundonome: {
-    borderRadius: 14,
     width: '100%',
     backgroundColor: '#9a6b99',
+    borderBottomLeftRadius: 14,
+    borderBottomRightRadius: 14
   },
   imagem: {
     width: '100%',
     height: 150,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
+    borderTopLeftRadius: 14,
+    borderTopRightRadius: 14
   },
   texto: {
     fontWeight: 'bold',

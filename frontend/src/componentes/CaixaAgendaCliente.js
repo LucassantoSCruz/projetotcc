@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from 'react-native';
 import Moment from 'moment';
+import { ENDERECO_API } from "../../config";
 
 const CaixaAgendaCliente = ({ agendamentos }) => {
   const { item } = agendamentos;
@@ -14,7 +15,12 @@ const CaixaAgendaCliente = ({ agendamentos }) => {
       <View>
         <View style={styles.caixa}>
           <View style={styles.imgtxt}>
-            <Image style={styles.imagem} source={require('../../assets/images.png')} />
+            {
+              servico.imagem ?
+                <Image style={styles.imagem} source={{ uri: `${ENDERECO_API}/${servico.imagem.replace('public\\uploads', '/uploads')}` }} />
+                :
+                <Image style={styles.imagem} source={require('../../assets/images.png')} />
+            }
             <View style={styles.texto}>
               <View>
                 <Text style={styles.titulo}>{servico.titulo}</Text>
@@ -52,6 +58,8 @@ const styles = StyleSheet.create({
   imgtxt: {
     flexDirection: 'row',
     borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
     width: 340,
     marginTop: 5,
     marginLeft: 3,
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
     height: 60,
     marginLeft: 5,
     marginBottom: 7,
-    flexDirection: 'row', 
+    flexDirection: 'row',
     marginTop: 7
   }
 });

@@ -24,6 +24,7 @@ const TelaServico = ({ navigation }) => {
     const [FK_Servicos_Agenda, setFK_Servicos_Agenda] = useState(null);
     const [data, setData] = useState('');
     const [horario, setHorario] = useState(null);
+    const [imagemServico, setImagemServico] = useState(null);
 
     const fetchData = () => {
         setTimeout(() => {
@@ -63,6 +64,8 @@ const TelaServico = ({ navigation }) => {
                 //setPrecoFormatado(preco.replace(".", ","))
                 setFK_Profissionais_Agenda(response.data.data.FK_Profissionais_Servicos)
                 setFK_Servicos_Agenda(response.data.data.ID)
+                setImagemServico(response.data.data.imagem)
+                console.log('Imagem: ' + JSON.stringify(response))
             })
             .catch(function (error) {
                 console.log(error)
@@ -108,7 +111,12 @@ const TelaServico = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
                 <View style={styles.container}>
-                    <Image style={styles.imagem} source={require('../../assets/imagem1.png')} />
+                    {
+                        imagemServico ?
+                        <Image source={{ uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}` }} style={styles.imagem} />
+                        :
+                        <Image style={styles.imagem} source={require('../../assets/imagem1.png')} />
+                    }
                 </View>
 
                 <View>

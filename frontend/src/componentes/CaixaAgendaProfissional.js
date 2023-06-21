@@ -18,9 +18,9 @@ const CaixaAgendaProfissional = (agendamentos) => {
   const alterarStatus = (idStatus) => {
     axios.put(`${ENDERECO_API}/alterarAgendamento/${agendamentos.agendamentos.item.ID}`, {
       FK_Status_Agenda: idStatus
-    }).then((response)=>{
+    }).then((response) => {
       console.log(response)
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log(error)
     })
   }
@@ -28,34 +28,34 @@ const CaixaAgendaProfissional = (agendamentos) => {
   switch (status.titulo) {
     case 'Solicitado':
       botoes = (<View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'center' }}>
-        <TouchableOpacity style={styles.botao} onPress={()=>alterarStatus(2)}>
-          <Text>Confirmar</Text>
+        <TouchableOpacity style={styles.botaoConfirmarConcluir} onPress={() => alterarStatus(2)}>
+          <Text style={styles.txtbtn}>Confirmar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={()=>alterarStatus(4)}>
-          <Text>Cancelar</Text>
+        <TouchableOpacity style={styles.botaoCancelar} onPress={() => alterarStatus(4)}>
+          <Text style={styles.txtbtn}>Cancelar</Text>
         </TouchableOpacity>
       </View>)
       break;
     case 'Confirmado':
       botoes = (<View style={{ flexDirection: 'row', marginTop: 7, justifyContent: 'center' }}>
-        <TouchableOpacity style={styles.botao} onPress={()=>alterarStatus(3)}>
-          <Text>Concluir</Text>
+        <TouchableOpacity style={styles.botaoConfirmarConcluir} onPress={() => alterarStatus(3)}>
+          <Text style={styles.txtbtn}>Concluir</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.botao} onPress={()=>alterarStatus(4)}>
-          <Text>Cancelar</Text>
+        <TouchableOpacity style={styles.botaoCancelar} onPress={() => alterarStatus(4)}>
+          <Text style={styles.txtbtn}>Cancelar</Text>
         </TouchableOpacity>
       </View>)
       break;
     case 'Concluído':
-      botoes = (<View style={styles.status}>
-        <Text>Concluído!</Text>
+      botoes = (<View style={styles.statusConcluido}>
+        <Text style={styles.txtbtn}>Concluído!</Text>
       </View>)
       break;
     case 'Cancelado':
-      botoes = (<View style={styles.status}>
-        <Text>Cancelado!</Text>
+      botoes = (<View style={styles.statusCancelado}>
+        <Text style={styles.txtbtn}>Cancelado!</Text>
       </View>)
       break;
     default:
@@ -70,7 +70,13 @@ const CaixaAgendaProfissional = (agendamentos) => {
         <View style={styles.caixa}>
 
           <View style={styles.imgtxt}>
-            <Image style={styles.imagem} source={require('../../assets/images.png')} />
+            {
+              servico.imagem ?
+                <Image style={styles.imagem} source={{ uri: `${ENDERECO_API}/${servico.imagem.replace('public\\uploads', '/uploads')}` }} />
+                :
+                <Image style={styles.imagem} source={require('../../assets/images.png')} />
+            }
+
             <View style={styles.texto}>
               <View>
                 <Text style={styles.titulo}>{servico.titulo}</Text>
@@ -87,7 +93,7 @@ const CaixaAgendaProfissional = (agendamentos) => {
             </View>
 
           </View>
-            {botoes}
+          {botoes}
         </View>
 
       </View>
@@ -112,6 +118,8 @@ const styles = StyleSheet.create({
   imgtxt: {
     flexDirection: 'row',
     borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
     width: 340,
     marginTop: 10,
     marginLeft: 5,
@@ -135,28 +143,65 @@ const styles = StyleSheet.create({
   info: {
     marginTop: 15
   },
-  botao: {
+  botaoConfirmarConcluir: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F4E8F2',
+    backgroundColor: '#8fbc8f',
     borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
     width: '47%',
     height: 60,
     marginLeft: 2.5,
     marginRight: 2.5,
     marginBottom: 7
   },
-  status: {
+  botaoCancelar: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F4E8F2',
+    backgroundColor: '#cd5c5c',
     borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    width: '47%',
+    height: 60,
+    marginLeft: 2.5,
+    marginRight: 2.5,
+    marginBottom: 7
+  },
+  statusCancelado: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#cd5c5c',
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
     width: '97%',
     height: 60,
     marginLeft: 5,
     marginBottom: 7,
-    flexDirection: 'row', 
+    flexDirection: 'row',
     marginTop: 7
+  },
+  statusConcluido: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#8fbc8f',
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 1,
+    width: '97%',
+    height: 60,
+    marginLeft: 5,
+    marginBottom: 7,
+    flexDirection: 'row',
+    marginTop: 7
+  },
+  txtbtn: {
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20
   }
 });
 

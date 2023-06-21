@@ -96,6 +96,8 @@ const TelaCriarServico = () => {
     const [preco, setPreco] = useState(null)
     const  [titulo, setTitulo] = useState(null)
     const  [descricao, setDescricao] = useState(null)
+    const  [imagemServico, setImagemServico] = useState(null)
+
 
     //ROTA DE LISTAGEM
     const listarInfoServico = () => {
@@ -105,7 +107,7 @@ const TelaCriarServico = () => {
             setTitulo(response.data.data.titulo)
             setDescricao(response.data.data.descricao)
             setPreco(response.data.data.preco)
-            
+            setImagemServico(response.data.data.imagem)
         })
         .catch(function (error){
             console.log(error)
@@ -137,9 +139,17 @@ const TelaCriarServico = () => {
         <View style={{ flex: 1 }}>
             <ScrollView>
                 <View style={styles.fundoimagem}>
-                    <ImagemPadraoServico
+                    {
+                        imagemServico ?
+                        <ImagemPadraoServico
+                        placeholderImageSource={{uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}`}}
+                        imagemSelecionada={imagemSelecionada} />
+                        :
+                        <ImagemPadraoServico
                         placeholderImageSource={PlaceholderImage}
                         imagemSelecionada={imagemSelecionada} />
+                    }
+                    
                     <TouchableOpacity style={styles.botaoimagem} onPress={pickImageAsync}>
                         <Text>
                             Trocar/Imagem

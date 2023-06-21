@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView, RefreshControl, TouchableOpacity, TextInput, Alert} from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, RefreshControl, TouchableOpacity, TextInput, Alert } from 'react-native';
 import React, { useEffect, useState, useReducer } from 'react';
 import { BottomSheet } from 'react-native-btr';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -9,7 +9,7 @@ import { ENDERECO_API } from '../../config';
 
 
 
-const TelaServicoProfissional = ({navigation}) => {
+const TelaServicoProfissional = ({ navigation }) => {
 
 
 
@@ -18,13 +18,13 @@ const TelaServicoProfissional = ({navigation}) => {
 
     const fetchData = () => {
         setTimeout(() => {
-        // Lógica para buscar os dados atualizados
-  
-          setIdServico(route.params.idServico)
-          console.log(idServico)
-          listarInfoServico()
-          
-          setRefreshing(false); 
+            // Lógica para buscar os dados atualizados
+
+            setIdServico(route.params.idServico)
+            console.log(idServico)
+            listarInfoServico()
+
+            setRefreshing(false);
         }, 2000);
     };
 
@@ -39,19 +39,20 @@ const TelaServicoProfissional = ({navigation}) => {
     const [titulo, setTitulo] = useState(null)
     const [descricao, setDescricao] = useState(null)
     const [preco, setPreco] = useState(null)
+    const [imagemServico, setImagemServico] = useState(null)
 
-  
+
     useEffect(() => {
-   
+
         // console.log('ID do serviço passado para a tela: ' + route.params.idServico)
         setIdServico(route.params.idServico)
         console.log('ID salvo do serviço: ' + idServico)
 
         listarInfoServico()
 
-    },[])
+    }, [])
 
-   
+
 
     const [visivel, setVisivel] = useState(false);
 
@@ -60,7 +61,7 @@ const TelaServicoProfissional = ({navigation}) => {
     }
 
     const ConfirmarServico = () => {
-        Alert.alert("Tem certeza que deseja excluir este Serviço?", "O serviço será excluido!" ,[  
+        Alert.alert("Tem certeza que deseja excluir este Serviço?", "O serviço será excluido!", [
             {
                 text: 'Cancelar',
                 onPress: () => console.log('Serviço Cancelado')
@@ -71,7 +72,7 @@ const TelaServicoProfissional = ({navigation}) => {
             },
         ])
     }
-    
+
 
 
     //ROTA EXCLUIR SERVICO
@@ -79,13 +80,13 @@ const TelaServicoProfissional = ({navigation}) => {
 
         // console.log(`${ENDERECO_API}/excluirServicos/${idServico}`)
 
-    axios.delete(`${ENDERECO_API}/excluirServicos/${idServico}`)
-        .then(function (response) {
-            console.log(response.data)
-        })
-        .catch(function (error) {
-            console.log(error, "erro ao excluir");
-        }); 
+        axios.delete(`${ENDERECO_API}/excluirServicos/${idServico}`)
+            .then(function (response) {
+                console.log(response.data)
+            })
+            .catch(function (error) {
+                console.log(error, "erro ao excluir");
+            });
         navigation.navigate('Perfil')
     }
 
@@ -93,23 +94,28 @@ const TelaServicoProfissional = ({navigation}) => {
     //LISTAR SERVIÇO
     const listarInfoServico = () => {
         axios.get(`${ENDERECO_API}/listarServicosID/${idServico}`)
-        .then(function (response){
-            //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
-            setTitulo(response.data.data.titulo)
-            setDescricao(response.data.data.descricao)
-            setPreco(response.data.data.preco)
-            
-        })
-        .catch(function (error){
-            console.log(error)
-        })
+            .then(function (response) {
+                //console.log('Informações do serviço: ' + JSON.stringify(response.data.data))
+                setTitulo(response.data.data.titulo)
+                setDescricao(response.data.data.descricao)
+                setPreco(response.data.data.preco)
+                setImagemServico(response.data.data.imagem)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
     }
 
     return (
         <View style={{ flex: 1 }}>
             <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
                 <View style={styles.container}>
-                    <Image style={styles.imagem} source={require('../../assets/imagem1.png')} />
+                    {
+                        imagemServico ?
+                        <Image source={{ uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}` }} style={styles.imagem} />
+                        :
+                        <Image style={styles.imagem} source={require('../../assets/imagem1.png')} />
+                    }
                 </View>
 
                 <View>
@@ -153,9 +159,9 @@ const TelaServicoProfissional = ({navigation}) => {
                     </Text>
                 </View>
 
-              
 
-    
+
+
                 <View style={styles.valor}>
 
                     <Text style={styles.precototal}>
@@ -164,8 +170,8 @@ const TelaServicoProfissional = ({navigation}) => {
                 </View>
 
 
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('ServicoEditar', {idServico})}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('ServicoEditar', { idServico })}>
                         <Text style={styles.textobtn}>
                             Editar
                         </Text>
@@ -177,7 +183,7 @@ const TelaServicoProfissional = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                
+
 
             </ScrollView>
         </View>

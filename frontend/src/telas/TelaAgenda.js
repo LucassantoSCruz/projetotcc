@@ -43,17 +43,17 @@ const TelaAgenda = () => {
       infoAgendamentos();
     }
   }, [tipoconta]);
-  
+
 
   const definirRota = () => {
     if (tipoconta == 'Profissional') {
       setRotaBusca('ListarAgendamentosProfissional')
       console.log('Rota: ' + rotaBusca)
-      infoAgendamentos(); 
+      infoAgendamentos();
     } else {
       setRotaBusca('ListarAgendamentosCliente')
       console.log('Rota: ' + rotaBusca)
-      infoAgendamentos(); 
+      infoAgendamentos();
     }
   }
 
@@ -65,7 +65,7 @@ const TelaAgenda = () => {
       .catch(function (error) {
         console.log(error.response);
       });
-  };  
+  };
 
   const obterDados = async () => {
     try {
@@ -93,58 +93,45 @@ const TelaAgenda = () => {
 
   if (tipoconta == 'Profissional') {
     return (
-      <View>
-        <SafeAreaView>
-          <ScrollView refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
-            <View>
-              <Text></Text>
-            </View>
-
-            <View>
-              <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
-                <FlatList
-                  horizontal={false}
-                  data={agendamentos}
-                  renderItem={(item) => <CaixaAgendaProfissional agendamentos={item} />}
-                  keyExtractor={item => item.ID}
-                  contentContainerStyle={{ flex: 1 }}
-                />
-              </ScrollView>
-            </View>
+      <View style={styles.tela}>
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+          <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
+            <FlatList
+              horizontal={false}
+              data={agendamentos}
+              renderItem={(item) => <CaixaAgendaProfissional agendamentos={item} />}
+              keyExtractor={item => item.ID}
+              contentContainerStyle={{ flex: 1 }}
+            />
           </ScrollView>
-        </SafeAreaView>
+        </ScrollView>
       </View>
     )
   } else {
     return (
-      <View>
-        <SafeAreaView>
-          <ScrollView refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
-            <View>
-              <Text></Text>
-            </View>
-
-            <View>
-              <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
-                <FlatList
-                  horizontal={false}
-                  data={agendamentos}
-                  renderItem={(item) => <CaixaAgendaCliente agendamentos={item} />}
-                  keyExtractor={item => item.ID}
-                  contentContainerStyle={{ flex: 1 }}
-                />
-              </ScrollView>
-            </View>
+      <View style={styles.tela}>
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
+          <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
+            <FlatList
+              horizontal={false}
+              data={agendamentos}
+              renderItem={(item) => <CaixaAgendaCliente agendamentos={item} />}
+              keyExtractor={item => item.ID}
+              contentContainerStyle={{ flex: 1 }}
+            />
           </ScrollView>
-        </SafeAreaView>
+        </ScrollView>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  tela: {
+    flex: 1
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

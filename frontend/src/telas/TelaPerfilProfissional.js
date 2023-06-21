@@ -20,6 +20,7 @@ const TelaPerfilProfissional = () => {
     const [descricao, setDescricao,] = useState(null)
     const [pronomes, setPronomes] = useState(null)
     const [idUsuario, setIdUsuario] = useState(null)
+    const [fotoPerfil, setFotoPerfil] = useState(null)
 
     const fetchData = () => {
         setTimeout(() => {
@@ -46,22 +47,24 @@ const TelaPerfilProfissional = () => {
 
     const listarPerfilProfissional = (idProfissional) => {
         axios.get(`${ENDERECO_API}/ListarPerfilProfissional/${idProfissional}`)
-        .then(function (response) {
-            setPerfil(response.data.data)
-            setServicos(response.data.data.tbl_Servicos)
-            setNome(response.data.data.nome)
-            setDescricao(response.data.data.descricao)
-            setPronomes(response.data.data.pronomes)
-        }).catch(function (error) {
-            console.log(error)
-        })
+            .then(function (response) {
+                setPerfil(response.data.data)
+                setServicos(response.data.data.tbl_Servicos)
+                setNome(response.data.data.nome)
+                setDescricao(response.data.data.descricao)
+                setPronomes(response.data.data.pronomes)
+                setFotoPerfil(response.data.data.fotoPerfil)
+                console.log('Imagem: ' + fotoPerfil)
+            }).catch(function (error) {
+                console.log(error)
+            })
     }
 
     const botaoFavoritar = () => {
         if (favoritar) {
             setFavoritar(false),
-            console.log('DESfavoritado'),
-            DesFavoritarPerfil()
+                console.log('DESfavoritado'),
+                DesFavoritarPerfil()
         } else {
             setFavoritar(true)
             console.log('favoritado')
@@ -147,17 +150,33 @@ const TelaPerfilProfissional = () => {
                         <Text style={styles.legenda}>{descricao}</Text>
                     </View>
                     <View style={styles.direita}>
-                        <ImageBackground style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} >
-                            {
-                                favoritar == false
-                                    ? <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
-                                        <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritar.png')} />
-                                    </TouchableOpacity>
-                                    : <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
-                                        <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritarselecionado.png')} />
-                                    </TouchableOpacity>
-                            }
-                        </ImageBackground>
+                        {
+                            fotoPerfil ?
+                                <ImageBackground style={styles.fotodeperfil} source={{ uri: `${ENDERECO_API}${fotoPerfil.replace('public\\uploads', '/uploads')}` }} >
+                                    {
+                                        favoritar == false
+                                            ? <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
+                                                <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritar.png')} />
+                                            </TouchableOpacity>
+                                            : <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
+                                                <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritarselecionado.png')} />
+                                            </TouchableOpacity>
+                                    }
+                                </ImageBackground>
+                                :
+                                <ImageBackground style={styles.fotodeperfil} source={require('../../assets/imagem5.png')} >
+                                    {
+                                        favoritar == false
+                                            ? <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
+                                                <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritar.png')} />
+                                            </TouchableOpacity>
+                                            : <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
+                                                <Image style={styles.botaofavoritarimagem} source={require('../../assets/iconsbelezura/botaofavoritarselecionado.png')} />
+                                            </TouchableOpacity>
+                                    }
+                                </ImageBackground>
+                        }
+
                     </View>
                 </View>
                 <View style={styles.botoes}>

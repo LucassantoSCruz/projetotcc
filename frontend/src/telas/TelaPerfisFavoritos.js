@@ -95,7 +95,13 @@ const TelaPerfisFavoritados = () => {
 const renderItem = ({ item }) => {
     return (
         <View style={style.container}>
-            <Image style={style.imagem} source={require('../../assets/imagem5.png')} />
+            {
+                item.fotoPerfil ?
+                <Image style={style.imagem} source={{ uri: `${ENDERECO_API}${item.fotoPerfil.replace('public\\uploads', '/uploads')}` }} />
+                :
+                <Image style={style.imagem} source={require('../../assets/imagem5.png')} />
+            }
+            
             <View style={style.informacoes}>
                 <View style={style.caixapronome}>
                     <Text style={style.pronome}>

@@ -79,7 +79,7 @@ const TelaContaProfissional = () => {
                     setNome(response.data.data.nome)
                     setDescricao(response.data.data.descricao)
                     setPronomes(response.data.data.pronomes)
-                    setFotoPerfil(response.data.data.fotoPerfil.replace('public\\uploads', '/uploads'))
+                    setFotoPerfil(response.data.data.fotoPerfil)
                     console.log('Imagem recuperada: ' + fotoPerfil)
                 }).catch(function (error) {
                     console.log(error)
@@ -116,7 +116,7 @@ const TelaContaProfissional = () => {
                         {
                             fotoPerfil ?
                             <Image
-                            source={{uri: `${ENDERECO_API}${fotoPerfil}`}}
+                            source={{uri: `${ENDERECO_API}${fotoPerfil.replace('public\\uploads', '/uploads')}`}}
                             style={styles.fotodeperfil}/>
                             :
                             <Image

@@ -112,7 +112,7 @@ const TelaServicoProfissional = ({ navigation }) => {
                 <View style={styles.container}>
                     {
                         imagemServico ?
-                        <Image source={{ uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}` }} style={styles.imagem} />
+                        <Image source={{ uri: `${ENDERECO_API}/${imagemServico.replace('public\\uploads', '/uploads')}` }} style={styles.imagemUpload} />
                         :
                         <Image style={styles.imagem} source={require('../../assets/imagem1.png')} />
                     }
@@ -199,6 +199,10 @@ const styles = StyleSheet.create({
     },
     imagem: {
         width: 250,
+        height: 250,
+    },
+    imagemUpload: {
+        width: '100%',
         height: 250,
     },
     avaliacao: {

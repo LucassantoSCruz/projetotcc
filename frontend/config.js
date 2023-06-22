@@ -1,1 +1,1 @@
-export const ENDERECO_API = "http://10.0.2.143:3000";
+export const ENDERECO_API = "http://10.0.1.29:3000";

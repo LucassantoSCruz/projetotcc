@@ -152,7 +152,7 @@ const TelaPerfilProfissional = () => {
                     <View style={styles.direita}>
                         {
                             fotoPerfil ?
-                                <ImageBackground style={styles.fotodeperfil} source={{ uri: `${ENDERECO_API}${fotoPerfil.replace('public\\uploads', '/uploads')}` }} >
+                                <ImageBackground style={styles.fotodeperfil} source={{ uri: `${ENDERECO_API}/${fotoPerfil.replace('public\\uploads', '/uploads')}` }} >
                                     {
                                         favoritar == false
                                             ? <TouchableOpacity style={styles.botaofavoritar} onPress={botaoFavoritar}>
@@ -252,6 +252,13 @@ const styles = StyleSheet.create({
         height: 2
     },
     fotodeperfil: {
+        width: 150,
+        height: 150,
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 100,
+    },
+    fotodeperfilupload: {
         width: 150,
         height: 150,
         borderColor: 'black',

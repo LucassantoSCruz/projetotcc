@@ -35,7 +35,7 @@ router.post('/cadastrarServico', upload.single('imagem'), (req, res) => {
 //Rota de listagem
 router.get('/listarServicos', (req, res) => {
 
-    modelServicos.findAll({order: [['ultimaModificacao', 'DESC']]})
+    modelServicos.findAll({order: [['ID', 'ASC']]})
     .then(
        (response) => {
         return res.status(200).json({
@@ -83,7 +83,7 @@ router.get('/listarServicosFK/:CPF_CNPJ', (req, res) => {
     
     let {CPF_CNPJ} = req.params;
 
-    modelServicos.findAll({where: { FK_Profissionais_Servicos : CPF_CNPJ }})
+    modelServicos.findAll({where: { FK_Profissionais_Servicos : CPF_CNPJ }, order: [['ultimaModificacao', 'ASC']]})
     .then(
        (response) => {
         return res.status(200).json({

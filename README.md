@@ -54,7 +54,7 @@ Também irá oferecer a opção ao cliente, com o mapa, verificar e analisar os 
 | -------------------------------------------| -------------------------------------------------------- | ----------------------------------------------------- |
 | Graziely Tavares                           | Desenvolvedor Back-End e Integração                      |[Git Hub](https://github.com/GrazielyTavares)          |
 | Gabriely Barbosa                           | Desenvolvedor Fron-End e Documentação                    |[Git Hub](https://github.com/gabriely-barbosa)         |
-| Giovanna Teixeira                          | Desenvolvedor Back-End, Banco de Dados e Integração      |[Git Hub](https://github.com/Giovanna)                 |
+| Giovanna Teixeira                          | Desenvolvedor Back-End, Banco de Dados e Integração      |[Git Hub](https://github.com/AC-Giovanna)              |
 | Lucas Santos                               | Desenvolvedor Fron-End e Designer                        |[Git Hub](https://github.com/LucassantoSCruz)          |
 
 ---
